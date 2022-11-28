@@ -30,7 +30,15 @@
 				<!-- ** : 모든 폴더 구조 -->
 				<!-- * : 모든 단어 -->
 			
-				<value></value>
+				<value>classpath:/admin/dao/**/*Mapper.xml</value>
+				<value>classpath:/calendar/dao/**/*Mapper.xml</value>
+				<value>classpath:/chat/dao/**/*Mapper.xml</value>
+				<value>classpath:/cs/dao/**/*Mapper.xml</value>
+				<value>classpath:/diary/dao/**/*Mapper.xml</value>
+				<value>classpath:/member/dao/**/*Mapper.xml</value>
+				<value>classpath:/mypage/dao/**/*Mapper.xml</value>
+				<value>classpath:/payment/dao/**/*Mapper.xml</value>
+				<value>classpath:/room/dao/**/*Mapper.xml</value>
 			</array>
 		</property>
 
