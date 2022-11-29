@@ -1,19 +1,20 @@
-package member.dto;
+package chat.dto;
 
 import java.util.Date;
 
 public class Member {
-    private int userNo;
-    private String userId;
-    private String userPw;
-    private String userName;
-    private String userPhone;
-    private String userAddress;
-    private Date userBirth;
-    private String userEmail;
-    private Date userJoin;
-    
-    public Member() {}
+	
+	private int userNo;
+	private String userId;
+	private String userPw;
+	private String userName;
+	private String userPhone;
+	private String userAddress;
+	private Date userBirth;
+	private String userEmail;
+	private Date userJoin;
+	
+	public Member() {}
 
 	public Member(int userNo, String userId, String userPw, String userName, String userPhone, String userAddress,
 			Date userBirth, String userEmail, Date userJoin) {
@@ -107,5 +108,5 @@ public class Member {
 	public void setUserJoin(Date userJoin) {
 		this.userJoin = userJoin;
 	}
-    
+	
 }

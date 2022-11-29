@@ -15,6 +15,42 @@
 		<level value="info" />
 	</logger>
 	
+	<logger name="admin">
+		<level value="info" />
+	</logger>
+	
+	<logger name="calendar">
+		<level value="info" />
+	</logger>
+	
+	<logger name="chat">
+		<level value="info" />
+	</logger>
+	
+	<logger name="common">
+		<level value="info" />
+	</logger>
+	
+	<logger name="cs">
+		<level value="info" />
+	</logger>
+	
+	<logger name="diary">
+		<level value="info" />
+	</logger>
+	
+	<logger name="member">
+		<level value="info" />
+	</logger>
+	
+	<logger name="payment">
+		<level value="info" />
+	</logger>
+	
+	<logger name="room">
+		<level value="info" />
+	</logger>
+	
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
