@@ -47,7 +47,7 @@
 	<!-- 마이바티스를 이용하는 인터페이스 설정( DAO 설정 ) -->
 	<!-- 	-> Mapper XML의 namepace속성과 일치하는 인터페이스를 찾는다 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="admin.dao, calender.dao, chat.dao, cs.dao, diary.dao, member.dao, payment.dao, room.dao"/>
+		<property name="basePackage" value="admin.dao, calendar.dao, chat.dao, cs.dao, diary.dao, member.dao, mypage.dao, payment.dao, room.dao"/>
 	</bean>
 	
 	<!-- 트랜잭션 매니저 스프링 빈 설정 -->
