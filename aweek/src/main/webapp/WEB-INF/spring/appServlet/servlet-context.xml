@@ -88,7 +88,7 @@
 	
 	</beans:bean>
 	
-	<context:component-scan base-package="com.kh.aweek, admin.controller, admin.service, calendar.controller, calendar.service, chat.controller, chat.service, cs.controller, cs.service, diary.controller, diary.service, member.controller, member.service, mypage.controller, mypage.service, payment.controller, payment.service, room.controller, room.service" />
+	<context:component-scan base-package="com.kh.aweek, admin.controller, admin.service, calendar.controller, calendar.service, chat.controller, chat.service, cs.controller, cs.service, diary.controller, diary.service, member.controller, member.service, mypage.controller, mypage.service, payment.controller, payment.service, room.controller, room.service, common" />
 	
 	
 	
