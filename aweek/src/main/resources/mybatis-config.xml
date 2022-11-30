@@ -15,10 +15,18 @@
 
 	<!-- DTO클래스의 별칭 적용 -->
 	<typeAliases>
-		<package name="web"/>
-		<package name="login"/>
-		<package name="dto"/>
-		<package name="file"/>
+<!-- 		<package name="web"/> -->
+<!-- 		<package name="login"/> -->
+<!-- 		<package name="dto"/> -->
+<!-- 		<package name="file"/> -->
+		<package name="admin"/>
+		<package name="calendar"/>
+		<package name="chat"/>
+		<package name="cs"/>
+		<package name="diary"/>
+		<package name="member"/>
+		<package name="payment"/>
+		<package name="room"/>
 	</typeAliases>
 
 </configuration>
