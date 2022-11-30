@@ -15,45 +15,60 @@ import member.service.face.MemberService;
 @RequestMapping("/member")
 public class MemberController {
 	
+	//서비스 객체
 	@Autowired private MemberService memberService;
 	
+	//--- 회원가입 ---
 	@GetMapping("/join")
 	public void join() {
 	}
 	
 	@PostMapping("/join")
-	public String joinProc(Member joinParam) {
+	public String joinProc(Member member) {
 		
-		//회원가입 처리 - loginService이용
-		memberService.join(joinParam);
+		boolean joinResult = memberService.join(member);
 		
-		//메인 페이지로 이동
-		return "redirect:/login/main";
+		if( joinResult ) {
+			return "redirect:/member/login";
+		} else {
+			return "redirect:/member/join";
+		}
 	}
 	
+//	@RequestMapping("/joinIdChk")
+//	public boolean joinIdChk(Member member) {
+//		boolean joinIdChkResult = memberService.joinIdChk(member);
+//		return joinIdChkResult;
+//	}
+	
+	//--- 로그인 ---
 	@GetMapping("/login")
 	public void login() {
 	}
 	
 	@PostMapping("/login")
-	public String loginProc(Member loginParam, HttpSession session) {
+	public String loginProc(Member member, HttpSession session) {
 		
 		//로그인 인증
-		boolean isLogin = memberService.login(loginParam);
+		boolean loginResult = memberService.login(member);
 		
-		if ( isLogin ) { //로그인 성공
+		if ( loginResult ) { //로그인 성공
 			
 			//세션정보 객체
-			session.setAttribute("isLogin", isLogin);
-			session.setAttribute("loginid", loginParam.getUserId()); 
+			session.setAttribute("login", loginResult);
+			session.setAttribute("userId", member.getUserId());
+			
+			return "redirect:/aweek/main";
 			
 		} else { //로그인 실패
+			
 			session.invalidate();
+			
+			return "redirect:/member/login";
 		}
-		
-		return "redirect:/aweek/main";
 	}
 	
+	//--- 로그아웃 ---
 	@RequestMapping("/login/logout")
 	public String logout(HttpSession session) {
 		
@@ -63,5 +78,17 @@ public class MemberController {
 		//메인 페이지로 리다이렉트
 		return "redirect:/aweek/main";
 	}
+	
+	//--- 아이디 찾기 ---
+	
+	
+	//--- 비밀번호 찾기 ---
+	
+	
+	//--- 회원 정보 수정
+	
+	
+	//--- 회원 탈퇴 ---
+	
 	
 }

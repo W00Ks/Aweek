@@ -5,22 +5,20 @@ import member.dto.Member;
 public interface MemberService {
 
 	/**
-	 * 회원가입 처리
+	 * 신규 회원 가입
 	 * 
-	 * @param joinParam - 회원가입할 사용자 정보
+	 * @param member - 신규 회원의 정보
+	 * @return 회원가입 결과
 	 */
-	public void join(Member joinParam);
+	public boolean join(Member member);
 	
 	/**
 	 * 로그인 인증 처리
-	 * ID&PW를 조회하여 행 COUNT를 이용하여 처리한다.
-	 * 
-	 * @param loginParam - 로그인에 사용할 ID&PW 정보
-	 * @return 로그인 인증 결과
-	 * 		true - 로그인 인증 성공
-	 * 		false - 로그인 인증 실패
+	 * 	
+	 * @param member - 입력한 ID/PW 정보
+	 * @return 로그인 인증 경과
 	 */
-	public boolean login(Member loginParam);
+	public boolean login(Member member);
 
 	/**
 	 * 전달된 id를 이용하여 사용자 정보 조회하기
