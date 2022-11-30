@@ -5,4 +5,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="calendar.dao.face.CalendarDao"></mapper>
+<mapper namespace="calendar.dao.face.CalendarDao">
+	<insert id="insertMyCal" parameterType="calendar.dto.Calendar">
+		INSERT INTO my_calender (cal_no, user_no, cal_title, start_date, end_date,  cal_place, cal_memo)
+		VALUES(seq_my_calender.nextval, 1, #{calTitle}, #{startDate}, #{endDate},  #{calPlace}, #{calMemo})
+	</insert>
+</mapper>
