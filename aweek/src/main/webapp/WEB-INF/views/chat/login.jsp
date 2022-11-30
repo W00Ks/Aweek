@@ -7,6 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
-asdasd
+
+<h1>테스트용 로그인 페이지</h1>
+<hr>
+
+<form action="/chat/main" method="get">
+
+<label>유저 번호 : <input type="text" name="userno"></label><br><br>
+
+<button>로그인</button>
+
+</form>
+
 </body>
 </html>
