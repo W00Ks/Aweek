@@ -7,9 +7,17 @@
 
 <mapper namespace="chat.dao.face.ChatDao">
 
-	<select id="selectChatList" resultType="ChatList" parameterType="int">
-		SELECT * FROM chat_list
-		WHERE user_no = #{userno }
+	<select id="selectChatRoomList" resultType="ChatRoom" parameterType="int">
+		SELECT b.* FROM (
+    		SELECT * FROM chat_list
+    		WHERE user_no = #{userNo }) a
+		INNER JOIN chat_room b
+    	ON a.chat_room_no = b.chat_room_no
+	</select>
+	
+	<select id="selectUserInfo" resultType="Member" parameterType="int">
+		SELECT * FROM member
+		WHERE user_no = #{userNo }
 	</select>
 	
 </mapper>

@@ -5,7 +5,9 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -90,6 +92,16 @@
 	
 	<context:component-scan base-package="com.kh.aweek, admin.controller, admin.service, calendar.controller, calendar.service, chat.controller, chat.service, cs.controller, cs.service, diary.controller, diary.service, member.controller, member.service, mypage.controller, mypage.service, payment.controller, payment.service, room.controller, room.service" />
 	
-	
+	<!-- websocket handler -->
+	<beans:bean id="replyEchochoHandler" class="chat.controller.WebSocketHandler" />
+
+	<websocket:handlers>
+	 	<websocket:mapping handler="replyEchochoHandler" path="/replyEcho" />
+	 	<websocket:handshake-interceptors>
+	      	<beans:bean
+	         	 class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		 </websocket:handshake-interceptors>
+<!-- 	 	<websocket:sockjs /> -->
+	</websocket:handlers>
 	
 </beans:beans>

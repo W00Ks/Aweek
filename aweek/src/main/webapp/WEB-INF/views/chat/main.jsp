@@ -1,49 +1,68 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-#container {
- 	width: 1100px;
-	margin: 0 auto;
+
+<!-- jQeury 2.2.4 -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+// 	$(".chatRoomName").click(function() {
+// 		console.log(".chatRoomName 클릭")
+// 		$.ajax({
+// 			type: "get"					
+// 			, url: "/chat/enter"			
+// 			, data: {						
+// 				chatRoomNo: $(".chatRoomName").val()
+// 			}
+// 			, dataType: "html"				
+// 			, success: function( res ) {
+// 				console.log("AJAX 성공")
+				
+// 				//응답 데이터 반영
+// 				$("#content-right").html( res )
+// 			}
+			
+// 		})
+		
+// 	})
+	
+})
+
+function enter(i) {
+	console.log('현재 들어가려는 번호 ' + i)
+	
+	$.ajax({
+		
+		type: "get"					
+		, url: "/chat/enter"			
+		, data: {						
+			chatRoomNo: i
+		}
+		, dataType: "html"				
+		, success: function( res ) {
+			console.log("AJAX 성공")
+			
+			//응답 데이터 반영
+			$("#content-right").html( res )
+		}
+		
+	})
 }
-#content-left {
-	border: 1px solid red;
-	width: 40%;
-	height: 600px;
-  	float: left;
-	box-sizing: border-box;
-	text-align: center;
-}
-#content-right {
-	border: 1px solid blue;
-	width: 60%;
-	height: 600px;
- 	float: right;
-	box-sizing: border-box;
-}
-#btnRoomCreat {
-	margin-top: 25px;
-    width: 345px;
-    height: 46px;
-}
-#searchWrap {
-	margin-top: 10px;  
-}
-#searchBar {
-	width: 278px;
-    height: 21px;
-}
-#chatList {
-	border: 1px solid #ccc;
-    width: 96%;
-    margin: 7px auto;
-    height: 469px;
-}
-</style>
+</script>
+
+
+
+<link rel="stylesheet" href="/resources/css/chatMain.css">
+
 </head>
 <body>
 
@@ -56,7 +75,9 @@
 		<input id="searchBar" type="text" placeholder="메시지방, 메시지 검색"><br>
 	</div>
 	<div id="chatList">
-	
+		<c:forEach items="${chatList }" var="cl">
+			<button class="chatRoomName" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
+		</c:forEach>
 	</div>	
 </div>
 
