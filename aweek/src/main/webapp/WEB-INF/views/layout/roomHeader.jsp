@@ -42,7 +42,6 @@
 	<script defer type="text/javascript" src="<%=request.getContextPath() %>/resources/js/roomMain.js"></script>
 
 </head>
-<body>
 
 <!-- Header -->
 <header>
@@ -79,16 +78,15 @@
       </ul>
     </div>
     
-    <a href="<%=request.getContextPath() %>/" class="header__toggleBtn">
+    <a href="#" class="header__toggleBtn">
       <span class="material-icons">menu</span>
     </a>
     
   </div>
+  
 </header>
 
-<section class="container">
-
-</section>
+<body>
 
 
 
