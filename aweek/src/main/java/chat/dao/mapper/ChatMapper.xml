@@ -5,4 +5,11 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="char.dao.face.ChatDao"></mapper>
+<mapper namespace="chat.dao.face.ChatDao">
+
+	<select id="selectChatList" resultType="ChatList" parameterType="int">
+		SELECT * FROM chat_list
+		WHERE user_no = #{userno }
+	</select>
+	
+</mapper>
