@@ -2,11 +2,11 @@ package chat.dto;
 
 public class ChatList {
 	
-	private int chatListNo;
-	private String enterState;
-	private int chatRoomNo;
-	private int roomNo;
-	private int userNo;
+	private int chatListNo; //PK 채팅방 목록 번호
+	private String enterState; //접속상태
+	private int chatRoomNo; //FK 채팅방 번호
+	private int roomNo; //FK 모임 번호
+	private int userNo; //FK 회원번호
 	
 	public ChatList() {}
 
