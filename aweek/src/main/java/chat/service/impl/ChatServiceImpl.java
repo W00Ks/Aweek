@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import chat.dao.face.ChatDao;
-import chat.dto.ChatList;
+import chat.dto.ChatRoom;
 import chat.service.face.ChatService;
+import member.dto.Member;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -20,15 +21,35 @@ public class ChatServiceImpl implements ChatService {
 	@Autowired private ChatDao chatDao;
 	
 	@Override
-	public List<ChatList> getChatList(String userNo) {
-		logger.info("getChatList() - start");
+	public List<ChatRoom> getChatRoomList(int userNo) {
+		logger.info("getChatRoomList() - start");
 		
-		int userno = Integer.parseInt(userNo);
-		logger.info("userno {}", userno);
+		List<ChatRoom> chatRoomList = chatDao.selectChatRoomList(userNo);
 		
-		List<ChatList> chatList = chatDao.selectChatList(userno);
-		logger.info("chatList1 : {}", chatList);
-		return chatList;
+		return chatRoomList;
+	}
+	
+	@Override
+	public Member getUserInfo(int userNo) {
+		logger.info("getUserInfo() - start");
+		
+		Member member = chatDao.selectUserInfo(userNo);
+		
+		return member;
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

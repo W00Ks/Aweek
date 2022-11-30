@@ -9,6 +9,7 @@
 /* COMMONS */
 body {
   font-family: 'Nanum Gothic', sans-serif;
+  margin-top: 52px;
 }
 img {
   display: block;
@@ -31,13 +32,12 @@ header {
   top: 0;
   z-index: 9;
   border-bottom: 2px solid #dca0a0;
-  box-sizing: border-box;
 }
 header > .inner {
-  height: 50px;
   display: flex;
   justify-content: space-between;
   padding: 0 15px;
+  height: 50px;
 }
 .header__logo {
   position: relative;
@@ -94,9 +94,9 @@ header > .inner {
     padding: 0px;
   }
   .header__logo {
-    padding: 0 8px;
+	padding: 0px 16px;
     position: relative;
-    top: -4px;
+    top: -7px;
   }
   .header__menu {
     display: none;
@@ -115,7 +115,7 @@ header > .inner {
   }
   .header__my {
     position: absolute;
-    top: 10px;
+    top: 12px;
     right: 50px;
   }
 
@@ -125,5 +125,8 @@ header > .inner {
 
   .header__menu.active {
     display: flex;
+  }
+  body {
+  	margin-top: 60px;
   }
 }

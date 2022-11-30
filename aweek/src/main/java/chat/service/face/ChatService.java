@@ -2,7 +2,8 @@ package chat.service.face;
 
 import java.util.List;
 
-import chat.dto.ChatList;
+import chat.dto.ChatRoom;
+import member.dto.Member;
 
 public interface ChatService {
 	
@@ -12,6 +13,14 @@ public interface ChatService {
 	 * @param userNo - 회원 번호
 	 * @return 전체 채팅방 목록 리스트
 	 */
-	public List<ChatList> getChatList(String userNo);
+	public List<ChatRoom> getChatRoomList(int userNo);
+	
+	/**
+	 * 회원 정보를 조회한다
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 회원 정보가 담긴 DTO
+	 */
+	public Member getUserInfo(int userNo);
 
 }

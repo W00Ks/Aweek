@@ -4,57 +4,57 @@ import java.util.Date;
 
 public class ChatRoom {
 	
-	private int chat_room_no; //PK 채팅방 번호
-	private String chat_room_name; //채팅방 이름
-	private Date chat_room_date; //채팅방 생성날짜
-	private int room_no; //FK 모임번호
+	private int chatRoomNo; //PK 채팅방 번호
+	private String chatRoomName; //채팅방 이름
+	private Date chatRoomDate; //채팅방 생성날짜
+	private int roomNo; //FK 모임번호
 	
 	public ChatRoom() {}
 
-	public ChatRoom(int chat_room_no, String chat_room_name, Date chat_room_date, int room_no) {
+	public ChatRoom(int chatRoomNo, String chatRoomName, Date chatRoomDate, int roomNo) {
 		super();
-		this.chat_room_no = chat_room_no;
-		this.chat_room_name = chat_room_name;
-		this.chat_room_date = chat_room_date;
-		this.room_no = room_no;
+		this.chatRoomNo = chatRoomNo;
+		this.chatRoomName = chatRoomName;
+		this.chatRoomDate = chatRoomDate;
+		this.roomNo = roomNo;
 	}
 
 	@Override
 	public String toString() {
-		return "ChatRoom [chat_room_no=" + chat_room_no + ", chat_room_name=" + chat_room_name + ", chat_room_date="
-				+ chat_room_date + ", room_no=" + room_no + "]";
+		return "ChatRoom [chatRoomNo=" + chatRoomNo + ", chatRoomName=" + chatRoomName + ", chatRoomDate="
+				+ chatRoomDate + ", roomNo=" + roomNo + "]";
 	}
 
-	public int getChat_room_no() {
-		return chat_room_no;
+	public int getChatRoomNo() {
+		return chatRoomNo;
 	}
 
-	public void setChat_room_no(int chat_room_no) {
-		this.chat_room_no = chat_room_no;
+	public void setChatRoomNo(int chatRoomNo) {
+		this.chatRoomNo = chatRoomNo;
 	}
 
-	public String getChat_room_name() {
-		return chat_room_name;
+	public String getChatRoomName() {
+		return chatRoomName;
 	}
 
-	public void setChat_room_name(String chat_room_name) {
-		this.chat_room_name = chat_room_name;
+	public void setChatRoomName(String chatRoomName) {
+		this.chatRoomName = chatRoomName;
 	}
 
-	public Date getChat_room_date() {
-		return chat_room_date;
+	public Date getChatRoomDate() {
+		return chatRoomDate;
 	}
 
-	public void setChat_room_date(Date chat_room_date) {
-		this.chat_room_date = chat_room_date;
+	public void setChatRoomDate(Date chatRoomDate) {
+		this.chatRoomDate = chatRoomDate;
 	}
 
-	public int getRoom_no() {
-		return room_no;
+	public int getRoomNo() {
+		return roomNo;
 	}
 
-	public void setRoom_no(int room_no) {
-		this.room_no = room_no;
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
 	}
-	
+
 }
