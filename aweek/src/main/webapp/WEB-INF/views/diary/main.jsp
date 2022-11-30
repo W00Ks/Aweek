@@ -2,6 +2,5 @@
     pageEncoding="UTF-8"%>
 <jsp:include page="../layout/roomHeader.jsp" flush="true" />
 
-
 </body>
 </html>
