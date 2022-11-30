@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+
 @Component 	// 스프링 빈으로 등록하기 [ component-scan 등록 필요, <annotation-driven /> 태그 필요 ]
 @Aspect		// AspectJ의 관리를 받도록 설정하기 [ <aop:aspectj-autoproxy /> 태그 필요]
 public class LogAspect {
