@@ -7,6 +7,11 @@
 
 <mapper namespace="member.dao.face.MemberDao">
 	
+	<select id="selectCntById" resultType="int" parameterType="Member">
+		SELECT count(*) FROM member
+		WHERE id = #{id}
+	</select>
+	
 	<insert id="insert" parameterType="member.dto.Member">
 		INSERT INTO member ( user_no, user_id, user_pw, user_email, user_phone, user_name, user_address, user_birth, user_join )
 		VALUES ( member_seq.nextval, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, '이름', '주소', '1989-11-08', SYSDATE )
