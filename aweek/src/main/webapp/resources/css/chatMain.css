@@ -44,9 +44,10 @@
     height: 469px;
 }
 
-/* .chatRoomName { */
-/*     border: 1px solid #ccc; */
-/*     height: 42px; */
-/*     width: 411px; */
-/* } */
+.chatRoomName {
+    border: 1px solid #ccc;
+    height: 42px;
+    width: 411px;
+    cursor: pointer;
+}
 
