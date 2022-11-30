@@ -14,19 +14,29 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired private MemberDao memberDao;
 	
 	@Override
-	public void join(Member joinParam) {
+	public boolean join(Member member) {
 		
-		memberDao.insert(joinParam);
+		//중복된 id인지 확인
+		if( memberDao.selectCntById(member) > 0 ) {
+			return false;
+		}
+		
+		//회원 가입 - DB 삽입
+		memberDao.insert(member);
+		
+		//회원가입 결과 확인
+		if( memberDao.selectCntById(member) > 0 ) {
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
-	public boolean login(Member loginParam) {
+	public boolean login(Member member) {
+		int loginChk = memberDao.selectCntMember(member);
 		
-		if(memberDao.selectCntByIdPw(loginParam) > 0) {
-			return true; //로그인 인증 성공
-		}
-		
-		return false; //로그인 인증 실패
+		if( loginChk > 0 )	return true;
+		return false;
 	}
 	
 	@Override
