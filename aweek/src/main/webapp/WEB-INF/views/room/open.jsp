@@ -139,7 +139,7 @@
 	     <p>모임 이름 * </p><input type="text" id="roomName" name="roomName">
 	    </div>
 	    <div class="object">
-	     <p>모임 소개 * </p><input type="text" id="introduce" name="introduce">
+	     <p>모임 소개 * </p><input type="text" id="roomIntroduce" name="roomIntroduce">
 	    </div>
 	    <div class="object">
 	     <p>인원 수 * </p>

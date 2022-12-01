@@ -3,19 +3,19 @@ package room.dto;
 public class RoomCategory {
 	
 	private int roomCategoryNo;
-	private String roomCategotyName;
+	private String roomCategoryName;
 	
 	public RoomCategory() {	}
 
-	public RoomCategory(int roomCategoryNo, String roomCategotyName) {
+	public RoomCategory(int roomCategoryNo, String roomCategoryName) {
 		super();
 		this.roomCategoryNo = roomCategoryNo;
-		this.roomCategotyName = roomCategotyName;
+		this.roomCategoryName = roomCategoryName;
 	}
 
 	@Override
 	public String toString() {
-		return "RoomCategory [roomCategoryNo=" + roomCategoryNo + ", roomCategotyName=" + roomCategotyName + "]";
+		return "RoomCategory [roomCategoryNo=" + roomCategoryNo + ", roomCategoryName=" + roomCategoryName + "]";
 	}
 
 	public int getRoomCategoryNo() {
@@ -26,13 +26,13 @@ public class RoomCategory {
 		this.roomCategoryNo = roomCategoryNo;
 	}
 
-	public String getRoomCategotyName() {
-		return roomCategotyName;
+	public String getRoomCategoryName() {
+		return roomCategoryName;
 	}
 
-	public void setRoomCategotyName(String roomCategotyName) {
-		this.roomCategotyName = roomCategotyName;
+	public void setRoomCategoryName(String roomCategoryName) {
+		this.roomCategoryName = roomCategoryName;
 	}
-
+	
 
 }
