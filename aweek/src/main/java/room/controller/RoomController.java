@@ -23,12 +23,18 @@ public class RoomController {
 	}
 	
 	@RequestMapping("/room/main")
-	public void open() {
+	public void roomMain() {
 		
 		logger.info("/room/main [GET]");
 		
 	}
 	
+	@RequestMapping("/room/open")
+	public void roomOpen() {
+		
+		logger.info("/room/open [GET]");
+		
+	}
 	
 	
 }
