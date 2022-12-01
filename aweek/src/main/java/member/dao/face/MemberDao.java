@@ -5,13 +5,12 @@ import member.dto.Member;
 public interface MemberDao {
 	
 	/**
-	 * 회원 id가 존재하는 값인지 확인한다
-	 * 	-> 중복된 id인지 확인
+	 * id가 일치하는 사용자 수 반환  
 	 * 
-	 * @param member - 조회하려는 회원의 id를 가진 객체
-	 * @return 존재 여부 (0-없음, 1-있음)
+	 * @param member - 조회할 ID 정보 객체
+	 * @return 조회된 행 수
 	 */
-	public int selectCntById(Member member);
+	public int selectIdChk(Member member);
 	
 	/**
 	 * 신규 회원 정보 삽입하기
@@ -35,6 +34,6 @@ public interface MemberDao {
 	 * @param loginid - 조회할 대상 id
 	 * @return 조회된 회원 정보
 	 */
-	public Member selectLoginById(String loginid);
+//	public Member selectLoginById(String loginid);
 	
 }

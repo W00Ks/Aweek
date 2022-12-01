@@ -9,14 +9,14 @@ public class Member {
     private String userName;
     private String userPhone;
     private String userAddress;
-    private Date userBirth;
+    private String userBirth;
     private String userEmail;
     private Date userJoin;
     
     public Member() {}
 
 	public Member(int userNo, String userId, String userPw, String userName, String userPhone, String userAddress,
-			Date userBirth, String userEmail, Date userJoin) {
+			String userBirth, String userEmail, Date userJoin) {
 		super();
 		this.userNo = userNo;
 		this.userId = userId;
@@ -84,11 +84,11 @@ public class Member {
 		this.userAddress = userAddress;
 	}
 
-	public Date getUserBirth() {
+	public String getUserBirth() {
 		return userBirth;
 	}
 
-	public void setUserBirth(Date userBirth) {
+	public void setUserBirth(String userBirth) {
 		this.userBirth = userBirth;
 	}
 
