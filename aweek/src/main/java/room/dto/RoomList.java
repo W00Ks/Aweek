@@ -2,6 +2,7 @@ package room.dto;
 
 public class RoomList {
 
+	private int roomListNo;
 	private int roomNo;
 	private int userNo;
 	private int gcalNo;
@@ -9,8 +10,9 @@ public class RoomList {
 	
 	public RoomList() {	}
 
-	public RoomList(int roomNo, int userNo, int gcalNo, int roomCategoryNo) {
+	public RoomList(int roomListNo, int roomNo, int userNo, int gcalNo, int roomCategoryNo) {
 		super();
+		this.roomListNo = roomListNo;
 		this.roomNo = roomNo;
 		this.userNo = userNo;
 		this.gcalNo = gcalNo;
@@ -19,8 +21,16 @@ public class RoomList {
 
 	@Override
 	public String toString() {
-		return "RoomList [roomNo=" + roomNo + ", userNo=" + userNo + ", gcalNo=" + gcalNo + ", roomCategoryNo="
-				+ roomCategoryNo + "]";
+		return "RoomList [roomListNo=" + roomListNo + ", roomNo=" + roomNo + ", userNo=" + userNo + ", gcalNo=" + gcalNo
+				+ ", roomCategoryNo=" + roomCategoryNo + "]";
+	}
+
+	public int getRoomListNo() {
+		return roomListNo;
+	}
+
+	public void setRoomListNo(int roomListNo) {
+		this.roomListNo = roomListNo;
 	}
 
 	public int getRoomNo() {
