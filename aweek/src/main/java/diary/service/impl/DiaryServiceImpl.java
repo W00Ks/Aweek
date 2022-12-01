@@ -7,18 +7,26 @@ import org.springframework.stereotype.Service;
 
 import diary.dao.face.DiaryDao;
 import diary.service.face.DiaryService;
+import member.dto.Member;
 
 @Service
 public class DiaryServiceImpl implements DiaryService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	@Autowired DiaryDao diaryDao;
 
 	@Override
-	public void test() {
-		// TODO Auto-generated method stub
+	public boolean login(Member member) {
+		int loginChk = diaryDao.selectCntMember(member);
+		logger.trace("##### loginChk : {}", loginChk);
 		
+		if( loginChk > 0 )	return true;
+		return false;
+	}
+
+	@Override
+	public Member userInfo(Member member) {
+		return diaryDao.selectMember(member);
 	}
 
 }
