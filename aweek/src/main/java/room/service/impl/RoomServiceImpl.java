@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import room.dao.face.RoomDao;
+import room.dto.Room;
 import room.service.face.RoomService;
 
 @Service
@@ -15,6 +16,12 @@ public class RoomServiceImpl implements RoomService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired RoomDao roomDao;
 	
+	@Override
+	public void createRoom(Room room) {
+
+		roomDao.insertRoom(room);
+		
+	}
 	
 	
 }

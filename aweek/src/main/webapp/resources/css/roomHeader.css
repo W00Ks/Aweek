@@ -1,9 +1,12 @@
 @charset "UTF-8";
 
 :root {
-  --text-color: #fffafa;
+  --text-color: #fff;
   --background-color: #f4b0b0;
   --accent-color: #594B4B;
+  --light-color: #f8f1f1;
+  --border-color: #d3c3c3;
+  --shadow--color: #f1ecec;
 }
 
 /* COMMONS */
@@ -22,6 +25,43 @@ a {
   margin: 0 auto;
   position: relative;
 }
+
+.btn {
+  width: 100px;
+  padding: 10px;
+  border: 1px solid var(--accent-color);
+  border-radius: 4px;
+  color: var(--accent-color);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: block;
+  transition: .4s;
+}
+.btn:hover {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+}
+.btn.btn--reverse {
+  background-color: var(--text-color);
+  color: var(--accent-color);
+}
+.btn.btn--reverse:hover {
+  background-color: transparent;
+  color: var(--text-color);
+}
+.btn.btn--brown {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+.btn.btn--brown:hover {
+  color: var(--accent-color);
+  background-color: var(--text-color);
+}
+
 
 
 /* HEADER */
@@ -58,6 +98,9 @@ header > .inner {
 }
 .header__menu li a {
   color: var(--text-color);
+}
+.header__menu li a.choose {
+  color: var(--accent-color);
 }
 .header__menu li a:hover {
   color: #594B4B;
