@@ -13,10 +13,18 @@ public interface MemberService {
 	public boolean join(Member member);
 	
 	/**
+	 * 아이디 중복 검사
+	 * 
+	 * @param member - ID 정보 객체
+	 * @return 아이디 중복 확인 결과
+	 */
+	public boolean joinIdChk(Member member);
+	
+	/**
 	 * 로그인 인증 처리
 	 * 	
 	 * @param member - 입력한 ID/PW 정보
-	 * @return 로그인 인증 경과
+	 * @return 로그인 인증 결과
 	 */
 	public boolean login(Member member);
 
@@ -26,6 +34,6 @@ public interface MemberService {
 	 * @param loginid - 조회할 사용자의 id
 	 * @return 조회된 사용자 정보
 	 */
-	public Member info(String loginid);
+//	public Member info(String loginid);
 
 }
