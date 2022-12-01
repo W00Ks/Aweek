@@ -1,11 +1,15 @@
 package room.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import member.dto.Member;
+import room.dto.Room;
 import room.service.face.RoomService;
 
 @Controller
@@ -18,21 +22,23 @@ public class RoomController {
 	@RequestMapping("/main")
 	public void main() {
 		
-		logger.info("/main [GET]");
 		
 	}
 	
 	@RequestMapping("/room/main")
 	public void roomMain() {
 		
-		logger.info("/room/main [GET]");
 		
 	}
 	
 	@RequestMapping("/room/open")
-	public void roomOpen() {
+	public String roomOpen(Room room, HttpSession session, Member member) {
 		
-		logger.info("/room/open [GET]");
+        session.setAttribute("userNo", member.getUserNo());
+		
+		roomService.createRoom(room);
+		
+		return "redirect:/room/main";
 		
 	}
 	

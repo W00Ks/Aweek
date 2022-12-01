@@ -4,7 +4,6 @@ public class Room {
 
 	private int roomNo;
 	private int userNo;
-	private int gcalNo;
 	private int roomCategoryNo;
 	private String roomName;
 	private String introduce;
@@ -13,12 +12,11 @@ public class Room {
 	
 	public Room() {	}
 
-	public Room(int roomNo, int userNo, int gcalNo, int roomCategoryNo, String roomName, String introduce,
-			int roomMember, int roomPublic) {
+	public Room(int roomNo, int userNo, int roomCategoryNo, String roomName, String introduce, int roomMember,
+			int roomPublic) {
 		super();
 		this.roomNo = roomNo;
 		this.userNo = userNo;
-		this.gcalNo = gcalNo;
 		this.roomCategoryNo = roomCategoryNo;
 		this.roomName = roomName;
 		this.introduce = introduce;
@@ -28,9 +26,9 @@ public class Room {
 
 	@Override
 	public String toString() {
-		return "Room [roomNo=" + roomNo + ", userNo=" + userNo + ", gcalNo=" + gcalNo + ", roomCategoryNo="
-				+ roomCategoryNo + ", roomName=" + roomName + ", introduce=" + introduce + ", roomMember=" + roomMember
-				+ ", roomPublic=" + roomPublic + "]";
+		return "Room [roomNo=" + roomNo + ", userNo=" + userNo + ", roomCategoryNo=" + roomCategoryNo + ", roomName="
+				+ roomName + ", introduce=" + introduce + ", roomMember=" + roomMember + ", roomPublic=" + roomPublic
+				+ "]";
 	}
 
 	public int getRoomNo() {
@@ -47,14 +45,6 @@ public class Room {
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
-	}
-
-	public int getGcalNo() {
-		return gcalNo;
-	}
-
-	public void setGcalNo(int gcalNo) {
-		this.gcalNo = gcalNo;
 	}
 
 	public int getRoomCategoryNo() {
@@ -97,4 +87,5 @@ public class Room {
 		this.roomPublic = roomPublic;
 	}
 
+	
 }
