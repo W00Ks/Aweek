@@ -19,6 +19,9 @@ $(document).ready(function() {
 		}
 	})
 	
+	$("#btnChatCreate").click(function() {
+		   sendMessage(2);
+	});
 	
 })
 
@@ -42,7 +45,6 @@ function enter(i) {
 		
 	})
 }
-
 function create() {
 	console.log('create() start.');
 	
@@ -50,8 +52,9 @@ function create() {
 		
 		type: "post"					
 		, url: "/chat/create"			
-		, data: {						
-			$("input[name=roomNo]")
+		, data: {
+			chatRoomName : $("#chatRoomName").val()
+			, roomNo : $("input[name=roomNo]:chacked").val()
 		}
 		, dataType: "html"				
 		, success: function( res ) {
@@ -74,12 +77,10 @@ function create() {
 	<div id="leave-event">
 		<button id="btnRoomCreat">메시지방 만들기</button>
 		<!-- 방 생성 폼 -->
-		<form name="createForm">
+<!-- 		<form name="createForm"> -->
 			<div id="createChatRoom" style="display: none;">
-			
 				<h4 class="roomH4">모임 이름</h4>
-				<input type="text" name="chatRoomName" id="chatRoomName">
-				
+				<input type="text" id="chatRoomName1">
 				<div id="roomList">
 					<h4  class="roomH4">모임 선택</h4>
 					<hr>
@@ -90,11 +91,9 @@ function create() {
 						</div>
 					</c:forEach>
 				</div>
-				
-				<button id="btnChatCreate" onclick="create()">채팅방 만들기</button>
-				
+				<button id="btnChatCreate">채팅방 만들기</button>
 			</div>
-		</form>
+<!-- 		</form> -->
 	</div>
 	<div id="searchWrap">
 		<button>검색</button>
@@ -102,7 +101,7 @@ function create() {
 	</div>
 	<div id="chatList">
 		<c:forEach items="${chatList }" var="cl">
-			<button class="chatRoomName" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
+			<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
 		</c:forEach>
 	</div>	
 </div>

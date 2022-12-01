@@ -60,6 +60,7 @@
 	    }
 	});
 	
+	//엔터키로 메시지 전송
 	$('#message').keydown(function(key) {
 	    if (key.keyCode == 13 && $('#message').val() != '') {
 	    	sendMessage();
@@ -68,8 +69,9 @@
 	    }
 	});
 	
+	//전송버튼 클릭 시 메시지 전송
 	$("#sendBtn").click(function() {
-	   sendMessage();
+	   sendMessage(1);
 	   $("#message").val("")
 	   $('#sendBtn').attr('disabled', 'disabled');
 	});

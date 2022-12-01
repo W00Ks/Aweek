@@ -67,19 +67,36 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		int chatRoomNo = (int) session.getAttributes().get("chatRoomNo"); //방번호
-		int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
 		
-		//유저 정보 가져오기
-		Member member = chatService.getUserInfo(userNo);
-		idSessions.put(member.getUserId(), session);
-		
-		logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
-		logger.info("{}님, {}번방에 메시지 보냄", member.getUserId(), chatRoomNo);
-		
-		for(String key : idSessions.keySet()) {
-			if(roomSessions.get(idSessions.get(key)) == chatRoomNo) { //같은 방 유저에게만 입장 메시지 전송
-				idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ": " + message.getPayload()));
+		if(session.getAttributes().get("chatRoomNo") != null) {
+			int chatRoomNo = (int) session.getAttributes().get("chatRoomNo"); //방번호
+			int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
+			
+			//유저 정보 가져오기
+			Member member = chatService.getUserInfo(userNo);
+			idSessions.put(member.getUserId(), session);
+			
+			logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
+			logger.info("{}님, {}번방에 메시지 보냄", member.getUserId(), chatRoomNo);
+			
+			for(String key : idSessions.keySet()) {
+				if(roomSessions.get(idSessions.get(key)) == chatRoomNo) { //같은 방 유저에게만 입장 메시지 전송
+					idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ": " + message.getPayload()));
+				}
+			}
+		} else {
+//			int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
+			logger.info("들어옴");
+			//유저 정보 가져오기
+//			Member member = chatService.getUserInfo(userNo);
+//			idSessions.put(member.getUserId(), session);
+			
+			logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
+//			logger.info("{}님, {}번방에 메시지 보냄", member.getUserId(), chatRoomNo);
+			
+			for(WebSocketSession sess : sessionsList) {
+				logger.info(sess.toString());
+				sess.sendMessage(new TextMessage("방 생성 메시지:" + message.getPayload()));
 			}
 		}
 		

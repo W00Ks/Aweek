@@ -44,7 +44,7 @@
     height: 469px;
 }
 
-.chatRoomName {
+.chatRoomName2 {
     border: 1px solid #ccc;
     width: 98%;
     height: 42px;
@@ -59,28 +59,15 @@
     overflow: auto;
     background: #fff;
 }
-#roomListWrap {
-	width: 234px;
-    margin: 12px auto;
-    text-align: left;
-}
 .room-n {
 	display: inline-block;
 	width: 207px;
+	text-align: left;
 }
 .room-check-box {
 	margin-bottom: 9px;
 }
 
-#chatRoomName {
-	display: block;
-    border: 1px solid #ccc;
-    width: 85%;
-    background: #fff;
-    position: absolute;
-    left: 91%;
-    height: 71px;
-}
 .roomH4 {
 	margin: 11px 0; 
 	font-weight: bold;
@@ -93,7 +80,10 @@
     left: 91%;
     top: 4%;
 }
-
+.border-radio {
+	border-bottom: 1px solid #ccc;
+	margin: 10px 0;
+}
 
 
 
