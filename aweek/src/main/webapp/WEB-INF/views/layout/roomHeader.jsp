@@ -55,19 +55,19 @@
 
     <ul class="header__menu">
       <li>
-        <a href="<%=request.getContextPath() %>/">
+        <a href="<%=request.getContextPath() %>/" class="i__1">
         <span class="material-icons">forum</span></a>
       </li>
       <li>
-        <a href="<%=request.getContextPath() %>/">
+        <a href="<%=request.getContextPath() %>/" class="i__2">
         <span class="material-icons">calendar_month</span></a>
       </li>
       <li>
-        <a href="<%=request.getContextPath() %>/">
-        <span class="material-icons">note_alt</span></a>
+       	<a href="<%=request.getContextPath() %>/diary/main" class="i__3">
+       	<span class="material-icons">note_alt</span></a>
       </li>
       <li>
-        <a href="<%=request.getContextPath() %>/">
+        <a href="<%=request.getContextPath() %>/" class="i__4">
         <span class="material-icons">info</span></a>
       </li>
     </ul>
@@ -88,5 +88,35 @@
 
 <body>
 
+<!-- <script>
+const toggleBtn = document.querySelector('.header__toggleBtn');
+const menu = document.querySelector('.header__menu');
+const hi = "hello";
+
+toggleBtn.addEventListener('click', function() {
+  menu.classList.toggle('active');
+	console.log("hi");
+	
+})
+
+console.log("hi");
+console.log(hi);
+
+
+const boo = window.location.href;
+console.log(boo);
+
+
+
+const i3 = document.querySelector('i__3');
+document.addEventListener("DOMContentLoaded", function() {
+	if( window.location.href.indexOf("diary") > -1 ) {
+		console.log("hello2");
+		i3.classList.add('choose');
+		console.log(hi);
+	}
+});
+
+</script> -->
 
 

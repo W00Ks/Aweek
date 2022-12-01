@@ -5,4 +5,14 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="room.dao.face.RoomDao"></mapper>
+<mapper namespace="room.dao.face.RoomDao">
+
+	<insert id="insertRoom" parameterType="Room">
+		<selectKey resultType="int" keyProperty="roomNo" order="BEFORE">
+		SELECT room_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO room ( room_no, user_no, roomCategory_no, room_name, introduce, room_member, room_public )
+		VALUES ( #{roomNo }, #{userNo }, #{roomCategoryNo }, #{roomName }, #{introduce }, #{roomMember }, #{roomPublic } )
+	</insert>
+
+</mapper>
