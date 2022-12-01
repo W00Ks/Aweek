@@ -6,20 +6,20 @@ public class Room {
 	private int userNo;
 	private int roomCategoryNo;
 	private String roomName;
-	private String introduce;
+	private String roomIntroduce;
 	private int roomMember;
 	private int roomPublic;
 	
 	public Room() {	}
 
-	public Room(int roomNo, int userNo, int roomCategoryNo, String roomName, String introduce, int roomMember,
+	public Room(int roomNo, int userNo, int roomCategoryNo, String roomName, String roomIntroduce, int roomMember,
 			int roomPublic) {
 		super();
 		this.roomNo = roomNo;
 		this.userNo = userNo;
 		this.roomCategoryNo = roomCategoryNo;
 		this.roomName = roomName;
-		this.introduce = introduce;
+		this.roomIntroduce = roomIntroduce;
 		this.roomMember = roomMember;
 		this.roomPublic = roomPublic;
 	}
@@ -27,8 +27,8 @@ public class Room {
 	@Override
 	public String toString() {
 		return "Room [roomNo=" + roomNo + ", userNo=" + userNo + ", roomCategoryNo=" + roomCategoryNo + ", roomName="
-				+ roomName + ", introduce=" + introduce + ", roomMember=" + roomMember + ", roomPublic=" + roomPublic
-				+ "]";
+				+ roomName + ", roomIntroduce=" + roomIntroduce + ", roomMember=" + roomMember + ", roomPublic="
+				+ roomPublic + "]";
 	}
 
 	public int getRoomNo() {
@@ -63,12 +63,12 @@ public class Room {
 		this.roomName = roomName;
 	}
 
-	public String getIntroduce() {
-		return introduce;
+	public String getRoomIntroduce() {
+		return roomIntroduce;
 	}
 
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
+	public void setRoomIntroduce(String roomIntroduce) {
+		this.roomIntroduce = roomIntroduce;
 	}
 
 	public int getRoomMember() {
@@ -87,5 +87,4 @@ public class Room {
 		this.roomPublic = roomPublic;
 	}
 
-	
 }
