@@ -20,4 +20,12 @@
 		WHERE user_no = #{userNo }
 	</select>
 	
+	<select id="selectRoomList" resultType="ChatCreatRoomInfo" parameterType="int">
+		SELECT a.room_no, b.user_no, b.room_name FROM (
+    		SELECT * FROM room_list
+    		WHERE user_no = #{userNo }) a
+		INNER JOIN room b
+   			ON a.room_no = b.room_no
+	</select>
+	
 </mapper>

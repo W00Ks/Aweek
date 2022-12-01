@@ -17,6 +17,12 @@ public class RoomServiceImpl implements RoomService {
 	@Autowired RoomDao roomDao;
 	
 	@Override
+	public void getRoomCategoryNo(int roomCategoryNo) {
+		
+		roomDao.selectRoomCategoryNo(roomCategoryNo);
+	}
+	
+	@Override
 	public void createRoom(Room room) {
 
 		roomDao.insertRoom(room);

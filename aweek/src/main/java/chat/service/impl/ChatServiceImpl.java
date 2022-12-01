@@ -1,6 +1,7 @@
 package chat.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import chat.dao.face.ChatDao;
+import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatRoom;
 import chat.service.face.ChatService;
 import member.dto.Member;
+import room.dto.RoomList;
 
 @Service
 public class ChatServiceImpl implements ChatService {
@@ -22,7 +25,6 @@ public class ChatServiceImpl implements ChatService {
 	
 	@Override
 	public List<ChatRoom> getChatRoomList(int userNo) {
-		logger.info("getChatRoomList() - start");
 		
 		List<ChatRoom> chatRoomList = chatDao.selectChatRoomList(userNo);
 		
@@ -31,11 +33,18 @@ public class ChatServiceImpl implements ChatService {
 	
 	@Override
 	public Member getUserInfo(int userNo) {
-		logger.info("getUserInfo() - start");
 		
 		Member member = chatDao.selectUserInfo(userNo);
 		
 		return member;
+	}
+	
+	@Override
+	public List<ChatCreatRoomInfo> getRoomList(int userNo) {
+		
+		List<ChatCreatRoomInfo> roomList = chatDao.selectRoomList(userNo);
+		
+		return roomList;
 	}
 	
 }

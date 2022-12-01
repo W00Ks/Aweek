@@ -7,24 +7,24 @@
 
 <mapper namespace="member.dao.face.MemberDao">
 	
-	<select id="selectCntById" resultType="int" parameterType="Member">
+	<select id="selectIdChk" resultType="int" parameterType="Member">
 		SELECT count(*) FROM member
-		WHERE id = #{id}
+		WHERE user_id = #{userId }
 	</select>
 	
-	<insert id="insert" parameterType="member.dto.Member">
+	<insert id="insert" parameterType="Member">
 		INSERT INTO member ( user_no, user_id, user_pw, user_email, user_phone, user_name, user_address, user_birth, user_join )
-		VALUES ( member_seq.nextval, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, '이름', '주소', '1989-11-08', SYSDATE )
+		VALUES ( member_seq.nextval, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, #{userName}, #{userAddress}, #{userBirth}, SYSDATE )
 	</insert>
 	
-	<select id="selectCntByIdPw" resultType="int" parameterType="member.dto.Member">
+	<select id="selectCntMember" resultType="int" parameterType="Member">
 		SELECT count(*) FROM member
 		WHERE user_id = #{userId} AND user_pw = #{userPw}
 	</select>
 	
-	<select id="selectLoginById" resultType="member.dto.Member" parameterType="string">
-		SELECT * FROM member
-		WHERE user_id = #{userId }
-	</select>
+<!-- 	<select id="selectLoginById" resultType="Member" parameterType="string"> -->
+<!-- 		SELECT * FROM member -->
+<!-- 		WHERE user_id = #{userId } -->
+<!-- 	</select> -->
 	
 </mapper>

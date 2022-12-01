@@ -17,7 +17,7 @@ public class MemberServiceImpl implements MemberService {
 	public boolean join(Member member) {
 		
 		//중복된 id인지 확인
-		if( memberDao.selectCntById(member) > 0 ) {
+		if( memberDao.selectIdChk(member) > 0 ) {
 			return false;
 		}
 		
@@ -25,9 +25,18 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.insert(member);
 		
 		//회원가입 결과 확인
-		if( memberDao.selectCntById(member) > 0 ) {
+		if( memberDao.selectIdChk(member) > 0 ) {
 			return true;
 		}
+		return false;
+	}
+	
+	@Override
+	public boolean joinIdChk(Member member) {
+		int result = memberDao.selectIdChk(member);
+		
+		if(result > 0) return true;
+		
 		return false;
 	}
 	
@@ -39,9 +48,9 @@ public class MemberServiceImpl implements MemberService {
 		return false;
 	}
 	
-	@Override
-	public Member info(String loginid) {
-		return memberDao.selectLoginById(loginid);
-	}
+//	@Override
+//	public Member info(String loginid) {
+//		return memberDao.selectLoginById(loginid);
+//	}
 	
 }

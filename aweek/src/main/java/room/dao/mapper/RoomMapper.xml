@@ -7,12 +7,16 @@
 
 <mapper namespace="room.dao.face.RoomDao">
 
+	<select id="selectRoomCategoryNo" resultType="int" parameterType="RoomCategory">
+		SELECT room
+	</select>
+
 	<insert id="insertRoom" parameterType="Room">
 		<selectKey resultType="int" keyProperty="roomNo" order="BEFORE">
 		SELECT room_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO room ( room_no, user_no, roomCategory_no, room_name, introduce, room_member, room_public )
-		VALUES ( #{roomNo }, #{userNo }, #{roomCategoryNo }, #{roomName }, #{introduce }, #{roomMember }, #{roomPublic } )
+		INSERT INTO room ( room_no, user_no, room_category_no, room_name, room_introduce, room_member, room_public )
+		VALUES ( #{roomNo }, #{userNo }, #{roomCategoryNo }, #{roomName }, #{roomIntroduce }, #{roomMember }, #{roomPublic } )
 	</insert>
 
 </mapper>
