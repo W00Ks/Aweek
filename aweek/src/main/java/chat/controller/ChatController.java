@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import chat.dto.ChatList;
+import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatRoom;
 import chat.service.face.ChatService;
 import member.dto.Member;
@@ -26,35 +28,37 @@ public class ChatController {
 	@Autowired private ChatService chatService;
 	
 	@RequestMapping("/login")
-	public void chatLogin() {
-		logger.info("/chat/login");
-	}
+	public void chatLogin() {}
 	
 	@RequestMapping("/main") 
 	public void chatMain(int userno, HttpSession session, Model model) {
-		logger.info("/chat/main");
 		session.setAttribute("userNo", userno); //테스트용 세션 설정
-		
+		session.removeAttribute("chatRoomNo");
 		//회원 번호 가져오기
 		int userNo = (int) session.getAttribute("userNo");
-		logger.info("userNo {}", userNo);
+		logger.info("userNo - {}", userNo);
 		
-		//전체 채팅방 목록 조회
+		//회원의 전체 채팅방 목록 조회
 		List<ChatRoom> chatRoomList = chatService.getChatRoomList(userNo);
-		logger.info("{}", chatRoomList);
+		logger.info("chatRoomList - {}", chatRoomList);
+		
+		//회원이 가입한 모임 목록 조회
+		List<ChatCreatRoomInfo> roomList = chatService.getRoomList(userNo);
+		logger.info("roomList - {}", roomList);
 		
 		model.addAttribute("chatList", chatRoomList);
+		model.addAttribute("roomList", roomList);
 	}
 	
-	@RequestMapping("/create")
-	public void chatCreate() {
-		logger.info("/chat/create");
+	@PostMapping("/create")
+	public void chatCreate(ChatRoom chatRoom) {
+		
+		logger.info("{}", chatRoom);
 		
 	}
 	
 	@RequestMapping("/enter")
 	public void chatEnter(int chatRoomNo, HttpSession session, Model model) {
-		logger.info("/chat/enter");
 		
 		session.setAttribute("chatRoomNo", chatRoomNo);
 
