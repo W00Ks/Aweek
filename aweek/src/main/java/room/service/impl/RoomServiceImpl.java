@@ -1,5 +1,7 @@
 package room.service.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import room.dao.face.RoomDao;
 import room.dto.Room;
+import room.dto.RoomCategory;
 import room.service.face.RoomService;
 
 @Service
@@ -16,15 +19,21 @@ public class RoomServiceImpl implements RoomService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired RoomDao roomDao;
 	
+	
 	@Override
-	public void getRoomCategoryNo(int roomCategoryNo) {
+	public List<RoomCategory> roomCategoryList() {
 		
-		roomDao.selectRoomCategoryNo(roomCategoryNo);
+		List<RoomCategory> roomCategory = roomDao.selectRoomCategory();
+		
+		for( RoomCategory c : roomCategory )	logger.trace("{}", c );
+		
+		return roomCategory;
 	}
 	
 	@Override
 	public void createRoom(Room room) {
 
+		
 		roomDao.insertRoom(room);
 		
 	}

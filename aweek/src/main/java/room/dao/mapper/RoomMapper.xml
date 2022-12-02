@@ -7,8 +7,9 @@
 
 <mapper namespace="room.dao.face.RoomDao">
 
-	<select id="selectRoomCategoryNo" resultType="int" parameterType="RoomCategory">
-		SELECT room
+	<select id="selectRoomCategory" resultType="RoomCategory">
+		select * from room_category
+		order by room_category_no
 	</select>
 
 	<insert id="insertRoom" parameterType="Room">

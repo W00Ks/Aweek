@@ -6,6 +6,10 @@
 
 <style type="text/css">
 
+form {
+	width: 100%;
+}
+
 .btn {
   width: 100px;
   padding: 10px;
@@ -78,7 +82,7 @@
 }
 .container__right .open-content {
 	margin: 50px auto;
-	width: 50%;
+	width: 70%;
 	display: flex;
 	flex-direction: column;
 }
@@ -90,7 +94,7 @@
 	width: 130px;
 }
 .container__right .open-content .object input {
-	width: 70%;
+	width: 80%;
 	border-style: none;
 	border-bottom: 2px solid var(--accent-color);
 	background-color: transparent;
@@ -106,7 +110,7 @@
 }
 
 .container__right .open-content .btnsection {
-	margin-top: 20px;
+	margin: 20px 10%;
 }
 
 @media screen and (max-width: 768px) {
@@ -130,16 +134,15 @@
      </div>
    </div>
    
-   <form action="./open" method="post">
-   <div class="container__right">
+   <form action="./open" method="post" class="container__right" id="form">
      <h1>모임 개설</h1>
      
      <div class="open-content">
      	<div class="object">
-	     <p>모임 이름 * </p><input type="text" id="roomName" name="roomName">
+	     <p>모임 이름 * </p><input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!">
 	    </div>
 	    <div class="object">
-	     <p>모임 소개 * </p><input type="text" id="roomIntroduce" name="roomIntroduce">
+	     <p>모임 소개 * </p><input type="text" id="roomIntroduce" name="roomIntroduce" placeholder="모임 소개를 적어주세요!">
 	    </div>
 	    <div class="object">
 	     <p>인원 수 * </p>
@@ -165,11 +168,10 @@
 	    </div>
 	    
 	    <div class="btnsection">
-	    	<a href="#" class="btn btn--brown wide">모임 개설</a>
+	    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">모임 개설</a>
 	    	<a href="#" class="btn btn--brown wide">취소</a>
 	    </div>
      </div>
-   </div>
    </form>
 
 </section>

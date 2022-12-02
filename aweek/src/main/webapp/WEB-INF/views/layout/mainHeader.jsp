@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -10,7 +10,6 @@
 <meta charset="UTF-8">
 <title>Aweek</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<!--Open Graph-->
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Aweek" />
@@ -28,7 +27,7 @@
 	<meta property="twitter:url" content="https://localhost:8888/aweek/room/main" />
 	
 	<!-- favicon -->
-	<link rel="favicon" href="<%=request.getContextPath() %>/favicon.ico">
+	<link rel="icon" href="favicon.ico">
 	
 	<!--브라우저 스타일 초기화-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" />
@@ -41,53 +40,12 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
- 	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/roomHeader.css" type="text/css" />
-	<script defer type="text/javascript" src="<%=request.getContextPath() %>/resources/js/roomHeader.js"></script>
+ 	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/mainHeader.css" type="text/css" />
+	<script defer type="text/javascript" src="<%=request.getContextPath() %>/resources/js/mainHeader.js"></script>
+
 
 </head>
-
-<!-- Header -->
-<header>
-  <div class="inner">
-
-    <div class="header__logo">
-      <a href="<%=request.getContextPath() %>/" class="logo">
-        <img src="<%=request.getContextPath() %>/resources/img/aweekLogo.png" alt="aweekLogo">
-      </a>
-    </div>
-
-    <ul class="header__menu">
-      <li>
-        <a href="<%=request.getContextPath() %>/" class="i__1">
-        <span class="material-icons">forum</span></a>
-      </li>
-      <li>
-        <a href="<%=request.getContextPath() %>/" class="i__2">
-        <span class="material-icons">calendar_month</span></a>
-      </li>
-      <li>
-       	<a href="<%=request.getContextPath() %>/diary/main" class="i__3">
-       	<span class="material-icons">note_alt</span></a>
-      </li>
-      <li>
-        <a href="<%=request.getContextPath() %>/" class="i__4">
-        <span class="material-icons">info</span></a>
-      </li>
-    </ul>
-
-    <div class="header__my">
-      <ul>
-        <li><a href="<%=request.getContextPath() %>/">MY</a></li>
-      </ul>
-    </div>
-    
-    <a href="#" class="header__toggleBtn">
-      <span class="material-icons">menu</span>
-    </a>
-    
-  </div>
-  
-</header>
-
 <body>
 
+</body>
+</html>
