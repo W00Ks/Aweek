@@ -8,9 +8,16 @@
 </head>
 <body>
 
+<h1>테스트용 로그인 페이지</h1>
+<hr>
 
-2022 1128 - test 아 죄송합니다
+<form action="/room/open" method="get">
 
+<label>유저 번호 : <input type="text" name="userNo"></label><br><br>
+
+<button>로그인</button>
+
+</form>
 
 </body>
 </html>
