@@ -10,4 +10,7 @@
 		INSERT INTO my_calender (cal_no, user_no, cal_title, start_date, end_date,  cal_place, cal_memo)
 		VALUES(seq_my_calender.nextval, 1, #{calTitle}, #{startDate}, #{endDate},  #{calPlace}, #{calMemo})
 	</insert>
+	<select id="selectMyCal" resultType="calendar.dto.Calendar">
+		SELECT * FROM my_calender
+	</select>
 </mapper>
