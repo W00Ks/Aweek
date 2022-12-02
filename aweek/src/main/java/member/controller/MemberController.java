@@ -43,11 +43,10 @@ public class MemberController {
 		
 		boolean joinIdChkResult = memberService.joinIdChk(member);
 		
-		int result;
 		if ( joinIdChkResult ) {
-			return result = 1; 
+			return 1; 
 		} else {
-			return result = 0;
+			return 0;
 		}
 
 	}
@@ -73,11 +72,23 @@ public class MemberController {
 			return "redirect:/aweek/main";
 			
 		} else { //로그인 실패
-			
 			session.invalidate();
-			
 			return "redirect:/member/login";
 		}
+	}
+	
+	@RequestMapping("/loginChk")
+	@ResponseBody
+	public int loginChk(Member member) {
+		
+		boolean loginResult = memberService.login(member);
+		
+		if ( loginResult ) {
+			return 1; 
+		} else {
+			return 0;
+		}
+
 	}
 	
 	//--- 로그아웃 ---
