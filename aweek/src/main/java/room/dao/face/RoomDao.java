@@ -1,15 +1,18 @@
 package room.dao.face;
 
+import java.util.List;
+
 import room.dto.Room;
+import room.dto.RoomCategory;
 
 public interface RoomDao {
 
 	/**
-	 * roomCategoryNo 가져오기
+	 * RoomCategory list select해서 얻기
 	 * 
-	 * @param roomCategoryNo - 카테고리 번호
+	 * @return - List<RoomCategory> 객체
 	 */
-	public void selectRoomCategoryNo(int roomCategoryNo);
+	public List<RoomCategory> selectRoomCategory();
 	
 	/**
 	 * 모임 생성 정보 insert
@@ -17,6 +20,9 @@ public interface RoomDao {
 	 * @param room - 모임 정보 객체 
 	 */
 	public void insertRoom(Room room);
+
+	
+
 
 
 	

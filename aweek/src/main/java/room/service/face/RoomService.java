@@ -1,15 +1,19 @@
 package room.service.face;
 
+import java.util.List;
+
 import room.dto.Room;
+import room.dto.RoomCategory;
 
 public interface RoomService {
 
 	/**
-	 * select로 가져온 roomCategoryNo
 	 * 
-	 * @param roomCategoryNo - 카테고리 번호
+	 * 
+	 * 
+	 * @return List<RoomCategory> - 
 	 */
-	public void getRoomCategoryNo(int roomCategoryNo);
+	public List<RoomCategory> roomCategoryList();
 	
 	/**
 	 * 모임 개설
@@ -17,6 +21,8 @@ public interface RoomService {
 	 * @param room - 모임 정보 객체
 	 */
 	public void createRoom(Room room);
+
+	
 
 
 	
