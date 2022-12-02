@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatRoom;
@@ -51,10 +52,16 @@ public class ChatController {
 	}
 	
 	@PostMapping("/create")
-	public void chatCreate(ChatRoom chatRoom) {
-		
+	@ResponseBody
+	public int chatCreate(ChatRoom chatRoom, HttpSession session, Model model) {
 		logger.info("{}", chatRoom);
 		
+		int userNo = (int) session.getAttribute("userNo");
+		
+		//채팅방 생성
+		int result = chatService.createChatRoom(chatRoom, userNo);
+		
+		return result;
 	}
 	
 	@RequestMapping("/enter")

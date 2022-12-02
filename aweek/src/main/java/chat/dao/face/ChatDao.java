@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import chat.dto.ChatCreatRoomInfo;
+import chat.dto.ChatList;
 import chat.dto.ChatRoom;
 import member.dto.Member;
 import room.dto.RoomList;
@@ -33,6 +34,23 @@ public interface ChatDao {
 	 * @return 가입한 모임 목록
 	 */
 	public List<ChatCreatRoomInfo> selectRoomList(int userNo);
+	
+	/**
+	 *  입력 받은 정보를 이용하여
+	 * 새로운 채팅방을 생성한다 (INSERT)
+	 * 
+	 * @param chatRoom - INSERT 하려는 채팅방 정보
+	 */
+	public void insertChatRoom(ChatRoom chatRoom);
+	
+	/**
+	 *  생성된 채팅방을 이용하여 
+	 * 채팅방 목록에 INSERT한다
+	 * 
+	 * @param map - Key: 생성된 채팅방 정보, Value: userNo
+	 * @return INSERT 실행 결과 (1 - 성공, 0 - 실패)
+	 */
+	public int insertChatList(ChatList chatList);
 
 }
 

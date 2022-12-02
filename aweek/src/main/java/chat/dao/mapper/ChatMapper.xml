@@ -9,10 +9,10 @@
 
 	<select id="selectChatRoomList" resultType="ChatRoom" parameterType="int">
 		SELECT b.* FROM (
-    		SELECT * FROM chat_list
-    		WHERE user_no = #{userNo }) a
+    		SELECT * FROM room_list
+   			WHERE user_no = #{userNo }) a
 		INNER JOIN chat_room b
-    	ON a.chat_room_no = b.chat_room_no
+		ON a.room_no = b.room_no
 	</select>
 	
 	<select id="selectUserInfo" resultType="Member" parameterType="int">
@@ -28,4 +28,36 @@
    			ON a.room_no = b.room_no
 	</select>
 	
+	<!-- 채팅방 INSERT -->
+	<insert id="insertChatRoom" parameterType="ChatRoom">
+		<selectKey keyProperty="chatRoomNo" resultType="int" order="BEFORE">
+			SELECT chat_room_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO chat_room (chat_room_no, chat_room_name, chat_room_date, room_no)
+		VALUES (#{chatRoomNo }, #{chatRoomName }, sysdate, #{roomNo })
+	</insert>
+	
+	<!-- 채팅방 목록 INSERT -->
+	<insert id="insertChatList" parameterType="ChatList">
+		<selectKey keyProperty="chatListNo" resultType="int" order="BEFORE">
+			SELECT chat_list_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO chat_list (chat_list_no, chat_room_no, room_no, user_no)
+		VALUES (#{chatListNo }, #{chatRoomNo }, #{roomNo }, #{userNo })
+	</insert>
+	
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
