@@ -11,7 +11,7 @@
 		SELECT count(*) FROM admin
 		WHERE admin_id = #{ adminId } AND admin_pw = #{ adminPw }
 	</select>
-	
+<!-- 	
 	<select id="selectCntAll" resultType="int">
 		SELECT count(*) FROM member
 	</select>
@@ -28,5 +28,5 @@
 		) MEMBER
 		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
 	</select>
-
+ -->
 </mapper>
