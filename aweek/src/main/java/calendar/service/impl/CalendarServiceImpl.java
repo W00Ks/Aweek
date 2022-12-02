@@ -1,5 +1,7 @@
 package calendar.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,12 @@ public class CalendarServiceImpl implements CalendarService {
 		
 		calendarDao.insertMyCal(calendar);
 		
+	}
+
+	@Override
+	public List<Calendar> selectMyCal() {
+		// TODO Auto-generated method stub
+		return calendarDao.selectMyCal();
 	}
 
 }
