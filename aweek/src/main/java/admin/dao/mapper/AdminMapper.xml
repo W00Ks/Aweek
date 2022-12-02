@@ -5,4 +5,28 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="admin.dao.face.AdminDao"></mapper>
+<mapper namespace="admin.dao.face.AdminDao">
+
+	<select id="selectAdmin" resultType="int" parameterType="admin.dto.Admin">
+		SELECT count(*) FROM admin
+		WHERE admin_id = #{ adminId } AND admin_pw = #{ adminPw }
+	</select>
+	
+	<select id="selectCntAll" resultType="int">
+		SELECT count(*) FROM member
+	</select>
+
+	<select id="selectMemberList" resultType="dto.Admin" parameterType="util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+					user_no, user_id, user_name, user_phone, user_address
+					, user_birth, user_email, user_join
+				FROM member
+				ORDER BY user_no DESC
+			) B
+		) MEMBER
+		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
+	</select>
+
+</mapper>
