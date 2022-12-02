@@ -34,6 +34,14 @@ public interface ChatService {
 	 */
 	public List<ChatCreatRoomInfo> getRoomList(int userNo);
 	
+	/**
+	 * 새로운 채팅방을 생성한다
+	 * 
+	 * @param chatRoom - 생성하려는 채팅방 정보
+	 * @return 생성 결과
+	 */
+	public int createChatRoom(ChatRoom chatRoom, int userNo);
+	
 	
 	
 }

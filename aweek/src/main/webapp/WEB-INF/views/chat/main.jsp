@@ -17,7 +17,64 @@ $(document).ready(function() {
 		} else {
 			$("#createChatRoom").attr("style", "display: none;");
 		}
+		
+		//체크박스 해제
+		$("input[name=roomNo]").prop('checked', false); 
+		$("#chatRoomName1").val(""); 
+		
 	})
+	
+	//채팅방 만들기 박스 닫기 이벤트
+	$("#close-box").click(function() {
+		var state = $("#createChatRoom").attr("style");
+		if(state == "display: none;") {
+			$("#createChatRoom").attr("style", "display: block;");
+		} else {
+			$("#createChatRoom").attr("style", "display: none;");
+		}
+	})
+	
+	//채팅방 만들기 버튼 클릭 이벤트
+	$("#btnChatCreate").click(function() {
+		
+		   if($("#chatRoomName1").val() != "" && $('input[name=roomNo]:checked').val() != undefined) {
+			   
+			   //채팅방 insert 하기
+			   $.ajax({
+					
+					type: "post"					
+					, url: "/chat/create"			
+					, data: {						
+						chatRoomName: $("#chatRoomName1").val()
+						, roomNo: $('input[name=roomNo]:checked').val()
+					}
+					, dataType: "json"				
+					, success: function( res ) {
+						console.log("AJAX 성공")
+						
+						$("#ajaxChatRoomNo").attr("value", res);
+						
+						//생성된 채팅방 실시간 띄우기
+						sendMessage(2);
+					}
+					, error: function( res ) {
+						console.log("AJAX 실패")
+					}
+					
+				})
+			   	
+				//채팅방 만들면 창 끄기
+				var state = $("#createChatRoom").attr("style");
+				if(state == "display: none;") {
+					$("#createChatRoom").attr("style", "display: block;");
+				} else {
+					$("#createChatRoom").attr("style", "display: none;");
+				}
+				
+		   }
+			
+	});
+	
 	
 	
 })
@@ -42,7 +99,6 @@ function enter(i) {
 		
 	})
 }
-
 function create() {
 	console.log('create() start.');
 	
@@ -50,8 +106,9 @@ function create() {
 		
 		type: "post"					
 		, url: "/chat/create"			
-		, data: {						
-			$("input[name=roomNo]")
+		, data: {
+			chatRoomName : $("#chatRoomName").val()
+			, roomNo : $("input[name=roomNo]:chacked").val()
 		}
 		, dataType: "html"				
 		, success: function( res ) {
@@ -72,14 +129,14 @@ function create() {
 
 <div id="content-left">
 	<div id="leave-event">
-		<button id="btnRoomCreat">메시지방 만들기</button>
-		<!-- 방 생성 폼 -->
-		<form name="createForm">
+		<button id="btnRoomCreat" class="btn btnRoomCreat">메시지방 만들기</button>
+			<!-- 방 생성 -->
 			<div id="createChatRoom" style="display: none;">
-			
-				<h4 class="roomH4">모임 이름</h4>
-				<input type="text" name="chatRoomName" id="chatRoomName">
-				
+				<div id="close-box-wrap">
+					<button id="close-box"><span class="material-symbols-outlined" style="font-size: 21px;">close</span></button>
+				</div>
+				<h4 class="roomH4">채팅방 이름</h4>
+				<input type="text" id="chatRoomName1" placeholder="채팅방 이름 입력">
 				<div id="roomList">
 					<h4  class="roomH4">모임 선택</h4>
 					<hr>
@@ -90,11 +147,10 @@ function create() {
 						</div>
 					</c:forEach>
 				</div>
-				
-				<button id="btnChatCreate" onclick="create()">채팅방 만들기</button>
-				
+				<button id="btnChatCreate" class="btn btnChatCreate">채팅방 만들기</button>
+				<!-- ajax로 받아온 chatRoomNo -->
+				<input type="hidden" id="ajaxChatRoomNo" value="">
 			</div>
-		</form>
 	</div>
 	<div id="searchWrap">
 		<button>검색</button>
@@ -102,7 +158,7 @@ function create() {
 	</div>
 	<div id="chatList">
 		<c:forEach items="${chatList }" var="cl">
-			<button class="chatRoomName" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
+			<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
 		</c:forEach>
 	</div>	
 </div>
