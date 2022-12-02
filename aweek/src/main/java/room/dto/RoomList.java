@@ -5,22 +5,19 @@ public class RoomList {
 	private int roomListNo;
 	private int roomNo;
 	private int userNo;
-	private int roomCategoryNo;
 	
 	public RoomList() {	}
 
-	public RoomList(int roomListNo, int roomNo, int userNo, int roomCategoryNo) {
+	public RoomList(int roomListNo, int roomNo, int userNo) {
 		super();
 		this.roomListNo = roomListNo;
 		this.roomNo = roomNo;
 		this.userNo = userNo;
-		this.roomCategoryNo = roomCategoryNo;
 	}
 
 	@Override
 	public String toString() {
-		return "RoomList [roomListNo=" + roomListNo + ", roomNo=" + roomNo + ", userNo=" + userNo + ", roomCategoryNo="
-				+ roomCategoryNo + "]";
+		return "RoomList [roomListNo=" + roomListNo + ", roomNo=" + roomNo + ", userNo=" + userNo + "]";
 	}
 
 	public int getRoomListNo() {
@@ -45,14 +42,6 @@ public class RoomList {
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
-	}
-
-	public int getRoomCategoryNo() {
-		return roomCategoryNo;
-	}
-
-	public void setRoomCategoryNo(int roomCategoryNo) {
-		this.roomCategoryNo = roomCategoryNo;
 	}
 
 }
