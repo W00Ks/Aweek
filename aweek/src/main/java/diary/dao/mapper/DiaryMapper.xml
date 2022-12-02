@@ -16,5 +16,19 @@
 		SELECT * FROM member
 		WHERE user_id = #{userId} AND user_pw = #{userPw}
 	</select>
+	
+	<select id="selectRoomList" resultType="room.dto.RoomList" parameterType="int">
+		SELECT * FROM room_list
+		WHERE user_no = #{userNo}
+		ORDER BY room_list_no
+	</select>
+
+	<select id="selectRoom" resultType="room.dto.Room" parameterType="hashmap">
+		SELECT * FROM room
+			<foreach collection="roomNoArr" item="roomNo" open="WHERE" separator="OR">
+				room_no = #{roomNo }
+			</foreach>
+		ORDER BY room_no
+	</select>
 
 </mapper>

@@ -1,18 +1,24 @@
 package diary.controller;
 
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import diary.service.face.DiaryService;
 import member.dto.Member;
+import room.dto.Room;
+import room.dto.RoomList;
 
 @Controller
 @RequestMapping("/diary")
@@ -53,13 +59,34 @@ public class DiaryController {
 	}
 	
 	@GetMapping("/fail")
-	public void diaryFail() {
-		
+	public void diaryFail(HttpSession session) {
+		session.invalidate();
 	}
 	
 	@GetMapping("/main")
-	public void diaryMain() {
+	public void diaryMain(Model model, HttpSession session) {
 		
+		int userNo = (int) session.getAttribute("userNo");
+		
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
+		
+		for( RoomList i : userRoomList ) logger.trace("##### userRoomList : {}", i);
+		
+		String[] roomNos = new String[userRoomList.size()];
+		
+		for(int i=0; i<userRoomList.size(); i++) { 
+			roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		}
+		
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		for( Room i : userRoom ) logger.trace("##### userRoom : {}", i);
+		
+		model.addAttribute("userRoom", userRoom);
+
 	}
 
 }

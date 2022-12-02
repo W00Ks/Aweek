@@ -1,6 +1,11 @@
 package diary.dao.face;
 
+import java.util.HashMap;
+import java.util.List;
+
 import member.dto.Member;
+import room.dto.Room;
+import room.dto.RoomList;
 
 public interface DiaryDao {
 
@@ -19,5 +24,21 @@ public interface DiaryDao {
 	 * @return 사용자 정보 DTO
 	 */
 	public Member selectMember(Member member);
+
+	/**
+	 * 로그인 사용자의 소속 모임 번호 조회
+	 * 
+	 * @param userNo - 로그인 사용자 번호
+	 * @return 해당 사용자가 소속된 모임 리스트
+	 */
+	public List<RoomList> selectRoomList(int userNo);
+
+	/**
+	 * 로그인 사용자의 소속 모임 정보 조회
+	 * 
+	 * @param param - 로그인 사용자의 소속 모임 번호 리스트
+	 * @return 로그인 사용자의 소속 모임 정보 DTO 리스트 반환
+	 */
+	public List<Room> selectRoom(HashMap<String, Object> param);
 
 }
