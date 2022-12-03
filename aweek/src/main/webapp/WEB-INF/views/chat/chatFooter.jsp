@@ -59,19 +59,24 @@
        //입장 메시지일 때 처리
        if(enter[2] == "입장하셨습니다." && roomMsg[0] != "Create Room") {
     	   
+    	    //입장 메시지 띄우기
        		$("#MessageArea").append("<div style='text-align: center; margin: 10px 0;'>" + data + "</div>");
+       		
+       		//채팅창 스크롤 최하단으로 내리기
       	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
       	 	
        }
        
        //유저 메시지일 때 처리
        if(uid[0] == "${member.userId }" && roomMsg[0] != "Create Room") {
-    	   
+    	    
+    	    //유저 메시지 띄우기
        		$("#MessageArea").append("<div style='text-align: right;'><div class='chatSendMsg'>" + data + "</div></div>");
       	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
       	 	
        } else if(uid[0] != "${member.userId }" && enter[2] != "입장하셨습니다." && roomMsg[0] != "Create Room") {
-    	   
+    	    
+    	    //상대방 메시지 띄우기
         	$("#MessageArea").append("<div style='text-align: left;'><div class='chatReceiveMsg'>" + data + "</div></div>");
       	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
       	 	
@@ -79,7 +84,10 @@
        
      	//방 생성 메시지일 때 처리
       	if(roomMsg[0] == "Create Room") {
-   	   		$("#chatList").append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
+      		
+      		//방 생성 적용하기
+   	   		$("#chatRoomList"+roomMsg[2]).append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
+      	
       	}
        
    }

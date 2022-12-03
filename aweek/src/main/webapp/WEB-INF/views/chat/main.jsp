@@ -75,7 +75,12 @@ $(document).ready(function() {
 			
 	});
 	
-	
+	//입장한 채팅방 목록 버튼 비활성화
+	var crn2 = $(".chatRoomName2");
+	crn2.click(function() {
+		$(this).attr("disabled", "");
+		crn2.not($(this)).removeAttr("disabled");
+	})
 	
 })
 
@@ -98,6 +103,7 @@ function enter(i) {
 		}
 		
 	})
+	
 }
 function create() {
 	console.log('create() start.');
@@ -157,8 +163,17 @@ function create() {
 		<input id="searchBar" type="text" placeholder="메시지방, 메시지 검색"><br>
 	</div>
 	<div id="chatList">
-		<c:forEach items="${chatList }" var="cl">
-			<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
+		<c:forEach items="${roomList }" var="rl">
+			<%-- 모임이름 버튼 --%>
+			<button class="btn_fold">${rl.roomName }</button><br>
+			<div id="chatRoomList${rl.roomNo }">
+				<c:forEach items="${chatList }" var="cl">
+					<%-- 채팅방 버튼 --%>
+					<c:if test="${rl.roomNo eq cl.roomNo }">
+						<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
+					</c:if>
+				</c:forEach>
+			</div>
 		</c:forEach>
 	</div>	
 </div>

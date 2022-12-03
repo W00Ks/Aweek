@@ -68,7 +68,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				logger.info("### 확인{}, {}", session, idSessions.get(key));
 				logger.info("### session{}, {}", chatRoomSessions.get(session), idSessions.get(key));
 				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) { //같은 방 유저에게만 입장 메시지 전송
-					idSessions.get(key).sendMessage(new TextMessage("---- " + member.getUserId() + "님이 입장하셨습니다. ----"));
+					idSessions.get(key).sendMessage(new TextMessage("---- " + member.getUserId() + "님이 입장하셨습니다. ---- "));
 				}
 			}
 		} else {
