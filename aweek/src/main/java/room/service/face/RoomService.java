@@ -4,23 +4,42 @@ import java.util.List;
 
 import room.dto.Room;
 import room.dto.RoomCategory;
+import room.dto.RoomList;
 
 public interface RoomService {
 
 	/**
+	 * 모든 방 목록 조회
 	 * 
-	 * 
-	 * 
-	 * @return List<RoomCategory> - 
+	 * @return List<Room> - roomList
 	 */
-	public List<RoomCategory> roomCategoryList();
+	public List<Room> roomList();
 	
+	/**
+	 * roomMain에서 내가 가입한 방 목록 조회
+	 * 
+	 * @return List<Room> - roomList
+	 */
+	public List<Room> myRoomList();
 	/**
 	 * 모임 개설
 	 * 
 	 * @param room - 모임 정보 객체
 	 */
-	public void createRoom(Room room);
+	public void createRoom(Room room, RoomList roomList);
+
+	/**
+	 * 개설한 모임 정보 불러오기
+	 * 
+	 * @param room - 모임 정보 객체
+	 * @return room 모임 정보 객체
+	 */
+	public Room getRoomInfo(Room room);
+
+
+
+
+
 
 	
 
