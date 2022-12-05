@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatRoom;
 import chat.service.face.ChatService;
@@ -64,6 +66,11 @@ public class ChatController {
 		return result;
 	}
 	
+	@RequestMapping("/delete")
+	public void chatDelete() {
+		
+	}
+	
 	@RequestMapping("/enter")
 	public void chatEnter(int chatRoomNo, HttpSession session, Model model) {
 		
@@ -72,6 +79,16 @@ public class ChatController {
 		Member member = chatService.getUserInfo((int)session.getAttribute("userNo"));
 		model.addAttribute("member", member);
 		
+	}
+	
+	@PostMapping("/insert")
+	@ResponseBody
+	public int chatInsert(Chat chat, HttpSession session) {
+		logger.info("insert chat : {}", chat);
+		int userNo = (int)session.getAttribute("userNo");
+		int result = chatService.saveMessage(chat, userNo);
+		
+		return result;
 	}
 	
 }

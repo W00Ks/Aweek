@@ -75,13 +75,6 @@ $(document).ready(function() {
 			
 	});
 	
-	//입장한 채팅방 목록 버튼 비활성화
-	var crn2 = $(".chatRoomName2");
-	crn2.click(function() {
-		$(this).attr("disabled", "");
-		crn2.not($(this)).removeAttr("disabled");
-	})
-	
 })
 
 function enter(i) {
@@ -98,6 +91,14 @@ function enter(i) {
 		, success: function( res ) {
 			console.log("AJAX 성공")
 			
+			//입장한 채팅방 버튼 비활성화 시키기 
+			$('button[value=' + i + ']').attr("disabled", "");
+			$(".chatRoomName2").not($('button[value='+i+']')).removeAttr("disabled");
+			
+			//입장한 채팅방 버튼 CSS설정하기
+			$('button[value=' + i + ']').addClass("disable");
+			$(".chatRoomName2").not($('button[value='+i+']')).removeClass("disable");
+			
 			//응답 데이터 반영
 			$("#content-right").html( res )
 		}
@@ -105,26 +106,21 @@ function enter(i) {
 	})
 	
 }
-function create() {
-	console.log('create() start.');
+
+function fold(roomNo) {
 	
-	$.ajax({
-		
-		type: "post"					
-		, url: "/chat/create"			
-		, data: {
-			chatRoomName : $("#chatRoomName").val()
-			, roomNo : $("input[name=roomNo]:chacked").val()
-		}
-		, dataType: "html"				
-		, success: function( res ) {
-			console.log("AJAX 성공")
-			
-			//응답 데이터 반영
-			$("#content-right").html( res )
-		}
-		
-	})
+	console.log("asd")
+	var state = $('.chatRoomList[id=' + roomNo + ']').attr("style");
+	if(state == "display: none;") {
+		$('.chatRoomList[id=' + roomNo + ']').attr("style", "display: block;");
+		$('.expand_more[id=' + roomNo + ']').attr("style", "display: block;");
+		$('.chevron_right[id=' + roomNo + ']').attr("style", "display: none;");
+	} else {
+		$('.chatRoomList[id=' + roomNo + ']').attr("style", "display: none;");
+		$('.chevron_right[id=' + roomNo + ']').attr("style", "display: block;");
+		$('.expand_more[id=' + roomNo + ']').attr("style", "display: none;");
+	}
+	
 }
 </script>
 
@@ -159,16 +155,17 @@ function create() {
 			</div>
 	</div>
 	<div id="searchWrap">
-		<button>검색</button>
+		<label for="searchBar" id="btnSearch"><span class="material-symbols-outlined">search</span></label>
 		<input id="searchBar" type="text" placeholder="메시지방, 메시지 검색"><br>
 	</div>
 	<div id="chatList">
 		<c:forEach items="${roomList }" var="rl">
-			<%-- 모임이름 버튼 --%>
-			<button class="btn_fold">${rl.roomName }</button><br>
-			<div id="chatRoomList${rl.roomNo }">
+			<button class="btn_fold" onclick="fold(${rl.roomNo })">
+				<span class="material-symbols-outlined expand_more" id="${rl.roomNo }" style="display: none;">expand_more</span>
+				<span class="material-symbols-outlined chevron_right"  id="${rl.roomNo }">chevron_right</span>${rl.roomName }
+			</button><br>
+			<div id="${rl.roomNo }" class="chatRoomList" style="display: none;">
 				<c:forEach items="${chatList }" var="cl">
-					<%-- 채팅방 버튼 --%>
 					<c:if test="${rl.roomNo eq cl.roomNo }">
 						<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
 					</c:if>

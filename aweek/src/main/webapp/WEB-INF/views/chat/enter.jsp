@@ -20,16 +20,19 @@
 .chatSendMsg, .chatReceiveMsg {
 	display: inline-block;
     border: 1px solid #444;
-    padding: 6px 18px;
+    padding: 10px;
     max-width: 270px;
-    margin: 10px;
     border-radius: 7px;
+    text-align: left;
 }
 .chatSendMsg {
-    background-color: #ffcaca;
+    background-color: #dfe9fb;
+    border-color: #b4caf1;
+    margin: 7px 22px 7px 4px;
 }
 .chatReceiveMsg {
     background-color: #eee;
+    margin: 7px 4px 7px 22px;
 }
 #message {
 	width: 80%;
@@ -47,18 +50,35 @@
     width: calc(100% - 300px);
     display: inline;
 }
+.chatUserName {
+	margin: 0 27px -3px;
+    font-size: 14px;
+}
+.chatTime {
+	color: #333;
+    display: inline-block;
+    font-size: 13px;
+}
+.timeWrap {
+	position: relative;
+}
 </style>
 </head>
 <body>
 
 <div id="msg-wrap">
-	<div id="MessageArea"></div>
+	<div id="MessageArea">
+		<div id="exitArea">
+			<button id='btnExit' value="">채팅방 나가기</button>
+		</div>
+	</div>
 	<div id="textbarDiv">
 		<textarea id="message"></textarea>
 		<input type="button" id="sendBtn" value="submit" disabled />
 	</div>
 </div>
-
+<input type="hidden" id="roomNoforChat" value="">
+<input type="hidden" id="chatTimeforChat" value="">
 </body>
 
 <script type="text/javascript">
@@ -73,24 +93,27 @@
 	
 	//Enter키로 메시지 전송
 	$('#message').keyup(function(key) {
+		
+		//빈칸일 경우
 	    if(key.keyCode == 13 && $('#message').val().replace(/\s| /gi, "").length == 0) {
 	    	$("#message").val("");
 	        $('#sendBtn').attr('disabled', 'disabled');
 	    	
 	    } else if(key.keyCode == 13) {
-	    	var content = $("#message").val();
 	    	
+	    	//SHIFT + ENTER 가 아닐 경우
 			if(!key.shiftKey) {
-				$("#message").val().replace(/\n|\r\n/gi, '<br>');
+				$("#message").val($("#message").val().replace(/(?:\r\n|\r|\n)/g, '<br>'));
 		    	sendMessage(1);
 		    	$("#message").val("");
 		        $('#sendBtn').attr('disabled', 'disabled');
-				
 			} else {
+	    		var content = $("#message").val();
 				$("#message").val(content);
 			}
 	    	
 	    }
+		       
 	});
 	
 	//전송버튼 클릭으로 메시지 전송
@@ -100,22 +123,15 @@
 	   $('#sendBtn').attr('disabled', 'disabled');
 	});
 	
-	//Shift + Enter키로 개행하기
-// 	$('#message').keydown(function(key) {
-// 	    if(key.keyCode == 13 && $('#message').val().replace(/\s| /gi, "").length == 0) {
-	    	
-// 	    	$("#message").val("");
-// 	        $('#sendBtn').attr('disabled', 'disabled');
-	    	
-// 	    } else if(key.keyCode == 13) {
-	    	
-// 	    	sendMessage(1);
-// 	    	$("#message").val("");
-// 	        $('#sendBtn').attr('disabled', 'disabled');
-	    	
-// 	    }
-// 	});
+	//채팅방 나가기 버튼 클릭 이벤트
+	$("#btnExit").click(function() {
+	   sendMessage(3);
+	   location.reload();
+	});
 	
+	
+	
+			
 </script>
 
 <%@ include file="./chatFooter.jsp" %>

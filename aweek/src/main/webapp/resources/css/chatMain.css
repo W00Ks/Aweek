@@ -49,27 +49,62 @@ body, #container, #content-left, #content-right, #msg-wrap {
     color: #fff;
 }
 #searchWrap {
-    margin-top: 10px;
+    display: flex;
+    margin: 7px 0 0 29px;
+    background-color: #ddd;
+    width: 240px;
+    border-radius: 3px;
 }
-
 #searchBar {
-    width: 67%;
-    height: 21px;
+    width: 82%;
+    height: 23px;
+    border: none;
+    background-color: #ddd;
 }
-
+#btnSearch {
+	border: none;
+    background: none;
+    width: 34px;
+    padding-top: 2px;
+}
 #chatList {
-    border: 1px solid #ccc;
     width: 96%;
-    margin: 7px auto;
+    margin: 10px auto 7px;
     height: calc(100% - 215px);
     overflow: auto;
 }
 
 .chatRoomName2 {
-    border: 1px solid #ccc;
+    border: 1px solid #fbe6e6;
+    background-color: #ffe7e75e;
     width: 98%;
     height: 42px;
     cursor: pointer;
+    border-radius: 4px;
+}
+.chatRoomName2:hover {
+	background-color: #f4b0b0;
+}
+.disable {
+	background-color: #f4b0b0;
+    color: #fff;
+    font-weight: bold;
+}
+
+.btn_fold {
+	width: 98%;
+    height: 26px;
+    border: navajowhite;
+    background-color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    margin-bottom: -15px;
+    color: #555
+}
+.material-symbols-outlined {
+	font-size: 21px;
+	color: #555
 }
 
 #roomList {
@@ -101,7 +136,7 @@ body, #container, #content-left, #content-right, #msg-wrap {
     background: #fff;
     position: absolute;
     left: 91%;
-    top: 4%;
+    top: 3%;
 }
 .border-radio {
 	border-bottom: 1px solid #ccc;
@@ -119,6 +154,7 @@ body, #container, #content-left, #content-right, #msg-wrap {
     padding: 0;
     cursor: pointer;
 }
+
 
 
 
