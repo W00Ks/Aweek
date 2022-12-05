@@ -40,7 +40,7 @@
 	</logger>
 	
 	<logger name="member">
-		<level value="info" />
+		<level value="trace" />
 	</logger>
 	
 	<logger name="payment">

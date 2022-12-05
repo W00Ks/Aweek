@@ -104,6 +104,14 @@
     <version>1.1</version>
 </dependency>
 
+<!-- Nurigo SDK / 문자인증 -->
+<dependency>
+    <groupId>net.nurigo</groupId>
+    <artifactId>javaSDK</artifactId>
+    <version>2.2</version>
+</dependency>
+
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
