@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import chat.dto.ChatRoom;
 import member.dto.Member;
 import room.dto.Room;
-import room.dto.RoomCategory;
+import room.dto.RoomList;
 import room.service.face.RoomService;
 
 @Controller
@@ -26,44 +25,83 @@ public class RoomController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired RoomService roomService;
 
+	
+	@RequestMapping("/aweekHome")
+	public void home( HttpSession session, Model model ) {
+		List<Room> roomList = roomService.roomList();
+		logger.info("roomList : {}", roomList);
+		
+		
+		int userno = (int) session.getAttribute("userNo");
+		logger.info("userno : {}", userno);
+		
+		model.addAttribute("roomList", roomList);
+	}
+	
 	@RequestMapping("/room/login")
 	public void login() {
 		
-		logger.info("room/login");
 	}
 	
 	@RequestMapping("/room/main")
-	public void roomMain() {
+	public void roomMain( HttpSession session, Model model, Room room, Member member ) {
+		
+		session.setAttribute("userNo", member.getUserNo());
+		int userno = (int) session.getAttribute("userNo");
+		logger.info("userno : {}", userno);
+		
+		List<Room> myRoomList = roomService.myRoomList(userno);
+		logger.info("myRoomList : {}", myRoomList);
 		
 		
+		model.addAttribute("myRoomList", myRoomList);
 	}
 	
 	@GetMapping("/room/open")
-	public void roomOpen( HttpSession session, Member member ) {
-		
+	public void roomOpenPage( HttpSession session, Member member ) {
 		session.setAttribute("userNo", member.getUserNo());
-		
 	}
 	
 	@PostMapping("/room/open")
-	public String roomOpen( HttpSession session, Room room) {
+	public String roomOpenProc( HttpSession session, Room room, RoomList roomList ) {
 		
 		//세션에서 userno 불러오기
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("userno : {}", userno);
 		
-		//카테고리 리스트 불러오기
-//		List<RoomCategory> categoryList = roomService.roomCategoryList();
-//		model.addAttribute("categoryList", categoryList);
-		
 		//room dto에 userNo 저장
 		room.setUserNo(userno);
 		
 		//방 생성
-		roomService.createRoom(room);
-		logger.info("post");
+		roomService.createRoom(room, roomList);
 		
+		try {
+			
+		} catch (Exception e) {
+			
+		}
+
 		return "redirect:/room/main";
 	}
 	
+	@GetMapping("/room/setting")
+	public void roomSettingPage( HttpSession session, Member member, Room room, Model model ) {
+		session.setAttribute("userNo", member.getUserNo());
+		
+		room = roomService.getRoomInfo(room);
+		
+		model.addAttribute("roomInfo", room);
+		logger.info("roomInfo : {}", room);
+	}
+	
+	@PostMapping("/room/setting")
+	public String roomSettingProc( HttpSession session, Room room ) {
+		
+//		roomService.updateRoom(room);
+		
+		
+		
+		
+		return "redirect:/room/main";
+	}
 }
