@@ -12,64 +12,173 @@
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+
+<!-- kakao Login -->
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+Kakao.init('83db0909626a39e8a1cdaf664b67a04d'); //발급받은 키 중 javascript키를 사용해준다.
+console.log(Kakao.isInitialized()); // sdk초기화여부판단
+//카카오로그인
+function kakaoLogin() {
+    Kakao.Auth.login({
+      success: function (response) {
+        Kakao.API.request({
+          url: '/v2/user/me',
+          success: function (response) {
+        	  console.log(response)
+          },
+          fail: function (error) {
+            console.log(error)
+          },
+        })
+      },
+      fail: function (error) {
+        console.log(error)
+      },
+    })
+  }
+//카카오로그아웃  
+function kakaoLogout() {
+    if (Kakao.Auth.getAccessToken()) {
+      Kakao.API.request({
+        url: '/v1/user/unlink',
+        success: function (response) {
+        	console.log(response)
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+      Kakao.Auth.setAccessToken(undefined)
+    }
+  }  
+</script>
+
+
 <script type="text/javascript">
 $(document).ready(function() {
+	
+	//---------- 아이디 저장 기능----------
+	// 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
+    var key = getCookie("key");
+    $("#userId").val(key); 
+     
+    // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
+    if($("#userId").val() != ""){ 
+        $("#checkId").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
+    }
+     
+    $("#checkId").change(function(){ // 체크박스에 변화가 있다면,
+        if($("#checkId").is(":checked")){ // ID 저장하기 체크했을 때,
+            setCookie("key", $("#userId").val(), 7); // 7일 동안 쿠키 보관
+        }else{ // ID 저장하기 체크 해제 시,
+            deleteCookie("key");
+        }
+    });
+     
+    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
+    $("#userId").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
+        if($("#checkId").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+            setCookie("key", $("#userId").val(), 7); // 7일 동안 쿠키 보관
+        }
+    });
+
+	// 쿠키 저장하기 
+	// setCookie => saveid함수에서 넘겨준 시간이 현재시간과 비교해서 쿠키를 생성하고 지워주는 역할
+	function setCookie(cookieName, value, exdays) {
+		var exdate = new Date();
+		exdate.setDate(exdate.getDate() + exdays);
+		var cookieValue = escape(value)
+				+ ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+		document.cookie = cookieName + "=" + cookieValue;
+	}
+	
+	// 쿠키 삭제
+	function deleteCookie(cookieName) {
+		var expireDate = new Date();
+		expireDate.setDate(expireDate.getDate() - 1);
+		document.cookie = cookieName + "= " + "; expires="
+				+ expireDate.toGMTString();
+	}
+	 
+	// 쿠키 가져오기
+	function getCookie(cookieName) {
+		cookieName = cookieName + '=';
+		var cookieData = document.cookie;
+		var start = cookieData.indexOf(cookieName);
+		var cookieValue = '';
+		if (start != -1) { // 쿠키가 존재하면
+			start += cookieName.length;
+			var end = cookieData.indexOf(';', start);
+			if (end == -1) // 쿠키 값의 마지막 위치 인덱스 번호 설정 
+				end = cookieData.length;
+	            console.log("end위치  : " + end);
+			cookieValue = cookieData.substring(start, end);
+		}
+		return unescape(cookieValue);
+	}
+	
+	//--------------------------------------------------------------------------------------
 	
 	//로그인 페이지 접속 시 ID 포커스 주기
 	$("#userId").focus();
 	
+	//패스워드 입력창에 엔터키 입력 시 submit
+	$("input").eq(1).keydown(function(e) {
+		if( e.keyCode == 13 ) { //엔터키
+			$("#btnLogin").click();
+		}
+	})
+	
+	//로그인 버튼 클릭
 	$("#btnLogin").click(function() {
 		var id = $("#userId").val();
 	    var pw = $("#userPw").val();
-	    var oMsg = $("#loginMsg");
-	    var isID = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
-	    var isPW = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,15}$/;
+	    var oMsg = $("#errorMsg");
 		
+	    //아이디가 공백인 경우
 		if(id == ""){
-			showErrorMsg(oMsg,"아이디를 입력해주세요");
+			showErrorMsg(oMsg,"※ 아이디를 입력해주세요!");
 			$("input").eq(0).focus()
 			return false;
-		} else {
-		    if (!isID.test(id)) {
-		        showErrorMsg(oMsg,"아이디는 5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
-		        return false;
-		    } else if (isID.test(id)) {
-			    return true;
-		    }
-		}
+		} 
 
-// 		if(pw == ""){
-// 			showErrorMsg(oMsg,"비밀번호를 입력해주세요");
-// 			$("input").eq(1).focus()
-// 			return false;
-// 		} else {
-// 			if (!isPW.test(pw)) {
-// 			    showErrorMsg(oMsg,"비밀번호는 8~16자의 영문자+숫자+특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)");
-// 			    return false;
-// 			} else if (!isPW.test(pw)) {
-// 				return true;
-// 			}
-// 		}
+		//비밀번호가 공백인 경우
+		if(pw == ""){
+			showErrorMsg(oMsg,"※ 비밀번호를 입력해주세요!");
+			$("input").eq(1).focus()
+			return false;
+		} 
 		
-// 	    $.ajax({
-// 	        type:"post"
-// 	        , url: "./loginChk"
-// 	       	, data : {
-// 				userId : $("#userId").val(),
-// 				userPw : $("#userPw").val()
-// 			}
-// 			, dataType : "html"
-// 	        , success : function( result ) {
-// 	            if (result == 0) {
-// 	                showErrorMsg(oMsg, "아이디 / 비밀번호를 확인해주세요!");
-// 				    return false;
+	    $.ajax({
+	        type:"post"
+	        , url: "./login"
+	       	, data : {
+				userId : $("#userId").val(),
+				userPw : $("#userPw").val()
+			}
+			, dataType : "html"
+	        , success : function( result ) {
+	            if (result == 0) {
+	            	swal("로그인 실패","아이디 또는 비밀번호를 확인해주세요!", "error").then(function(){
+		                $("input").eq(1).focus();
+		                hideMsg(oMsg);
+	            	});
+// 	            	alert("로그인 실패 : 아이디 또는 비밀번호를 확인해주세요!");
+// 	                $("input").eq(1).focus();
 				    
-// 	            } else if ( result == 1 ) {
-// 	            	$(this).parents("form").submit();
-// 	                return true;
-// 	            }
-// 	        }
-// 	    });
+	            } else if ( result == 1 ) {
+	            	swal("로그인 성공!", $('#userId').val() + "님 환영합니다!", "success").then(function(){
+	            		location.href='/aweek/main';
+	            	});
+// 	            	alert("로그인 성공! " + $("#userId").val() + "님 환영합니다!");
+// 	            	window.location.href = "/aweek/main";
+	            }
+	        }
+	    });
 	});
 });
 
@@ -130,19 +239,26 @@ input:focus{
 /* 아이디|비밀번호 찾기, 회원가입 div */
 .joinDiv {
 	position: relative;
-	height: 50px;
+	height: 40px;
+	margin-top: 10px;
 }
 
 /* 아이디|비밀번호 찾기 버튼 */
-#search {
+#find {
 	position: absolute;;
+	margin-left: 3px;
 }
 
 /* 아이디|비밀번호 찾기 속성 */
-#search > a {
+#find > a {
 	letter-spacing :-0.5px;
 	padding: 0;
-	margin-left: 3px;
+}
+
+#find > a:hover {
+	color: #2ba1ff;
+	font-weight: bold;
+	font-size: 13px;
 }
 
 /* 회원가입 버튼 */
@@ -220,8 +336,23 @@ input:focus{
 
 /* 로그인 유효성 검사 메시지 */
 .error_msg {
-	font-size: 12px;
+	font-size: 13px;
 	color: red;
+	margin-left: 5px;
+}
+
+/*  */
+.checkIdDiv {
+	margin: 4px 0;
+	position: relative;
+}
+
+.checkIdFont {
+	font-size: 12px;
+	color: #666666;
+	position: absolute;
+	top: 2px;
+	left: 23px;
 }
 
 </style>
@@ -232,7 +363,7 @@ input:focus{
 <div class="container">
 	<div class="mainTxt">로그인</div>
 
-	<form action="/member/login" method="post">
+	<form action="/member/login" method="post" onSubmit="return false;">
 	<div class="divId">
 		<input type="text" class="int" id="userId" name="userId" placeholder="아이디" autocomplete="off">
 	</div>
@@ -240,11 +371,13 @@ input:focus{
 	<div class="divPw">
 		<input type="password" class="int" id="userPw" name="userPw" placeholder="비밀번호" autocomplete="off">
 	</div>
-	<span class="error_msg" id="errorMsg">ㅇ</span>
+	<span class="error_msg" id="errorMsg" style="display:none;"></span>
 	
 	<div class ="joinDiv">
-		<div id="search">
-			<a href="/member/searchid" class="btn" id="btnSearchIdPw">아이디 | 비밀번호 찾기</a>
+		<div id="find">
+			<a href="/member/findId" class="btnFindId" id="btnFindId">아이디 찾기</a>
+			<span style="color:#ccc; font-weight:bold;"> | </span> 
+			<a href="/member/findPw" class="btnFindPw" id="btnFindPw">비밀번호 찾기</a>
 		</div>
 		<div id="join">
 			<a href="/member/join" class="btn" id="btnJoin">회원가입</a>
@@ -252,7 +385,11 @@ input:focus{
 	</div>
 	
 	<div class="loginDiv">
-		<button id="btnLogin">로그인</button>
+	    <div class="checkIdDiv">
+	    <input type="checkbox" id="checkId" name="checkId">
+    	<label for="checkId"><span class="checkIdFont">아이디 저장</span></label>
+    	</div>
+		<button type="button" id="btnLogin">로그인</button>
 	</div>
 	</form>
 	
@@ -263,7 +400,8 @@ input:focus{
 	</div>
 	<div class="KakaoDiv">
 		<span class="kakaoIcon"><img src="/resources/member/kakaoicon.jpg"></span>
-		<button id="btnKakaoLogin">카카오 로그인</button>
+		<button id="btnKakaoLogin" onclick="kakaoLogin();">카카오 로그인</button>
+		<button id="btnKakaoLogout" onclick="kakaoLogout();">카카오 로그아웃</button>
 	</div>
 
 </div>

@@ -13,6 +13,10 @@
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+
 <!-- 구글 아이콘 -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -199,65 +203,74 @@ $(document).ready(function() {
 		
 		//아이디 체크(공백인 경우)
 		if($("#userId").val() == ""){
-			alert("아이디를 입력해주세요");
-			$("input").eq(0).focus()
+			swal("아이디를 입력해주세요","", "warning").then(function(){
+                $("input").eq(0).focus();
+        	});
 			return;
 		} 
 
 		//비밀번호 체크(공백인 경우)
 		if($("#userPw").val() == ""){
-			alert("비밀번호를 입력해주세요");
-			$("input").eq(1).focus()
+			swal("비밀번호를 입력해주세요","", "warning").then(function(){
+				$("input").eq(1).focus()
+        	});
 			return;
 		} 
 
 		//비밀번호 확인 체크 (비밀번호와 같지 않거나 공백인 경우)
 		if($("#userPwChk").val() != $("#userPw").val() || $("#userPwChk").val() == ""){
-			alert("비밀번호 확인을 비밀번호와 동일하게 입력해주세요");
-			$("input").eq(2).focus()
+			swal("비밀번호 확인을 비밀번호와 동일하게 입력해주세요","", "warning").then(function(){
+				$("input").eq(2).focus()
+        	});
 			return;
 		} 
 
 		//이름 체크(공백인 경우)
 		if($("#userName").val() == ""){
-			alert("이름을 입력해주세요");
-			$("input").eq(3).focus()
+			swal("이름을 입력해주세요","", "warning").then(function(){
+				$("input").eq(3).focus()
+        	});
 			return;
 		} 
 
 
 		//휴대폰 번호 체크(공백인 경우)
 		if($("#userPhone").val() == ""){
-			alert("휴대폰 번호를 입력해주세요");
-			$("input").eq(4).focus()
+			swal("휴대폰 번호를 입력해주세요","", "warning").then(function(){
+				$("input").eq(4).focus()
+        	});
 			return;
 		} 
 
 		//주소 체크(공백인 경우)
 		if($("#userAddress1").val() == ""){
-			alert("주소를 입력해주세요");
-			$("input").eq(7).focus()
+			swal("주소를 입력해주세요","", "warning").then(function(){
+				$("input").eq(7).focus()
+        	});
 			return;
 		} 
 
 		//상세주소 체크(공백인 경우)
 		if($("#userAddress2").val() == ""){
-			alert("상세주소를 입력해주세요");
-			$("input").eq(8).focus()
+			swal("상세주소를 입력해주세요","", "warning").then(function(){
+				$("input").eq(8).focus()
+        	});
 			return;
 		} 
 
 		//생년월일 체크(공백인 경우)
 		if($("#userBirth").val() == ""){
-			alert("생년월일을 입력해주세요");
-			$("input").eq(10).focus()
+			swal("생년월일을 입력해주세요","", "warning").then(function(){
+				$("input").eq(10).focus()
+        	});
 			return;
 		} 
 
 		//이메일 체크(공백인 경우)
 		if($("#userEmail").val() == ""){
-			alert("이메일을을 입력해주세요");
-			$("input").eq(11).focus()
+			swal("이메일을 입력해주세요","", "warning").then(function(){
+				$("input").eq(11).focus()
+        	});
 			return;
 		} 
 		

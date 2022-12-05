@@ -1,11 +1,18 @@
 package member.service.impl;
 
+import java.util.HashMap;
+import java.util.Random;
+
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import member.dao.face.MemberDao;
 import member.dto.Member;
 import member.service.face.MemberService;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -45,6 +52,42 @@ public class MemberServiceImpl implements MemberService {
 		int loginChk = memberDao.selectCntMember(member);
 		
 		if( loginChk > 0 )	return true;
+		return false;
+	}
+	
+	
+	
+	@Override
+	public String userPhoneCheck(String userPhone) throws CoolsmsException {
+		
+		String api_key = "NCSXW44P1BXBAHQQ";
+		String api_secret = "HBBLOSBIT1RMJRLEM9EJ2HBUW3H7P6OJ";
+		Message coolsms = new Message(api_key, api_secret);
+		
+		Random rand  = new Random();
+	    String numStr = "";
+	    for(int i=0; i<6; i++) {
+	       String ran = Integer.toString(rand.nextInt(10));
+	       numStr+=ran;
+	    }
+	    
+	    HashMap<String, String> params = new HashMap<String, String>();
+	    params.put("to", userPhone);    // 수신전화번호 (ajax로 view 화면에서 받아온 값으로 넘김)
+	    params.put("from", "01047854418");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+	    params.put("type", "sms"); 
+	    params.put("text", "[Aweek] 인증번호는 [" + numStr + "] 입니다.");
+	
+	    coolsms.send(params); // 메시지 전송
+	    
+	    return numStr;
+		
+	}
+	
+	@Override
+	public boolean findPwUserInfo(Member member) {
+		int findPwChk = memberDao.selectCntFindPwMember(member);
+		
+		if( findPwChk > 0 )	return true;
 		return false;
 	}
 	
