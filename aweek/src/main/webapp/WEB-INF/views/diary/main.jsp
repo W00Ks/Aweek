@@ -71,6 +71,14 @@ html, body {
 .menu>div {
 	cursor: pointer;
 }
+.rightboardy {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	background-color: black;
+	top: 0px;
+	left: 250px;
+}
 </style>
 
 <script type="text/javascript">
@@ -130,6 +138,16 @@ $(document).ready(function(){
 	</div>
 </div>
 <div class="rightboardy">
+	<div>
+	</div>
+	<div>
+	</div>
+	<div>
+		<div>
+		</div>
+		<div>
+		</div>
+	</div>
 </div>
 
 </body>
