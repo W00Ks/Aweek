@@ -20,7 +20,7 @@ public interface RoomService {
 	 * 
 	 * @return List<Room> - roomList
 	 */
-	public List<Room> myRoomList();
+	public List<Room> myRoomList(int userno);
 	/**
 	 * 모임 개설
 	 * 

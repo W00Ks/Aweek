@@ -41,7 +41,7 @@ form {
   color: var(--text-color);
 }
 .btn.btn--brown {
-  background-color: var(--accent-color);
+  background-color: #9884e0;
   color: var(--text-color);
   border-color: var(--border-color);
 }

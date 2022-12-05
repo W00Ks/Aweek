@@ -12,11 +12,13 @@
 		order by room_no
 	</select> 
 	
-	<select id="selectMyAll" resultType="Room">
-		select * from room
-		WHERE user_no = #{userNo}
-		order by room_no
-	</select> 
+	<select id="selectRoomListByUserNo" resultType="Room" parameterType="int">
+		SELECT b.* FROM (
+            SELECT * FROM room_list
+               WHERE user_no = #{userno }) a
+		INNER JOIN room b
+		ON a.room_no = b.room_no
+	</select>
 	
 	<insert id="insertRoom" parameterType="Room">
 		<selectKey keyProperty="roomNo" resultType="int" order="BEFORE">

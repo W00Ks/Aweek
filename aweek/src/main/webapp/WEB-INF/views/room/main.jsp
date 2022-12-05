@@ -31,7 +31,10 @@ document.getElementById("roomBox").addEventListener('click', function () {
 <section class="container">
   <div class="inner">
     <div class="container__left">
-      안녕하ㅔ요
+      <div class="btn-menu">
+		<a href="#" class="btn btn--brown">모임개설</a>
+		<a href="#" class="btn btn--brown">모임목록</a>
+     </div>
     </div>
 
     <div class="container__right">
@@ -41,7 +44,13 @@ document.getElementById("roomBox").addEventListener('click', function () {
 		<div class="roomBox">
 			${room.roomName }<br>
 			${room.roomIntroduce }<br>
-			<p>공개</p>
+			
+			<c:if test="${room.roomPublic eq '1' }"> 
+				<p>공개</p>
+        	</c:if>
+        	<c:if test="${room.roomPublic eq '0' }"> 
+				<p>비공개</p>
+        	</c:if>
 			<a href="#">탈퇴</a>
 		</div>
 		

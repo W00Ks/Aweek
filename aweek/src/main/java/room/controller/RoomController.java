@@ -44,13 +44,15 @@ public class RoomController {
 	}
 	
 	@RequestMapping("/room/main")
-	public void roomMain( HttpSession session, Model model ) {
-		List<Room> myRoomList = roomService.myRoomList();
-		logger.info("myRoomList : {}", myRoomList);
+	public void roomMain( HttpSession session, Model model, Room room, Member member ) {
 		
-		
+		session.setAttribute("userNo", member.getUserNo());
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("userno : {}", userno);
+		
+		List<Room> myRoomList = roomService.myRoomList(userno);
+		logger.info("myRoomList : {}", myRoomList);
+		
 		
 		model.addAttribute("myRoomList", myRoomList);
 	}
@@ -96,6 +98,8 @@ public class RoomController {
 	public String roomSettingProc( HttpSession session, Room room ) {
 		
 //		roomService.updateRoom(room);
+		
+		
 		
 		
 		return "redirect:/room/main";

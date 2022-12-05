@@ -34,14 +34,12 @@ public class RoomServiceImpl implements RoomService {
 	}
 	
 	@Override
-	public List<Room> myRoomList() {
+	public List<Room> myRoomList(int userno) {
 		
-		List<Room> myRoomList = roomDao.selectMyAll();
+		List<Room> myroomList = roomDao.selectRoomListByUserNo(userno);
+		logger.info("myroomList : {}", myroomList);
 		
-		logger.info("roomList 조회 결과");
-		for( Room r : myRoomList )	logger.info("{}", r);
-		
-		return myRoomList;
+		return myroomList;
 	}
 	
 	@Override
