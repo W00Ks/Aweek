@@ -11,6 +11,6 @@ public interface PaymentDao {
 	 * 
 	 * @return 조회된 결제 정보
 	 */
-	public List<Payment> selectAll();
+	public List<Payment> selectList();
 
 }

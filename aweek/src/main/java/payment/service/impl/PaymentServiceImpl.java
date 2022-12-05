@@ -23,11 +23,7 @@ public class PaymentServiceImpl implements PaymentService{
 	@Override
 	public List<Payment> list() {
 		logger.info("paymentList()");
-		
-		// userNo 목록 조회
-		List<Payment> paymentList = paymentDao.selectAll();
-		
-		return null;
+		return paymentDao.selectList();
 	}
 	
 	
