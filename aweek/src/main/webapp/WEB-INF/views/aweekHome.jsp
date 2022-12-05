@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:import url="../layout/roomHeader.jsp" />
+<c:import url="./layout/roomHeader.jsp" />
 
 <style type="text/css">
 .container .roomBox {
@@ -31,26 +31,17 @@ document.getElementById("roomBox").addEventListener('click', function () {
 <section class="container">
   <div class="inner">
     <div class="container__left">
-      <div class="btn-menu">
-		<a href="#" class="btn btn--brown">모임개설</a>
-		<a href="#" class="btn btn--brown">모임목록</a>
-     </div>
+      안녕하ㅔ요
     </div>
 
     <div class="container__right">
       
-		<c:forEach items="${myRoomList  }" var="room">
+		<c:forEach items="${roomList  }" var="room">
 		
 		<div class="roomBox">
 			${room.roomName }<br>
 			${room.roomIntroduce }<br>
-			
-			<c:if test="${room.roomPublic eq '1' }"> 
-				<p>공개</p>
-        	</c:if>
-        	<c:if test="${room.roomPublic eq '0' }"> 
-				<p>비공개</p>
-        	</c:if>
+			<p>공개</p>
 			<a href="#">탈퇴</a>
 		</div>
 		
