@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import chat.dao.face.ChatDao;
+import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatList;
 import chat.dto.ChatRoom;
@@ -68,6 +69,15 @@ public class ChatServiceImpl implements ChatService {
 		chatDao.insertChatList(chatList);
 		
 		return chatRoom.getChatRoomNo();
+	}
+
+	@Override
+	public int saveMessage(Chat chat, int userNo) {
+		
+		chat.setUserNo(userNo);
+		int result = chatDao.insertMessage(chat);
+		
+		return result;
 	}
 	
 }

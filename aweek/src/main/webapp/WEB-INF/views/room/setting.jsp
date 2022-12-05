@@ -1,14 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="../layout/roomHeader.jsp" />
 
 <style type="text/css">
 
-html {
-	height: 100%;	
-}
 form {
 	width: 100%;
 }
@@ -41,7 +37,7 @@ form {
   color: var(--text-color);
 }
 .btn.btn--brown {
-  background-color: #9884e0;
+  background-color: var(--accent-color);
   color: var(--text-color);
   border-color: var(--border-color);
 }
@@ -60,7 +56,7 @@ form {
 }
 .container__left {
 	width: 300px;
-	height: calc(100% - 52px);
+	height: 700px;
 	background-color: var(--text-color);
 	border-right: 1px solid var(--border-color);
 }
@@ -72,7 +68,7 @@ form {
 }
 .container__right {
 	width: calc(100% - 300px);
-	height: calc(100% - 52px);
+	height: 700px;
 	background-color: var(--light-color);
 }
 .container__right h1 {
@@ -142,12 +138,14 @@ form {
      
      <div class="open-content">
      	<div class="object">
+     	
+     	<input type="hidden" name="roomNo" value="${param.roomNo }">
 	     <p>모임 이름 * </p>
-	     <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!">
+	     <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" value="${roomInfo.roomName }">
 	    </div>
 	    <div class="object">
 	     <p>모임 소개 * </p>
-	     <input type="text" id="roomIntroduce" name="roomIntroduce" placeholder="모임 소개를 적어주세요!">
+	     <input type="text" id="roomIntroduce" name="roomIntroduce" placeholder="모임 소개를 적어주세요!" value="${roomInfo.roomIntroduce }">
 	    </div>
 	    <div class="object">
 	     <p>인원 수 * </p>

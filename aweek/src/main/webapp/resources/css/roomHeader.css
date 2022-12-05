@@ -3,10 +3,12 @@
 :root {
   --text-color: #fff;
   --background-color: #f4b0b0;
+  --deepPink-color: #cb7070;
   --accent-color: #594B4B;
   --light-color: #f8f1f1;
   --border-color: #d3c3c3;
   --shadow--color: #f1ecec;
+  --point-color: #93d2cb;
 }
 
 /* COMMONS */
@@ -61,7 +63,15 @@ a {
   color: var(--accent-color);
   background-color: var(--text-color);
 }
-
+.btn.btn--pink {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+.btn.btn--brown:hover {
+  color: var(--accent-color);
+  background-color: var(--text-color);
+}
 
 
 /* HEADER */

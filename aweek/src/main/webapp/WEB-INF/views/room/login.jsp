@@ -11,7 +11,7 @@
 <h1>테스트용 로그인 페이지</h1>
 <hr>
 
-<form action="/room/open" method="get">
+<form action="/room/main" method="get">
 
 <label>유저 번호 : <input type="text" name="userNo"></label><br><br>
 
