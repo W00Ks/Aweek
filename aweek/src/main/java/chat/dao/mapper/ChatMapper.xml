@@ -47,6 +47,11 @@
 		VALUES (#{chatListNo }, #{chatRoomNo }, #{roomNo }, #{userNo })
 	</insert>
 	
+	<insert id="insertMessage" parameterType="Chat">
+		INSERT INTO chat (chat_no, user_no, chat_room_no, chat_content, chat_time)
+		VALUES (chat_seq.nextval, #{userNo }, #{chatRoomNo }, #{chatContent }, #{chatTime })		
+	</insert>
+	
 </mapper>
 
 

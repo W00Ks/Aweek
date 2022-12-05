@@ -75,8 +75,6 @@ $(document).ready(function() {
 			
 	});
 	
-	
-	
 })
 
 function enter(i) {
@@ -93,32 +91,36 @@ function enter(i) {
 		, success: function( res ) {
 			console.log("AJAX 성공")
 			
-			//응답 데이터 반영
-			$("#content-right").html( res )
-		}
-		
-	})
-}
-function create() {
-	console.log('create() start.');
-	
-	$.ajax({
-		
-		type: "post"					
-		, url: "/chat/create"			
-		, data: {
-			chatRoomName : $("#chatRoomName").val()
-			, roomNo : $("input[name=roomNo]:chacked").val()
-		}
-		, dataType: "html"				
-		, success: function( res ) {
-			console.log("AJAX 성공")
+			//입장한 채팅방 버튼 비활성화 시키기 
+			$('button[value=' + i + ']').attr("disabled", "");
+			$(".chatRoomName2").not($('button[value='+i+']')).removeAttr("disabled");
+			
+			//입장한 채팅방 버튼 CSS설정하기
+			$('button[value=' + i + ']').addClass("disable");
+			$(".chatRoomName2").not($('button[value='+i+']')).removeClass("disable");
 			
 			//응답 데이터 반영
 			$("#content-right").html( res )
 		}
 		
 	})
+	
+}
+
+function fold(roomNo) {
+	
+	console.log("asd")
+	var state = $('.chatRoomList[id=' + roomNo + ']').attr("style");
+	if(state == "display: none;") {
+		$('.chatRoomList[id=' + roomNo + ']').attr("style", "display: block;");
+		$('.expand_more[id=' + roomNo + ']').attr("style", "display: block;");
+		$('.chevron_right[id=' + roomNo + ']').attr("style", "display: none;");
+	} else {
+		$('.chatRoomList[id=' + roomNo + ']').attr("style", "display: none;");
+		$('.chevron_right[id=' + roomNo + ']').attr("style", "display: block;");
+		$('.expand_more[id=' + roomNo + ']').attr("style", "display: none;");
+	}
+	
 }
 </script>
 
@@ -153,12 +155,22 @@ function create() {
 			</div>
 	</div>
 	<div id="searchWrap">
-		<button>검색</button>
+		<label for="searchBar" id="btnSearch"><span class="material-symbols-outlined">search</span></label>
 		<input id="searchBar" type="text" placeholder="메시지방, 메시지 검색"><br>
 	</div>
 	<div id="chatList">
-		<c:forEach items="${chatList }" var="cl">
-			<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
+		<c:forEach items="${roomList }" var="rl">
+			<button class="btn_fold" onclick="fold(${rl.roomNo })">
+				<span class="material-symbols-outlined expand_more" id="${rl.roomNo }" style="display: none;">expand_more</span>
+				<span class="material-symbols-outlined chevron_right"  id="${rl.roomNo }">chevron_right</span>${rl.roomName }
+			</button><br>
+			<div id="${rl.roomNo }" class="chatRoomList" style="display: none;">
+				<c:forEach items="${chatList }" var="cl">
+					<c:if test="${rl.roomNo eq cl.roomNo }">
+						<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
+					</c:if>
+				</c:forEach>
+			</div>
 		</c:forEach>
 	</div>	
 </div>

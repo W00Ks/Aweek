@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	//로그객체
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	//서비스 객체
 	@Autowired private ChatService chatService;
 	
+	//입장 시 WebSocketSession ID 저장할 List
 	List<WebSocketSession> sessionsList = new ArrayList<>();
 	
 	// Key : WebSocketSession, Value : chatRoomNo
@@ -35,9 +38,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	// Key : userId, Value : WebSocketSession
 	Map<String, WebSocketSession> idSessions = new HashMap<>();
 	
-	// Key : WebSocketSession, Value : userId
-//	Map<WebSocketSession, String> roomSessions = new HashMap<>();
-	
+	//메시지 보낸사람 ID를 담을 Stack
+	Stack<String> stack = new Stack<String>();
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -45,12 +47,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		sessionsList.add(session);
 		
 		//채팅 관련 메시지일 때
-		if(session.getAttributes().get("chatRoomNo") != null) { 
+		if(session.getAttributes().get("chatRoomNo") != null) {
+	
 			//HttpSesssion에서 저장된 정보 가져오기
-			int chatRoomNo = (int) session.getAttributes().get("chatRoomNo"); //방 번호
 			int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
+			int chatRoomNo = (int) session.getAttributes().get("chatRoomNo"); //방 번호
 			logger.info("chatRoomNo : {}", chatRoomNo);
 			logger.info("채팅쪽 session, chatRoomNo : {}, {}", session, chatRoomNo);
+			
 			//방정보 세션 Map에 방 번호 저장
 			chatRoomSessions.put(session, chatRoomNo); 
 			
@@ -63,11 +67,15 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			logger.info("### WebSocketSession ID : {}", session.getId());
 			logger.info("### {}님, {}번방에 연결", member.getUserId(), chatRoomNo);
 			
+			//스택에 쌓인 ID 초기화
+			stack.clear();
+			
 			//메시지 보내기
 			for(String key : idSessions.keySet()) {
 				logger.info("### 확인{}, {}", session, idSessions.get(key));
 				logger.info("### session{}, {}", chatRoomSessions.get(session), idSessions.get(key));
-				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) { //같은 방 유저에게만 입장 메시지 전송
+				//같은 방 유저에게만 입장 메시지 전송
+				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) { 
 					idSessions.get(key).sendMessage(new TextMessage("---- " + member.getUserId() + "님이 입장하셨습니다. ----"));
 				}
 			}
@@ -84,51 +92,74 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			chatRoomSessions.put(session, 1);
 		}
 		
-//		for(WebSocketSession sess : sessionsList) {
-//			if(userSessions.get(sess) == chatRoomNo) { //같은 방 유저에게만 입장 메시지 전송
-//				sess.sendMessage(new TextMessage("---- " + member.getUserId() + "님이 입장하셨습니다. ----"));
-//			}
-//		}
-		
 	}
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
-		
 		//채팅 관련 메시지일 때
 		if(session.getAttributes().get("chatRoomNo") != null && !message.getPayload().contains(":")) {
+			
 			int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
 			int chatRoomNo = (int) session.getAttributes().get("chatRoomNo"); //방번호
 			
 			//유저 정보 가져오기
 			Member member = chatService.getUserInfo(userNo);
-//			idSessions.put(member.getUserId(), session);
 			
 			logger.info("### {}로 부터 {} 받음", session.getId(), message.getPayload());
 			logger.info("### {}님, {}번방에 메시지 보냄", member.getUserId(), chatRoomNo);
 			
+			//메시지 보낸사람 추가
+			stack.push(member.getUserId());
+			
 			//같은 방 유저에게만 입장 메시지 전송
 			for(String key : idSessions.keySet()) {
-				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) { 
-					idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ": " + message.getPayload()));
+				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
+					if(stack.size() > 1) {
+						//전에 메시지 보낸 사람과 동일한지 검사 후 처리
+						if(stack.get(stack.size()-2).equals(member.getUserId())) {
+							//동일한 사람이면 'id' 추가
+							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":id" + ": " + message.getPayload() + ":" + chatRoomNo));
+						} else {
+							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ": " + message.getPayload() + ":" + chatRoomNo));
+						}
+					} else {
+						idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ": " + message.getPayload() + ":" + chatRoomNo));
+					}
 				}
 			}
 			
 		} else {
+			
 			int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
-
+			int chatRoomNo = 0; //방번호
+			
+			//채팅 나가기 동작에서만 방번호 구하기
+			String[] exitMsg = message.getPayload().split(":");
+			if(exitMsg[0].equals("exit")) {
+				//방번호 구하기
+				chatRoomNo = (int) session.getAttributes().get("chatRoomNo");
+			}
+			
 			logger.info("### 채팅방 생성 메시지.");
 			logger.info("###  WebSocketSession ID - {}, 채팅방 이름:모임 번호:방 번호 - {}", session.getId(), message.getPayload());
 			
 			//유저 정보 가져오기
 			Member member = chatService.getUserInfo(userNo);
-//			idSessions.put(member.getUserId(), session);
 			
 			//전체 사용자에게 채팅방 생성
 			for(String key : idSessions.keySet()) {
+				//본인 제외 메시지 보내기
 				if(key != member.getUserId()) {
-					idSessions.get(key).sendMessage(new TextMessage("Create Room:" + message.getPayload()));
+					//나가기 이벤트가 아닐 경우
+					if(!exitMsg[0].equals("exit")) {
+						idSessions.get(key).sendMessage(new TextMessage("Create Room:" + message.getPayload()));
+					} else {
+						//같은 방 유저에게만 입장 메시지 전송
+						if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) { 
+							idSessions.get(key).sendMessage(new TextMessage("---- " + member.getUserId() + "님이 나가셨습니다. ----"));
+						}
+					}
 				}
 			}
 			
@@ -140,11 +171,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
 		
-		sessionsList.remove(session);
-		chatRoomSessions.remove(session);
-		
 		//유저 정보 가져오기
 		Member member = chatService.getUserInfo(userNo);
+		
+		//유저 정보 지우기
+		sessionsList.remove(session);
+		chatRoomSessions.remove(session);
 		idSessions.remove(member.getUserId());
 		
 		//세션에 roomNo 지우기

@@ -3,6 +3,7 @@ package chat.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatList;
 import chat.dto.ChatRoom;
@@ -51,6 +52,14 @@ public interface ChatDao {
 	 * @return INSERT 실행 결과 (1 - 성공, 0 - 실패)
 	 */
 	public int insertChatList(ChatList chatList);
+	
+	/**
+	 * 입력한 메시지를 DB에 INSERT한다
+	 * 
+	 * @param chat - 입력 메시지
+	 * @return INSERT 결과 (1 - 성공, 0 - 실패)
+	 */
+	public int insertMessage(Chat chat);
 
 }
 

@@ -3,6 +3,7 @@ package chat.service.face;
 import java.util.List;
 import java.util.Map;
 
+import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatRoom;
 import member.dto.Member;
@@ -41,6 +42,14 @@ public interface ChatService {
 	 * @return 생성 결과
 	 */
 	public int createChatRoom(ChatRoom chatRoom, int userNo);
+	
+	/**
+	 * 입력한 메시지를 DB에 저장한다
+	 * 
+	 * @param chat - 메시지 정보
+	 * @return 저장 결과
+	 */
+	public int saveMessage(Chat chat, int userNo);
 	
 	
 	
