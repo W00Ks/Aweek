@@ -75,22 +75,24 @@ body, #container, #content-left, #content-right, #msg-wrap {
 }
 
 .chatRoomName2 {
-    border: 1px solid #fbe6e6;
-    background-color: #ffe7e75e;
+    border: 1px solid #d3c3c3;
+    background-color: #fff;
     width: 98%;
     height: 42px;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .chatRoomName2:hover {
-	background-color: #f4b0b0;
+	background-color: #f3bfbf5e;
 }
 .disable {
 	background-color: #f4b0b0;
     color: #fff;
     font-weight: bold;
 }
-
+.disable:hover {
+	background-color: #f4b0b0;
+}
 .btn_fold {
 	width: 98%;
     height: 26px;
@@ -125,14 +127,14 @@ body, #container, #content-left, #content-right, #msg-wrap {
 }
 
 .roomH4 {
-	margin: 11px 0; 
+	margin: 11px 0;
 	font-weight: bold;
 	display: inline-block;
 	min-width: 100px;
 }
 #createChatRoom {
 	border: 1px solid #ccc;
-    min-width: 85%;
+    min-width: 129%;
     background: #fff;
     position: absolute;
     left: 91%;
@@ -154,7 +156,11 @@ body, #container, #content-left, #content-right, #msg-wrap {
     padding: 0;
     cursor: pointer;
 }
-
+.timeDiv {
+	display: inline;
+    position: relative;
+    top: 9px;
+}
 
 
 

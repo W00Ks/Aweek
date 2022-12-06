@@ -126,7 +126,9 @@
 	//채팅방 나가기 버튼 클릭 이벤트
 	$("#btnExit").click(function() {
 	   sendMessage(3);
-	   location.reload();
+	   $('.chatRoomName2').removeAttr("disabled");
+	   $('.chatRoomName2').removeClass("disable");
+// 	   location.reload();
 	});
 	
 	
