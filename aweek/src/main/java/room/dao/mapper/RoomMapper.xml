@@ -41,5 +41,11 @@
 		FROM room
 		WHERE room_no = #{roomNo}
 	</select>
+	
+	<select id="selectUserNoFromRoomList" resultType="RoomList" parameterType="int">
+		SELECT room_list_no, room_no, user_no
+		FROM room_list
+		WHERE room_no = #{roomNo}
+	</select>
 
 </mapper>
