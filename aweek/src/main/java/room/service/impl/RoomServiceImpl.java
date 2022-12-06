@@ -52,9 +52,15 @@ public class RoomServiceImpl implements RoomService {
 		roomDao.insertRoomInfo(roomList);
 	}
 	
-	
 	@Override
 	public Room getRoomInfo(Room room) {
 		return roomDao.selectRoomInfo(room);
 	}
+	
+	
+	@Override
+	public RoomList getUerNoListByRoomNo(int roomNo) {
+		return roomDao.selectUserNoFromRoomList(roomNo);
+	}
+	
 }

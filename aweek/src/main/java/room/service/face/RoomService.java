@@ -36,6 +36,18 @@ public interface RoomService {
 	 */
 	public Room getRoomInfo(Room room);
 
+	/**
+	 * roomNo로 RoomList 객체에서 userNo 정보 불러오기
+	 * 
+	 * @param roomNo
+	 * @return RoomList userNo를 포함한 모임목록 객체
+	 */
+	public RoomList getUerNoListByRoomNo(int roomNo);
+
+	
+
+
+
 
 
 
