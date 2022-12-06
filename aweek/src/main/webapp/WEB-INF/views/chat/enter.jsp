@@ -62,6 +62,15 @@
 .timeWrap {
 	position: relative;
 }
+#exitArea {
+	background-color: #fff;
+    height: 100px;
+    width: 100%;
+    box-shadow: 1px 1px 4px 0px rgb(0 0 0 / 12%);
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
 </style>
 </head>
 <body>
@@ -128,12 +137,29 @@
 	   sendMessage(3);
 	   $('.chatRoomName2').removeAttr("disabled");
 	   $('.chatRoomName2').removeClass("disable");
+	   
+	   $.ajax({
+			
+			type: "get"					
+			, url: "/chat/mainRight"			
+			, data: {}
+			, dataType: "html"				
+			, success: function( res ) {
+				console.log("AJAX 성공")
+				
+				//응답 데이터 반영
+				$("#content-right").html( res )
+				
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+			}
+			
+		})
+	   
 // 	   location.reload();
 	});
 	
-	
-	
-			
 </script>
 
 <%@ include file="./chatFooter.jsp" %>

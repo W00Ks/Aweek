@@ -102,6 +102,9 @@ function enter(i) {
 			//응답 데이터 반영
 			$("#content-right").html( res )
 		}
+		, error: function() {
+			console.log("AJAX 실패")
+		}
 		
 	})
 	

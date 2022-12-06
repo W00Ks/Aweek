@@ -56,8 +56,13 @@
     	 	//퇴장 메시지 띄우기
       		$("#MessageArea").append("<div style='text-align: center; margin: 10px 0;'>" + data + "</div>");
       		
-      		//채팅창 스크롤 최하단으로 내리기
-     	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
+    	 	
+    	 	if(enter[1] != "${member.userId }님이") {
+    	 		
+	      		//나간 유저 제외 채팅창 스크롤 최하단으로 내리기
+    	 	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
+	      		
+    	 	}
       		
       		//입장 여부 삭제
       		idArr.splice(idArr.indexOf(enter[1]), 1);
@@ -75,7 +80,7 @@
 	   	    								+ "<div class='chatSendMsg'>" + uid[2] + "</div>" 
 	   	    							+ "</div>");
 	    	    
-	   	    	insertChat(roomMsg[2], uid[1], dateFormat('time'));
+	   	    	insertChat(roomMsg[3], uid[2], dateFormat('time'));
     	   } else {
 	   	    	$("#MessageArea").append("<div style='text-align: right;'>" 
 	   	    								+ "<div class='timeDiv'>" 
