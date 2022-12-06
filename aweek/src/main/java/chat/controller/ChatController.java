@@ -91,6 +91,11 @@ public class ChatController {
 		return result;
 	}
 	
+	@RequestMapping("/mainRight")
+	public void chatMainRight() {
+		logger.info("채팅방 나가기 실행");
+	}
+	
 }
 
 

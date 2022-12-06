@@ -27,6 +27,9 @@
 	   }
    }
    
+   //중복입장 여부 체크용 배열
+   var idArr = [];
+   
    // 서버로부터 메시지를 받았을 때
    function onMessage(msg) {
        var data = msg.data;
@@ -37,43 +40,78 @@
        //입장 메시지일 때 처리
        if(enter[2] == "입장하셨습니다." && roomMsg[0] != "Create Room") {
     	   
-    	    //입장 메시지 띄우기
-       		$("#MessageArea").append("<div style='text-align: center; margin: 10px 0;'>" + data + "</div>");
-       		
-       		//채팅창 스크롤 최하단으로 내리기
-      	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
+    	   if(idArr.indexOf(enter[1]) < 0) {
+	    	    //입장 메시지 띄우기
+	       		$("#MessageArea").append("<div style='text-align: center; margin: 10px 0;'>" + data + "</div>");
+	       		
+	       		//채팅창 스크롤 최하단으로 내리기
+	      	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
+	       		
+	       		//입장 여부 저장
+		    	idArr.push(enter[1]);
+    	   }
       	 	
        } else if(enter[2] == "나가셨습니다." && roomMsg[0] != "Create Room") {
     	   
     	 	//퇴장 메시지 띄우기
       		$("#MessageArea").append("<div style='text-align: center; margin: 10px 0;'>" + data + "</div>");
       		
-      		//채팅창 스크롤 최하단으로 내리기
-     	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
+    	 	
+    	 	if(enter[1] != "${member.userId }님이") {
+    	 		
+	      		//나간 유저 제외 채팅창 스크롤 최하단으로 내리기
+    	 	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
+	      		
+    	 	}
       		
+      		//입장 여부 삭제
+      		idArr.splice(idArr.indexOf(enter[1]), 1);
        }
        
        //유저 메시지일 때 처리
        if(uid[0] == "${member.userId }" && roomMsg[0] != "Create Room") {
     	   
     	    //유저 메시지 띄우기
-    	    if(uid[1] == 'id') {
-    	    	$("#MessageArea").append("<div style='text-align: right;'><p class='chatTime'>" + dateFormat('time') + "</p><div class='chatSendMsg'>" + uid[2] + "</div></div>");
-    	    	insertChat(roomMsg[3], uid[2], dateFormat('time'));
-    	    } else {
-    	    	$("#MessageArea").append("<div style='text-align: right;'><p class='chatTime'>" + dateFormat('time') + "</p><div class='chatSendMsg'>" + uid[1] + "</div></div>");
-    	    	insertChat(roomMsg[2], uid[1], dateFormat('time'));
-    	    }
+   	    	if(uid[1] == 'id') {
+	   	    	$("#MessageArea").append("<div style='text-align: right;'>" 
+	   	    								+ "<div class='timeDiv'>" 
+	   	    									+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
+	   	    								+ "</div>" 
+	   	    								+ "<div class='chatSendMsg'>" + uid[2] + "</div>" 
+	   	    							+ "</div>");
+	    	    
+	   	    	insertChat(roomMsg[3], uid[2], dateFormat('time'));
+    	   } else {
+	   	    	$("#MessageArea").append("<div style='text-align: right;'>" 
+	   	    								+ "<div class='timeDiv'>" 
+	   	    									+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
+	   	    								+ "</div>" 
+	   	    								+ "<div class='chatSendMsg'>" + uid[1] + "</div>" 
+	   	    							+ "</div>");
+	    	    
+	   	    	insertChat(roomMsg[2], uid[1], dateFormat('time'));
+    	   }
     	    
-      	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
+      	   $("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
       	 	
        } else if(uid[0] != "${member.userId }" && enter[2] != "입장하셨습니다." && enter[2] != "나가셨습니다." && roomMsg[0] != "Create Room") {
     	   
     	   //상대방 메시지 띄우기
     	   if(uid[1] == 'id') {
-        		$("#MessageArea").append("<div id='a' style='text-align: left;'><div class='chatReceiveMsg'>" + uid[2] + "</div><p class='chatTime'>" + dateFormat('time') + "</p></div>");
+        		$("#MessageArea").append("<div id='a' style='text-align: left;'>" 
+        									+ "<div class='chatReceiveMsg'>" + uid[2] + "</div>" 
+        									+ "<div class='timeDiv'>" 
+        										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
+        									+ "</div>" 
+        								+ "</div>");
     	   } else {
-        		$("#MessageArea").append("<div id='a' style='text-align: left;'><div class='chatUserName'>" + uid[0] + "</div><div class='chatReceiveMsg'>" + uid[1] + "</div><p class='chatTime'>" + dateFormat('time') + "</p></div>");
+        		$("#MessageArea").append("<div id='a' style='text-align: left;'>" 
+        									+ "<div class='chatUserName'>" + uid[0] + "</div>" 
+        									+ "<div class='chatReceiveMsg'>" + uid[1] + "</div>" 
+        									+ "<div class='timeDiv'>" 
+        										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
+        									+ "</div>"
+        								+ "</div>");
     	   }
     	   
       	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
