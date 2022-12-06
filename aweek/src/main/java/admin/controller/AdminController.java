@@ -64,6 +64,7 @@ public class AdminController {
 		return "redirect:/admin/main";
 	}
 	
+	// 관리자 로그아웃
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
 		
@@ -90,7 +91,7 @@ public class AdminController {
 		
 		for( Member m : memberlist ) logger.info("{}", m);
 		
-		model.addAttribute("memebrlist", memberlist);
+		model.addAttribute("memberlist", memberlist);
 	}
 
 	// 관리자 방 목록
@@ -319,11 +320,9 @@ public class AdminController {
 //	}
 //	
 //	// 관리자 통계 보기
-//	@RequestMapping("/staties")
-//	public String staties() {
-//		
-//		logger.info("/admin/staties");
-//		
-//		return "admin/staties";
-//	}
+	@GetMapping("/staties")
+	public void staties() {
+		
+		logger.info("/admin/staties");
+	}
 }

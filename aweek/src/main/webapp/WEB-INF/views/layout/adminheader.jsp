@@ -266,10 +266,10 @@ ul.nav > li > ul > li > a:hover {
 	<li>
 		<span>통계</span>
 		<ul>
-			<li><a href="">회원가입</a></li>
-			<li><a href="">방문자</a></li>
-			<li><a href="">결제</a></li>
-			<li><a href="">개설된 방</a></li>
+			<li><a href="/admin/staties">회원가입</a></li>
+			<li><a href="/admin/staties">방문자</a></li>
+			<li><a href="/admin/staties">결제</a></li>
+			<li><a href="/admin/staties">개설된 방</a></li>
 		</ul>
 	</li>
 </ul>
