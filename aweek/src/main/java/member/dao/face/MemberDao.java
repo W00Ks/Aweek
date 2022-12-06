@@ -19,13 +19,6 @@ public interface MemberDao {
 	 */
 	public void insert(Member joinParam);
 	
-	/**
-	 * 비밀번호 찾기로 전달된 회원 수 반환
-	 * 
-	 * @param member - 유저의 이름, 아이디, 휴대폰 번호
-	 * @return 조회된 회원 수
-	 */
-	public int selectCntFindPwMember(Member member);
 
 	/**
 	 * id/pw 가 일치하는 사용자 수를 반환한다
@@ -35,13 +28,22 @@ public interface MemberDao {
 	 * @return 조회된 행 수
 	 */
 	public int selectCntMember(Member member);
-
+	
 	/**
-	 * 전달된 id의 사용자 정보를 조회한다.
+	 * 아이디 찾기로 전달된 회원 수 반환
 	 * 
-	 * @param loginid - 조회할 대상 id
-	 * @return 조회된 회원 정보
+	 * @param member - 유저의 이름, 이메일 주소
+	 * @return 조회된 회원 수
 	 */
-//	public Member selectLoginById(String loginid);
+	public int selectCntFindIdMember(Member member);
+	
+	/**
+	 * 비밀번호 찾기로 전달된 회원 수 반환
+	 * 
+	 * @param member - 유저의 이름, 아이디, 휴대폰 번호
+	 * @return 조회된 회원 수
+	 */
+	public int selectCntFindPwMember(Member member);
+
 	
 }

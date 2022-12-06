@@ -44,18 +44,19 @@ $(document).ready(function() {
  			return;
 		}
 		
-		//인증번호 문자 발송
+		//일치하는 회원정보 조회
 		$.ajax({
 			type:"post"			//요청 메소드
 			, url: "/member/findPw"		//요청 URL
 			, data: {		//요청 파라미터
 				userName : $("#userName").val()
-				userId : $("#userId").val()
-				userPhone : $("#userPhone").val()
+				, userId : $("#userId").val()
+				, userPhone : $("#userPhone").val()
 			}
 		, dataType: "html"		//응답 데이터 형식
 		, success: function( res ) {
 			if(res == 1){
+				//인증번호 문자 발송
 				$.ajax({
 					type:"post"			//요청 메소드
 					, url: "/member/smsAuth"		//요청 URL
@@ -92,49 +93,51 @@ $(document).ready(function() {
 					$("#userName").focus()
 	        	});
 			}
-			
 		}
+		}) /* 회원정보 조회 ajax 끝 */
+	}) /* $("#btnSendSms").click(function() {} 끝 */
 		
-		})
-		
-		//인증번호 문자 발송
-// 		$.ajax({
-// 			type:"post"			//요청 메소드
-// 			, url: "/member/smsAuth"		//요청 URL
-// 			, data: {		//요청 파라미터
-// 				userPhone : $("#userPhone").val()
-// 			}
-// 		, dataType: "html"		//응답 데이터 형식
-// 		, success: function( res ) {
-// 			const checkNum = res;
-// 			$("#okDiv").css('display', 'block')
-// 			$("#sendDiv").css('display','none')
-// 			swal("","회원님의 핸드폰으로 인증번호를 발송하였습니다.", "info").then(function(){
-// 				$("input").eq(3).focus()
-//         	});
+	$("#btnReSend").click(function() {
+		//인증번호 문자 재발송
+		$.ajax({
+			type:"post"			//요청 메소드
+			, url: "/member/smsAuth"		//요청 URL
+			, data: {		//요청 파라미터
+				userPhone : $("#userPhone").val()
+			}
+		, dataType: "html"		//응답 데이터 형식
+		, success: function( res ) {
+			const checkNum = res;
+			$("#okDiv").css('display', 'block')
+			$("#sendDiv").css('display','none')
+			swal("","회원님의 핸드폰으로 인증번호를 발송하였습니다.", "info").then(function(){
+				$("input").eq(3).focus()
+        	});
 			
-// 			$("#btnAuthOk").click(function() {
-// 				const userNum = $('#authInput').val();
+			$("#btnAuthOk").click(function() {
+				const userNum = $('#authInput').val();
 					
-// 					if ( checkNum == userNum ) {
-// 						swal("인증 성공!","비밀번호 변경 페이지로 이동합니다.", "success").then(function(){
-// 							location.href='/member/findPwOk';
-// 			        	});
-// 					}
-// 					else {
-// 						swal("인증 실패!","인증번호를 다시 입력해주세요!", "error").then(function(){
-// 							$("input").eq(3).focus()
-// 			        	});
-// 					}
-// 				})
-// 			}
-// 		, error: function() {
-// 			swal("","입력하신 회원정보가 일치하지 않습니다!", "error").then(function(){
-// 				$("#userName").focus()
-//         	});
-// 		}
-// 		})
+					if ( checkNum == userNum ) {
+						swal("인증 성공!","비밀번호 변경 페이지로 이동합니다.", "success").then(function(){
+							location.href='/member/findPwOk';
+			        	});
+					}
+					else {
+						swal("인증 실패!","인증번호를 다시 입력해주세요!", "error").then(function(){
+							$("input").eq(3).focus()
+			        	});
+					}
+				})
+			}
+		, error: function() {
+			swal("","입력하신 회원정보가 일치하지 않습니다!", "error").then(function(){
+				$("#userName").focus()
+        	});
+		}
+		})
 	})
+	
+	
 	
 })
 </script>

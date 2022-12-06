@@ -22,14 +22,15 @@
 		WHERE user_id = #{userId} AND user_pw = #{userPw}
 	</select>
 	
+	<select id="selectCntFindIdMember" resultType="int" parameterType="Member">
+		SELECT count(*) FROM member
+		WHERE user_name = #{userName} AND user_email = #{userEmail}
+	</select>
+	
 	<select id="selectCntFindPwMember" resultType="int" parameterType="Member">
 		SELECT count(*) FROM member
 		WHERE user_name = #{userName} AND user_id = #{userId} AND user_phone = #{userPhone}
 	</select>
 	
-<!-- 	<select id="selectLoginById" resultType="Member" parameterType="string"> -->
-<!-- 		SELECT * FROM member -->
-<!-- 		WHERE user_id = #{userId } -->
-<!-- 	</select> -->
 	
 </mapper>
