@@ -133,6 +133,8 @@ form {
      </div>
    </div>
    
+   <div class="resizer" id="dragMe"></div>
+   
    <form action="./open" method="post" class="container__right" id="form">
      <h1>모임 개설</h1>
      

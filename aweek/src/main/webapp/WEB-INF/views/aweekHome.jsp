@@ -19,11 +19,7 @@
 </style>
 
 <script defer type="text/javascript">
-document.getElementById("roomBox").addEventListener('click', function () {
 
-	document.getElementById("roomBox").innerHTML = "홈짱닷컴 Homzzang.com";
-
-});
 
 </script>
 

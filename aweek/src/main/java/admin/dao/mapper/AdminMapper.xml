@@ -11,12 +11,12 @@
 		SELECT count(*) FROM admin
 		WHERE admin_id = #{ adminId } AND admin_pw = #{ adminPw }
 	</select>
-<!-- 	
+
 	<select id="selectCntAll" resultType="int">
 		SELECT count(*) FROM member
 	</select>
-
-	<select id="selectMemberList" resultType="dto.Admin" parameterType="util.Paging">
+	
+	<select id="selectMemberList" resultType="member.dto.Member" parameterType="util.Paging">
 		SELECT * FROM (
 			SELECT rownum rnum, B.* FROM (
 				SELECT
@@ -28,5 +28,5 @@
 		) MEMBER
 		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
 	</select>
- -->
+
 </mapper>

@@ -28,6 +28,9 @@ public class DiaryController {
 	
 	@Autowired DiaryService diaryService;
 	
+	@GetMapping("/test")
+	public void test() {}
+	
 	@GetMapping("/login")
 	public void diaryLogin() {}
 	
