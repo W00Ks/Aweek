@@ -8,11 +8,18 @@
 html, body {
 	height: 100%;
 }
+.fullmenu {
+	display: flex;
+	height: 100%;
+	width: 100%;
+}
 .leftmenu {
 	position: fixed;
 	border-right: 1px solid #C7D1CA;
 	height: 100%;
 	width: 250px;
+	background-color: white;
+	z-index: 1;
 }
 .leftbox1 {
 	display:flex;
@@ -71,13 +78,12 @@ html, body {
 .menu>div {
 	cursor: pointer;
 }
-.rightboardy {
-	position: relative;
-	width: 100px;
-	height: 100px;
-	background-color: black;
-	top: 0px;
-	left: 250px;
+.rightmenu {
+	flex: 1;
+	background-color: blue;
+	width: 100%;
+	height: 100%;
+	padding: 15px;
 }
 </style>
 
@@ -89,63 +95,63 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="leftmenu">
-	<div class="leftbox1">
+<div class="fullmenu">
+	<div class="leftmenu">
+		<div class="leftbox1">
+				<a href="#">
+				<span class="writeDiary">
+				글쓰기
+				</span>
+				</a>
+		</div>
+		<div class="leftbox2">
 			<a href="#">
-			<span class="writeDiary">
-			글쓰기
+			<span style="color: black; font-size: 0.8em; width: 55px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
+				<span style="font-size: 1.5em; color: #029EE4;">
+				0
+				</span><br>
+				<span>
+				공지사항
+				</span>
 			</span>
 			</a>
-	</div>
-	<div class="leftbox2">
-		<a href="#">
-		<span style="color: black; font-size: 0.8em; width: 55px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
-			<span style="font-size: 1.5em; color: #029EE4;">
-			0
-			</span><br>
-			<span>
-			공지사항
+			<span style="color: black; font-size: 0.8em; width: 55px; height: 45px; display: flex; align-items:flex-end;">
 			</span>
-		</span>
-		</a>
-		<span style="color: black; font-size: 0.8em; width: 55px; height: 45px; display: flex; align-items:flex-end;">
-		</span>
-		<a href="#">
-		<span style="color: black; font-size: 0.8em; width: 55px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
-			<span style="font-size: 1.5em; color: #029EE4;">
-			<img alt="" src="/resources/diary/mydiary.PNG" style="margin-bottom: -4px;">
-			</span><br>
-			<span>
-			나의글
+			<a href="#">
+			<span style="color: black; font-size: 0.8em; width: 55px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
+				<span style="font-size: 1.5em; color: #029EE4;">
+				<img alt="" src="/resources/diary/mydiary.PNG" style="margin-bottom: -4px;">
+				</span><br>
+				<span>
+				나의글
+				</span>
 			</span>
-		</span>
-		</a>
-	</div>
-	<div class="leftbox3">
-	</div>
-	<div class="leftbox4">
-		<ul>
-			<c:forEach items="${userRoom }" var="data">
-				<li class="menu">
-					<div class="menublock1">${data.roomName }<img alt="" src="/resources/diary/menu.PNG" style="display: inline; float: right;"></div>
-					<ul id="menublock2" class="hide">
-						<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">공지사항</div></a></div></li>
-						<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">최신글</div></a></div></li>
-					</ul>
-				</li>
-			</c:forEach>
-		</ul>
-	</div>
-</div>
-<div class="rightboardy">
-	<div>
-	</div>
-	<div>
-	</div>
-	<div>
-		<div>
+			</a>
 		</div>
-		<div>
+		<div class="leftbox3">
+		</div>
+		<div class="leftbox4">
+			<ul>
+				<c:forEach items="${userRoom }" var="data">
+					<li class="menu">
+						<div class="menublock1">${data.roomName }<img alt="" src="/resources/diary/menu.PNG" style="display: inline; float: right;"></div>
+						<ul id="menublock2" class="hide">
+							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">공지사항</div></a></div></li>
+							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">최신글</div></a></div></li>
+						</ul>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+	</div>
+	<div style="width: 250px; height: 100%;">
+	</div>
+	<div class="rightmenu">
+		<div class="rightbox1">
+		</div>
+		<div class="rightbox2">
+		</div>
+		<div class="rightbox3">
 		</div>
 	</div>
 </div>
