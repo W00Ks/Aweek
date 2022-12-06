@@ -1,5 +1,7 @@
 package member.service.face;
 
+import javax.mail.MessagingException;
+
 import member.dto.Member;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
@@ -30,6 +32,22 @@ public interface MemberService {
 	public boolean login(Member member);
 	
 	/**
+	 * 아이디 찾기 유저 정보 조회
+	 * 
+	 * @param member - 회원이 입력한 이름, 이메일 주소
+	 * @return 유저 조회 결과
+	 */
+	public boolean findIdUserInfo(Member member);
+
+	/**
+	 * 이메일 인증 처리  
+	 * 
+	 * @param userEmail - 회원의 이메일 주소
+	 * @return 인증번호
+	 */
+	public String userEmailCheck(String userEmail) throws MessagingException;
+	
+	/**
 	 * 비밀번호 찾기 유저 정보 조회
 	 * 
 	 * @param member - 회원이 입력한 이름, 아이디, 휴대폰 번호
@@ -45,13 +63,15 @@ public interface MemberService {
 	 * @throws CoolsmsException 
 	 */
 	public String userPhoneCheck(String userPhone) throws CoolsmsException;
-
+	
 	/**
-	 * 전달된 id를 이용하여 사용자 정보 조회하기
 	 * 
-	 * @param loginid - 조회할 사용자의 id
-	 * @return 조회된 사용자 정보
+	 * 
+	 * @param userEmail
+	 * @return
 	 */
-//	public Member info(String loginid);
+//	public String getUserIdInfo(String userEmail);
+
+
 
 }

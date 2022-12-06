@@ -275,10 +275,11 @@ $(document).ready(function() {
 		} 
 		
 		//주소 값 합친 후 $("#userAddress")에 삽입
-		var post = $("#postCode").val();
-		var addr1 = $("#userAddress1").val();
-		var addr2 = $("#userAddress2").val();
-		var address = post + ' ' + addr1 + ' ' + addr2;
+// 		var post = $("#postCode").val();
+// 		var addr1 = $("#userAddress1").val();
+// 		var addr2 = $("#userAddress2").val();
+// 		var address = post + ' ' + addr1 + ' ' + addr2;
+		const address = $("#postCode").val() + ' ' + $("#userAddress1").val() + ' ' + $("#userAddress2").val();
 		
 		$("#userAddress").val(address);
 		

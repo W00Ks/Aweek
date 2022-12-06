@@ -3,8 +3,12 @@ package member.service.impl;
 import java.util.HashMap;
 import java.util.Random;
 
-import org.json.simple.JSONObject;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import member.dao.face.MemberDao;
@@ -19,6 +23,9 @@ public class MemberServiceImpl implements MemberService {
 	
 	//DAO 객체
 	@Autowired private MemberDao memberDao;
+	
+	//context-mail에서 빈 등록했기 때문에 주입받을 수 있다. Spring에서 제공하는 MailSender.
+	@Autowired private JavaMailSenderImpl mailSender;
 	
 	@Override
 	public boolean join(Member member) {
@@ -55,7 +62,42 @@ public class MemberServiceImpl implements MemberService {
 		return false;
 	}
 	
+	@Override
+	public boolean findIdUserInfo(Member member) {
+		int findIdChk = memberDao.selectCntFindIdMember(member);
+		
+		if( findIdChk > 0 )	return true;
+		return false;
+	}
 	
+	@Override
+	public String userEmailCheck(String userEmail) throws MessagingException {
+		
+		Random rand  = new Random();
+	    String numStr = "";
+	    for(int i=0; i<6; i++) {
+	       String ran = Integer.toString(rand.nextInt(10));
+	       numStr+=ran;
+	    }
+	    
+	    MimeMessage mailMessage = mailSender.createMimeMessage();
+	    
+        String mailContent = "[AWEEK] 아이디 찾기 인증 메일입니다.<br><br>" + "인증번호는 " + numStr + " 입니다." ;     //보낼 메시지
+        mailMessage.setSubject("[AWEEK] 아이디 찾기 인증메일입니다.", "UTF-8"); 
+        mailMessage.setText(mailContent, "UTF-8", "html");
+        mailMessage.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(userEmail));
+        mailSender.send(mailMessage);
+		
+		return numStr;
+	}
+	
+	@Override
+	public boolean findPwUserInfo(Member member) {
+		int findPwChk = memberDao.selectCntFindPwMember(member);
+		
+		if( findPwChk > 0 )	return true;
+		return false;
+	}
 	
 	@Override
 	public String userPhoneCheck(String userPhone) throws CoolsmsException {
@@ -83,17 +125,5 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 	
-	@Override
-	public boolean findPwUserInfo(Member member) {
-		int findPwChk = memberDao.selectCntFindPwMember(member);
-		
-		if( findPwChk > 0 )	return true;
-		return false;
-	}
-	
-//	@Override
-//	public Member info(String loginid) {
-//		return memberDao.selectLoginById(loginid);
-//	}
 	
 }

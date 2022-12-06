@@ -22,7 +22,7 @@ $(document).ready(function() {
 		
 		//아이디 공백 체크
 		if($("#userName").val() == "") {
-			swal("이름을 입력해주세요!","", "error").then(function(){
+			swal("이름을 입력해주세요!","", "warning").then(function(){
 				$("input").eq(0).focus()
         	});
 			return;
@@ -30,47 +30,63 @@ $(document).ready(function() {
 		
 		//이메일 공백 체크
 		if($("#userEmail").val() == "") {
-			swal("이메일을 입력해주세요!","", "error").then(function(){
+			swal("이메일을 입력해주세요!","", "warning").then(function(){
 				$("input").eq(1).focus()
         	});
  			return;
 		}
 		
+		//일치하는 회원정보 조회
 		$.ajax({
 			type:"post"			//요청 메소드
-			, url: "/member/emailAuth"		//요청 URL
+			, url: "/member/findId"		//요청 URL
 			, data: {		//요청 파라미터
-				auth : $("#authInput").val()
+				userName : $("#userName").val()
+				, userEmail : $("#userEmail").val()
 			}
 		, dataType: "html"		//응답 데이터 형식
 		, success: function( res ) {
-			const checkNum = res;
-			$("#okDiv").css('display', 'block')
-			$("#sendDiv").css('display','none')
-			swal("","회원님의 이메일로 인증번호를 발송하였습니다.", "info").then(function(){
-				$("input").eq(2).focus()
-        	});
-			
-			$("#btnAuthOk").click(function() {
-				const userNum = $('#authInput').val();
-				if(checkNum === userNum) {
-					alert('인증에 성공하였습니다.');
+			if ( res == 1 ) {
+			$.ajax({
+				type:"post"			//요청 메소드
+				, url: "/member/emailAuth"		//요청 URL
+				, data: {		//요청 파라미터
+					userEmail : $("#userEmail").val()
 				}
-				else {
-					alert('인증에 실패하였습니다. 다시 입력해주세요!');
-				}
-			})			
+			, dataType: "html"		//응답 데이터 형식
+			, success: function( res ) {
+				const checkNum = res;
+				$("#okDiv").css('display', 'block')
+				$("#sendDiv").css('display','none')
+					swal("","회원님의 이메일로 인증번호를 발송하였습니다.", "info").then(function(){
+						$("input").eq(2).focus()
+		        	});
+				
+				$("#btnAuthOk").click(function() {
+					const userNum = $('#authInput').val();
+					if(checkNum === userNum) {
+						swal("인증 성공!","아이디 확인 페이지로 이동합니다.", "success").then(function(){
+							location.href='/member/findIdOk';
+			        	});
+					} else {
+						swal("인증 실패!","인증번호를 다시 입력해주세요!", "error").then(function(){
+							$("input").eq(2).focus()
+			        	});
+					}
+				})			
+				
+			}
+			})
 			
-		}
-		, error: function() {
-			swal("","입력하신 회원정보가 일치하지 않습니다!", "error").then(function(){
-				$("#userName").focus()
-        	});
-			
-		}			
-			
-		})
-	})
+			} else if( res != 1 ) {
+				swal("","입력하신 회원정보가 일치하지 않습니다!", "error").then(function(){
+					$("#userName").focus()
+	        	});
+			}
+			}
+		}) /* 회원정보 조회 ajax 끝 */
+	}) /* $("#btnSendEmail").click(function() {} 끝 */
+	
 })
 </script>
 

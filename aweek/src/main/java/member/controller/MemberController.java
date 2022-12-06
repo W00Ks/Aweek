@@ -1,15 +1,17 @@
 package member.controller;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import member.dao.face.MemberDao;
 import member.dto.Member;
 import member.service.face.MemberService;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -101,32 +103,55 @@ public class MemberController {
 	public void findId() {}
 	
 	@PostMapping("/findId")
-	public String findIdOk() {
+	@ResponseBody
+	public int findIdProc(Member member, HttpSession session) {
+		boolean findIdResult = memberService.findIdUserInfo(member);
 		
-		return null;
+//		String userId = memberService.getUserIdInfo(member);
+		
+		if ( findIdResult ) {
+			
+			
+//			session.setAttribute("userEmail", member.getUserEmail());
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 	
 	//이메일 인증
-//	@PostMapping("/emailAuth")
-//	public String emailAuth(String userPhone) throws CoolsmsException {
-//		return memberService.userPhoneCheck(userPhone);
-//	}
+	@PostMapping("/emailAuth")
+	@ResponseBody
+	public String emailAuth(String userEmail) throws MessagingException {
+		return memberService.userEmailCheck(userEmail);
+	}
+	
+	@RequestMapping("/findIdOk")
+	public void findIdOk(Model model, HttpSession session) {
+//		String userEmail = (String) session.getAttribute("userEmail");
+		
+//		String userId = memberService.getUserIdInfo(userEmail);
+		
+//		model.addAttribute(userId);
+		
+	}
 	
 	//--- 비밀번호 찾기 ---
 	@GetMapping("/findPw")
 	public void findPw() {}
 	
 	@PostMapping("/findPw")
-	public int findPwProc(Member member) {
+	@ResponseBody
+	public int findPwProc(Member member, HttpSession session) {
 		
 		boolean findPwResult = memberService.findPwUserInfo(member);
 		
 		if ( findPwResult ) {
-			return 1; 
+			session.setAttribute("userId", member.getUserId());
+			return 1;
 		} else {
 			return 0;
 		}
-		
 	}
 	
 	//sms 문자 인증
@@ -134,6 +159,23 @@ public class MemberController {
 	@ResponseBody
 	public String smsAuth(String userPhone) throws CoolsmsException {
 		return memberService.userPhoneCheck(userPhone);
+	}
+	
+	//--- 비밀번호 변경 ---
+	@GetMapping("/modifyPw")
+	public void modifyPw() {}
+	
+	@PostMapping("/modifyPw")
+	@ResponseBody
+	public int modifyPwPwProc(Member member) {
+		
+		boolean findPwResult = memberService.findPwUserInfo(member);
+		
+		if ( findPwResult ) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 	
 	//--- 회원 정보 수정
