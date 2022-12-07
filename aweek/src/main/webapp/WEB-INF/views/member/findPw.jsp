@@ -16,8 +16,17 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
+	//비밀번호 찾기 페이지 접속 시 이름 입력창에 포커스
 	$("input").eq(0).focus()
 	
+	//이메일 입력창에 엔터키 입력 시 $("#btnSendSms").click() 호출
+	$("input").eq(2).keydown(function(e) {
+		if( e.keyCode == 13 ) {
+			$("#btnSendSms").click();
+		}
+	})
+	
+	//비밀번호 찾기 버튼 클릭
 	$("#btnSendSms").click(function() {
 		
 		//아이디 공백 체크
@@ -46,24 +55,24 @@ $(document).ready(function() {
 		
 		//일치하는 회원정보 조회
 		$.ajax({
-			type:"post"			//요청 메소드
-			, url: "/member/findPw"		//요청 URL
-			, data: {		//요청 파라미터
+			type:"post"
+			, url: "/member/findPw"
+			, data: {
 				userName : $("#userName").val()
 				, userId : $("#userId").val()
 				, userPhone : $("#userPhone").val()
 			}
-		, dataType: "html"		//응답 데이터 형식
+		, dataType: "html"
 		, success: function( res ) {
 			if(res == 1){
 				//인증번호 문자 발송
 				$.ajax({
-					type:"post"			//요청 메소드
-					, url: "/member/smsAuth"		//요청 URL
-					, data: {		//요청 파라미터
+					type:"post"
+					, url: "/member/smsAuth"
+					, data: {
 						userPhone : $("#userPhone").val()
 					}
-				, dataType: "html"		//응답 데이터 형식
+				, dataType: "html"
 				, success: function( res ) {
 					const checkNum = res;
 					$("#okDiv").css('display', 'block')
@@ -97,15 +106,15 @@ $(document).ready(function() {
 		}) /* 회원정보 조회 ajax 끝 */
 	}) /* $("#btnSendSms").click(function() {} 끝 */
 		
+	//인증번호 문자 재발송
 	$("#btnReSend").click(function() {
-		//인증번호 문자 재발송
 		$.ajax({
-			type:"post"			//요청 메소드
-			, url: "/member/smsAuth"		//요청 URL
-			, data: {		//요청 파라미터
+			type:"post"
+			, url: "/member/smsAuth"
+			, data: {
 				userPhone : $("#userPhone").val()
 			}
-		, dataType: "html"		//응답 데이터 형식
+		, dataType: "html"
 		, success: function( res ) {
 			const checkNum = res;
 			$("#okDiv").css('display', 'block')
@@ -135,15 +144,14 @@ $(document).ready(function() {
         	});
 		}
 		})
-	})
-	
-	
+	})/* $("#btnReSend").click(function() {} 끝 */
 	
 })
 </script>
 
 <style type="text/css">
 
+/* 비밀번호 찾기 텍스트 */
 .mainTxt {
 	text-align: center;
 	color: #f4b0b0;
@@ -233,7 +241,7 @@ input:focus{
 		<input type="text" class="int" id="userId" name="userId" placeholder="아이디" autocomplete="off">
 	</div>
 	<div class="divPhone">
-		<input type="text" class="int" id="userPhone" name="userPhone" placeholder="휴대폰 번호" autocomplete="off">
+		<input type="text" class="int" id="userPhone" name="userPhone" placeholder="휴대폰 번호  ex) 010-0000-0000" autocomplete="off">
 	</div>
 	<span class="error_msg" id="errorMsg" style="display:none;"></span>
 	
@@ -242,7 +250,7 @@ input:focus{
 	</div>
 
 	<div id="okDiv" style="display:none;">
-		<input type="text" class="int" id="authInput" name="authInput" placeholder="인증번호를 입력해주세요.">
+		<input type="text" class="int" id="authInput" name="authInput" placeholder="인증번호를 입력해주세요." autocomplete="off">
 		<button type="button" id="btnReSend">인증번호 재발송</button>
 		<button type="button" id="btnAuthOk">인증번호 확인</button>
 	</div>
