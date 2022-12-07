@@ -12,8 +12,18 @@
 }
 
 /* COMMONS */
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2%27) format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, blockquote, form, fieldset, legend, menu, nav, section, hgroup, article, header, aside, footer, input, select, textarea, button {
+  font-family: 'NanumSquareNeo-Variable';
+}
+
 body {
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'NanumSquareNeo-Variable';
   margin-top: 52px;
 }
 img {

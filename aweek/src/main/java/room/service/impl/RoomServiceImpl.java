@@ -27,7 +27,6 @@ public class RoomServiceImpl implements RoomService {
 		
 		List<Room> roomList = roomDao.selectAll();
 		
-		logger.info("roomList 조회 결과");
 		for( Room r : roomList )	logger.info("{}", r);
 		
 		return roomList;
@@ -40,6 +39,21 @@ public class RoomServiceImpl implements RoomService {
 		logger.info("myroomList : {}", myroomList);
 		
 		return myroomList;
+	}
+	
+	@Override
+	public boolean joinUserNoChk(int userno) {
+		
+		int result = roomDao.selectUserNoChk(userno);
+		
+		if(result > 0) {
+			logger.info("true");
+			//가입함
+			return true;
+		}
+		logger.info("false");
+		//가입안함
+		return false;
 	}
 	
 	@Override
@@ -59,8 +73,30 @@ public class RoomServiceImpl implements RoomService {
 	
 	
 	@Override
-	public RoomList getUerNoListByRoomNo(int roomNo) {
-		return roomDao.selectUserNoFromRoomList(roomNo);
+	public List<RoomList> getUerNoListByRoomNo(int roomNo) {
+		List<RoomList> roomList = roomDao.selectUserNoFromRoomList(roomNo);
+		
+		for( RoomList r : roomList )	logger.info("{}", r);
+		
+		return roomList;
+	}
+	
+	@Override
+	public void joinRoom(RoomList roomList, int userno) {
+		
+		roomList.setUserNo(userno);
+		logger.info("roomList이거이거: {}", roomList);
+		
+		roomDao.insertRoomInfo(roomList);
+		
+	}
+	
+	@Override
+	public void dropOut(RoomList roomList, int userno) {
+
+		roomList.setUserNo(userno);
+		roomDao.deleteRoomList(roomList);
+		
 	}
 	
 }
