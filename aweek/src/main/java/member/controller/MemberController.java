@@ -57,7 +57,8 @@ public class MemberController {
 	@GetMapping("/login")
 	public String login(HttpSession session) {
 		if ( session.getAttribute("loginResult") != null ) {
-//			return "redirect:/member/loginError";
+			//로그인 세션이 있는 상태에서 로그인 페이지를 접속한 경우 로그인 에러 페이지 리다이렉트
+//			return "redirect:/member/loginError"; 
 		}
 		return "/member/login";
 	}
@@ -107,12 +108,10 @@ public class MemberController {
 	public int findIdProc(Member member, HttpSession session) {
 		boolean findIdResult = memberService.findIdUserInfo(member);
 		
-//		String userId = memberService.getUserIdInfo(member);
+		String userId = (String)memberService.getUserIdInfo(member);
 		
 		if ( findIdResult ) {
-			
-			
-//			session.setAttribute("userEmail", member.getUserEmail());
+			session.setAttribute("userId", userId);
 			return 1;
 		} else {
 			return 0;
@@ -126,15 +125,9 @@ public class MemberController {
 		return memberService.userEmailCheck(userEmail);
 	}
 	
+	//아이디 확인 페이지
 	@RequestMapping("/findIdOk")
-	public void findIdOk(Model model, HttpSession session) {
-//		String userEmail = (String) session.getAttribute("userEmail");
-		
-//		String userId = memberService.getUserIdInfo(userEmail);
-		
-//		model.addAttribute(userId);
-		
-	}
+	public void findIdOk() {}
 	
 	//--- 비밀번호 찾기 ---
 	@GetMapping("/findPw")
@@ -161,11 +154,11 @@ public class MemberController {
 		return memberService.userPhoneCheck(userPhone);
 	}
 	
-	//--- 비밀번호 변경 ---
-	@GetMapping("/modifyPw")
+	//비밀번호 변경
+	@GetMapping("/findPwOk")
 	public void modifyPw() {}
 	
-	@PostMapping("/modifyPw")
+	@PostMapping("/findPwOk")
 	@ResponseBody
 	public int modifyPwPwProc(Member member) {
 		

@@ -588,8 +588,8 @@ input:focus{
 	<span class="error_msg" id="userEmailMsg" style="display:none;"></span>
 
 	<div class="btn_area">
-		<button type="button" id="btnCancel" class="btnType">가입 취소</button>
-		<button type="button" id="btnJoin" class="btnType">회원 가입</button>
+		<button type="button" id="btnCancel">가입 취소</button>
+		<button type="button" id="btnJoin">회원 가입</button>
 	</div>
 
 </div>

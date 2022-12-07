@@ -26,6 +26,11 @@
 		SELECT count(*) FROM member
 		WHERE user_name = #{userName} AND user_email = #{userEmail}
 	</select>
+
+	<select id="selectEmailByUserId" resultType="String" parameterType="Member">
+		SELECT user_id FROM member
+		WHERE user_name = #{userName} AND user_email = #{userEmail}
+	</select>
 	
 	<select id="selectCntFindPwMember" resultType="int" parameterType="Member">
 		SELECT count(*) FROM member

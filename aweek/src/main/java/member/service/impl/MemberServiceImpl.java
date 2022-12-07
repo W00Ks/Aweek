@@ -71,6 +71,14 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public String getUserIdInfo(Member member) {
+		
+		String userId = memberDao.selectEmailByUserId(member);
+		
+		return userId;
+	}
+	
+	@Override
 	public String userEmailCheck(String userEmail) throws MessagingException {
 		
 		Random rand  = new Random();

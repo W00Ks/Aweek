@@ -126,7 +126,7 @@ $(document).ready(function() {
 	//로그인 페이지 접속 시 ID 포커스 주기
 	$("#userId").focus();
 	
-	//패스워드 입력창에 엔터키 입력 시 submit
+	//패스워드 입력창에 엔터키 입력 시 $("#btnLogin").click() 호출
 	$("input").eq(1).keydown(function(e) {
 		if( e.keyCode == 13 ) { //엔터키
 			$("#btnLogin").click();
@@ -255,6 +255,7 @@ input:focus{
 	padding: 0;
 }
 
+/* 아이디|비밀번호 찾기 hover */
 #find > a:hover {
 	color: #2ba1ff;
 	font-weight: bold;
@@ -341,12 +342,13 @@ input:focus{
 	margin-left: 5px;
 }
 
-/*  */
+/* 아이디 저장 버튼 */
 .checkIdDiv {
 	margin: 4px 0;
 	position: relative;
 }
 
+/* 아이디 저장 글자 */
 .checkIdFont {
 	font-size: 12px;
 	color: #666666;
@@ -380,7 +382,7 @@ input:focus{
 			<a href="/member/findPw" class="btnFindPw" id="btnFindPw">비밀번호 찾기</a>
 		</div>
 		<div id="join">
-			<a href="/member/join" class="btn" id="btnJoin">회원가입</a>
+			<a href="/member/join" id="btnJoin">회원가입</a>
 		</div>
 	</div>
 	
@@ -403,6 +405,7 @@ input:focus{
 		<button id="btnKakaoLogin" onclick="kakaoLogin();">카카오 로그인</button>
 		<button id="btnKakaoLogout" onclick="kakaoLogout();">카카오 로그아웃</button>
 	</div>
+	${userId}
 
 </div>
 
