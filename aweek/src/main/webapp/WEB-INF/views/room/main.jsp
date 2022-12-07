@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <c:import url="../layout/roomHeader.jsp" />
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -145,7 +146,7 @@ type:"post"
 }); */
 
 //대상 Element 선택
-const resizer = document.querySelector('.resizer');
+/* const resizer = document.querySelector('.resizer');
 console.log(resizer)
 const leftSide = resizer.previousElementSibling;
 console.log(leftSide)
@@ -211,7 +212,7 @@ const mouseUpHandler = function () {
 
 // 마우스 down 이벤트를 등록
 resizer.addEventListener('mousedown', mouseDownHandler);
-
+ */
 </script>
 
 
