@@ -2,12 +2,13 @@ package calendar.service.face;
 
 import java.util.List;
 
-import calendar.dto.Calendar;
+import calendar.dto.CalDto;
+
 
 public interface CalendarService {
 
-	public void insertMyCal(Calendar calendar);
+	public void insertMyCal(CalDto calendar);
 
-	public List<Calendar> selectMyCal();
+	public List<CalDto> selectMyCal();
 
 }
