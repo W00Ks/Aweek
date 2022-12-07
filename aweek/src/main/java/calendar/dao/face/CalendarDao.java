@@ -2,7 +2,8 @@ package calendar.dao.face;
 
 import java.util.List;
 
-import calendar.dto.Calendar;
+import calendar.dto.CalDto;
+
 
 public interface CalendarDao {
 
@@ -11,8 +12,8 @@ public interface CalendarDao {
 	 * 
 	 * @param calendar
 	 */
-	public void insertMyCal(Calendar calendar);
+	public void insertMyCal(CalDto calendar);
 
-	public List<Calendar> selectMyCal();
+	public List<CalDto> selectMyCal();
 
 }

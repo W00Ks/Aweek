@@ -7,26 +7,24 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
-public class Calendar {
+public class CalDto {
 	
-	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	
 	
 	private int calNo;
 	private int userNo;
 	private String calTitle;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date startDate;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date endDate;
+	private String startDate;
+	private String endDate;
 	private String startTime;
 	private String endTime;
 	private String calPlace;
 	private String calMemo;
 	private String calAlarm;
 	
-	public Calendar() {}
+	public CalDto() {}
 
-	public Calendar(int calNo, int userNo, String calTitle, Date startDate, Date endDate, String startTime,
+	public CalDto(int calNo, int userNo, String calTitle, String startDate, String endDate, String startTime,
 			String endTime, String calPlace, String calMemo, String calAlarm) {
 		super();
 		this.calNo = calNo;
@@ -72,19 +70,19 @@ public class Calendar {
 		this.calTitle = calTitle;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import calendar.dao.face.CalendarDao;
-import calendar.dto.Calendar;
+import calendar.dto.CalDto;
 import calendar.service.face.CalendarService;
 
 @Service
@@ -15,14 +15,14 @@ public class CalendarServiceImpl implements CalendarService {
 	@Autowired CalendarDao calendarDao;
 	
 	@Override
-	public void insertMyCal(Calendar calendar) {
+	public void insertMyCal(CalDto calendar) {
 		
 		calendarDao.insertMyCal(calendar);
 		
 	}
 
 	@Override
-	public List<Calendar> selectMyCal() {
+	public List<CalDto> selectMyCal() {
 		// TODO Auto-generated method stub
 		return calendarDao.selectMyCal();
 	}
