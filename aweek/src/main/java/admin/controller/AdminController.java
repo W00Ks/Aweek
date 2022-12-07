@@ -115,25 +115,25 @@ public class AdminController {
 //	
 //	// 관리자 회원 상세 조회
 	@RequestMapping("/memberdetail")
-	public void memberdetail() {
-//		
+	public String memberdetail(Member member, Model model) {
+		
 		logger.info("/admin/memberdetail");
-//
-//		logger.info("{}", user);
-//		
-//		// 잘못된 게시글 번호 처리
-//		if( user.getUsertNo() < 0 ) {
-//			return "redirect:/admin/memberdetail";
-//		}
-//		
-//		// 게시글 조회
-//		user = adminService.memberDetailView(user);
-//		logger.info("조회된 게시글 {}", user);
-//		
-//		// 모델값 전달
-//		model.addAttribute("viewPayment", user);
+
+		logger.info("{}", member);
 		
+		// 잘못된 회원 번호 처리
+		if( member.getUserNo() < 0 ) {
+			return "redirect:/admin/memberlist";
+		}
 		
+		// 게시글 조회
+		member = adminService.memberDetailView(member);
+		logger.info("조회된 회원 {}", member);
+		
+		// 모델값 전달
+		model.addAttribute("member", member);
+		
+		return "admin/memberdetail";
 	}
 //	
 	// 관리자 결제 목록

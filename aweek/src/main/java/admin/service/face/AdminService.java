@@ -35,4 +35,12 @@ public interface AdminService {
 	 * @return - 페이징이 적용된 회원 목록
 	 */
 	public List<Member> memberlist(Paging paging);
+
+	/**
+	 * 회원 상세보기
+	 * 
+	 * @param member - 상세 조회할 회원 번호 객체
+	 * @return - 조회된 상세 회원 객체
+	 */
+	public Member memberDetailView(Member member);
 }

@@ -64,8 +64,6 @@ ul.nav {
 	
 	/* ul 태그 가운데 정렬 */
 	display: inline-block;
-	
-	margin-top: 50px;
 }
 
 /* 메인 메뉴의 항목 */
@@ -241,16 +239,16 @@ ul.nav > li > ul > li > a:hover {
 		<span>회원 정보</span>
 		<ul>
 			<li><a href="/admin/memberlist">회원 목록</a>
-			<li><a href="/admin/memberdetail">회원 상세 정보</a>
 			<li><a href="/admin/roomlist">방 목록</a>
+			<li><a href="/admin/paymentlist">결제 목록</a></li>
 		</ul>
 	</li>
 	
 	<li>
-		<span>결제 정보</span>
+		<span>검색</span>
 		<ul>
-			<li><a href="/admin/paymentlist">결제 목록</a></li>
-			<li><a href="/admin/paymentdetail">결제 상세 정보</a></li>
+			<li><a href="/admin/membersearch">회원 정보</a></li>
+			<li><a href="/admin/paymentseacrh">결제 정보</a></li>
 		</ul>
 	</li>
 	

@@ -16,10 +16,6 @@ table, th {
 	text-align: center;
 }
 
-td:nth-child(2) {
-	text-align: left;
-}
-
 th {
     border: 1px solid #ccc;
     border-collapse: collapse;
@@ -57,10 +53,10 @@ th {
 	</thead>
 	
 	<tbody>
-	<c:forEach items="${ memberlist }" var="memberlist">
+	<c:forEach items="${ memberlist }" var="member">
 		<tr>
 			<td>${ member.userNo }</td>
-			<td><a href="">${ member.userId }</a></td>
+			<td><a href="/admin/memberdetail?userNo=${ member.userNo }">${ member.userId }</a></td>
 			<td>${ member.userName }</td>
 		</tr>
 	</c:forEach>

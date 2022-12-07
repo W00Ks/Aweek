@@ -43,9 +43,16 @@ td {
 	width: 300px;
     margin: 0 auto;
     border: 1px solid;
-    margin-top: 30px;
     border-radius: 2.1em;
+    margin-top: 50px;
     margin-bottom: 50px;
+}
+
+.memberlist {
+	border: 1px solid #ccc;
+	border-radius: 1.1em;
+	color: green;
+	background: lawngreen;
 }
 
 .material-symbols-outlined {
@@ -63,50 +70,53 @@ td {
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">회원 상세 정보</h1>
 </div>
 
-<hr>
-
+<!--
 <h1>회원 검색</h1>
 	<div>
 		<input type="text" name="userId" id="userId" placeholder="아이디" style="width: 200px;">
 		<span class="material-symbols-outlined">search</span>
-</div>
-
-<hr>
+	</div>
+ -->
 
 <table>
 	<tr>
 		<th>번호</th>
-		<td>12345</td>
+		<td>${ member.userNo }</td>
 	</tr>
 	<tr>
 		<th>아이디</th>
-		<td>12345</td>
+		<td>${ member.userId }</td>
 	</tr>
 	<tr>
 		<th>이름</th>
-		<td>12345</td>
+		<td>${ member.userName }</td>
 	</tr>
 	<tr>
 		<th>전화번호</th>
-		<td>12345</td>
+		<td>${ member.userPhone }</td>
 	</tr>
 	<tr>
 		<th>주소</th>
-		<td>12345</td>
+		<td>${ member.userAddress }</td>
 	</tr>
 	<tr>
 		<th>생년월일</th>
-		<td>12345</td>
+		<td>${ member.userBirth }</td>
 	</tr>
 	<tr>
 		<th>이메일</th>
-		<td>12345</td>
+		<td>${ member.userEmail }</td>
 	</tr>
 	<tr>
-		<th>결제정보</th>
-		<td>12345</td>
+		<th>가입정보</th>
+		<td><fmt:formatDate value="${ member.userJoin }" pattern="yy-MM-dd HH:mm:ss"/></td>
 	</tr>
 </table>
+
+<div style="margin-top: 50px; margin-bottom: 50px;">
+	<a href="/admin/memberlist"><button class="memberlist">회원 목록</button></a>
+</div>
+
 </c:if>
 
 <c:import url="../layout/adminfooter.jsp" />
