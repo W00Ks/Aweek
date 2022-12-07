@@ -7,12 +7,20 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <style type="text/css">
+
+html {
+	height: 100vh;	
+}
+body {
+	height: calc(100% - 53px);
+}
 .container {
 	display: flex;
+	min-height: 100%;
 }
 .container__left {
-	width: 300px;
-	height: calc(100% - 52px);
+	width: 20%;
+	min-height: 100%;
 	background-color: var(--text-color);
 	border-right: 1px solid var(--border-color);
 }
@@ -24,16 +32,17 @@
 }
 
 .resizer {
-  background-color: #cbd5e0;
+  background-color: var(--border-color);
   cursor: ew-resize;
-  height: 100%;
+  min-height: 100%;
   width: 2px;
 }
 
 .container__right {
-	width: calc(100% - 300px);
-	height: calc(100% - 52px);
+	width: 80%;
+	min-height: calc(100% - 52px);
 	background-color: var(--light-color);
+	flex: 1;
 }
 .container__right h1 {
 	margin: 0 auto;
@@ -114,35 +123,32 @@ function moveSetting(i,j){
  	  location.href = "/room/roomInfo?userNo=" + i + "&roomNo=" + j;
 }
 
-$(document).ready(function(){
+function dropOut(){
 	
-	//탈퇴버튼 클릭시 알림창 띄우기
-	$('#dropOut').click(()=> {
-		console.log('#moveDropOut click')
-		 	$.ajax({
-				type: "get",
-				url: "/room/dropOut",
-				data: {
-					userNo : $("#userNo").val(),
-					roomNo: $("#roomNo").val()
-				},
-				dataType: "json",
-				error: (log)=>{
-					alert("실패했습니다" + log)	
-					console.log("error ");	
-					
-				},
-				success: (res)=>{
-					alert("성공" + res)	
-					console.log("seccess ");	
-				}
-			})
-	})
-});
+}
+
+/*  $.ajax({
+type:"post"
+, url: "./dropOut"
+	, data : {
+	userno : $("#userNo").val()
+}
+, dataType : "html"
+, success : function( result ) {
+	console.log("secess userNo:" + userNo)
+	console.log("secess roomNo:" + roomNo)
+	console.log(result)
+}
+, error : function( error ){
+
+}
+}); */
 
 //대상 Element 선택
-const resizer = document.getElementById('dragMe');
+const resizer = document.querySelector('.resizer');
+console.log(resizer)
 const leftSide = resizer.previousElementSibling;
+console.log(leftSide)
 const rightSide = resizer.nextElementSibling;
 
 // 마우스의 위치값 저장을 위해 선언
@@ -210,7 +216,6 @@ resizer.addEventListener('mousedown', mouseDownHandler);
 
 
 <section class="container">
-  <div class="inner">
     <div class="container__left">
       <div class="btn-menu">
 		<a href="#" class="btn btn--brown">모임개설</a>
@@ -223,7 +228,7 @@ resizer.addEventListener('mousedown', mouseDownHandler);
     
 		<c:forEach items="${myRoomList  }" var="room">
 		
-			<form name="form" action="/room/setting" method="get">
+			<form name="form">
 				<div class="roomBox" onclick="moveSetting(${room.userNo },${room.roomNo })">
 		 			<input type="hidden" name="userNo" id="userNo" value="${room.userNo }">
 					<input type="hidden" name="roomNo" id="roomNo" value="${room.roomNo }">
@@ -236,14 +241,13 @@ resizer.addEventListener('mousedown', mouseDownHandler);
 		        	<c:if test="${room.roomPublic eq '0' }"> 
 						<p id="2">비공개</p>
 		        	</c:if>
-					<a href="#" id="dropOut">탈퇴</a>
+					<a href="#" class="dropOut" onclick="dropOut()">탈퇴</a>
 				</div>
 			</form>
 		
 		</c:forEach>
     </div>
 
-  </div>
 </section>
 
 

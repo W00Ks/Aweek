@@ -112,6 +112,10 @@ form {
 	margin: 20px 10%;
 }
 
+.container__right .open-content .cont {
+	width: 130px;
+}
+
 @media screen and (max-width: 768px) {
 	.container__left {
 		display: none;
@@ -125,8 +129,6 @@ form {
 </style>
 
 
-
-
 <section class="container">
    <div class="container__left">
      <div class="btn-menu">
@@ -135,14 +137,13 @@ form {
      </div>
    </div>
    
-   <form action="./open" method="post" class="container__right" id="form">
+   <form action="./join" method="post" class="container__right" id="form">
      <h1>모임 개설</h1>
      
      <div class="open-content">
      	<div class="object">
      	
      	<input type="hidden" name="roomNo" value="${roomInfo.roomNo }">
-     	<input type="hidden" name="roomNo" value="${roomInfo.userNo }">
 	     <p>모임 이름 * </p>
 	     <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" value="${roomInfo.roomName }">
 	    </div>
@@ -160,21 +161,32 @@ form {
 		</div>
 	    <div class="object">
 	     <p>카테고리 * </p>
-		     <select name="roomCategoryNo" id="roomCategoryNo">
-		     	<option disabled selected>카테고리</option>
-		     	<option value="1">회사</option>
-		     	<option value="2">취미</option>
-		     	<option value="3">동아리</option>
-		     </select>
+		     <div class="cont">
+		     	<c:if test="${roomInfo.roomCategoryNo eq '1' }"> 
+		     		<p id="categoryNo1">회사</p>
+		     	</c:if>
+		     	<c:if test="${roomInfo.roomCategoryNo eq '2' }"> 
+		     		<p id="categoryNo2">취미</p>
+		     	</c:if>
+		     	<c:if test="${roomInfo.roomCategoryNo eq '3' }"> 
+		     		<p id="categoryNo3">동아리</p>
+		     	</c:if>
+	     	</div>
 		</div>
 		<div class="object"> 
-	     <p>공개설정 * </p>
-	     <input type="radio" name="roomPublic" value="1"  id="roomPublic">공개
-	     <input type="radio" name="roomPublic" value="0" id="roomPublic">비공개
+			<p>공개설정 * </p>
+			<div class="cont">
+		     	<c:if test="${roomInfo.roomPublic eq '1' }"> 
+					<p id="roomPublicY">공개</p>
+	        	</c:if>
+	        	<c:if test="${roomInfo.roomPublic eq '0' }"> 
+					<p id="roomPublicN">비공개</p>
+	        	</c:if>
+        	</div>
 	    </div>
 	    
 	    <div class="btnsection">
-	    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">모임 개설</a>
+	    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">가입</a>
 	    	<a href="#" class="btn btn--brown wide">취소</a>
 	    </div>
      </div>

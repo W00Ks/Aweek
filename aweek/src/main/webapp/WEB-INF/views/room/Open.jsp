@@ -139,7 +139,7 @@ form {
 <script defer type="text/javascript">
 
 //대상 Element 선택
-const resizer = document.getElementById('dragMe');
+const resizer = document.querySelector('#resizer');
 const leftSide = resizer.previousElementSibling;
 const rightSide = resizer.nextElementSibling;
 
