@@ -16,17 +16,17 @@
 		SELECT count(*) FROM member
 	</select>
 	
-	<select id="selectMemberList" resultType="member.dto.Member" parameterType="util.Paging">
-		SELECT * FROM (
-			SELECT rownum rnum, B.* FROM (
-				SELECT
-					user_no, user_id, user_name, user_phone, user_address
-					, user_birth, user_email, user_join
-				FROM member
-				ORDER BY user_no DESC
-			) B
-		) MEMBER
-		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
+	<select id="selectMemberList" resultType="member.dto.Member" parameterType="common.Paging">
+		SELECT user_no, user_id, user_name FROM member
+		ORDER BY user_no
+	</select>
+	
+	<select id="selectMemberDetail" resultType="member.dto.Member" parameterType="member.dto.Member">
+		SELECT
+			user_no, user_id, user_pw, user_name, user_phone, user_address, user_birth
+			, user_email, user_join
+		FROM member
+		WHERE user_no = ${ userNo }
 	</select>
 
 </mapper>

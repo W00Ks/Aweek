@@ -51,5 +51,11 @@ public class AdminServiceImpl implements AdminService {
 	public List<Member> memberlist(Paging paging) {
 		
 		return adminDao.selectMemberList(paging);
+	}
+
+	@Override
+	public Member memberDetailView(Member member) {
+		
+		return adminDao.selectMemberDetail(member);
 	}	
 }

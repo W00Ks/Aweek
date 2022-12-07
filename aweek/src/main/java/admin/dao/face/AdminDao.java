@@ -31,4 +31,12 @@ public interface AdminDao {
 	 * @return - 페이징이 적용된 게시글 목록
 	 */
 	public List<Member> selectMemberList(Paging paging);
+
+	/**
+	 * 회원 번호를 이용하여 회원을 조회
+	 * 
+	 * @param member - 조회하려는 회원 번호
+	 * @return - 조회된 회원 정보
+	 */
+	public Member selectMemberDetail(Member member);
 }
