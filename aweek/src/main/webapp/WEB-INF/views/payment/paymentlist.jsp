@@ -19,7 +19,7 @@
 <script>
     $(function(){
     	//@@@@@@ 1번 @@@@@@@
-        var IMP = window.IMP; // 생략가능
+        var IMP = window.IMP;
         IMP.init('imp37645307'); //가맹점 식별코드 삽입
         
         var msg;
