@@ -31,6 +31,24 @@ public interface MemberDao {
 	 */
 	public int selectCntMember(Member member);
 	
+	/**
+	 * 로그인 한 회원의 정보 반환 
+	 * 
+	 * @param member - 조회할 id/pw 정보
+	 * @return Member - 로그인한 회원 정보
+	 */
+	public Member selectLoginInfo(Member member);
+	
+	//카카오 로그인
+	/**
+	 * id 가 일치하는 사용자 수를 반환한다
+	 * 	-> 카카오 로그인 인증에 활용한다
+	 * 
+	 * @param member - 조회할 id 정보
+	 * @return int - 조회된 행 수
+	 */
+	public int selectCntKakaoMember(Member member);
+	
 	//아이디 찾기
 	/**
 	 * 아이디 찾기로 전달된 회원 수 반환
@@ -57,6 +75,14 @@ public interface MemberDao {
 	 * @return int - 조회된 회원 수
 	 */
 	public int selectCntFindPwMember(Member member);
+
+	/**
+	 * 비밀번호 변경 처리
+	 * 
+	 * @param member - 회원의 ID, PW
+	 */
+	public void updatePw(Member member);
+
 
 
 	

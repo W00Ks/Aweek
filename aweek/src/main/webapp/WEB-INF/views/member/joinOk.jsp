@@ -1,22 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
-	
-	//비밀번호 찾기 버튼 클릭
-	$("#btnFindPw").click(function() {
+
+	//메인으로 버튼 클릭
+	$("#btnMain").click(function() {
 		$.ajax({
 			type:"post"
 			, url: "/member/logout"
@@ -24,7 +21,7 @@ $(document).ready(function() {
 			}
 		, dataType: "html"
 		, success: function() {
-			window.location.href="/member/findPw";
+			window.location.href="/aweek/main";
 		}
 		})
 	})
@@ -44,7 +41,6 @@ $(document).ready(function() {
 	})
 	
 })
-
 </script>
 
 <style type="text/css">
@@ -69,7 +65,7 @@ $(document).ready(function() {
 	margin: 50px auto;
 	border: 1px solid #e5e5e5;
 	width: 600px;
-	height: 150px;
+	height: 200px;
 	position: relative;
     background-color: #fff4f4;
 }
@@ -77,9 +73,10 @@ $(document).ready(function() {
 /* 아이디 안내 텍스트 */
 .idBoxWord {
 	position: absolute;
-	top: 55px;
+	top: 12px;
 	width: 100%;
-	text-align: center; 
+	text-align: center;
+    line-height: 55px;
 }
 
 /* 아이디 텍스트 */
@@ -93,13 +90,26 @@ $(document).ready(function() {
 .idArea {
 	font-weight: 600;
 	font-size: 25px;
-	color: black;
+	color: #3c6fff;
 }
 
 /* 버튼 영역 */
 .btn_area {
 	margin: 20px auto;
 	width: 450px;
+}
+
+/* 홈으로 버튼 */
+#btnMain {
+	width: 200px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #ffffff;
+    border: 1px solid #f4b0b0;
+    color: #f4b0b0;
+	cursor: pointer;
 }
 
 /* 로그인 버튼 */
@@ -116,37 +126,24 @@ $(document).ready(function() {
     cursor: pointer;
 }
 
-/* 비밀번호 찾기 버튼 */
-#btnFindPw {
-	width: 200px;
-    height: 50px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-weight: 600;
-    background-color: #ffffff;
-    border: 1px solid #f4b0b0;
-    color: #f4b0b0;
-	cursor: pointer;
-}
-
 </style>
 
 </head>
 <body>
 
 <div class="container">
-	<div class="mainTxt">아이디 찾기</div>
+	<div class="mainTxt">회원가입 완료</div>
 	<div class="idBox">
 		<div class="idBoxWord">
-			<span class="idWord">회원님의 아이디는 </span>
-			<span class="idArea">${userId}</span>
-			<span class="idWord"> 입니다.</span>
+			<span class="idWord">AWEEK에 오신 것을 환영합니다!</span><br>
+			<span class="idArea">회원가입 아이디 : ${userId}</span><br>
+			<span class="idWord">로그인 후 마음에 드는 모임을 찾아보세요!</span>
 		</div>
 	</div>
 	
 	<div class="btn_area">
+		<button type="button" id="btnMain" class="btnType">메인으로</button>
 		<button type="button" id="btnLogin" class="btnType">로그인</button>
-		<button type="button" id="btnFindPw" class="btnType">비밀번호 찾기</button>
 	</div>
 	
 </div>

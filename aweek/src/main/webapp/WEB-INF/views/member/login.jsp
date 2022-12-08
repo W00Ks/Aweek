@@ -18,17 +18,76 @@
 
 <!-- kakao Login -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+<!---------- 카카오 로그인 기능 처리 ---------->
 <script>
 Kakao.init('83db0909626a39e8a1cdaf664b67a04d'); //발급받은 키 중 javascript키를 사용해준다.
 console.log(Kakao.isInitialized()); // sdk초기화여부판단
-//카카오로그인
+//카카오 로그인
 function kakaoLogin() {
     Kakao.Auth.login({
       success: function (response) {
         Kakao.API.request({
           url: '/v2/user/me',
           success: function (response) {
-        	  console.log(response)
+        	console.log(response)
+        	console.log(response.id)
+        	console.log(response.kakao_account.profile.nickname)
+        	console.log(response.kakao_account.email)
+        	
+        	const uId = 'kakao' + response.id;
+        	const uName = response.kakao_account.profile.nickname;
+        	const uEmail = response.kakao_account.email;
+        	
+        	$.ajax({
+				type:"post"
+				, url: "/member/joinIdChk"
+				, data: {
+					userId : uId
+				}
+				, dataType: "html"
+				, success: function( res ) { // return: 1 => 회원
+					if( res == 1 ){
+						$.ajax({
+							type:"post"
+							, url: "/member/kakaoLogin"
+							, data: {
+								userId : uId
+							}
+							, dataType: "html"
+							, success: function( res ) {
+								if ( res == 1 ) {
+									swal("로그인 성공!", uName + "님 환영합니다!", "success").then(function(){
+										window.location.href="/aweek/main";
+						        	});
+								} else {
+									swal("로그인 실패!", "다시 시도 해주세요", "error")
+								}
+							}
+						})
+					} else { // return: 0 => 비회원
+						
+						swal("가입되지 않은 회원입니다.", "회원가입 페이지로 이동합니다.", "info").then(function(){
+							$.ajax({
+								type:"post"
+								, url: "/member/kakaoJoinChk"
+								, data: {
+									userId : uId
+									, userName : uName
+									, userEmail : uEmail 
+								}
+								, dataType: "html"
+								, success: function() {
+									//카카오 로그인 전용 회원가입 페이지 이동
+									window.location.href="/member/kakaoJoin";
+								}
+							})
+						});
+						
+					}
+				}
+				
+			})
           },
           fail: function (error) {
             console.log(error)
@@ -57,11 +116,11 @@ function kakaoLogout() {
   }  
 </script>
 
-
+<!---------- 아이디 저장 기능 처리 ---------->
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	//---------- 아이디 저장 기능----------
+	//------------------------------------ 아이디 저장 기능 ------------------------------------
 	// 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
     var key = getCookie("key");
     $("#userId").val(key); 
@@ -121,7 +180,10 @@ $(document).ready(function() {
 		return unescape(cookieValue);
 	}
 	
-	//--------------------------------------------------------------------------------------
+	//------------------------------------ 아이디 저장 기능 끝 ------------------------------------
+	
+	//세션 확인 코드
+	console.log(sessionStorage.length);
 	
 	//로그인 페이지 접속 시 ID 포커스 주기
 	$("#userId").focus();
@@ -180,6 +242,23 @@ $(document).ready(function() {
 	        }
 	    });
 	});
+	
+	$("#btnLogout").click(function() {
+		swal("로그아웃 완료!","다음에 또 만나요~", "success").then(function(){
+			kakaoLogout();
+			$.ajax({
+				type:"post"
+				, url: "/member/logout"
+				, data: {
+				}
+			, dataType: "html"
+			, success: function( res ) {
+				window.location.href="/aweek/main";
+			}
+			})
+		});
+	})
+	
 });
 
 //에러메시지
@@ -403,9 +482,8 @@ input:focus{
 	<div class="KakaoDiv">
 		<span class="kakaoIcon"><img src="/resources/member/kakaoicon.jpg"></span>
 		<button id="btnKakaoLogin" onclick="kakaoLogin();">카카오 로그인</button>
-		<button id="btnKakaoLogout" onclick="kakaoLogout();">카카오 로그아웃</button>
+		<button id="btnLogout">로그아웃</button>
 	</div>
-	${userId}
 
 </div>
 

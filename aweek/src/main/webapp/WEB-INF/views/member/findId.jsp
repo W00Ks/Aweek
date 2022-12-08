@@ -65,7 +65,6 @@ $(document).ready(function() {
 			, dataType: "html"
 			, success: function( res ) {
 				const checkNum = res;
-				console.log("인증번호: " + res)
 				$("#okDiv").css('display', 'block')
 				$("#sendDiv").css('display','none')
 					swal("","회원님의 이메일로 인증번호를 발송하였습니다.", "info").then(function(){

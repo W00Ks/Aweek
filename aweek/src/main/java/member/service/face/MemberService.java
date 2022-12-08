@@ -32,6 +32,30 @@ public interface MemberService {
 	public boolean login(Member member);
 	
 	/**
+	 * 로그인 유저 정보 반환 
+	 * 
+	 * @param member - 입력한 ID/PW 정보
+	 * @return Member - 로그인 한 회원의 정보
+	 */
+	public Member getLoginInfo(Member member);
+	
+	/**
+	 * 카카오 로그인 인증 처리
+	 * 	
+	 * @param member - 입력한 ID 정보
+	 * @return 카카오 로그인 인증 결과
+	 */
+	public boolean kakaoLogin(Member member);
+	
+	/**
+	 * 카카오 계정 신규 회원 가입
+	 * 
+	 * @param member - 카카오 계정 신규 회원의 정보
+	 * @return 회원가입 결과
+	 */
+	public boolean kakaoJoin(Member member);
+	
+	/**
 	 * 아이디 찾기 유저 정보 조회
 	 * 
 	 * @param member - 회원이 입력한 이름, 이메일 주소
@@ -72,6 +96,14 @@ public interface MemberService {
 	 * @throws CoolsmsException 
 	 */
 	public String userPhoneCheck(String userPhone) throws CoolsmsException;
+	
+	/**
+	 * 비밀번호 변경 처리
+	 * 
+	 * @param member - 회원의 ID, PW
+	 */
+	public void getPwModify(Member member);
+
 
 	
 	

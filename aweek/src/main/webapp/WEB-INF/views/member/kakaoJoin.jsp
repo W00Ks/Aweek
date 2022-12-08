@@ -68,57 +68,17 @@ function findAddress() {
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	//비밀번호 보여주기
-	$('#pwView1').on('click',function(){
-        $('input').toggleClass('active');
-        if($('input').hasClass('active')){
-            $(this).text("visibility_off")
-            .prev('#userPw').attr('type',"text");
-        }else{
-            $(this).text("visibility")
-            .prev('#userPw').attr('type','password');
-        }
-    });
-    
-	//비밀번호 확인 보여주기
-    $('#pwView2').on('click',function(){
-        $('input').toggleClass('active');
-        if($('input').hasClass('active')){
-            $(this).text("visibility_off")
-            .prev('#userPwChk').attr('type',"text");
-        }else{
-            $(this).text("visibility")
-            .prev('#userPwChk').attr('type','password');
-        }
-    });
+	//세션 확인 코드
+	console.log(sessionStorage.length);
+	console.log(sessionStorage.key(0));
+	console.log(sessionStorage.key(1));
+	console.log(sessionStorage.key(2));
+	console.log(sessionStorage.getItem("uId"));
+	console.log(sessionStorage.getItem("uName"));
+	console.log(sessionStorage.getItem("uEmail"));
 	
     //회원가입 페이지 접속 시 ID 포커스 주기
-	$("#userId").focus();
-	
-    //ID blur 시 ID 유효성 체크 및 중복 체크 진행
-	$("#userId").blur(function() {
-        checkId();
-    });
-	
-    //PW 포커스 시 PW 설정 메시지 출력
-	$("#userPw").focus(function() {
-		$("#userPwMsg").css('display', 'block');
-	});
-	
-	//PW blur 시 PW 유효성 체크 진행
-	$("#userPw").blur(function() {
-        checkPw();
-    });
-	
-	//PW 확인 포커스 시 PW 확인 설정 메시지 출력(메시지 없으나 아이콘 위치 변경되지 않도록 설정함)
-	$("#userPwChk").focus(function() {
-		$("#userPwChkMsg").css('display', 'block');
-	});
-	
-	//PW 확인 blur 시 유효성 체크 진행
-	$("#userPwChk").blur(function() {
-        checkPwChk();
-    });
+	$("#userPhone").focus();
 	
 	//이름 blur 시 공백여부 체크
 	$("#userName").blur(function() {
@@ -200,30 +160,6 @@ $(document).ready(function() {
 	
 	//회원가입 버튼 클릭 시 공백 항목 체크
 	$("#btnJoin").click(function() {
-		
-		//아이디 체크(공백인 경우)
-		if($("#userId").val() == ""){
-			swal("아이디를 입력해주세요","", "warning").then(function(){
-                $("input").eq(0).focus();
-        	});
-			return;
-		} 
-
-		//비밀번호 체크(공백인 경우)
-		if($("#userPw").val() == ""){
-			swal("비밀번호를 입력해주세요","", "warning").then(function(){
-				$("input").eq(1).focus()
-        	});
-			return;
-		} 
-
-		//비밀번호 확인 체크 (비밀번호와 같지 않거나 공백인 경우)
-		if($("#userPwChk").val() != $("#userPw").val() || $("#userPwChk").val() == ""){
-			swal("비밀번호 확인을 비밀번호와 동일하게 입력해주세요","", "warning").then(function(){
-				$("input").eq(2).focus()
-        	});
-			return;
-		} 
 
 		//이름 체크(공백인 경우)
 		if($("#userName").val() == ""){
@@ -274,13 +210,27 @@ $(document).ready(function() {
 			return;
 		} 
 		
-		//주소 값 합친 후 $("#userAddress")에 삽입
-// 		var post = $("#postCode").val();
-// 		var addr1 = $("#userAddress1").val();
-// 		var addr2 = $("#userAddress2").val();
-// 		var address = post + ' ' + addr1 + ' ' + addr2;
+		const generateRandomString = (num) => {
+		  const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+		  let result = '';
+		  const charactersLength = characters.length;
+		  for (let i = 0; i < num; i++) {
+		      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+		  }
+	
+		  return result;
+		}
+	
+		let randomStr = generateRandomString(6);
+		
+		const rand_0_9 = Math.floor(Math.random() * 10);
+		
+		const uPass = randomStr + rand_0_9 + '!';
+		
 		const address = $("#postCode").val() + ' ' + $("#userAddress1").val() + ' ' + $("#userAddress2").val();
 		
+		
+		$("#userPw").val(uPass);
 		$("#userAddress").val(address);
 		
 		// 제출하기
@@ -290,6 +240,7 @@ $(document).ready(function() {
 	
 	//가입 취소 버튼(뒤로가기)
 	$("#btnCancel").click(function() {
+		sessionStorage.clear()	/* 세션 삭제 */
 		history.go(-1)
 	})
 	
@@ -312,84 +263,6 @@ function showErrorMsg(obj, msg) {
 //메시지 숨기기
 function hideMsg(obj) {
     obj.hide();
-}
-
-//ID 유효성 검사 및 중복 검사
-function checkId() {
-    var id = $("#userId").val();
-    var oMsg = $("#userIdMsg");
-	
-    if ( id == "") {
-        showErrorMsg(oMsg,"필수 정보입니다.");
-        return false;
-    }
-	
-    var isID = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
-    if (!isID.test(id)) {
-        showErrorMsg(oMsg,"5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
-        return false;
-    }
-	
-    $.ajax({
-        type:"post"
-        , url: "./joinIdChk"
-       	, data : {
-			userId : $("#userId").val()
-		}
-		, dataType : "html"
-        , success : function( result ) {
-            if (result == 0) {
-                showSuccessMsg(oMsg, "사용 가능한 아이디입니다!");
-			    return true;
-			    
-            } else if ( result == 1 ) {
-                showErrorMsg(oMsg, "이미 사용중이거나 탈퇴한 아이디입니다.");
-                return false;
-            }
-        }
-    });
-}
-
-//PW 유효성 검사
-function checkPw() {
-    var pw = $("#userPw").val();
-    var oMsg = $("#userPwMsg");
-	
-    if ( pw == "") {
-        showErrorMsg(oMsg,"필수 정보입니다.");
-        return false;
-    }
-	
-    var isPW = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,15}$/;
-//    var isPW = /^[a-zA-Z][!@#$%^*+=-][0-9]{7,15}$/;
-    if (!isPW.test(pw)) {
-        showErrorMsg(oMsg,"비밀번호는 8~16자의 영문자+숫자+특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)");
-        return false;
-    } else {
-    	showSuccessMsg(oMsg, "사용 가능한 비밀번호입니다!");
-    	return true;
-    }
-	
-}
-
-//PW 확인 유효성 검사
-function checkPwChk() {
-    var pwChk = $("#userPwChk").val();
-    var oMsg = $("#userPwChkMsg");
-	
-    if ( pwChk == "") {
-        showErrorMsg(oMsg,"필수 정보입니다.");
-        return false;
-    }
-	
-    if ( pwChk == $("#userPw").val() ) {
-    	showSuccessMsg(oMsg, "비밀번호가 일치합니다!");
-    	return true;
-    } else {
-        showErrorMsg(oMsg,"비밀번호가 일치하지 않습니다.");
-        return false;
-    }
-	
 }
 
 </script>
@@ -442,19 +315,6 @@ input:focus{
 .success_msg {
 	font-size: 12px;
 	color: green;
-}
-
-/* 비밀번호 보기 아이콘 */
-.material-icons {
-	width: 30px;
-	position: absolute;
-	right: 10px;
- 	top: -4px; 
-	font-size: 30px;
-	vertical-align: middle;
-	text-align: center;
-	color: #f4b0b0;
-	cursor: pointer;
 }
 
 /* 비밀번호 span 영역 */
@@ -517,6 +377,11 @@ input:focus{
     cursor: pointer;
 }
 
+/* 카카오 계정 파라미터 */
+#userId, #userPw, #userName, #userEmail {
+	background-color: #e9e9e9;
+}
+
 </style>
 
 </head>
@@ -532,30 +397,19 @@ input:focus{
 	</h3>
 	
 	<div class="idBox">
-		<input type="text" name="userId" id="userId" class="int" maxlength="20" autocomplete="off">
+		<input type="text" name="userId" id="userId" class="int" maxlength="20" value="${uId}" readonly="readonly">
 	</div>
-	<span class="error_msg" id="userIdMsg" style="display:none;">아이디는 5 ~ 20자의 영문 소문자, 숫자만 입력 가능합니다.</span>
+	<span class="error_msg" id="userIdMsg" style="display:none;"></span>
 	
 	<h3 class="join_title">
 		<label for="userPw">비밀번호</label>
 	</h3>
-	<span class="pwBox"><input type="password" name="userPw" id="userPw" class="int" maxlength="16" autocomplete="off">
-		<span class="material-icons" id="pwView1">visibility</span>
-	</span>
-	<span class="error_msg" id="userPwMsg" style="display:none;">비밀번호는 8~16자의 영문자+숫자+특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)</span>
+	<span class="pwBox"><input type="password" name="userPw" id="userPw" class="int" maxlength="16" placeholder="카카오 계정은 비밀번호 입력이 불필요합니다." readonly="readonly"></span>
 
-	<h3 class="join_title">
-		<label for="userPwChk">비밀번호 확인</label>
-	</h3>
-	<span class="pwBox"><input type="password" name="userPwChk" id="userPwChk" class="int" maxlength="16" autocomplete="off">
-		<span class="material-icons" id="pwView2">visibility</span>
-	</span>
-	<span class="error_msg" id="userPwChkMsg" style="display:none;"></span>
-	
 	<h3 class="join_title">
 		<label for="userName">이름</label>
 	</h3>
-	<span><input type="text" name="userName" id="userName" class="int" maxlength="10" autocomplete="off"></span>
+	<span><input type="text" name="userName" id="userName" class="int" maxlength="10" autocomplete="off" value="${uName}" readonly="readonly"></span>
 	<span class="error_msg" id="userNameMsg" style="display:none;"></span>
 	
 	<h3 class="join_title">
@@ -585,7 +439,7 @@ input:focus{
 	<h3 class="join_title">
 		<label for="userEmail">이메일</label>
 	</h3>
-	<span><input type="email" name="userEmail" id="userEmail" class="int" maxlength="30" autocomplete="off"></span>
+	<span><input type="email" name="userEmail" id="userEmail" class="int" maxlength="30" value="${uEmail }" readonly="readonly"></span>
 	<span class="error_msg" id="userEmailMsg" style="display:none;"></span>
 
 	<div class="btn_area">
