@@ -7,9 +7,9 @@
 
 <mapper namespace="payment.dao.face.PaymentDao">
 
-	<select id="selectAll" resultType="payment.dto.Payment">
-		SELECT * FROM payment
-		ORDER BY userNo;
+	<select id="selectPaymentInfoById" resultType="member.dto.Member" parameterType="String">
+		SELECT * FROM member
+		WHERE user_id = #{id}
 	</select>
 	
 </mapper>

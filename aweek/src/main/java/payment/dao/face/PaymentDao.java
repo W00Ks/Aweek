@@ -2,15 +2,21 @@ package payment.dao.face;
 
 import java.util.List;
 
+import member.dto.Member;
 import payment.dto.Payment;
 
 public interface PaymentDao {
 
 	/**
-	 * 결제 정보 조회
+	 * 전달된 id의 사용자 정보를 조회
 	 * 
-	 * @return 조회된 결제 정보
+	 * @param userid - 조회할 id
+	 * @return 조회된 회원 정보
 	 */
-	public List<Payment> selectList();
+	Member selectPaymentInfoById(String userid);
+
+
+
+
 
 }

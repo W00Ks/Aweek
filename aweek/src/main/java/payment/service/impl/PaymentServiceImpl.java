@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import member.dto.Member;
 import payment.dao.face.PaymentDao;
 import payment.dto.Payment;
 import payment.service.face.PaymentService;
@@ -21,10 +22,13 @@ public class PaymentServiceImpl implements PaymentService{
 	@Autowired PaymentDao paymentDao;
 
 	@Override
-	public List<Payment> list() {
-		logger.info("paymentList()");
-		return paymentDao.selectList();
+	public Member paymentInfo(String userid) {
+		logger.info("paymentInfo : {}", userid);
+		
+		return paymentDao.selectPaymentInfoById(userid);
 	}
+
+
 	
 	
 
