@@ -26,9 +26,22 @@
 	<select id="selectRoom" resultType="room.dto.Room" parameterType="hashmap">
 		SELECT * FROM room
 			<foreach collection="roomNoArr" item="roomNo" open="WHERE" separator="OR">
-				room_no = #{roomNo }
+				room_no = #{roomNo}
 			</foreach>
 		ORDER BY room_no
 	</select>
+	
+	<update id="deleteFavorite" parameterType="int">
+		DELETE from diary_favorite
+		WHERE user_no = #{userNo}
+	</update>
+	
+	<insert id="insertFavorite" parameterType="diary.dto.DiaryFavorite">
+		INSERT ALL
+			<foreach collection="list" item="item">
+				INTO diary_favorite VALUES (#{item.user_no}, #{item.user_favorite}, 'test')
+			</foreach>
+		SELECT * FROM dual
+	</insert>
 
 </mapper>

@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import diary.dto.DiaryFavorite;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -70,16 +72,12 @@ public class DiaryController {
 	public void diaryMain(Model model, HttpSession session) {
 		
 		int userNo = (int) session.getAttribute("userNo");
-		
 		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
 		
 		for( RoomList i : userRoomList ) logger.trace("##### userRoomList : {}", i);
 		
 		String[] roomNos = new String[userRoomList.size()];
-		
-		for(int i=0; i<userRoomList.size(); i++) { 
-			roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
-		}
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
 		
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("roomNoArr", roomNos);
@@ -90,6 +88,39 @@ public class DiaryController {
 		
 		model.addAttribute("userRoom", userRoom);
 
+	}
+	
+	@GetMapping("/favorite")
+	public void diaryFavorite(Model model, HttpSession session) {
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
+		
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, Object> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+	}
+	
+	@PostMapping("/favorite")
+	public String diaryFavorite(@RequestParam String[] roomnos, HttpSession session) {
+		
+		int userNo = (int) session.getAttribute("userNo");
+		
+		for( String i : roomnos ) logger.trace("##### roomnos : {}", i);
+		
+		diaryService.userFavorite(roomnos, userNo);
+		
+		return "redirect:/diary/main";
+	}
+	
+	@GetMapping("/clear")
+	public void diaryClear() {
+		
 	}
 
 }

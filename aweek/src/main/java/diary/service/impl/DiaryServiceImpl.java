@@ -1,5 +1,6 @@
 package diary.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import diary.dao.face.DiaryDao;
+import diary.dto.Diary;
+import diary.dto.DiaryFavorite;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -44,6 +47,19 @@ public class DiaryServiceImpl implements DiaryService {
 		return diaryDao.selectRoom(param);
 	}
 
-
+	@Override
+	public void userFavorite(String[] roomnos, int userNo) {
+		diaryDao.deleteFavorite(userNo);
+		
+		List<DiaryFavorite> list = new ArrayList<>();
+				
+		for(int i=0; i<roomnos.length; i++) {
+			list.add(new DiaryFavorite(userNo, Integer.parseInt(roomnos[i])));
+		}
+		
+		for( DiaryFavorite i : list ) logger.trace("##### list : {}", i);
+		
+		diaryDao.insertFavorite(list);
+	}
 
 }
