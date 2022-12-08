@@ -1,6 +1,6 @@
 package payment.controller;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import payment.dto.Payment;
+import member.dto.Member;
 import payment.service.face.PaymentService;
 
 
@@ -22,18 +22,18 @@ public class PaymentController {
 	// 서비스 객체
 	@Autowired private PaymentService paymentService;
 	
-	@RequestMapping("/payment/list")
-	public void paymentList(Model model) {
-		logger.info("/payment/list");
+
+	@RequestMapping("/payment/payment")
+	public void paymentMain(HttpSession session, Model model) {
+		logger.info("/payment/payment");
 		
-		// 결제 정보 조회
-		List<Payment> paymentList = paymentService.list();
+		String userid = (String) session.getAttribute("userid");
+		logger.info("userid : {}", userid);
 		
-		// 모델값 전달
-		model.addAttribute("paymentList", paymentList);
+		Member paymentInfo = paymentService.paymentInfo(userid);
+		logger.info("userid result : {}", paymentInfo);
 		
-		
-		
+		model.addAttribute("paymentInfo", paymentInfo);
 	}
 
 }
