@@ -7,6 +7,8 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,11 @@ import member.service.face.MemberService;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
-
 @Service
 public class MemberServiceImpl implements MemberService {
+	
+	//로그 객체
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	//DAO 객체
 	@Autowired private MemberDao memberDao;
@@ -63,6 +67,34 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public Member getLoginInfo(Member member) {
+		
+		member = memberDao.selectLoginInfo(member); 
+		
+		return member;
+	}
+	
+	@Override
+	public boolean kakaoLogin(Member member) {
+		int loginChk = memberDao.selectCntKakaoMember(member);
+		
+		if( loginChk > 0 )	return true;
+		return false;
+	}
+	
+	@Override
+	public boolean kakaoJoin(Member member) {
+		//회원 가입 - DB 삽입
+		memberDao.insert(member);
+		
+		//회원가입 결과 확인
+		if( memberDao.selectIdChk(member) > 0 ) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
 	public boolean findIdUserInfo(Member member) {
 		int findIdChk = memberDao.selectCntFindIdMember(member);
 		
@@ -88,14 +120,15 @@ public class MemberServiceImpl implements MemberService {
 	       numStr+=ran;
 	    }
 	    
-	    MimeMessage mailMessage = mailSender.createMimeMessage();
-	    
-        String mailContent = "[AWEEK] 아이디 찾기 인증 메일입니다.<br><br>" + "인증번호는 " + numStr + " 입니다." ;     //보낼 메시지
-        mailMessage.setSubject("[AWEEK] 아이디 찾기 인증메일입니다.", "UTF-8"); 
-        mailMessage.setText(mailContent, "UTF-8", "html");
-        mailMessage.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(userEmail));
-        mailSender.send(mailMessage);
+//	    MimeMessage mailMessage = mailSender.createMimeMessage();
+//	    
+//        String mailContent = "[AWEEK] 아이디 찾기 인증 메일입니다.<br><br>" + "인증번호는 " + numStr + " 입니다." ;     //보낼 메시지
+//        mailMessage.setSubject("[AWEEK] 아이디 찾기 인증메일입니다.", "UTF-8"); 
+//        mailMessage.setText(mailContent, "UTF-8", "html");
+//        mailMessage.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(userEmail));
+//        mailSender.send(mailMessage);
 		
+        logger.info("+++ 이메일 인증 번호: " + numStr + " +++");
 		return numStr;
 	}
 	
@@ -121,17 +154,22 @@ public class MemberServiceImpl implements MemberService {
 	       numStr+=ran;
 	    }
 	    
-	    HashMap<String, String> params = new HashMap<String, String>();
-	    params.put("to", userPhone);    // 수신전화번호 (ajax로 view 화면에서 받아온 값으로 넘김)
-	    params.put("from", "01047854418");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
-	    params.put("type", "sms"); 
-	    params.put("text", "[Aweek] 인증번호는 [" + numStr + "] 입니다.");
-	
-	    coolsms.send(params); // 메시지 전송
+//	    HashMap<String, String> params = new HashMap<String, String>();
+//	    params.put("to", userPhone);    // 수신전화번호 (ajax로 view 화면에서 받아온 값으로 넘김)
+//	    params.put("from", "01047854418");    // 발신전화번호. 테스트시에는 발신,수신 둘다 본인 번호로 하면 됨
+//	    params.put("type", "sms"); 
+//	    params.put("text", "[Aweek] 인증번호는 [" + numStr + "] 입니다.");
+//	
+//	    coolsms.send(params); // 메시지 전송
 	    
+	    logger.info("+++ 휴대폰 인증 번호: " + numStr + " +++");
 	    return numStr;
 		
 	}
 	
+	@Override
+	public void getPwModify(Member member) {
+		memberDao.updatePw(member);
+	}
 	
 }

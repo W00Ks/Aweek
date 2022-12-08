@@ -5,12 +5,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import member.dto.Member;
 import member.service.face.MemberService;
@@ -23,17 +22,17 @@ public class MemberController {
 	//서비스 객체
 	@Autowired private MemberService memberService;
 	
-	//--- 회원가입 ---
+	//------------------------------ 회원가입 ------------------------------
 	@GetMapping("/join")
 	public void join() {}
 	
 	@PostMapping("/join")
-	public String joinProc(Member member) {
-		System.out.println("member: " + member);
+	public String joinProc(Member member, HttpSession session) {
 		boolean joinResult = memberService.join(member);
 		
 		if( joinResult ) {
-			return "redirect:/member/login";
+			session.setAttribute("userId", member.getUserId());
+			return "redirect:/member/joinOk";
 		} else {
 			return "redirect:/member/join";
 		}
@@ -52,8 +51,12 @@ public class MemberController {
 		}
 
 	}
+
+	//회원가입 완료 페이지
+	@RequestMapping("/joinOk")
+	public void joinOk() {}
 	
-	//--- 로그인 ---
+	//------------------------------ 로그인 ------------------------------
 	@GetMapping("/login")
 	public String login(HttpSession session) {
 		if ( session.getAttribute("loginResult") != null ) {
@@ -63,6 +66,7 @@ public class MemberController {
 		return "/member/login";
 	}
 	
+	//로그인 세션이 있는 상태에서 로그인 페이지를 접속한 경우 로그인 에러 페이지
 	@RequestMapping("/loginError")
 	public void loginError() {}
 	
@@ -72,6 +76,9 @@ public class MemberController {
 		
 		//로그인 인증
 		boolean loginResult = memberService.login(member);
+		
+		//로그인 유저 정보
+		member = memberService.getLoginInfo(member);
 		
 		if ( loginResult ) { //로그인 성공
 			
@@ -88,18 +95,61 @@ public class MemberController {
 		}
 	}
 	
-	//--- 로그아웃 ---
+	//카카오 로그인 처리
+	@RequestMapping("/kakaoLogin")
+	@ResponseBody
+	public int kakaoLogin(Member member, HttpSession session) {
+		boolean loginResult = memberService.joinIdChk(member);
+		
+		//로그인 유저 정보
+		member = memberService.getLoginInfo(member);
+		
+		if ( loginResult ) {
+			session.setAttribute("loginResult", loginResult);
+			session.setAttribute("userNo", member.getUserNo());
+			session.setAttribute("userId", member.getUserId());
+			
+			return 1;
+			
+		} else {
+			session.invalidate();
+			return 0;
+		}
+	}
+	
+	//카카오 회원가입 아이디, 이름, 이메일 파라미터 전달
+	@RequestMapping("/kakaoJoinChk")
+	@ResponseBody
+	public void kakaoJoinChk(Member member, HttpSession session) {
+		session.setAttribute("uId", member.getUserId());
+		session.setAttribute("uName", member.getUserName());
+		session.setAttribute("uEmail", member.getUserEmail());
+	}
+	
+	//카카오 회원가입
+	@GetMapping("/kakaoJoin")
+	public void kakaoJoin() {}
+	
+	@PostMapping("/kakaoJoin")
+	public void kakaoJoinProc(Member member, HttpSession session) {
+		System.out.println("member: " + member);
+		
+		memberService.kakaoJoin(member);
+		
+		session.setAttribute("userName", member.getUserName());
+		
+	}
+	
+	//------------------------------ 로그아웃 ------------------------------
 	@RequestMapping("/logout")
-	public String logout(HttpSession session) {
+	@ResponseBody
+	public void logout(HttpSession session) {
 		
 		//세션 정보 삭제 - 로그아웃
 		session.invalidate();
-		
-		//메인 페이지로 리다이렉트
-		return "redirect:/aweek/main";
 	}
 	
-	//--- 아이디 찾기 ---
+	//------------------------------ 아이디 찾기 ------------------------------
 	@GetMapping("/findId")
 	public void findId() {}
 	
@@ -129,7 +179,7 @@ public class MemberController {
 	@RequestMapping("/findIdOk")
 	public void findIdOk() {}
 	
-	//--- 비밀번호 찾기 ---
+	//------------------------------ 비밀번호 찾기 ------------------------------
 	@GetMapping("/findPw")
 	public void findPw() {}
 	
@@ -159,22 +209,16 @@ public class MemberController {
 	public void modifyPw() {}
 	
 	@PostMapping("/findPwOk")
-	@ResponseBody
-	public int modifyPwPwProc(Member member) {
-		
-		boolean findPwResult = memberService.findPwUserInfo(member);
-		
-		if ( findPwResult ) {
-			return 1;
-		} else {
-			return 0;
-		}
+	public void modifyPwProc(Member member) {
+		memberService.getPwModify(member);;
 	}
 	
-	//--- 회원 정보 수정
+	//------------------------------ 회원 정보 수정 ------------------------------
 	
 	
-	//--- 회원 탈퇴 ---
+	
+	//------------------------------ 회원 탈퇴 ------------------------------
+	
 	
 	
 }

@@ -45,17 +45,18 @@ $(document).ready(function() {
         }
     });
 	
+	//카카오 세션 확인 코드
+	console.log("${userId}")
+	console.log(sessionStorage.length);
+	console.log(sessionStorage.key(0));
+
 	//페이지 접속 시 비밀번호에 포커스 주기
 	$("#userPw").focus();
-	
-	//PW 포커스 시 PW 설정 메시지 출력
-	$("#userPw").focus(function() {
-		$("#userPwMsg").css('display', 'block');
-	});
 	
 	//PW blur 시 PW 유효성 체크 진행
 	$("#userPw").blur(function() {
         checkPw();
+        $("#userPwMsg").css('display', 'block');
     });
 	
 	//PW 확인 포커스 시 PW 확인 설정 메시지 출력(메시지 없으나 아이콘 위치 변경되지 않도록 설정함)
@@ -70,8 +71,16 @@ $(document).ready(function() {
 	
 	//취소 버튼 클릭(로그인 페이지로 이동)
 	$("#btnCancel").click(function() {
-		sessionStorage.clear()	/* 세션 삭제 */
-		window.location.href="/member/login";
+		$.ajax({
+			type:"post"
+			, url: "/member/logout"
+			, data: {
+			}
+		, dataType: "html"
+		, success: function() {
+			window.location.href="/member/login";
+		}
+		})
 	})
 	
 	//비밀번호 변경 버튼 클릭
@@ -92,9 +101,55 @@ $(document).ready(function() {
         	});
 			return;
 		}
+		
+		console.log($("#userId").val());
+		//비밀번호 변경 호출
+	    $.ajax({
+	        type:"post"
+	        , url: "./findPwOk"
+	       	, data : {
+				userId : "${userId}"
+				, userPw : $("#userPw").val()
+			}
+			, dataType : "html"
+	        , success : function() {
+	        	swal("비밀번호 변경 성공!","로그인 화면으로 이동합니다.", "success").then(function(){
+       				$.ajax({
+						type:"post"
+						, url: "/member/logout"
+						, data: {
+						}
+					, dataType: "html"
+					, success: function() {
+						window.location.href="/member/login";
+					}
+					})
+	        	});
+	        }
+	    });
+	    
 	})
 	
 })
+
+//성공메시지
+function showSuccessMsg(obj, msg) {
+	obj.attr("class", "success_msg");
+	obj.html(msg);
+	obj.show();
+}
+
+//에러메시지
+function showErrorMsg(obj, msg) {
+	obj.attr("class", "error_msg");
+	obj.html(msg);
+	obj.show();
+}
+
+//메시지 숨기기
+function hideMsg(obj) {
+    obj.hide();
+}
 
 //PW 유효성 검사
 function checkPw() {
@@ -109,18 +164,12 @@ function checkPw() {
     	showSuccessMsg(oMsg, "사용 가능한 비밀번호입니다!");
     	return true;
     }
-	
 }
 
 //PW 확인 유효성 검사
 function checkPwChk() {
     var pwChk = $("#userPwChk").val();
     var oMsg = $("#userPwChkMsg");
-	
-    if ( pwChk == "") {
-        showErrorMsg(oMsg,"필수 정보입니다.");
-        return false;
-    }
 	
     if ( pwChk == $("#userPw").val() ) {
     	showSuccessMsg(oMsg, "비밀번호가 일치합니다!");
@@ -129,7 +178,6 @@ function checkPwChk() {
         showErrorMsg(oMsg,"비밀번호가 일치하지 않습니다.");
         return false;
     }
-	
 }
 
 </script>
@@ -148,13 +196,41 @@ function checkPwChk() {
 	color: #f4b0b0;
 	font-size: 40px;
 	font-weight: bold;
-	margin: 250px auto 50px;
+	margin: 250px auto 30px;
 }
 
-/* input div 영역 */
+.TxtArea {
+	width: 600px;
+	border: 1px solid #ccc;
+	padding: 20px 0;
+	background-color: #fff4f4;
+}
+
+/* 비밀번호 변경 안내 텍스트 */
+.infoTxt {
+	font-size: 14px;
+	text-align: center;
+	font-weight: 400;
+	color: #5e5e5e;
+}
+
+.idTxt {
+	text-align: center;
+	margin-top: 20px;
+	font-weight: 600;
+}
+
+/* input Div 영역 */
 .pwDiv {
-	margin-top: 30px;
-	
+    width: 430px;
+    margin: 10px auto 20px;
+}
+
+/* 비밀번호 span 영역 */
+.pwBox {
+	position: relative;
+	z-index: 1;
+	flaot: left;
 }
 
 /* input box */
@@ -178,14 +254,16 @@ input:focus{
 .error_msg {
 	font-size: 12px;
 	color: red;
-	position: absolute;
-	
 }
 
 /* 성공 메시지 */
 .success_msg {
 	font-size: 12px;
 	color: green;
+}
+
+#userPwMsg {
+	width: 400px;
 }
 
 /* 비밀번호 보기 아이콘 */
@@ -201,23 +279,15 @@ input:focus{
 	cursor: pointer;
 }
 
-/* 비밀번호 span 영역 */
-.pwBox {
-	position: relative;
-	z-index: 1;
-	flaot: left;
-	position: relative;
-}
-
 /* 버튼 영역 */
 .btn_area {
 	margin: 20px auto;
-	width: 450px;
+	width: 330px;
 }
 
 /* 취소 버튼 */
 #btnCancel {
-	width: 200px;
+	width: 150px;
     height: 50px;
     border-radius: 5px;
     font-size: 15px;
@@ -230,7 +300,7 @@ input:focus{
 
 /* 비밀번호 변경 버튼 */
 #btnModifyPw {
-	width: 200px;
+	width: 150px;
     height: 50px;
     border-radius: 5px;
     font-size: 15px;
@@ -240,6 +310,7 @@ input:focus{
     color: #ffffff;
 	cursor: pointer;
 	float: right;
+	padding-right: 5px;
 }
 
 </style>
@@ -249,19 +320,22 @@ input:focus{
 
 <div class="container">
 	<div class="mainTxt">비밀번호 찾기</div>
-	<div class="subTxt">비밀번호를 변경해 주세요</div>
-	<div class="subTxt">다른 아이디나 사이트에서 사용한 적 없는 안전한 비밀번호로 변경해주세요.</div>
-	
-	<div class="idTxt">
-		<span>AWEEK 아이디 : </span>
-		<span name="userId">${userId }</span>
+	<div class="TxtArea">
+		<div class="infoTxt">
+			<div class="subTxt">비밀번호를 변경해 주세요</div>
+			<div class="subTxt">다른 아이디나 사이트에서 사용한 적 없는 안전한 비밀번호로 변경해주세요.</div>
+		</div>
+		<div class="idTxt">
+			<span>AWEEK 아이디 : </span>
+			<span id="userId">${userId }</span>
+		</div>
 	</div>
 	
 	<div class="pwDiv">
 		<span class="pwBox"><input type="password" name="userPw" id="userPw" class="int" maxlength="16" placeholder="새 비밀번호" autocomplete="off">
 			<span class="material-icons" id="pwView1">visibility</span>
 		</span>
-		<span class="error_msg" id="userPwMsg" style="display:none;">비밀번호는 8~16자의 영문자+숫자+특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)</span>
+		<span class="error_msg" id="userPwMsg" style="display:none;"></span>
 	
 		<span class="pwBox"><input type="password" name="userPwChk" id="userPwChk" class="int" maxlength="16" placeholder="새 비밀번호 확인" autocomplete="off">
 			<span class="material-icons" id="pwView2">visibility</span>

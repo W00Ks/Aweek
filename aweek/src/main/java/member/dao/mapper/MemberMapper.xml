@@ -22,6 +22,16 @@
 		WHERE user_id = #{userId} AND user_pw = #{userPw}
 	</select>
 	
+	<select id="selectLoginInfo" resultType="Member" parameterType="Member">
+		SELECT * FROM member
+		WHERE user_id = #{userId}
+	</select>
+	
+	<select id="selectCntKakaoMember" resultType="int" parameterType="Member">
+		SELECT count(*) FROM member
+		WHERE user_id = #{userId}
+	</select>
+	
 	<select id="selectCntFindIdMember" resultType="int" parameterType="Member">
 		SELECT count(*) FROM member
 		WHERE user_name = #{userName} AND user_email = #{userEmail}
@@ -37,5 +47,10 @@
 		WHERE user_name = #{userName} AND user_id = #{userId} AND user_phone = #{userPhone}
 	</select>
 	
+	<update id="updatePw" parameterType="Member">
+		UPDATE member
+		SET user_pw = #{userPw}
+		WHERE user_id = #{userId}
+	</update>
 	
 </mapper>
