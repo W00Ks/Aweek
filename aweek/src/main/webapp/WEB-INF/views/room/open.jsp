@@ -138,7 +138,7 @@ form {
 
 <script defer type="text/javascript">
 
-//대상 Element 선택
+/* //대상 Element 선택
 const resizer = document.querySelector('#resizer');
 const leftSide = resizer.previousElementSibling;
 const rightSide = resizer.nextElementSibling;
@@ -202,7 +202,7 @@ const mouseUpHandler = function () {
 };
 
 // 마우스 down 이벤트를 등록
-resizer.addEventListener('mousedown', mouseDownHandler);
+resizer.addEventListener('mousedown', mouseDownHandler); */
 
 </script>
 

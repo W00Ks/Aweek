@@ -54,6 +54,7 @@ public class RoomController {
 		//로그인 후 userNo저장
 		session.setAttribute("userNo", member.getUserNo());
 		int userno = (int) session.getAttribute("userNo");
+		model.addAttribute("userno", userno);
 		logger.info("userno : {}", userno);
 		
 		//userNo로 모임 list 조회(내가 가입한 모임)
@@ -76,34 +77,14 @@ public class RoomController {
 		model.addAttribute("roomList", roomList);
 	}
 	
-	
-	//모임 가입 전 가입 중복 검사
-	@ResponseBody
-	@RequestMapping("/room/joinUserNoChk")
-	public int joinUserNoCheck(HttpSession session) {
-		int userno = (int) session.getAttribute("userNo");
-		logger.info("이거이거userno : {}", userno);
-		
-		//RoomList에 UserNo있는지 조회(가입되어 있는지 확인)
-		boolean joinUserNoChkResult = roomService.joinUserNoChk(userno);
-		
-		if ( joinUserNoChkResult ) {
-			//가입 중
-			return 1; 
-		} else {
-			//가입 하지 않음
-			return 0;
-		}
-	}
-	
 	//모임 개설
-	@GetMapping("/room/Open")
+	@GetMapping("/room/open")
 	public void roomOpenPage( HttpSession session, Member member ) {
 		//로그인 후 userNo저장
 		session.setAttribute("userNo", member.getUserNo());
 	}
 	
-	@PostMapping("/room/Open")
+	@PostMapping("/room/open")
 	public String roomOpenProc( HttpSession session, Room room, RoomList roomList ) {
 		
 		//세션에 저장된 userNo 불러오기
@@ -116,7 +97,7 @@ public class RoomController {
 		//모임 생성
 		roomService.createRoom(room, roomList);
 		
-		return "redirect:/room/main";
+		return "/room/main";
 	}
 	
 	//모임 정보
@@ -143,43 +124,7 @@ public class RoomController {
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("userno : {}", userno);
 		
-		
-		
-		//수정한 모임정보 저장
-//		roomService.updateRoom(room);
-		
-		
-		
-		
-		return "redirect:/room/main";
-	}
-	
-	//모임 설정
-	@GetMapping("/room/setting")
-	public void roomSettingPage( HttpSession session, Member member, Room room, Model model ) {
-		
-		session.setAttribute("userNo", member.getUserNo());
-		
-		//roomNo로 모임정보 불러오기
-		room = roomService.getRoomInfo(room);
-		model.addAttribute("roomInfo", room);
-		
-		logger.info("roomInfo : {}", room);
-	}
-	
-	@PostMapping("/room/setting")
-	public String roomSettingProc( HttpSession session, Room room ) {
-		
-		//세션에 저장된 userNo 불러오기
-		int userno = (int) session.getAttribute("userNo");
-		logger.info("userno : {}", userno);
-		
-		
-		//수정한 모임정보 저장
-//		roomService.updateRoom(room);
-		
-		
-		return "redirect:/room/main";
+		return "/room/main";
 	}
 	
 	//모임 가입
@@ -216,21 +161,68 @@ public class RoomController {
 		
 		logger.info("roomList :{}" ,roomList);
 		
-		return "redirect:/room/main";
+		return "/room/main";
 	}
 	
-	//모임 탈퇴
+	//모임 가입 전 가입 중복 검사
 	@ResponseBody
-	@RequestMapping("/room/dropOut")
-	public String roomDropout( HttpSession session, Member member, RoomList roomList ) {
+	@RequestMapping("/room/joinUserNoChk")
+	public int joinUserNoCheck(HttpSession session) {
+		int userno = (int) session.getAttribute("userNo");
+		logger.info("이거이거userno : {}", userno);
+		
+		//RoomList에 UserNo있는지 조회(가입되어 있는지 확인)
+		boolean joinUserNoChkResult = roomService.joinUserNoChk(userno);
+		
+		if ( joinUserNoChkResult ) {
+			//가입 중
+			return 1; 
+		} else {
+			//가입 하지 않음
+			return 0;
+		}
+	}
+	
+	//모임 설정
+	@GetMapping("/room/setting")
+	public void roomSettingPage( HttpSession session, Member member, Room room, Model model ) {
+		
+		session.setAttribute("userNo", member.getUserNo());
+		
+		//roomNo로 모임정보 불러오기
+		room = roomService.getRoomInfo(room);
+		model.addAttribute("roomInfo", room);
+		
+		logger.info("roomInfo : {}", room);
+	}
+	
+	@PostMapping("/room/setting")
+	public String roomSettingProc( HttpSession session, Room room ) {
 		
 		//세션에 저장된 userNo 불러오기
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("userno : {}", userno);
 		
+		//수정한 모임정보 저장
+		roomService.updateRoom(room);
+
+		return "/room/roomInfo";
+	}
+	
+	//모임 탈퇴
+	@ResponseBody
+	@RequestMapping("/room/dropOut")
+	public String roomDropout( HttpSession session, Member member, RoomList roomList, Room room ) {
+		
+		//세션에 저장된 userNo 불러오기
+		int userno = (int) session.getAttribute("userNo");
+		logger.info("userno : {}", userno);
+		
+		roomList.setRoomNo(room.getRoomNo());
+		
 		//모임 탈퇴
 		roomService.dropOut(roomList, userno);
 		
-		return "redirect:/room/main";
+		return "/room/main";
 	}
 }

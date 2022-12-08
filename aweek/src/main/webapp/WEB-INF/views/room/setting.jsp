@@ -135,15 +135,15 @@ form {
    
    <div class="resizer" id="dragMe"></div>
    
-   <form action="./open" method="post" class="container__right" id="form">
+   <form action="./setting" method="post" class="container__right" id="form">
      <h1>모임 개설</h1>
      
      <div class="open-content">
      	<div class="object">
-     	
-     	<input type="hidden" name="roomNo" value="${param.roomNo }">
-	     <p>모임 이름 * </p>
-	     <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" value="${roomInfo.roomName }">
+	     	<input type="hidden" name="roomNo" id="roomNo" value="${roomInfo.roomNo }">
+	     	<input type="hidden" name="userNo" id="userNo" value="${roomInfo.userNo }">
+		    <p>모임 이름 * </p>
+		    <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" value="${roomInfo.roomName }">
 	    </div>
 	    <div class="object">
 	     <p>모임 소개 * </p>
@@ -173,7 +173,7 @@ form {
 	    </div>
 	    
 	    <div class="btnsection">
-	    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">모임 개설</a>
+	    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">설정</a>
 	    	<a href="#" class="btn btn--brown wide">취소</a>
 	    </div>
      </div>

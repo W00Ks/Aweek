@@ -42,25 +42,9 @@ public class RoomServiceImpl implements RoomService {
 	}
 	
 	@Override
-	public boolean joinUserNoChk(int userno) {
-		
-		int result = roomDao.selectUserNoChk(userno);
-		
-		if(result > 0) {
-			logger.info("true");
-			//가입함
-			return true;
-		}
-		logger.info("false");
-		//가입안함
-		return false;
-	}
-	
-	@Override
 	@Transactional
 	public void createRoom(Room room, RoomList roomList) {
 		roomDao.insertRoom(room);
-		
 		roomList.setRoomNo(room.getRoomNo());
 		roomList.setUserNo(room.getUserNo());
 		roomDao.insertRoomInfo(roomList);
@@ -89,6 +73,26 @@ public class RoomServiceImpl implements RoomService {
 		
 		roomDao.insertRoomInfo(roomList);
 		
+	}
+	
+	@Override
+	public boolean joinUserNoChk(int userno) {
+		
+		int result = roomDao.selectUserNoChk(userno);
+		
+		if(result > 0) {
+			logger.info("true");
+			//가입함
+			return true;
+		}
+		logger.info("false");
+		//가입안함
+		return false;
+	}
+	
+	@Override
+	public void updateRoom(Room room) {
+		roomDao.updateRoom(room);
 	}
 	
 	@Override

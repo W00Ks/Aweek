@@ -60,11 +60,11 @@
 
     <ul class="header__menu">
       <li>
-        <a href="<%=request.getContextPath() %>/" class="i__1">
+        <a href="<%=request.getContextPath() %>/chat/main" class="i__1">
         <span class="material-icons">forum</span></a>
       </li>
       <li>
-        <a href="<%=request.getContextPath() %>/" class="i__2">
+        <a href="<%=request.getContextPath() %>/calender/main" class="i__2">
         <span class="material-icons">calendar_month</span></a>
       </li>
       <li>
@@ -72,7 +72,7 @@
        	<span class="material-icons">note_alt</span></a>
       </li>
       <li>
-        <a href="<%=request.getContextPath() %>/" class="i__4">
+        <a href="<%=request.getContextPath() %>/room/main" class="i__4">
         <span class="material-icons">info</span></a>
       </li>
     </ul>

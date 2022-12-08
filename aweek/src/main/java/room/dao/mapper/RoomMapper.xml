@@ -20,11 +20,6 @@
 		ON a.room_no = b.room_no
 	</select>
 	
-	<select id="selectUserNoChk" resultType="int" parameterType="int">
-		SELECT count(*) FROM room_list
-		WHERE user_no = #{userno }
-	</select>
-	
 	<insert id="insertRoom" parameterType="Room">
 		<selectKey keyProperty="roomNo" resultType="int" order="BEFORE">
 		SELECT room_seq.nextval FROM dual
@@ -53,9 +48,20 @@
 		WHERE room_no = #{roomNo}
 	</select>
 	
+	<select id="selectUserNoChk" resultType="int" parameterType="int">
+		SELECT count(*) FROM room_list
+		WHERE user_no = #{userno }
+	</select>
+	
+	<update id="updateRoom" parameterType="Room">
+	UPDATE room
+	SET room_name = #{roomName}, room_introduce = #{roomIntroduce}, room_category_no = #{roomCategoryNo}, room_member = #{roomMember}, room_public = #{roomPublic}
+	WHERE room_no = #{roomNo}
+	</update>
+	
 	<delete id="deleteRoomList" parameterType="RoomList">
 		DELETE room_list
-		WHERE room_user_no = #{roomUserNo}
+		WHERE room_no = #{roomNo} AND user_no = #{userNo}
 	</delete>
 
 </mapper>
