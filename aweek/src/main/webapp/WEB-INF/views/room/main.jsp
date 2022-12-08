@@ -120,11 +120,55 @@ body {
 
 <script defer type="text/javascript">
 function moveSetting(i,j){
-	  console.log("click")
- 	  location.href = "/room/roomInfo?userNo=" + i + "&roomNo=" + j;
+	console.log("click")
+	location.href = "/room/roomInfo?userNo=" + i + "&roomNo=" + j;
+}
+
+function roomOpen(){
+	let userNo = document.querySelector("#userNo").value
+ 	location.href = "/room/open?userNo=" + userNo;
+}
+
+function roomList(){
+	let userNo = document.querySelector("#userNo").value
+	location.href = "/room/roomList?userNo=" + userNo;
 }
 
 function dropOut(){
+	let roomName = document.querySelector("#roomName").innerText
+	console.log(roomName)
+	
+	let userNo = $("#userNo").val();
+	let roomNo = $("#roomNo").val();
+	
+	console.log(userNo)
+	console.log(roomNo)
+	
+ 	let conf = confirm( roomName + " 모임을 탈퇴하시겠습니까?");
+	
+	if(conf){
+	   
+		$.ajax({
+	        type:"post"
+	        , url: "./dropOut"
+	       	, data : {
+				userno : $("#userNo").val(),
+				roomNo : $("#roomNo").val()
+			}
+			, dataType : "html"
+	        , success : function( result ) {
+	        	console.log("secess userNo:" + userNo)
+	        	console.log("secess roomNo:" + roomNo)
+                alert("탈퇴가 완료 되었습니다");
+	        	location.href="/room/main";
+	        }
+			, error : function() {
+				console.log("error")
+                alert("탈퇴에 실패했습니다");
+				return false;
+			}
+	    });
+	}
 	
 }
 
@@ -219,21 +263,21 @@ resizer.addEventListener('mousedown', mouseDownHandler);
 <section class="container">
     <div class="container__left">
       <div class="btn-menu">
-		<a href="#" class="btn btn--brown">모임개설</a>
-		<a href="#" class="btn btn--brown">모임목록</a>
+		<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
+		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
      </div>
     </div>
 
     <div class="resizer" id="dragMe"></div>
     <div class="container__right">
     
+    	<input type="hidden" name="userNo" id="userNo" value="${userno }">
 		<c:forEach items="${myRoomList  }" var="room">
 		
 			<form name="form">
+		    	<input type="hidden" name="userNo" id="userNo" value="${room.userNo }">
 				<div class="roomBox" onclick="moveSetting(${room.userNo },${room.roomNo })">
-		 			<input type="hidden" name="userNo" id="userNo" value="${room.userNo }">
-					<input type="hidden" name="roomNo" id="roomNo" value="${room.roomNo }">
-					<p id="roomName">${room.roomName }<br></p>
+					<p id="roomName">${room.roomName }</p>
 					<p id="roomIntroduce">${room.roomIntroduce }<br></p>
 					
 					<c:if test="${room.roomPublic eq '1' }"> 

@@ -124,7 +124,59 @@ form {
 
 </style>
 
+<script defer type="text/javascript">
+function setting(){
+	let roomNo = document.querySelector("#roomNo").value
+	let userNo = document.querySelector("#userNo").value
+	location.href = "/room/setting?userNo=" + userNo +"&roomNo=" + roomNo;
+}
 
+function dropOut(){
+	let roomNo = document.querySelector("#roomNo").value
+	let userNo = document.querySelector("#userNo").value
+	location.href = "/room/setting?userNo=" + userNo +"&roomNo=" + roomNo;
+}
+
+function dropOut(){
+	let roomName = document.querySelector("#roomName").innerText
+	console.log(roomName)
+	
+	let userNo = $("#userNo").val();
+	let roomNo = $("#roomNo").val();
+	
+	console.log(userNo)
+	console.log(roomNo)
+	
+ 	let conf = confirm( "'" + roomName + "' 모임을 탈퇴하시겠습니까?");
+/* 	let conf = confirm( "모임을 탈퇴하시겠습니까?"); */
+	
+	if(conf){
+	   
+		$.ajax({
+	        type:"post"
+	        , url: "./dropOut"
+	       	, data : {
+				userno : $("#userNo").val(),
+				roomNo : $("#roomNo").val()
+			}
+			, dataType : "html"
+	        , success : function( result ) {
+	        	console.log("secess userNo:" + userNo)
+	        	console.log("secess roomNo:" + roomNo)
+                alert("탈퇴가 완료 되었습니다");
+	        }
+			, error : function() {
+				console.log("error")
+                alert("탈퇴에 실패했습니다");
+				return false;
+			}
+	    });
+	}
+	
+}
+
+
+</script>
 
 
 <section class="container">
@@ -135,20 +187,20 @@ form {
      </div>
    </div>
    
-   <form action="./open" method="post" class="container__right" id="form">
-     <h1>모임 개설</h1>
+   <div class="container__right" id="form">
+     <h1>모임 정보</h1>
      
      <div class="open-content">
      	<div class="object">
      	
-     	<input type="hidden" name="roomNo" value="${roomInfo.roomNo }">
-     	<input type="hidden" name="roomNo" value="${roomInfo.userNo }">
+     	<input type="hidden" name="roomNo" id="roomNo" value="${roomInfo.roomNo }">
+     	<input type="hidden" name="userNo" id="userNo" value="${roomInfo.userNo }">
 	     <p>모임 이름 * </p>
-	     <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" value="${roomInfo.roomName }">
+	     <p id="roomName">${roomInfo.roomName }</p>
 	    </div>
 	    <div class="object">
 	     <p>모임 소개 * </p>
-	     <input type="text" id="roomIntroduce" name="roomIntroduce" placeholder="모임 소개를 적어주세요!" value="${roomInfo.roomIntroduce }">
+	     <p id="roomIntroduce">${roomInfo.roomIntroduce }</p>
 	    </div>
 	    <div class="object">
 	     <p>인원 수 * </p>
@@ -174,11 +226,12 @@ form {
 	    </div>
 	    
 	    <div class="btnsection">
-	    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">모임 개설</a>
-	    	<a href="#" class="btn btn--brown wide">취소</a>
+	    	<a class="btn btn--brown wide" onclick="setting()">모임 설정</a>
+	    	<a class="btn btn--brown wide" onclick="dropOut()">모임 탈퇴</a>
+	    	<a class="btn btn--brown wide">취소</a>
 	    </div>
      </div>
-   </form>
+   </div>
 
 </section>
 

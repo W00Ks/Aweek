@@ -22,14 +22,6 @@ public interface RoomDao {
 	 * @return
 	 */
 	public List<Room> selectRoomListByUserNo(int userno);
-
-	/**
-	 * 
-	 * 
-	 * @param roomList
-	 * @return
-	 */
-	public int selectUserNoChk(int userno);
 	
 	/**
 	 * 모임 생성 정보 insert
@@ -60,13 +52,29 @@ public interface RoomDao {
 	 * @return List<RoomList> userNo를 포함한 모임목록 객체
 	 */
 	public List<RoomList> selectUserNoFromRoomList(int roomNo);
+	
+	/**
+	 * 
+	 * 
+	 * @param roomList
+	 * @return
+	 */
+	public int selectUserNoChk(int userno);
 
+	/**
+	 * 모임 정보 수정
+	 * 
+	 * @param room
+	 */
+	public void updateRoom(Room room);
+	
 	/**
 	 * userNo에 해당하는 RoomList 삭제 (모임 탈퇴)
 	 * 
 	 * @param roomList - 모임 목록 정보 객체
 	 */
 	public void deleteRoomList(RoomList roomList);
+
 
 
 

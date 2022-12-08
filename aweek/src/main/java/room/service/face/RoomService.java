@@ -23,14 +23,6 @@ public interface RoomService {
 	public List<Room> myRoomList(int userno);
 	
 	/**
-	 * 
-	 * 
-	 * @param roomList
-	 * @return
-	 */
-	public boolean joinUserNoChk(int userno);
-	
-	/**
 	 * 모임 개설
 	 * 
 	 * @param room - 모임 정보 객체
@@ -61,7 +53,22 @@ public interface RoomService {
 	 * @param roomList - 모임목록 정보 객체
 	 */
 	public void joinRoom(RoomList roomList, int userno);
+	
+	/**
+	 * 
+	 * 
+	 * @param roomList
+	 * @return
+	 */
+	public boolean joinUserNoChk(int userno);
 
+	/**
+	 * 모임 정보 수정
+	 * 
+	 * @param room - 모임 정보 객체
+	 */
+	public void updateRoom(Room room);
+	
 	/**
 	 * 모임 탈퇴
 	 * 
@@ -69,6 +76,7 @@ public interface RoomService {
 	 * @param userno - 로그인한 회원번호
 	 */
 	public void dropOut(RoomList roomList, int userno);
+
 
 	
 
