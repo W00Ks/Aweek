@@ -3,6 +3,8 @@ package diary.service.face;
 import java.util.HashMap;
 import java.util.List;
 
+import diary.dto.Diary;
+import diary.dto.DiaryFavorite;
 import member.dto.Member;
 import room.dto.Room;
 import room.dto.RoomList;
@@ -40,5 +42,13 @@ public interface DiaryService {
 	 * @return 로그인 사용자의 소속 모임 정보 DTO 리스트 반환
 	 */
 	public List<Room> userRoomInfo(HashMap<String, Object> param);
+
+	/**
+	 * 사용자 즐겨찾기 목록 추가
+	 * 
+	 * @param roomnos - 사용자가 전달한 즐겨찾기 목록
+	 * @param userNo - 사용자 번호
+	 */
+	public void userFavorite(String[] roomnos, int userNo);
 
 }

@@ -37,6 +37,11 @@ html, body {
 	justify-content: center;
 	align-items: center;
 }
+.leftbox3 {
+	border-bottom: 1px solid #C7D1CA;
+	width: 250px;
+	min-height: 60px;
+}
 .writeDiary {
 	display: flex;
 	font-weight:600;
@@ -80,10 +85,29 @@ html, body {
 }
 .rightmenu {
 	flex: 1;
-	background-color: blue;
+	display: flex;
 	width: 100%;
 	height: 100%;
 	padding: 15px;
+	justify-content: center; /* 수평 정렬*/
+}
+.rightbox1 {
+	height: 100px;
+}
+.rightbox2 {
+	height: 200px;
+}
+.rightbox3 {
+	height: 200px;
+}
+.rightbox4 {
+	height: 200px;
+}
+.rightbox5 {
+	height: 200px;
+}
+.sidebox1, .sidebox2 {
+	width: 194px;
 }
 </style>
 
@@ -92,6 +116,22 @@ $(document).ready(function(){
 	$(".menu>div").click(function(){
 		$(this).next("ul").toggleClass("hide")
 	});
+	
+	$("#favorite").click(function(){
+		$.ajax({
+			type: "get"
+			, url: "./favorite"
+			, data: {}
+			, dataType: "html"
+			, success: function( res ) {
+				console.log("AJAX 성공")
+				$(".sidebox1").html( res )
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+			}
+		})
+	})
 });
 </script>
 
@@ -106,7 +146,7 @@ $(document).ready(function(){
 		</div>
 		<div class="leftbox2">
 			<a href="#">
-			<span style="color: black; font-size: 0.8em; width: 55px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
+			<span style="color: black; font-size: 0.8em; width: 70px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
 				<span style="font-size: 1.5em; color: #029EE4;">
 				0
 				</span><br>
@@ -115,10 +155,18 @@ $(document).ready(function(){
 				</span>
 			</span>
 			</a>
-			<span style="color: black; font-size: 0.8em; width: 55px; height: 45px; display: flex; align-items:flex-end;">
-			</span>
 			<a href="#">
-			<span style="color: black; font-size: 0.8em; width: 55px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
+			<span style="color: black; font-size: 0.8em; width: 70px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
+				<span style="font-size: 1.5em; color: #029EE4;">
+				0
+				</span><br>
+				<span>
+				최신글
+				</span>
+			</span>
+			</a>
+			<a href="#">
+			<span style="color: black; font-size: 0.8em; width: 70px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
 				<span style="font-size: 1.5em; color: #029EE4;">
 				<img alt="" src="/resources/diary/mydiary.PNG" style="margin-bottom: -4px;">
 				</span><br>
@@ -129,6 +177,10 @@ $(document).ready(function(){
 			</a>
 		</div>
 		<div class="leftbox3">
+			<div style="font-size: 0.8em; font-weight:600; height: 20px; line-height:20px; padding: 20px 20px 0px 20px;">
+			즐겨찾기
+			<a id="favorite" style="cursor: pointer;"><img alt="" src="/resources/diary/settings_FILL0_wght400_GRAD0_opsz48.png" style="display: inline; float: right; width: 20px; height: 20px;"></a>			
+			</div>
 		</div>
 		<div class="leftbox4">
 			<ul>
@@ -137,6 +189,7 @@ $(document).ready(function(){
 						<div class="menublock1">${data.roomName }<img alt="" src="/resources/diary/menu.PNG" style="display: inline; float: right;"></div>
 						<ul id="menublock2" class="hide">
 							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">공지사항</div></a></div></li>
+							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">추천글</div></a></div></li>
 							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">최신글</div></a></div></li>
 						</ul>
 					</li>
@@ -147,14 +200,25 @@ $(document).ready(function(){
 	<div style="width: 250px; height: 100%;">
 	</div>
 	<div class="rightmenu">
-		<div class="rightbox1">
+		<div class="sidebox1"></div>
+		<div style="width: 1235px; height: 100%;">
+			<div class="rightbox1">
+			</div>
+			<div class="rightbox2">
+				<div style="font-size: 1.2em; font-weight:600;">도움말</div>
+			</div>
+			<div class="rightbox3">
+				<div style="font-size: 1.2em; font-weight:600;">공지사항</div>
+			</div>
+			<div class="rightbox4">
+				<div style="font-size: 1.2em; font-weight:600;">추천글</div>
+			</div>
+			<div class="rightbox5">
+				<div style="font-size: 1.2em; font-weight:600;">최신글</div>
+			</div>
 		</div>
-		<div class="rightbox2">
-		</div>
-		<div class="rightbox3">
-		</div>
+		<div class="sidebox2"></div>
 	</div>
 </div>
-
 </body>
 </html>
