@@ -9,11 +9,12 @@ public class Chat {
 	private int chatReadCnt;
 	private int userNo;
 	private int chatRoomNo;
+	private String userId;
 	
 	public Chat() {}
 
 	public Chat(int chatNo, String chatKind, String chatContent, String chatTime, int chatReadCnt, int userNo,
-			int chatRoomNo) {
+			int chatRoomNo, String userId) {
 		super();
 		this.chatNo = chatNo;
 		this.chatKind = chatKind;
@@ -22,12 +23,14 @@ public class Chat {
 		this.chatReadCnt = chatReadCnt;
 		this.userNo = userNo;
 		this.chatRoomNo = chatRoomNo;
+		this.userId = userId;
 	}
 
 	@Override
 	public String toString() {
 		return "Chat [chatNo=" + chatNo + ", chatKind=" + chatKind + ", chatContent=" + chatContent + ", chatTime="
-				+ chatTime + ", chatReadCnt=" + chatReadCnt + ", userNo=" + userNo + ", chatRoomNo=" + chatRoomNo + "]";
+				+ chatTime + ", chatReadCnt=" + chatReadCnt + ", userNo=" + userNo + ", chatRoomNo=" + chatRoomNo
+				+ ", userId=" + userId + "]";
 	}
 
 	public int getChatNo() {
@@ -85,5 +88,13 @@ public class Chat {
 	public void setChatRoomNo(int chatRoomNo) {
 		this.chatRoomNo = chatRoomNo;
 	}
-	
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 }

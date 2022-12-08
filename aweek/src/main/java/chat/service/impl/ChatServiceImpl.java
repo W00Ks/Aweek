@@ -80,6 +80,18 @@ public class ChatServiceImpl implements ChatService {
 		return result;
 	}
 	
+	@Override
+	public List<Chat> getChatHistory(int chatRoomNo, int userNo) {
+		
+		Chat chat = new Chat();
+		chat.setChatRoomNo(chatRoomNo);
+		chat.setUserNo(userNo);
+		
+		List<Chat> chatList = chatDao.selectChatHistory(chat);
+		
+		return chatList;
+	}
+	
 }
 
 

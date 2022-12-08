@@ -48,9 +48,18 @@
 	</insert>
 	
 	<insert id="insertMessage" parameterType="Chat">
-		INSERT INTO chat (chat_no, user_no, chat_room_no, chat_content, chat_time)
-		VALUES (chat_seq.nextval, #{userNo }, #{chatRoomNo }, #{chatContent }, #{chatTime })		
+		INSERT INTO chat (chat_no, user_no, chat_room_no, chat_content, chat_time, chat_kind)
+		VALUES (chat_seq.nextval, #{userNo }, #{chatRoomNo }, #{chatContent }, #{chatTime }, #{chatKind })		
 	</insert>
+	
+	<!-- 채팅 내역 조회 -->
+	<select id="selectChatHistory" resultType="Chat" parameterType="Chat">
+		SELECT c.*, m.user_id FROM chat c
+		INNER JOIN member m
+		ON c.user_no = m.user_no
+			WHERE chat_room_no = #{chatRoomNo } AND chat_no >= (SELECT MAX(chat_no) FROM chat
+			WHERE chat_room_no = #{chatRoomNo } AND user_no = #{userNo } AND chat_kind = 1)
+	</select>
 	
 </mapper>
 

@@ -5,10 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+</style>
 </head>
 <body>
 
-<h1>채팅방 나감</h1>
+<div id="mainImgWrap"><img id="mainImg" src="/resources/chat/aweekLogo.png"></div>
 
 </body>
 </html>

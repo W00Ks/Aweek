@@ -16,7 +16,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import chat.dto.ChatList;
 import chat.service.face.ChatService;
 import member.dto.Member;
 
@@ -37,6 +36,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	
 	// Key : userId, Value : WebSocketSession
 	Map<String, WebSocketSession> idSessions = new HashMap<>();
+	
+	Map<String, String> roomId = new HashMap<>();
 	
 	//메시지 보낸사람 ID를 담을 Stack
 	Stack<String> stack = new Stack<String>();
@@ -71,17 +72,27 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			stack.clear();
 			
 			//메시지 보내기
-			for(String key : idSessions.keySet()) {
-				logger.info("### 확인{}, {}", session, idSessions.get(key));
-				logger.info("### session{}, {}", chatRoomSessions.get(session), idSessions.get(key));
-				//같은 방 유저에게만 입장 메시지 전송
-				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) { 
-					idSessions.get(key).sendMessage(new TextMessage("---- " + member.getUserId() + "님이 입장하셨습니다. ----"));
+			if(roomId.containsKey(chatRoomNo+":"+userNo)) {
+				for(String key : idSessions.keySet()) {
+					if(!member.getUserId().equals(roomId.get(chatRoomNo+":"+userNo))) {
+						if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
+							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + "님이 입장하셨습니다. " + chatRoomNo));
+							roomId.put(chatRoomNo+":"+userNo, member.getUserId());
+						}
+					}
 				}
+			} else {
+				for(String key : idSessions.keySet()) {
+					if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
+						idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + "님이 입장하셨습니다. " + chatRoomNo));
+					}
+				}
+				roomId.put(chatRoomNo+":"+userNo, member.getUserId());
 			}
+			
 		} else {
 			int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
-			logger.info("### 채팅 페이지에 들어옴.");
+			logger.info("### 채팅 메인 페이지 입장");
 			logger.info("### WebSocketSession ID : {}", session.getId());
 			
 			//해당 유저번호를 이용해 회원정보 가져오기
@@ -112,7 +123,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			//메시지 보낸사람 추가
 			stack.push(member.getUserId());
 			
-			//같은 방 유저에게만 입장 메시지 전송
+			//같은 방 유저에게만 메시지 전송
 			for(String key : idSessions.keySet()) {
 				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
 					if(stack.size() > 1) {
@@ -156,8 +167,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 						idSessions.get(key).sendMessage(new TextMessage("Create Room:" + message.getPayload()));
 					} else {
 						//같은 방 유저에게만 입장 메시지 전송
-						if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) { 
-							idSessions.get(key).sendMessage(new TextMessage("---- " + member.getUserId() + "님이 나가셨습니다. ----"));
+						if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
+							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + "님이 나가셨습니다. " + chatRoomNo));
+							roomId.remove(chatRoomNo+":"+userNo);
 						}
 					}
 				}
