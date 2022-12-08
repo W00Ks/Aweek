@@ -60,6 +60,14 @@ public interface ChatDao {
 	 * @return INSERT 결과 (1 - 성공, 0 - 실패)
 	 */
 	public int insertMessage(Chat chat);
+	
+	/**
+	 * 유저의 채팅 내역을 SELECT한다
+	 * 
+	 * @param chat - 채팅 정보 (유저 정보)
+	 * @return 채팅 내역 리스트
+	 */
+	public List<Chat> selectChatHistory(Chat chat);
 
 }
 

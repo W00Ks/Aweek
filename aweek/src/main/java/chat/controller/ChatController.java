@@ -56,7 +56,7 @@ public class ChatController {
 	@PostMapping("/create")
 	@ResponseBody
 	public int chatCreate(ChatRoom chatRoom, HttpSession session, Model model) {
-		logger.info("{}", chatRoom);
+		logger.info("+ + + Create Chat Room - Info : {} + + +", chatRoom);
 		
 		int userNo = (int) session.getAttribute("userNo");
 		
@@ -73,18 +73,27 @@ public class ChatController {
 	
 	@RequestMapping("/enter")
 	public void chatEnter(int chatRoomNo, HttpSession session, Model model) {
+		logger.info("+ + + Enter Chat Room - chatRoomNo : {} + + +", chatRoomNo);
 		
 		session.setAttribute("chatRoomNo", chatRoomNo);
-
-		Member member = chatService.getUserInfo((int)session.getAttribute("userNo"));
+		int userNo = (int)session.getAttribute("userNo");
+		
+		Member member = chatService.getUserInfo(userNo);
+		logger.info("member == {}", member);
+		
+		List<Chat> chatHistory = chatService.getChatHistory(chatRoomNo, userNo);  
+		
+		logger.info("채팅 내역 조회 : {}", chatHistory);
+		
 		model.addAttribute("member", member);
+		model.addAttribute("chatHistory", chatHistory);
 		
 	}
 	
 	@PostMapping("/insert")
 	@ResponseBody
 	public int chatInsert(Chat chat, HttpSession session) {
-		logger.info("insert chat : {}", chat);
+		logger.info("+ + + Insert chat message : {} + + +", chat);
 		int userNo = (int)session.getAttribute("userNo");
 		int result = chatService.saveMessage(chat, userNo);
 		
@@ -93,7 +102,7 @@ public class ChatController {
 	
 	@RequestMapping("/mainRight")
 	public void chatMainRight() {
-		logger.info("채팅방 나가기 실행");
+		logger.info("+ + + Leave Chat Room + + +");
 	}
 	
 }

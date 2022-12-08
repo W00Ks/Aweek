@@ -22,7 +22,7 @@ $(document).ready(function() {
 		$("input[name=roomNo]").prop('checked', false); 
 		$("#chatRoomName1").val(""); 
 		
-	})
+	}) // End of $("#btnRoomCreat").click()
 	
 	//채팅방 만들기 박스 닫기 이벤트
 	$("#close-box").click(function() {
@@ -32,7 +32,7 @@ $(document).ready(function() {
 		} else {
 			$("#createChatRoom").attr("style", "display: none;");
 		}
-	})
+	}) // End of $("#close-box").click()
 	
 	//채팅방 만들기 버튼 클릭 이벤트
 	$("#btnChatCreate").click(function() {
@@ -73,9 +73,9 @@ $(document).ready(function() {
 				
 		   }
 			
-	});
+	}); //End of $("#btnChatCreate").click()
 	
-})
+}) // End of $(document).ready()
 
 function enter(i) {
 	console.log('현재 들어가려는 방번호 ' + i)
@@ -99,8 +99,14 @@ function enter(i) {
 			$('button[value=' + i + ']').addClass("disable");
 			$(".chatRoomName2").not($('button[value='+i+']')).removeClass("disable");
 			
+			//메인 배경색 변경
+			$("#content-right").css("background-color", "#fff")
+			
 			//응답 데이터 반영
 			$("#content-right").html( res )
+			
+			$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
+			
 		}
 		, error: function() {
 			console.log("AJAX 실패")
@@ -108,8 +114,9 @@ function enter(i) {
 		
 	})
 	
-}
+} // End of enter(i)
 
+//채팅방 리스트 접었다 펴기
 function fold(roomNo) {
 	
 	console.log("asd")
@@ -124,7 +131,7 @@ function fold(roomNo) {
 		$('.expand_more[id=' + roomNo + ']').attr("style", "display: none;");
 	}
 	
-}
+} //End of fold(roomNo)
 </script>
 
 <link rel="stylesheet" href="/resources/css/chatMain.css" type="text/css">
@@ -140,10 +147,10 @@ function fold(roomNo) {
 				<div id="close-box-wrap">
 					<button id="close-box"><span class="material-symbols-outlined" style="font-size: 21px;">close</span></button>
 				</div>
-				<h4 class="roomH4">채팅방 이름</h4>
+				<h4 class="roomH4"><label for="chatRoomName1">채팅방 이름</label></h4>
 				<input type="text" id="chatRoomName1" placeholder="채팅방 이름 입력">
 				<div id="roomList">
-					<h4  class="roomH4">모임 선택</h4>
+					<h4 class="roomH4">모임 선택</h4>
 					<hr>
 					<c:forEach items="${roomList }" var="rl">
 						<div class="border-radio">
@@ -170,7 +177,9 @@ function fold(roomNo) {
 			<div id="${rl.roomNo }" class="chatRoomList" style="display: none;">
 				<c:forEach items="${chatList }" var="cl">
 					<c:if test="${rl.roomNo eq cl.roomNo }">
-						<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button><br>
+						<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button>
+						<c:set var="read_num" value="0"/>
+						<div id="read${cl.chatRoomNo }"><c:out value="${read_num }"/></div><br>
 					</c:if>
 				</c:forEach>
 			</div>
@@ -179,7 +188,7 @@ function fold(roomNo) {
 </div>
 
 <div id="content-right">
-	
+	<jsp:include page="./mainRight.jsp"/>
 </div>
 
 </div>

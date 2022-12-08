@@ -51,6 +51,15 @@ public interface ChatService {
 	 */
 	public int saveMessage(Chat chat, int userNo);
 	
+	/**
+	 * 유저의 채팅 내역을 조회한다
+	 * 
+	 * @param chatRoomNo - 방 번호
+	 * @param userNo - 회원 번호
+	 * @return 채팅 내역 리스트
+	 */
+	public List<Chat> getChatHistory(int chatRoomNo, int userNo);
+	
 	
 	
 }
