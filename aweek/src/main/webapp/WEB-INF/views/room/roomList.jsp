@@ -95,15 +95,11 @@ body {
 	}
 }
 
-.container .roomBox {
-	width: 200px;
-	height: 200px;
-	padding: 20px;
-	margin: 20px;
-	background-color: var(--border-color);
+.container .listTb {
+	width: 800px;
+	margin: 30px 40px;
 	border-radius: 20px;
 	box-sizing: border-box;
-	cursor: pointer;
 	position: relative;
 	z-index: 1;
 }
@@ -118,18 +114,11 @@ body {
 </style>
 
 <script defer type="text/javascript">
-$(document).ready(function() {
-	$('.join').click(function() {
-		console.log("click")
-		checkUserNo();
-	})
-});
 	
 //userNo 중복 검사
-function checkUserNo() {
+function checkUserNo(roomNo) {
 	
-	let userNo = $("#userNo").val();
-	let roomNo = $("#roomNo").val();
+	let userNo = $(".userNo").val();
 	
 	console.log(userNo)
 	console.log(roomNo)
@@ -138,11 +127,10 @@ function checkUserNo() {
         type:"post"
         , url: "./joinUserNoChk"
        	, data : {
-			userno : $("#userNo").val()
+			roomNo : roomNo
 		}
 		, dataType : "html"
         , success : function( result ) {
-        	console.log("secess userNo:" + userNo)
         	console.log("secess roomNo:" + roomNo)
         	console.log(result)
             if (result == 0) {
@@ -159,6 +147,13 @@ function checkUserNo() {
     });
 }
 
+function goRoomMain(roomNo) {
+	let userNo = $(".userNo").val();
+	console.log(userNo)
+	console.log(roomNo)
+ 	location.href = "/room/main?userNo=" + userNo + "&roomNo=" + roomNo;
+}
+
 </script>
 
 
@@ -173,12 +168,12 @@ function checkUserNo() {
     <div class="resizer" id="dragMe"></div>
     <div class="container__right">
     
-		<input type="hidden" name="userNo" id="userNo" value="${userNo }">
+		<input type="hidden" name="userNo" class="userNo" value="${userNo }">
 		<c:forEach items="${roomList  }" var="room">
-			<form name="form" action="/room/setting" method="get">
-				<input type="hidden" name="roomNo" id="roomNo" value="${room.roomNo }">
-				<p id="roomName">${room.roomName }<br></p>
-				<p id="roomIntroduce">${room.roomIntroduce }<br></p>
+			<div class="listTb">
+				<input type="hidden" name="roomNo" class="roomNo" value="${room.roomNo }">
+				<p class="roomName" onclick="goRoomMain(${room.roomNo })">${room.roomName }<br></p>
+				<p class="roomIntroduce">${room.roomIntroduce }<br></p>
 				
 				<c:if test="${room.roomPublic eq '1' }"> 
 					<p id="1">공개</p>
@@ -186,8 +181,8 @@ function checkUserNo() {
 	        	<c:if test="${room.roomPublic eq '0' }"> 
 					<p id="2">비공개</p>
 	        	</c:if>
-				<button type="button" class="join">가입</button>
-			</form>
+				<a class="join" onclick="checkUserNo(${room.roomNo })">가입</a>
+			</div>
 		
 		</c:forEach>
     </div>

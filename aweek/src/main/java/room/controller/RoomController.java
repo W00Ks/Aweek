@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import member.dto.Member;
 import room.dto.Room;
+import room.dto.RoomCategory;
 import room.dto.RoomList;
 import room.service.face.RoomService;
 
@@ -49,7 +50,9 @@ public class RoomController {
 	
 	//모임 메인
 	@RequestMapping("/room/main")
-	public void roomMain( HttpSession session, Model model, Room room, Member member ) {
+	public void roomMain( HttpSession session, Model model, Member member ) {
+		
+		logger.info("이거 메인 get이야");
 		
 		//로그인 후 userNo저장
 		session.setAttribute("userNo", member.getUserNo());
@@ -65,11 +68,9 @@ public class RoomController {
 	
 	//모임 전체 목록 조회 (내가 가입한 모임 x)
 	@RequestMapping("/room/roomList")
-	public void roomList( HttpSession session, Model model, Member member, Room room ) {
+	public void roomList( HttpSession session, Model model, Member member) {
 		//로그인 후 userNo저장
 		session.setAttribute("userNo", member.getUserNo());
-		int userno = (int) session.getAttribute("userNo");
-		logger.info("userno : {}", userno);
 		
 		//모임 전체 목록 조회
 		List<Room> roomList = roomService.roomList();
@@ -79,13 +80,16 @@ public class RoomController {
 	
 	//모임 개설
 	@GetMapping("/room/open")
-	public void roomOpenPage( HttpSession session, Member member ) {
+	public void roomOpenPage( HttpSession session, Model model, Member member ) {
 		//로그인 후 userNo저장
 		session.setAttribute("userNo", member.getUserNo());
+		
+		List<RoomCategory> roomCategory = roomService.getRoomCategoryList();
+		model.addAttribute("roomCategory",roomCategory);
 	}
 	
 	@PostMapping("/room/open")
-	public String roomOpenProc( HttpSession session, Room room, RoomList roomList ) {
+	public String roomOpenProc( HttpSession session, Room room, RoomList roomList, Model model ) {
 		
 		//세션에 저장된 userNo 불러오기
 		int userno = (int) session.getAttribute("userNo");
@@ -97,24 +101,41 @@ public class RoomController {
 		//모임 생성
 		roomService.createRoom(room, roomList);
 		
+		//로그인 후 userNo저장
+		model.addAttribute("userno", userno);
+		logger.info("userno : {}", userno);
+		
+		//userNo로 모임 list 조회(내가 가입한 모임)
+		List<Room> myRoomList = roomService.myRoomList(userno);
+		logger.info("myRoomList : {}", myRoomList);
+		model.addAttribute("myRoomList", myRoomList);
+		
+		
 		return "/room/main";
 	}
 	
 	//모임 정보
 	@GetMapping("/room/roomInfo")
-	public void roomInfoPage( HttpSession session, Member member, Room room, RoomList roomList, Model model ) {
+	public void roomInfoPage( HttpSession session, Member member, Room room, Model model ) {
+		
 		session.setAttribute("userNo", member.getUserNo());
 		
 		//roomNo로 모임정보 불러오기
 		room = roomService.getRoomInfo(room);
 		model.addAttribute("roomInfo", room);
 		
-		logger.info("roomInfo : {}", room);
+		logger.info("모임정보보보보roomInfo : {}", room);
+		
+		String roomCaName = roomService.getRoomCategoryName(room.getRoomCategoryNo());
+		logger.info("roomCaName : {}", roomCaName);
+		model.addAttribute("roomCaName", roomCaName);
 		
 		//roomNo RoomList dto에서 userNo List 불러오기
 		List<RoomList> userNoList = roomService.getUerNoListByRoomNo(room.getRoomNo());
 		logger.info("userNoList : {}", userNoList);
 		model.addAttribute("userNoList",userNoList );
+		
+		
 	}
 	
 	@PostMapping("/room/roomInfo")
@@ -155,7 +176,7 @@ public class RoomController {
 		//세션에 저장된 userNo 불러오기
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("userno : {}", userno);
-				
+		
 		//모임 가입
 		roomService.joinRoom(roomList, userno);
 		
@@ -167,12 +188,12 @@ public class RoomController {
 	//모임 가입 전 가입 중복 검사
 	@ResponseBody
 	@RequestMapping("/room/joinUserNoChk")
-	public int joinUserNoCheck(HttpSession session) {
+	public int joinUserNoCheck(HttpSession session, int roomNo) {
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("이거이거userno : {}", userno);
 		
 		//RoomList에 UserNo있는지 조회(가입되어 있는지 확인)
-		boolean joinUserNoChkResult = roomService.joinUserNoChk(userno);
+		boolean joinUserNoChkResult = roomService.joinUserNoChk(userno,roomNo);
 		
 		if ( joinUserNoChkResult ) {
 			//가입 중
@@ -194,6 +215,13 @@ public class RoomController {
 		model.addAttribute("roomInfo", room);
 		
 		logger.info("roomInfo : {}", room);
+		
+		String roomCaName = roomService.getRoomCategoryName(room.getRoomCategoryNo());
+		logger.info("roomCaName : {}", roomCaName);
+		model.addAttribute("roomCaName", roomCaName);
+		
+		List<RoomCategory> roomCategory = roomService.getRoomCategoryList();
+		model.addAttribute("roomCategory",roomCategory);
 	}
 	
 	@PostMapping("/room/setting")
@@ -212,16 +240,18 @@ public class RoomController {
 	//모임 탈퇴
 	@ResponseBody
 	@RequestMapping("/room/dropOut")
-	public String roomDropout( HttpSession session, Member member, RoomList roomList, Room room ) {
+	public String roomDropout( HttpSession session, int roomNo ) {
 		
 		//세션에 저장된 userNo 불러오기
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("userno : {}", userno);
 		
-		roomList.setRoomNo(room.getRoomNo());
+		RoomList roomList = new RoomList();
+		roomList.setUserNo(userno);
+		roomList.setRoomNo(roomNo);
 		
 		//모임 탈퇴
-		roomService.dropOut(roomList, userno);
+		roomService.dropOut(roomList);
 		
 		return "/room/main";
 	}

@@ -16,6 +16,13 @@ public interface RoomDao {
 	public List<Room> selectAll();
 
 	/**
+	 * 카테고리 리스트 조회
+	 * 
+	 * @return
+	 */
+	public List<RoomCategory> selectCategoryAll();
+	
+	/**
 	 * 
 	 * 
 	 * @param userno
@@ -46,6 +53,14 @@ public interface RoomDao {
 	public Room selectRoomInfo(Room room);
 
 	/**
+	 * room 정보로 roomCategoryName 가져오기
+	 * 
+	 * @param room
+	 * @return
+	 */
+	public String selectRoomCaName(int roomCategoryNo);
+	
+	/**
 	 * roomNo로 RoomList 객체에서 userNo 정보 불러오기
 	 * 
 	 * @param roomNo
@@ -59,7 +74,7 @@ public interface RoomDao {
 	 * @param roomList
 	 * @return
 	 */
-	public int selectUserNoChk(int userno);
+	public int selectUserNoChk(RoomList roomList);
 
 	/**
 	 * 모임 정보 수정
@@ -74,6 +89,10 @@ public interface RoomDao {
 	 * @param roomList - 모임 목록 정보 객체
 	 */
 	public void deleteRoomList(RoomList roomList);
+
+	
+
+	
 
 
 

@@ -108,6 +108,12 @@ form {
 	width: 5%;
 }
 
+
+.material-symbols-outlined.userIcon {
+	font-size: 100px;
+	width: 60px;
+}
+
 .container__right .open-content .btnsection {
 	margin: 20px 10%;
 }
@@ -127,7 +133,7 @@ form {
 <script defer type="text/javascript">
 function setting(){
 	let roomNo = document.querySelector("#roomNo").value
-	let userNo = document.querySelector("#userNo").value
+	let userNo = document.querySelector("#userNo").value;
 	location.href = "/room/setting?userNo=" + userNo +"&roomNo=" + roomNo;
 }
 
@@ -148,7 +154,6 @@ function dropOut(){
 	console.log(roomNo)
 	
  	let conf = confirm( "'" + roomName + "' 모임을 탈퇴하시겠습니까?");
-/* 	let conf = confirm( "모임을 탈퇴하시겠습니까?"); */
 	
 	if(conf){
 	   
@@ -175,7 +180,6 @@ function dropOut(){
 	
 }
 
-
 </script>
 
 
@@ -195,34 +199,36 @@ function dropOut(){
      	
      	<input type="hidden" name="roomNo" id="roomNo" value="${roomInfo.roomNo }">
      	<input type="hidden" name="userNo" id="userNo" value="${roomInfo.userNo }">
-	     <p>모임 이름 * </p>
-	     <p id="roomName">${roomInfo.roomName }</p>
+	    	<p>모임 이름 * </p>
+	    	<p id="roomName">${roomInfo.roomName }</p>
 	    </div>
 	    <div class="object">
-	     <p>모임 소개 * </p>
-	     <p id="roomIntroduce">${roomInfo.roomIntroduce }</p>
+	    	<p>모임 소개 * </p>
+	    	<p id="roomIntroduce">${roomInfo.roomIntroduce }</p>
 	    </div>
 	    <div class="object">
-	     <p>인원 수 * </p>
-	     	<select name="roomMember" id="roomMember">
-		     	<option disabled selected>인원 수</option>
-		     	<option value="10">10</option>
-		     	<option value="100">100</option>
-		     </select>
+	    	<p>인원 수 * </p>
+	    	<p>${roomInfo.roomMember } 명</p>
 		</div>
 	    <div class="object">
-	     <p>카테고리 * </p>
-		     <select name="roomCategoryNo" id="roomCategoryNo">
-		     	<option disabled selected>카테고리</option>
-		     	<option value="1">회사</option>
-		     	<option value="2">취미</option>
-		     	<option value="3">동아리</option>
-		     </select>
+	    	<p>카테고리 * </p>
+			<p id="roomCategoryName">${roomCaName }</p>
 		</div>
 		<div class="object"> 
-	     <p>공개설정 * </p>
-	     <input type="radio" name="roomPublic" value="1"  id="roomPublic">공개
-	     <input type="radio" name="roomPublic" value="0" id="roomPublic">비공개
+	    	<p>공개설정 * </p>
+			<c:if test="${roomInfo.roomPublic eq '1' }"> 
+				<p id="1">공개</p>
+       		</c:if>
+        	<c:if test="${roomInfo.roomPublic eq '0' }"> 
+				<p id="2">비공개</p>
+        	</c:if>
+	    </div>
+	    
+	    <div class="object">
+	    	<c:forEach items="${userNoList }" var="userList" >
+	    		<p><span class="material-symbols-outlined userIcon">account_circle</span></p>
+	    		<input type="hidden" id="" value="${userList.userNo }">
+	    	</c:forEach>
 	    </div>
 	    
 	    <div class="btnsection">

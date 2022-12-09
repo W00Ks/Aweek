@@ -12,6 +12,11 @@
 		order by room_no
 	</select> 
 	
+	<select id="selectCategoryAll" resultType="RoomCategory">
+		select * from room_category
+		order by room_category_no
+	</select>
+	
 	<select id="selectRoomListByUserNo" resultType="Room" parameterType="int">
 		SELECT b.* FROM (
             SELECT * FROM room_list
@@ -36,10 +41,17 @@
 		VALUES ( #{roomListNo }, #{roomNo }, #{userNo } )
 	</insert>
 	
+	
 	<select id="selectRoomInfo" resultType="Room" parameterType="Room">
 		SELECT room_no, user_no, room_category_no, room_name, room_introduce, room_member, room_public
 		FROM room
 		WHERE room_no = #{roomNo}
+	</select>
+	
+	<select id="selectRoomCaName" resultType="string" parameterType="int">
+		SELECT room_category_name
+		FROM room_category
+		WHERE room_category_no = #{roomCategoryNo}
 	</select>
 	
 	<select id="selectUserNoFromRoomList" resultType="RoomList" parameterType="int">
@@ -48,9 +60,9 @@
 		WHERE room_no = #{roomNo}
 	</select>
 	
-	<select id="selectUserNoChk" resultType="int" parameterType="int">
+	<select id="selectUserNoChk" resultType="int" parameterType="RoomList">
 		SELECT count(*) FROM room_list
-		WHERE user_no = #{userno }
+		WHERE  room_no = #{roomNo} AND user_no = #{userNo }
 	</select>
 	
 	<update id="updateRoom" parameterType="Room">

@@ -125,22 +125,20 @@ function moveSetting(i,j){
 }
 
 function roomOpen(){
-	let userNo = document.querySelector("#userNo").value
+	let userNo = document.querySelector(".userNo").value
  	location.href = "/room/open?userNo=" + userNo;
 }
 
 function roomList(){
-	let userNo = document.querySelector("#userNo").value
+	let userNo = document.querySelector(".userNo").value
 	location.href = "/room/roomList?userNo=" + userNo;
 }
 
-function dropOut(){
-	let roomName = document.querySelector("#roomName").innerText
+function dropOut(roomName,roomNo){
+	
+	let userNo = $(".userNo").val();
+	
 	console.log(roomName)
-	
-	let userNo = $("#userNo").val();
-	let roomNo = $("#roomNo").val();
-	
 	console.log(userNo)
 	console.log(roomNo)
 	
@@ -152,8 +150,7 @@ function dropOut(){
 	        type:"post"
 	        , url: "./dropOut"
 	       	, data : {
-				userno : $("#userNo").val(),
-				roomNo : $("#roomNo").val()
+				roomNo : roomNo
 			}
 			, dataType : "html"
 	        , success : function( result ) {
@@ -172,22 +169,7 @@ function dropOut(){
 	
 }
 
-/*  $.ajax({
-type:"post"
-, url: "./dropOut"
-	, data : {
-	userno : $("#userNo").val()
-}
-, dataType : "html"
-, success : function( result ) {
-	console.log("secess userNo:" + userNo)
-	console.log("secess roomNo:" + roomNo)
-	console.log(result)
-}
-, error : function( error ){
 
-}
-}); */
 
 //대상 Element 선택
 /* const resizer = document.querySelector('.resizer');
@@ -270,15 +252,14 @@ resizer.addEventListener('mousedown', mouseDownHandler);
 
     <div class="resizer" id="dragMe"></div>
     <div class="container__right">
-    
-    	<input type="hidden" name="userNo" id="userNo" value="${userno }">
-		<c:forEach items="${myRoomList  }" var="room">
-		
-			<form name="form">
-		    	<input type="hidden" name="userNo" id="userNo" value="${room.userNo }">
+    	<form>
+	    	<input type="hidden" name="userNo" class="userNo" value="${userno }">
+			<c:forEach items="${myRoomList  }" var="room">
+			
 				<div class="roomBox" onclick="moveSetting(${room.userNo },${room.roomNo })">
-					<p id="roomName">${room.roomName }</p>
-					<p id="roomIntroduce">${room.roomIntroduce }<br></p>
+			    	<input type="hidden" name="userNo" class="roomNo" value="${room.roomNo }">
+					<p class="roomName">${room.roomName }</p>
+					<p class="roomIntroduce">${room.roomIntroduce }<br></p>
 					
 					<c:if test="${room.roomPublic eq '1' }"> 
 						<p id="1">공개</p>
@@ -286,11 +267,13 @@ resizer.addEventListener('mousedown', mouseDownHandler);
 		        	<c:if test="${room.roomPublic eq '0' }"> 
 						<p id="2">비공개</p>
 		        	</c:if>
-					<a href="#" class="dropOut" onclick="dropOut()">탈퇴</a>
+		        	
+					<p class="dropOut" onclick="dropOut('${room.roomName }',${room.roomNo })">탈퇴</p>
 				</div>
-			</form>
-		
-		</c:forEach>
+				
+			
+			</c:forEach>
+		</form>
     </div>
 
 </section>

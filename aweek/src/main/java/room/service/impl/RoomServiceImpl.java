@@ -33,6 +33,16 @@ public class RoomServiceImpl implements RoomService {
 	}
 	
 	@Override
+	public List<RoomCategory> getRoomCategoryList() {
+		
+		List<RoomCategory> roomCategoryList = roomDao.selectCategoryAll();
+		
+		for( RoomCategory c : roomCategoryList )	logger.info("{}", c);
+		
+		return roomCategoryList;
+	}
+	
+	@Override
 	public List<Room> myRoomList(int userno) {
 		
 		List<Room> myroomList = roomDao.selectRoomListByUserNo(userno);
@@ -55,6 +65,13 @@ public class RoomServiceImpl implements RoomService {
 		return roomDao.selectRoomInfo(room);
 	}
 	
+	@Override
+	public String getRoomCategoryName(int roomCategoryNo) {
+		
+		String roomCaName = roomDao.selectRoomCaName(roomCategoryNo);
+		
+		return roomCaName;
+	}
 	
 	@Override
 	public List<RoomList> getUerNoListByRoomNo(int roomNo) {
@@ -76,9 +93,15 @@ public class RoomServiceImpl implements RoomService {
 	}
 	
 	@Override
-	public boolean joinUserNoChk(int userno) {
+	public boolean joinUserNoChk(int userno, int roomNo) {
 		
-		int result = roomDao.selectUserNoChk(userno);
+		
+		RoomList roomList = new RoomList();
+		roomList.setUserNo(userno);
+		roomList.setRoomNo(roomNo);
+		
+		int result = roomDao.selectUserNoChk(roomList);
+		logger.info("result : {}", result); 
 		
 		if(result > 0) {
 			logger.info("true");
@@ -96,11 +119,8 @@ public class RoomServiceImpl implements RoomService {
 	}
 	
 	@Override
-	public void dropOut(RoomList roomList, int userno) {
-
-		roomList.setUserNo(userno);
+	public void dropOut(RoomList roomList) {
 		roomDao.deleteRoomList(roomList);
-		
 	}
 	
 }
