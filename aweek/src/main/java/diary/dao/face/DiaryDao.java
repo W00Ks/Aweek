@@ -57,4 +57,12 @@ public interface DiaryDao {
 	 */
 	public void insertFavorite(List<DiaryFavorite> list);
 
+	/**
+	 * 사용자 즐겨찾기 목록 조회
+	 * 
+	 * @param userNo - 사용자 번호
+	 * @return 사용자 즐겨찾기 목록값 반환
+	 */
+	public List<DiaryFavorite> selectFavorite(int userNo);
+
 }

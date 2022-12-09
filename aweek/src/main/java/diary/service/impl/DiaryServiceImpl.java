@@ -54,12 +54,22 @@ public class DiaryServiceImpl implements DiaryService {
 		List<DiaryFavorite> list = new ArrayList<>();
 				
 		for(int i=0; i<roomnos.length; i++) {
-			list.add(new DiaryFavorite(userNo, Integer.parseInt(roomnos[i])));
+			list.add(new DiaryFavorite(userNo, Integer.parseInt(roomnos[i]), ""));
 		}
 		
 		for( DiaryFavorite i : list ) logger.trace("##### list : {}", i);
 		
 		diaryDao.insertFavorite(list);
+	}
+
+	@Override
+	public List<DiaryFavorite> userFavorite(int userNo) {
+		return diaryDao.selectFavorite(userNo);
+	}
+
+	@Override
+	public void userFavoriteClear(int userNo) {
+		diaryDao.deleteFavorite(userNo);
 	}
 
 }
