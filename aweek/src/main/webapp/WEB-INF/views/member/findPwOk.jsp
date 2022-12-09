@@ -262,12 +262,13 @@ input:focus{
 	color: green;
 }
 
+/* 비밀번호 설정 안내 메시지 */
 #userPwMsg {
 	width: 400px;
 }
 
 /* 비밀번호 보기 아이콘 */
-.material-icons {
+.#pwView1, #pwView2 {
 	width: 30px;
 	position: absolute;
 	right: 10px;

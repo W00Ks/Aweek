@@ -1,14 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>: : : Aweek Join : : :</title>
+<title>Insert title here</title>
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -17,7 +15,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
 
-<!-- 구글 아이콘 -->
 <!--Google Material Icons new ver.-->
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -97,11 +94,6 @@ $(document).ready(function() {
     //회원가입 페이지 접속 시 ID 포커스 주기
 	$("#userId").focus();
 	
-    //ID blur 시 ID 유효성 체크 및 중복 체크 진행
-	$("#userId").blur(function() {
-        checkId();
-    });
-	
     //PW 포커스 시 PW 설정 메시지 출력
 	$("#userPw").focus(function() {
 		$("#userPwMsg").css('display', 'block');
@@ -120,19 +112,6 @@ $(document).ready(function() {
 	//PW 확인 blur 시 유효성 체크 진행
 	$("#userPwChk").blur(function() {
         checkPwChk();
-    });
-	
-	//이름 blur 시 공백여부 체크
-	$("#userName").blur(function() {
-		var name = $("#userName").val();
-		var oMsg = $("#userNameMsg");
-		if ( name == "" ) {
-	        showErrorMsg(oMsg,"필수 정보입니다.");
-	        return false;
-	    } else {
-	    	hideMsg(oMsg);
-	    	return true;
-	    }
     });
 	
 	//휴대폰 번호 blur 시 유효성 검사 및 공백여부 체크
@@ -201,16 +180,8 @@ $(document).ready(function() {
     });
 	
 	//회원가입 버튼 클릭 시 공백 항목 체크
-	$("#btnJoin").click(function() {
+	$("#btnModify").click(function() {
 		
-		//아이디 체크(공백인 경우)
-		if($("#userId").val() == ""){
-			swal("아이디를 입력해주세요","", "warning").then(function(){
-                $("input").eq(0).focus();
-        	});
-			return;
-		} 
-
 		//비밀번호 체크(공백인 경우)
 		if($("#userPw").val() == ""){
 			swal("비밀번호를 입력해주세요","", "warning").then(function(){
@@ -226,15 +197,6 @@ $(document).ready(function() {
         	});
 			return;
 		} 
-
-		//이름 체크(공백인 경우)
-		if($("#userName").val() == ""){
-			swal("이름을 입력해주세요","", "warning").then(function(){
-				$("input").eq(3).focus()
-        	});
-			return;
-		} 
-
 
 		//휴대폰 번호 체크(공백인 경우)
 		if($("#userPhone").val() == ""){
@@ -276,12 +238,7 @@ $(document).ready(function() {
 			return;
 		} 
 		
-		//주소 값 합친 후 $("#userAddress")에 삽입
-// 		var post = $("#postCode").val();
-// 		var addr1 = $("#userAddress1").val();
-// 		var addr2 = $("#userAddress2").val();
-// 		var address = post + ' ' + addr1 + ' ' + addr2;
-		const address = $("#postCode").val() + '  ' + $("#userAddress1").val() + '  ' + $("#userAddress2").val();
+		const address = $("#postCode").val() + ' ' + $("#userAddress1").val() + ' ' + $("#userAddress2").val();
 		
 		$("#userAddress").val(address);
 		
@@ -290,9 +247,9 @@ $(document).ready(function() {
 		
 	})
 	
-	//가입 취소 버튼(뒤로가기)
-	$("#btnCancel").click(function() {
-		history.go(-1)
+	//회원 탈퇴 버튼
+	$("#btnWd").click(function() {
+		
 	})
 	
 })
@@ -399,22 +356,23 @@ function checkPwChk() {
 <style type="text/css">
 
 /* 회원가입 텍스트 */
-.joinTxt {
-	text-align: center;
-	color: #f4b0b0;
-	font-size: 40px;
-	font-weight: bold;
-	margin: 50px auto;
+.infoTxt {
+/* 	width: 800px; */
+    text-align: center;
+    color: #555555;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 20px auto;
 }
 
 /* 컨테이너 전체 */
-.join_content {
+.info_content {
 	margin: 0 auto;
 	width: 400px;
 }
 
 /* 회원가입 항목 이름 */
-.join_title {
+.info_title {
 	margin: 20px 0 10px; /* 상 좌우 하 */
 }
 
@@ -466,38 +424,44 @@ input:focus{
 	flaot: left;
 }
 
-/* 버튼 div 영역 */
-.btn_area {
+/* 회원 정보 수정 버튼 div 영역 */
+.btn_area1 {
 	margin-top: 40px;
 	margin-bottom: 50px;
 	width: 411px;
+	text-align: center;
+	position: relative;
 }
 
-/* 가입 취소 버튼 */
-#btnCancel {
-	width: 200px;
+/* 회원정보 수정 버튼 */
+#btnModify {
+	width: 300px;
     height: 50px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-weight: 600;
-    background-color: #ffffff;
-    border: 1px solid #f4b0b0;
-    color: #f4b0b0;
-	cursor: pointer;
-}
-
-/* 회원가입 버튼 */
-#btnJoin {
-	width: 200px;
-    height: 50px;
-	float: right;
-    border-radius: 5px;
+    border-radius: 30px;
     font-size: 15px;
     font-weight: 600;
     background-color: #f4b0b0;
     border: 1px solid #f4b0b0;
     color: #ffffff;
     cursor: pointer;
+    margin: 20px 0;
+}
+
+/* 회원 탈퇴 버튼 */
+#btnWd {
+    width: 100px;
+    height: 30px;
+    float: right;
+    border-radius: 30px;
+    font-size: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    color: #ccc;
+    cursor: pointer;
+    position: absolute;
+    left: 310px;
+    top: -35px;
+    margin: 10px 0;
 }
 
 /* 주소찾기 div */
@@ -524,28 +488,32 @@ input:focus{
 </head>
 <body>
 
-<form action="/member/join" method="post">
+<c:import url="../layout/mypageTop.jsp" />
 
-<div class="joinTxt">회원가입</div>
+<form action="/member/info" method="post">
 
-<div class="join_content">
-	<h3 class="join_title">
+<div class="infoTxt">
+	<span>회원정보 수정</span>
+</div>
+
+<div class="info_content">
+	<h3 class="info_title">
 		<label for="userId">아이디</label>
 	</h3>
 	<div class="idBox">
 		<input type="text" name="userId" id="userId" class="int" maxlength="20" autocomplete="off">
 	</div>
-	<span class="error_msg" id="userIdMsg" style="display:none;">아이디는 5 ~ 20자의 영문 소문자, 숫자만 입력 가능합니다.</span>
+	<span class="error_msg" id="userIdMsg" style="display:none;"></span>
 	
-	<h3 class="join_title">
+	<h3 class="info_title">
 		<label for="userPw">비밀번호</label>
 	</h3>
 	<span class="pwBox"><input type="password" name="userPw" id="userPw" class="int" maxlength="16" autocomplete="off">
 		<span class="material-icons" id="pwView1">visibility</span>
 	</span>
-	<span class="error_msg" id="userPwMsg" style="display:none;">비밀번호는 8~16자의 영문자+숫자+특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)</span>
+	<span class="error_msg" id="userPwMsg" style="display:none;">비밀번호를 수정 하실 경우에만 입력해주세요.</span>
 
-	<h3 class="join_title">
+	<h3 class="info_title">
 		<label for="userPwChk">비밀번호 확인</label>
 	</h3>
 	<span class="pwBox"><input type="password" name="userPwChk" id="userPwChk" class="int" maxlength="16" autocomplete="off">
@@ -553,20 +521,20 @@ input:focus{
 	</span>
 	<span class="error_msg" id="userPwChkMsg" style="display:none;"></span>
 	
-	<h3 class="join_title">
+	<h3 class="info_title">
 		<label for="userName">이름</label>
 	</h3>
 	<span><input type="text" name="userName" id="userName" class="int" maxlength="10" autocomplete="off"></span>
 	<span class="error_msg" id="userNameMsg" style="display:none;"></span>
 	
-	<h3 class="join_title">
+	<h3 class="info_title">
 		<label for="userPhone">휴대폰번호</label>
 	</h3>
 	<span><input type="text" name="userPhone" id="userPhone" class="int" maxlength="13" autocomplete="off" placeholder="ex) 010-0000-0000"></span>
 	<span class="error_msg" id="userPhoneMsg" style="display:none;"></span>
 	
 	<div class="addrDiv" style="position:relative;">
-		<h3 class="join_title">
+		<h3 class="info_title">
 			<label for="userAddress">주소</label>
 		</h3>
 		<span class="findAddr"><input type="button" onclick="findAddress()" id="findAddrBtn" value="주소 검색"><br></span>
@@ -577,21 +545,24 @@ input:focus{
 		<span class="error_msg" id="userAddressMsg" style="display:none;"></span>
 	</div>
 	
-	<h3 class="join_title">
+	<h3 class="info_title">
 		<label for="userBirth">생년월일</label>
 	</h3>
 	<span><input type="text" name="userBirth" id="userBirth" class="int" maxlength="10" autocomplete="off" placeholder="ex) 0000-00-00"></span>
 	<span class="error_msg" id="userBirthMsg" style="display:none;"></span>
 	
-	<h3 class="join_title">
+	<h3 class="info_title">
 		<label for="userEmail">이메일</label>
 	</h3>
 	<span><input type="email" name="userEmail" id="userEmail" class="int" maxlength="30" autocomplete="off"></span>
 	<span class="error_msg" id="userEmailMsg" style="display:none;"></span>
 
-	<div class="btn_area">
-		<button type="button" id="btnCancel">가입 취소</button>
-		<button type="button" id="btnJoin">회원 가입</button>
+	<div class="btn_area1">
+		<button type="button" id="btnModify">회원정보 수정</button>
+		<button type="button" id="btnWd">회원 탈퇴</button>
+	</div>
+	
+	<div class="btn_area2">
 	</div>
 
 </div>

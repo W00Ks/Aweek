@@ -5,9 +5,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -213,8 +213,32 @@ public class MemberController {
 		memberService.getPwModify(member);;
 	}
 	
-	//------------------------------ 회원 정보 수정 ------------------------------
+	//마이페이지
+	@GetMapping("/mypage")
+	public void mypage(HttpSession session) {
+		//세션에 저장된 ID를 통해 회원정보 조회 
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);  
+		member = memberService.getLoginInfo(member);
+		
+		
+//		session.getAttribute("loginResult", loginResult);
+//		session.getAttribute("userNo", member.getUserNo());
+	}
 	
+	//------------------------------ 회원 정보 수정 ------------------------------
+	@GetMapping("/info")
+	public void info(HttpSession session, Model model) {
+		//세션에 저장된 ID를 통해 회원정보 조회 
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);  
+		member = memberService.getLoginInfo(member);
+		
+		
+		
+	}
 	
 	
 	//------------------------------ 회원 탈퇴 ------------------------------
