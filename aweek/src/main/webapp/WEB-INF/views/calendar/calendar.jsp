@@ -9,6 +9,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%List<CalDto> clist =(List) request.getAttribute("list"); %>
+<% CalDto viewCal = (CalDto) request.getAttribute("viewCal"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -295,7 +296,7 @@ margin-left:60px;
 					<%// 해당 날짜에 일정 존재하면 일정 제목 출력 %>
 					<%for(CalDto calDto : clist){ %>
 					<% if(Integer.parseInt(calDto.getStartDate().substring(8, 10))==i&&Integer.parseInt(calDto.getStartDate().substring(5, 7))==month){ %>
-					<p><%= calDto.getCalTitle() %></p>
+					<a href="/calendar/view?calNo=<%=calDto.getCalNo() %>"><%= calDto.getCalTitle() %></a>
 					<%} %>
 					<% } %>
 				</td>				
@@ -366,6 +367,7 @@ margin-left:60px;
 </div>
 
 </div>
+
 
 </body>
 </html>

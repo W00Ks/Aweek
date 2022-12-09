@@ -7,10 +7,30 @@
 
 <mapper namespace="calendar.dao.face.CalendarDao">
 	<insert id="insertMyCal" parameterType="calendar.dto.CalDto">
-		INSERT INTO my_calender (cal_no, user_no, cal_title, start_date, end_date,  cal_place, cal_memo)
-		VALUES(seq_my_calender.nextval, 1, #{calTitle}, #{startDate}, #{endDate},  #{calPlace}, #{calMemo})
+		INSERT INTO my_calender (cal_no, user_no, cal_title, start_date, start_time ,  cal_place, cal_memo)
+		VALUES(seq_my_calender.nextval, 1, #{calTitle}, #{startDate}, #{startTime} ,  #{calPlace}, #{calMemo})
 	</insert>
 	<select id="selectMyCal" resultType="calendar.dto.CalDto">
 		SELECT * FROM my_calender
 	</select>
+	
+	<select id="selectMyCalByCalNo" parameterType="calendar.dto.CalDto" resultType="calendar.dto.CalDto">
+		SELECT cal_no, user_no , cal_title, cal_place, cal_memo, start_date, start_time 
+		FROM my_calender
+		WHERE cal_no = #{calNo}
+	</select>
+	
+	<update id="updateCal" parameterType="calendar.dto.CalDto">
+		UPDATE my_calender
+		SET cal_title = #{calTitle}
+			, start_date = #{startDate}
+			, start_time = #{startTime}
+			, cal_place = #{calPlace}
+			, cal_memo = #{calMemo}
+		WHERE cal_no = #{calNo}
+	</update>
+	
+	<delete id="deleteMyCal" parameterType="calendar.dto.CalDto">
+		DELETE my_calender WHERE cal_no = #{calNo}
+	</delete>
 </mapper>
