@@ -16,6 +16,13 @@ public interface RoomService {
 	public List<Room> roomList();
 	
 	/**
+	 * 카테고리 목록 불러오기
+	 * 
+	 * @return
+	 */
+	public List<RoomCategory> getRoomCategoryList();
+	
+	/**
 	 * roomMain에서 내가 가입한 방 목록 조회
 	 * 
 	 * @return List<Room> - roomList
@@ -39,6 +46,14 @@ public interface RoomService {
 	public Room getRoomInfo(Room room);
 
 	/**
+	 * room 에 있는 roomCategoryNo 로 roomCategoryName 불러오기
+	 * 
+	 * @param room
+	 * @return roomCaName - 카테고리 이름
+	 */
+	public String getRoomCategoryName(int roomCategoryNo);
+	
+	/**
 	 * roomNo로 RoomList 객체에서 userNo 정보 불러오기
 	 * 
 	 * @param roomNo - 모임 번호
@@ -57,10 +72,11 @@ public interface RoomService {
 	/**
 	 * 
 	 * 
-	 * @param roomList
+	 * @param roomNo 
+	 * @param userno
 	 * @return
 	 */
-	public boolean joinUserNoChk(int userno);
+	public boolean joinUserNoChk(int userno, int roomNo);
 
 	/**
 	 * 모임 정보 수정
@@ -73,9 +89,12 @@ public interface RoomService {
 	 * 모임 탈퇴
 	 * 
 	 * @param roomList - 모임목록 정보 객체
-	 * @param userno - 로그인한 회원번호
 	 */
-	public void dropOut(RoomList roomList, int userno);
+	public void dropOut(RoomList roomList);
+
+	
+
+
 
 
 	

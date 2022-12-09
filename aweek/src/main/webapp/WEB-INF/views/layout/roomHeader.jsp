@@ -64,7 +64,7 @@
         <span class="material-icons">forum</span></a>
       </li>
       <li>
-        <a href="<%=request.getContextPath() %>/calender/main" class="i__2">
+        <a href="<%=request.getContextPath() %>/calendar/myCal" class="i__2">
         <span class="material-icons">calendar_month</span></a>
       </li>
       <li>
