@@ -2,53 +2,46 @@ package diary.dto;
 
 public class DiaryFavorite {
 	
-	private int user_no;
-	private int user_favorite;
-	private String room_name;
+	private int userNo;
+	private int userFavorite;
+	private String roomName;
 	
 	public DiaryFavorite() {}
 
-	public DiaryFavorite(int user_no, int user_favorite) {
+	public DiaryFavorite(int userNo, int userFavorite, String roomName) {
 		super();
-		this.user_no = user_no;
-		this.user_favorite = user_favorite;
-	}
-
-	public DiaryFavorite(int user_no, int user_favorite, String room_name) {
-		super();
-		this.user_no = user_no;
-		this.user_favorite = user_favorite;
-		this.room_name = room_name;
+		this.userNo = userNo;
+		this.userFavorite = userFavorite;
+		this.roomName = roomName;
 	}
 
 	@Override
 	public String toString() {
-		return "DiaryFavorite [user_no=" + user_no + ", user_favorite=" + user_favorite + ", room_name=" + room_name
-				+ "]";
+		return "DiaryFavorite [userNo=" + userNo + ", userFavorite=" + userFavorite + ", roomName=" + roomName + "]";
 	}
 
-	public int getUser_no() {
-		return user_no;
+	public int getUserNo() {
+		return userNo;
 	}
 
-	public void setUser_no(int user_no) {
-		this.user_no = user_no;
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
-	public int getUser_favorite() {
-		return user_favorite;
+	public int getUserFavorite() {
+		return userFavorite;
 	}
 
-	public void setUser_favorite(int user_favorite) {
-		this.user_favorite = user_favorite;
+	public void setUserFavorite(int userFavorite) {
+		this.userFavorite = userFavorite;
 	}
 
-	public String getRoom_name() {
-		return room_name;
+	public String getRoomName() {
+		return roomName;
 	}
 
-	public void setRoom_name(String room_name) {
-		this.room_name = room_name;
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
 	}
-	
+
 }

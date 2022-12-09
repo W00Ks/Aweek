@@ -14,11 +14,12 @@ public class Diary {
 	private Date diaryDate;
 	private int diaryHit;
 	private int diaryPublic;
+	private int diaryRecommend;
 	
 	public Diary() {}
 
 	public Diary(int diaryNo, int diaryCateNo, int userNo, int diaryFileNo, int roomNo, String diaryTitle,
-			String diaryContent, Date diaryDate, int diaryHit, int diaryPublic) {
+			String diaryContent, Date diaryDate, int diaryHit, int diaryPublic, int diaryRecommend) {
 		super();
 		this.diaryNo = diaryNo;
 		this.diaryCateNo = diaryCateNo;
@@ -30,13 +31,15 @@ public class Diary {
 		this.diaryDate = diaryDate;
 		this.diaryHit = diaryHit;
 		this.diaryPublic = diaryPublic;
+		this.diaryRecommend = diaryRecommend;
 	}
 
 	@Override
 	public String toString() {
 		return "Diary [diaryNo=" + diaryNo + ", diaryCateNo=" + diaryCateNo + ", userNo=" + userNo + ", diaryFileNo="
 				+ diaryFileNo + ", roomNo=" + roomNo + ", diaryTitle=" + diaryTitle + ", diaryContent=" + diaryContent
-				+ ", diaryDate=" + diaryDate + ", diaryHit=" + diaryHit + ", diaryPublic=" + diaryPublic + "]";
+				+ ", diaryDate=" + diaryDate + ", diaryHit=" + diaryHit + ", diaryPublic=" + diaryPublic
+				+ ", diaryRecommend=" + diaryRecommend + "]";
 	}
 
 	public int getDiaryNo() {
@@ -117,6 +120,14 @@ public class Diary {
 
 	public void setDiaryPublic(int diaryPublic) {
 		this.diaryPublic = diaryPublic;
-	};
+	}
+
+	public int getDiaryRecommend() {
+		return diaryRecommend;
+	}
+
+	public void setDiaryRecommend(int diaryRecommend) {
+		this.diaryRecommend = diaryRecommend;
+	}
 	
 }

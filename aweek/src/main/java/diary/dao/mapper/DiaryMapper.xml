@@ -39,9 +39,14 @@
 	<insert id="insertFavorite" parameterType="diary.dto.DiaryFavorite">
 		INSERT ALL
 			<foreach collection="list" item="item">
-				INTO diary_favorite VALUES (#{item.user_no}, #{item.user_favorite}, 'test')
+				INTO diary_favorite VALUES (#{item.userNo}, #{item.userFavorite}, (select room_name from room where room_no = #{item.userFavorite}))
 			</foreach>
 		SELECT * FROM dual
 	</insert>
+	
+	<select id="selectFavorite" resultType="diary.dto.DiaryFavorite" parameterType="int">
+		SELECT * FROM diary_favorite
+		WHERE user_no = #{userNo}
+	</select>
 
 </mapper>

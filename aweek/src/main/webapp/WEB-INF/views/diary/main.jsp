@@ -14,10 +14,11 @@ html, body {
 	width: 100%;
 }
 .leftmenu {
+	overflow: scroll;
 	position: fixed;
 	border-right: 1px solid #C7D1CA;
 	height: 100%;
-	width: 250px;
+	width: 265px;
 	background-color: white;
 	z-index: 1;
 }
@@ -107,7 +108,7 @@ html, body {
 	height: 200px;
 }
 .sidebox1, .sidebox2 {
-	width: 194px;
+	width: 195px;
 }
 </style>
 
@@ -178,11 +179,28 @@ $(document).ready(function(){
 		</div>
 		<div class="leftbox3">
 			<div style="font-size: 0.8em; font-weight:600; height: 20px; line-height:20px; padding: 20px 20px 0px 20px;">
-			즐겨찾기
+			== 즐겨찾기 ==
 			<a id="favorite" style="cursor: pointer;"><img alt="" src="/resources/diary/settings_FILL0_wght400_GRAD0_opsz48.png" style="display: inline; float: right; width: 20px; height: 20px;"></a>			
+			</div>
+			<div class="resulttest">
+				<ul>
+					<c:forEach items="${diaryFavorite }" var="data">
+						<li class="menu">
+							<div class="menublock1">${data.roomName }<img alt="" src="/resources/diary/menu.PNG" style="display: inline; float: right;"></div>
+							<ul id="menublock2" class="hide">
+								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">공지사항</div></a></div></li>
+								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">추천글</div></a></div></li>
+								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">최신글</div></a></div></li>
+							</ul>
+						</li>
+					</c:forEach>
+				</ul>
 			</div>
 		</div>
 		<div class="leftbox4">
+			<div style="font-size: 0.8em; font-weight:600; height: 20px; line-height:20px; padding: 20px 20px 0px 20px;">
+			== 가입모임 ==
+			</div>
 			<ul>
 				<c:forEach items="${userRoom }" var="data">
 					<li class="menu">
@@ -201,7 +219,7 @@ $(document).ready(function(){
 	</div>
 	<div class="rightmenu">
 		<div class="sidebox1"></div>
-		<div style="width: 1235px; height: 100%;">
+		<div style="width: 1200px; height: 100%;">
 			<div class="rightbox1">
 			</div>
 			<div class="rightbox2">

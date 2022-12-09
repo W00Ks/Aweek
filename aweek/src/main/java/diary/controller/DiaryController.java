@@ -1,6 +1,7 @@
 package diary.controller;
 
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -86,7 +87,13 @@ public class DiaryController {
 		
 		for( Room i : userRoom ) logger.trace("##### userRoom : {}", i);
 		
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		for( DiaryFavorite i : diaryFavorite ) logger.trace("##### diaryFavorite : {}", i);
+		
 		model.addAttribute("userRoom", userRoom);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
 
 	}
 	
@@ -103,24 +110,35 @@ public class DiaryController {
 		
 		List<Room> userRoom = diaryService.userRoomInfo(param);
 		
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
 		model.addAttribute("userRoom", userRoom);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
 	}
 	
 	@PostMapping("/favorite")
-	public String diaryFavorite(@RequestParam String[] roomnos, HttpSession session) {
+	public String diaryFavorite(@RequestParam(required = false) String[] roomnos, HttpSession session) {
+		
+		logger.trace("##### roomnos required : {}", Arrays.toString(roomnos));
+		// @RequestParam(required = false) 설정하면 파라미터가 없을때 null값을 저장한다고?
+		// 원래는 true설정이고 true설정되면 파라미터 없을 때 Bad request 에러 발생함.
 		
 		int userNo = (int) session.getAttribute("userNo");
 		
-		for( String i : roomnos ) logger.trace("##### roomnos : {}", i);
-		
-		diaryService.userFavorite(roomnos, userNo);
+		if( roomnos != null ) {
+			for( String i : roomnos ) logger.trace("##### roomnos : {}", i);
+			diaryService.userFavorite(roomnos, userNo);
+
+		} else if( roomnos == null ) {
+			diaryService.userFavoriteClear(userNo);
+		}
 		
 		return "redirect:/diary/main";
+		
 	}
 	
 	@GetMapping("/clear")
-	public void diaryClear() {
-		
-	}
+	public void diaryClear() {}
 
 }

@@ -51,4 +51,19 @@ public interface DiaryService {
 	 */
 	public void userFavorite(String[] roomnos, int userNo);
 
+	/**
+	 * 사용자 즐겨찾기 목록 조회
+	 * 
+	 * @param userNo - 로그인 사용자 번호
+	 * @return
+	 */
+	public List<DiaryFavorite> userFavorite(int userNo);
+
+	/**
+	 * 사용자 즐겨찾기 초기화
+	 * 
+	 * @param userNo - 로그인한 사용자 번호
+	 */
+	public void userFavoriteClear(int userNo);
+
 }
