@@ -39,13 +39,39 @@
     margin: 7px 4px 7px 22px;
     box-shadow: -3px 3px 2px 0px rgb(0 0 0 / 30%);
 }
-#message {
+#message-menu {
 	width: 80%;
     height: 100px;
     float: left;
     resize: none;
     box-sizing: border-box;
     border: 1px solid #d3c3c3;
+}
+#btnAddFile {
+	float: left;
+    border: none;
+    position: absolute;
+    background: none;
+    padding: 0;
+    margin: 5px 0 0 5px;
+    height: 21px;
+}
+#btnAddFile span {
+	color: #aaa;
+}
+#btnAddFile:hover span {
+	color: #444;
+}
+#file {
+	display: none;
+}
+#message {
+	width: 100%;
+    height: 71px;
+    resize: none;
+    box-sizing: border-box;
+    border: none;
+    margin-top: 25px;
 }
 #sendBtn {
 	width: 20%;
@@ -130,6 +156,13 @@
     background-color: #fdfdfd;
     box-shadow: 2px 2px 2px 0px rgb(0 0 0 / 30%);
 }
+.sendImg {
+	display: inline-block;
+    margin: 10px 22px -17px 0;
+    border-radius: 10px;
+    max-width: 400px;
+}
+
 </style>
 </head>
 <body>
@@ -166,7 +199,7 @@
 				</div>
 				<c:set var="cnt" value="0"/>
 			</c:when>
-			<c:when test="${member.userNo eq ch.userNo and ch.chatContent ne '나가셨습니다.' }"> 	  
+			<c:when test="${member.userNo eq ch.userNo and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' }"> 	  
 				<div style='text-align: right;'>
 		   	    	<div class='timeDiv'>
 		   	    		<p class='chatTime'>${ch.chatTime }</p>
@@ -175,7 +208,7 @@
 		   	    </div>
 		   	    <c:set var="cnt" value="0"/>
 			</c:when>
-			<c:when test="${cnt eq 0  and ch.chatContent ne '나가셨습니다.' }"> 
+			<c:when test="${cnt eq 0  and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' }"> 
 				<div class='rMsg' style='text-align: left;'> 
 	       			<div class='chatUserName'>${ch.userId }</div>
 	       			<div class='chatReceiveMsg'>${ch.chatContent }</div>
@@ -185,7 +218,7 @@
 	       		</div>
 	       		<c:set var="cnt" value="1"/>
 			</c:when>
-	       	<c:when test="${cnt ne 0  and ch.chatContent ne '나가셨습니다.' }">
+	       	<c:when test="${cnt ne 0  and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' }">
 				<div class='rMsg' style='text-align: left;'>
 	       			<div class='chatReceiveMsg'>${ch.chatContent }</div>
 	       			<div class='timeDiv'>
@@ -193,11 +226,29 @@
 	       			</div>
 	       		</div>
 	       	</c:when>
+	       	<c:when test="${ch.chatKind eq '3' and ch.chatContent ne '나가셨습니다.' }">
+	       		<div style="text-align: right;">
+					<div class='timeDiv'>
+	       				<p class='chatTime'>${ch.chatTime }</p>
+	       			</div>
+					<img class="sendImg" alt="none" src="${pageContext.request.contextPath}/upload/${ch.chatContent }">
+					<div style="margin: 35px;"></div>
+				</div>
+	       	</c:when>
 			</c:choose>
 		</c:forEach>
 	</div>
 	<div id="textbarDiv">
-		<textarea id="message"></textarea>
+		<div id="message-menu">
+			<!-- 파일 전송 form -->
+			<form id="btnAddFile" enctype="multipart/form-data">
+				<label for="file">
+					<span class="material-symbols-outlined" style="transform: rotate(45deg);" title="파일전송">attach_file</span>
+				</label>
+				<input type="file" name="file" id="file" onchange="fileUpload()">
+			</form>
+			<textarea id="message"></textarea>
+		</div>
 		<input type="button" id="sendBtn" value="전 송" disabled />
 	</div>
 </div>
@@ -206,6 +257,47 @@
 </body>
 
 <script type="text/javascript">
+	
+function fileUpload() {
+	var file = $("#file")[0];
+	console.log("file: ", file.files)
+	
+	var formData = new FormData();
+	formData.append("file", file.files[0]);
+	
+	
+	$.ajax({
+		
+		type: "post"					
+		, url: "/chat/fileUpload"
+		, processData: false
+		, contentType: false
+		, data: formData
+		, success: function( res ) {
+			console.log("AJAX 성공")
+			
+			console.log(res)
+			console.log(res.chatStoredName)
+			console.log(${pageContext.request.contextPath})
+			
+			$("#MessageArea").append("<div class='sendImg' style='text-align: right;'>"
+										+ "<p class='chatTime'></p>" 
+										+ "</div>" 
+										+ "<img class='sendImg' alt='none' src='${pageContext.request.contextPath}/upload/" + res.chatStoredName + "'>" 
+										+ "<div style='margin: 35px;'></div>"
+									+ "</div>");
+			
+			//생성된 채팅방 실시간 띄우기
+// 			sendMessage(2);
+		}
+		, error: function( res ) {
+			console.log("AJAX 실패")
+		}
+		
+	})
+	
+}
+
 	//메시지 입력 시 전송버튼 활성화
 	$('#message').keyup(function() {
 	    if ($('#message').val() == '') {

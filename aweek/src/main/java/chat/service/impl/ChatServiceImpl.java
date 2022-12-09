@@ -1,18 +1,27 @@
 package chat.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import chat.dao.face.ChatDao;
 import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
+import chat.dto.ChatFile;
 import chat.dto.ChatList;
 import chat.dto.ChatRoom;
 import chat.service.face.ChatService;
@@ -26,6 +35,8 @@ public class ChatServiceImpl implements ChatService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired private ChatDao chatDao;
+	
+	@Autowired private ServletContext context;
 	
 	@Override
 	public List<ChatRoom> getChatRoomList(int userNo) {
@@ -90,6 +101,77 @@ public class ChatServiceImpl implements ChatService {
 		List<Chat> chatList = chatDao.selectChatHistory(chat);
 		
 		return chatList;
+	}
+	
+	@Override
+	public ChatFile chatFileUpload(MultipartFile file, int chatRoomNo, int userNo) {
+		
+		//첨부파일 처리
+		
+		//빈 파일일 경우
+		if( file.getSize() <= 0 ) {
+			return null;
+		}
+		
+		//파일이 저장될 경로
+		String storedPath = context.getRealPath("upload");
+		File storedFolder = new File( storedPath );
+		if( !storedFolder.exists() ) {
+			storedFolder.mkdir();
+		}
+		
+		//파일이 저장될 이름
+		String originName = file.getOriginalFilename();
+		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+		
+		//저장할 파일의 정보 객체
+		File dest = new File( storedFolder, storedName );
+		
+		try {
+			file.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//--------------------------------------------
+		
+		//첨부파일 정보 DB 기록
+		ChatFile chatFile = new ChatFile();
+		chatFile.setChatOriginName(originName);
+		chatFile.setChatStoredName(storedName);
+//		chatFile.setBoardNo( board.getBoardNo() );
+//		chatFile.setOriginName(originName);
+//		chatFile.setStoredName(storedName);
+		
+		//현재 시간 구하기
+		String format = "aa hh:mm";
+		Calendar today = Calendar.getInstance();
+
+		SimpleDateFormat type = new SimpleDateFormat(format);
+		
+		//파일 업로드용 채팅 INSERT
+		Chat chat = new Chat();
+		chat.setUserNo(userNo);
+		chat.setChatRoomNo(chatRoomNo);
+		chat.setChatContent(storedName);
+		chat.setChatTime(type.format(today.getTime()));
+		chat.setChatKind("3");
+		
+		chatDao.insertMessage(chat);
+		
+		chat = chatDao.selectMaxChatNo(chatRoomNo);
+		int chatNo = chat.getChatNo();
+		chatFile.setChatNo(chatNo);
+		
+		//파일 정보 INSERT
+		chatDao.insertFile(chatFile);								
+		
+		chatFile = chatDao.getChatFile(chatNo);
+		logger.info("chatFile - {}", chatFile);
+		
+		return chatFile;
 	}
 	
 }

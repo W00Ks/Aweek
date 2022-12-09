@@ -119,7 +119,6 @@ function enter(i) {
 //채팅방 리스트 접었다 펴기
 function fold(roomNo) {
 	
-	console.log("asd")
 	var state = $('.chatRoomList[id=' + roomNo + ']').attr("style");
 	if(state == "display: none;") {
 		$('.chatRoomList[id=' + roomNo + ']').attr("style", "display: block;");
@@ -178,8 +177,6 @@ function fold(roomNo) {
 				<c:forEach items="${chatList }" var="cl">
 					<c:if test="${rl.roomNo eq cl.roomNo }">
 						<button class="chatRoomName2" value="${cl.chatRoomNo }" onclick="enter(${cl.chatRoomNo })">${cl.chatRoomName }</button>
-						<c:set var="read_num" value="0"/>
-						<div id="read${cl.chatRoomNo }"><c:out value="${read_num }"/></div><br>
 					</c:if>
 				</c:forEach>
 			</div>

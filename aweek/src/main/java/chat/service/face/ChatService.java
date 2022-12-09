@@ -3,8 +3,11 @@ package chat.service.face;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
+import chat.dto.ChatFile;
 import chat.dto.ChatRoom;
 import member.dto.Member;
 import room.dto.RoomList;
@@ -59,6 +62,13 @@ public interface ChatService {
 	 * @return 채팅 내역 리스트
 	 */
 	public List<Chat> getChatHistory(int chatRoomNo, int userNo);
+	
+	/**
+	 * 채팅으로 보낸 파일을 저장한다
+	 * 
+	 * @param file - 업로드한 파일 정보
+	 */
+	public ChatFile chatFileUpload(MultipartFile file, int chatRoomNo, int userNo);
 	
 	
 	
