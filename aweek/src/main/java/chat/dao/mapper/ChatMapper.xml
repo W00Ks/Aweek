@@ -61,6 +61,21 @@
 			WHERE chat_room_no = #{chatRoomNo } AND user_no = #{userNo } AND chat_kind = 1)
 	</select>
 	
+	<select id="selectMaxChatNo" resultType="Chat" parameterType="int">
+		SELECT MAX(chat_no) chat_no FROM chat
+		WHERE chat_room_no = #{chatRoomNo }
+	</select>
+	
+	<insert id="insertFile" parameterType="ChatFile">
+		INSERT INTO chat_file ( chat_file_no, chat_no, chat_origin_name, chat_stored_name, chat_file_date)
+		VALUES ( chat_file_seq.nextval, #{chatNo }, #{chatOriginName }, #{chatStoredName }, sysdate )
+	</insert>
+	
+	<select id="getChatFile" resultType="ChatFile" parameterType="int">
+		SELECT * FROM chat_file
+		WHERE chat_no = #{chatNo }
+	</select>
+	
 </mapper>
 
 

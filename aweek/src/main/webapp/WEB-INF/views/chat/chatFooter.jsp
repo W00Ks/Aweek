@@ -47,7 +47,7 @@
 	       		//채팅창 스크롤 최하단으로 내리기
 	      	 	$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
 	      		
-	       		//본인 퇴장 메시지만 INSERT
+	       		//본인 메시지만 INSERT
 				if('${member.userId }님이' == enter[0]) {
 					//Insert Chat to DB (1포함)
 		   	    	insertChat(enter[2], enter[1], dateFormat('time'), 1);
@@ -90,9 +90,7 @@
 	   	    							+ "</div>");
 	   	    	//Insert Chat to DB
 	   	    	insertChat(roomMsg[3], uid[2], dateFormat('time'), 0);
-// 	   	    	<c:set var="count" value="${count + 1}"/>
 	   	    	
-// 	   	    	$("#read"+uid[2]).text(+1);
     	    } else {
 	   	    	$("#MessageArea").append("<div style='text-align: right;'>" 
 	   	    								+ "<div class='timeDiv'>" 
@@ -102,7 +100,7 @@
 	   	    							+ "</div>");
 	   	   		//Insert Chat to DB
 	   	    	insertChat(roomMsg[2], uid[1], dateFormat('time'), 0);
-// 	   	    	$("#read"+uid[2]).text(+2);
+	   	   		
     	    }
     	    
       	    $("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
@@ -135,6 +133,9 @@
       	if(roomMsg[0] == "Create Room") {
       		//Apply Room Creation
    	   		$('.chatRoomList[id=' + roomMsg[2] + ']').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
+   	   		
+      		//생성과 동시에 입장 시키기
+      		$('.chatRoomName2[value=' + roomMsg[3] + ']').click();
       	}
      	
    }

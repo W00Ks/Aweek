@@ -5,6 +5,7 @@ import java.util.Map;
 
 import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
+import chat.dto.ChatFile;
 import chat.dto.ChatList;
 import chat.dto.ChatRoom;
 import member.dto.Member;
@@ -68,6 +69,30 @@ public interface ChatDao {
 	 * @return 채팅 내역 리스트
 	 */
 	public List<Chat> selectChatHistory(Chat chat);
+	
+	/**
+	 * 파일 업로드용 채팅번호를 조회해 온다
+	 * 
+	 * @param chatRoomNo
+	 * @return 파일 업로드용 채팅번호
+	 */
+	public Chat selectMaxChatNo(int chatRoomNo);
+
+	/**
+	 * 채팅방의 첨부파일 정보를 삽입한다 
+	 * 
+	 * @param chatFile
+	 */
+	public void insertFile(ChatFile chatFile);
+	
+	/**
+	 *  방금 보낸 채팅파일 정보를 조회한다 
+	 * 
+	 * @param chatNo - 채팅번호
+	 * @return 방금 보낸 채팅파일 정보
+	 */
+	public ChatFile getChatFile(int chatNo);
+	
 
 }
 

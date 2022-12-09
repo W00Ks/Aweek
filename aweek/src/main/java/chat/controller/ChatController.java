@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
+import chat.dto.ChatFile;
 import chat.dto.ChatRoom;
 import chat.service.face.ChatService;
 import member.dto.Member;
@@ -84,6 +86,7 @@ public class ChatController {
 		List<Chat> chatHistory = chatService.getChatHistory(chatRoomNo, userNo);  
 		
 		logger.info("채팅 내역 조회 : {}", chatHistory);
+		logger.info("asdasdaschatRoomNo : {}", chatRoomNo);
 		
 		model.addAttribute("member", member);
 		model.addAttribute("chatHistory", chatHistory);
@@ -103,6 +106,20 @@ public class ChatController {
 	@RequestMapping("/mainRight")
 	public void chatMainRight() {
 		logger.info("+ + + Leave Chat Room + + +");
+	}
+	
+	@PostMapping("/fileUpload")
+	@ResponseBody
+	public ChatFile fileUpload(HttpSession session, MultipartFile file) {
+		int userNo = (int)session.getAttribute("userNo");
+		int chatRoomNo = (int)session.getAttribute("chatRoomNo");
+		logger.info("{}", file);
+		logger.info("chatRoomNo {}", chatRoomNo);
+		
+		ChatFile chatFile = chatService.chatFileUpload(file, chatRoomNo, userNo);
+		
+		
+		return chatFile;
 	}
 	
 }

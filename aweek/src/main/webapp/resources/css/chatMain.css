@@ -89,6 +89,7 @@ input, textarea, button {
 }
 #chatList {
     width: 96%;
+    max-width: 296px;
     margin: 10px auto 7px;
     height: calc(100% - 215px);
     overflow: auto;
@@ -189,7 +190,7 @@ input, textarea, button {
 }
 
 #mainImgWrap {
-	margin-top: 208px;
+	margin: 20% auto 0;
 }
 #mainImg {
     width: 485px;
