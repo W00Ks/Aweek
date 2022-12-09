@@ -99,30 +99,28 @@ public class CalendarController {
 //		}
 //		
 		
-		logger.info("calendarPrac");
+		logger.info("/calendar/myCal");
 		
-		
+		//캘린더 테이블 조회
 		List<CalDto> list = calendarService.selectMyCal();
 		
 		logger.info("{}", list);
 		
+		//조회결과 전달
 		model.addAttribute("list", list);
-		
-		
-		
-		
-		
 		
 		
 		return "/calendar/calendar";
 		
 	}
 	
+	//일정 작성 폼
 	@GetMapping("/calendar/writeForm")
 	public void writeForm(calendar.dto.CalDto calendar) {
 		logger.info("/calendar/writeForm [GET]");
 	}
 	
+	//일정 작성 처리
 	@PostMapping("/calendar/writeForm")
 	public String writeFormProc(calendar.dto.CalDto calendar
 				) {
@@ -139,6 +137,52 @@ public class CalendarController {
 		
 		
 		calendarService.insertMyCal(calendar);
+		
+		return "redirect:/calendar/myCal";
+	}
+	
+	//일정 상세보기
+	@RequestMapping("/calendar/view")
+	public String view(CalDto viewCal, Model model) {
+		
+		//일정 조회
+		viewCal = calendarService.view(viewCal);
+		logger.info("조회된 일정 : {}", viewCal);
+		
+		model.addAttribute("viewCal", viewCal);
+		
+		return "/calendar/view";
+	}
+	
+	//일정 수정하기 폼
+	@GetMapping("/calendar/update")
+	public String update(CalDto calDto, Model model) {
+		
+		calDto = calendarService.view(calDto);
+		logger.info("수정할 일정 : {}", calDto);
+		
+		model.addAttribute("viewCal", calDto);
+		
+		return "calendar/update";
+	}
+	
+	//일정 수정하기
+	@PostMapping("/calendar/update")
+	public String updateProc(CalDto calDto) {
+		
+		logger.info("/calendar/update");
+		
+		calendarService.update(calDto);
+		
+		logger.info("수정완료 : {}", calDto);
+		
+		return "redirect:/calendar/myCal";
+	}
+	
+	@RequestMapping("/calendar/delete")
+	public String delete(CalDto calDto) {
+		
+		calendarService.deleteMyCal(calDto);
 		
 		return "redirect:/calendar/myCal";
 	}

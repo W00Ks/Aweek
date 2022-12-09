@@ -11,4 +11,10 @@ public interface CalendarService {
 
 	public List<CalDto> selectMyCal();
 
+	public CalDto view(CalDto viewCal);
+
+	public void update(CalDto calDto);
+
+	public void deleteMyCal(CalDto calDto);
+
 }
