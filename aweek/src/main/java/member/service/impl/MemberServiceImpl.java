@@ -172,4 +172,9 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.updatePw(member);
 	}
 	
+	@Override
+	public void getUserModify(Member member) {
+		memberDao.updateUserModify(member);
+	}
+	
 }

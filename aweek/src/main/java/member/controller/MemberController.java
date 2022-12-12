@@ -221,28 +221,99 @@ public class MemberController {
 		String userId = (String) session.getAttribute("userId");
 		member.setUserId(userId);  
 		member = memberService.getLoginInfo(member);
-		
-		
-//		session.getAttribute("loginResult", loginResult);
-//		session.getAttribute("userNo", member.getUserNo());
 	}
 	
 	//------------------------------ 회원 정보 수정 ------------------------------
 	@GetMapping("/info")
 	public void info(HttpSession session, Model model) {
+		
 		//세션에 저장된 ID를 통해 회원정보 조회 
 		Member member = new Member();
 		String userId = (String) session.getAttribute("userId");
 		member.setUserId(userId);  
 		member = memberService.getLoginInfo(member);
 		
-		
+		//모델값 전달
+		model.addAttribute("member", member);
 		
 	}
+
+	@PostMapping("/info")
+	@ResponseBody
+	public void infoProc(Member member) {
+		memberService.getUserModify(member);
+	}
 	
+	//비밀번호 변경
+	@GetMapping("/pwModify")
+	public void pwModify(HttpSession session, Model model) {
+		//세션에 저장된 ID를 통해 회원정보 조회 
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);  
+		member = memberService.getLoginInfo(member);
+		
+		//모델값 전달
+		model.addAttribute("member", member);
+	}
+	
+	@PostMapping("/pwModify")
+	public void pwModifyProc(Member member) {
+		memberService.getPwModify(member);;
+	}
+	
+	//현재 비밀번호 체크
+	@RequestMapping("/pwChk")
+	@ResponseBody
+	public int pwChk(Member member) {
+		
+		boolean PwChkResult = memberService.login(member);
+		
+		if ( PwChkResult ) {
+			return 1; 
+		} else {
+			return 0;
+		}
+	}
+	
+	//핸드폰 번호 수정
+	@GetMapping("/phoneModify")
+	public void phoneModify(HttpSession session, Model model) {
+		//세션에 저장된 ID를 통해 회원정보 조회 
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);  
+		member = memberService.getLoginInfo(member);
+		
+		//모델값 전달
+		model.addAttribute("member", member);
+	}
+	
+	@PostMapping("/phoneModify")
+	public void phoneModifyProc(Member member) {
+//		memberService.getPhoneModify(member);
+	}
+	
+	//휴대폰 번호 체크
+	@RequestMapping("/phoneChk")
+	public int phoneChk(Member member) {
+//		boolean findPhoneResult = memberService.findPhoneUserInfo(member);
+		
+//		if ( findPhoneResult ) {
+			return 1;
+//		} else {
+//			return 0;
+//		}
+	}
 	
 	//------------------------------ 회원 탈퇴 ------------------------------
 	
 	
+	
+	//------------------------------ 마이페이지 1:1 문의 ------------------------------
+	@RequestMapping("/myInquiry")
+	public void myInquiry(HttpSession session, Model model) {
+		
+	}
 	
 }

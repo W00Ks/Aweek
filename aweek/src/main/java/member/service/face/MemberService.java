@@ -104,7 +104,13 @@ public interface MemberService {
 	 */
 	public void getPwModify(Member member);
 
-
+	/**
+	 * 회원정보 수정
+	 * 
+	 * @param member - 유저 정보 파라미터(ID, PW, 이름, 휴대폰 번호, 주소, 이메일, 생년월일)    
+	 */
+	public void getUserModify(Member member);
+	
 	
 	
 }
