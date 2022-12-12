@@ -169,7 +169,17 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 </style>
 
 <script defer type="text/javascript">
-	
+
+function roomOpen(){
+	let userNo = document.querySelector(".userNo").value
+ 	location.href = "/room/open?userNo=" + userNo;
+}
+
+function roomList(){
+	let userNo = document.querySelector(".userNo").value
+	location.href = "/room/roomList?userNo=" + userNo;
+}
+
 //userNo 중복 검사
 function checkUserNo(roomNo) {
 	
@@ -215,8 +225,8 @@ function goRoomMain(roomNo) {
 <section class="container">
     <div class="container__left">
       <div class="btn-menu">
-		<a href="#" class="btn btn--brown">모임개설</a>
-		<a href="#" class="btn btn--brown">모임목록</a>
+		<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
+		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
      </div>
     </div>
 

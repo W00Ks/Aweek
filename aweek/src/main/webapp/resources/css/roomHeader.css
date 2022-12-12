@@ -15,7 +15,6 @@
 /* COMMONS */
 body {
 	margin-top: 52px;
-	height: calc(100% - 53px);
 	-ms-overflow-style: none;
 }
 body::-webkit-scrollbar {
