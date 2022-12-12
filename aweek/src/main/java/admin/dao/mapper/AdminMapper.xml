@@ -7,6 +7,8 @@
     
 <mapper namespace="admin.dao.face.AdminDao">
 
+<!-- - - - - - - - - - - SELECT - - - - - - - - - - -->
+
 	<select id="selectAdmin" resultType="int" parameterType="admin.dto.Admin">
 		SELECT count(*) FROM admin
 		WHERE admin_id = #{ adminId } AND admin_pw = #{ adminPw }
@@ -20,6 +22,31 @@
 		SELECT user_no, user_id, user_name FROM member
 		ORDER BY user_no
 	</select>
+
+	<select id="selectRoomList" resultType="room.dto.Room" parameterType="common.Paging">
+		SELECT room_no FROM room
+		ORDER BY room_no
+	</select>
+
+	<select id="selectPaymentList" resultType="payment.dto.Payment" parameterType="common.Paging">
+		SELECT pay_no, pay_type FROM payment
+		ORDER BY pay_no
+	</select>
+	
+	<select id="selectNoticeList" resultType="cs.dto.Notice" parameterType="common.Paging">
+		SELECT notice_no, notice_title, notice_content, notice_date FROM notice
+		ORDER BY notice_no
+	</select>
+	
+	<select id="selectQnAList" resultType="cs.dto.QnA" parameterType="common.Paging">
+		SELECT qna_no FROM qna
+		ORDER BY qna_no
+	</select>
+	
+	<select id="selectInquiryList" resultType="cs.dto.Inquiry" parameterType="common.Paging">
+		SELECT inquiry_no FROM inquiry
+		ORDER BY inquiry_no
+	</select>
 	
 	<select id="selectMemberDetail" resultType="member.dto.Member" parameterType="member.dto.Member">
 		SELECT
@@ -29,4 +56,79 @@
 		WHERE user_no = ${ userNo }
 	</select>
 
+	<select id="selectPaymentDetail" resultType="payment.dto.Payment" parameterType="payment.dto.Payment">
+		SELECT
+			pay_no
+		FROM payment
+		WHERE payment_no = ${ payNo }
+	</select>
+	
+	<select id="selelctNoticeView" resultType="cs.dto.Notice" parameterType="cs.dto.Notice">
+		SELECT
+			notice_no, notice_title, notice_content, notice_date
+		FROM notice
+		WHERE notice_no = #{ noticeNo }
+	</select>
+	
+	<select id="selelctdQnaView">
+		SELECT
+			qna_no, qna_title, qna_content, qna_date
+		FROM qna
+		WHERE qna_no = #{ qnaNo }
+	</select>
+	
+<!-- - - - - - - - - - - INSERT - - - - - - - - - - -->
+<!-- 
+	<insert id="insertNotice" parameterType="cs.dto.Notice">
+		<selectKey order="BEFORE" resultType="int" keyProperty="noticeNo">
+			SELECT notice_seq.nextval FROM dual
+		</selectKey>
+	
+		INSERT INTO notice ( notice_no, file_no, admin_no, notice_title, notice_content, notice_date )
+		VALUES ( #{ noticeNo }, #{ fileNo }, #{ adminNo }, #{ noticeTitle }, #{ noticeContent }, SYSDATE )
+	</insert>
+	
+	<insert id="insertQna" parameterType="cs.dto.QnA">
+		<selectKey order="BEFORE" resultType="int" keyProperty="qnaNo">
+			SELECT qna_seq.nextval FROM dual
+		</selectKey>
+	
+		INSERT INTO qna ( qna_no, qna_title, qna_content, qna_date )
+		VALUES ( #{ qnaNo }, #{ qnaTitle }, #{ qnaContent }, SYSDATE )
+	</insert>
+ -->
+<!-- - - - - - - - - - - UPDATE - - - - - - - - - - -->
+<!-- 
+	<update id="updateNotice" parameterType="cs.dto.Notice">
+		UPDATE notice
+		SET notice_title = #{ noticeTitle }
+			, notice_content = #{ noticeContent }
+		WHERE notice_no = #{ noticeNo }
+	</update>
+
+	<update id="updateNoticeHit" parameterType="cs.dto.Notice">
+		UPDATE notice
+		SET notice_hit = notice_hit + 1
+		WHERE notice_no = #{ noticeNo }
+	</update>
+
+	<update id="updateQna" parameterType="cs.dto.QnA">
+		UPDATE qna
+		SET qna_title = #{ qnaTitle }
+			, qna_content = #{ qnaContent }
+		WHERE qna_no = #{ qnaNo }
+	</update>
+ -->	
+<!-- - - - - - - - - - - DELETE - - - - - - - - - - -->
+<!-- 
+	<delete id="deleteNotice" parameterType="cs.dto.Notice">
+		DELETE notice
+		WHERE notice_no = #{ noticeNo }
+	</delete>
+
+	<delete id="deleteQna" parameterType="cs.dto.QnA">
+		DELETE qna
+		WHERE qna_no = #{ qnaNo }
+	</delete>
+ -->	
 </mapper>

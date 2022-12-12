@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/adminheader.jsp" />
+<c:import url="./layout/adminheader.jsp" />
 
 <style type="text/css">
 
@@ -39,6 +39,7 @@ th {
 </style>
 
 <c:if test="${ not empty adminLogin }">
+
 <div class="list">
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">회원 목록</h1>
 </div>
@@ -63,8 +64,8 @@ th {
 	</tbody>
 </table>
 
-<c:import url="/WEB-INF/views/admin/memberpaging.jsp" />
+<c:import url="/WEB-INF/views/admin/layout/memberpaging.jsp" />
 
 </c:if>
 
-<c:import url="../layout/adminfooter.jsp" />
+<c:import url="./layout/adminfooter.jsp" />

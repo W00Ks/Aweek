@@ -4,14 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>통계 페이지</title>
 </head>
 <body>
 
 <h1>통계</h1>
 <hr>
-
-
 
 </body>
 </html>

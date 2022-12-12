@@ -26,12 +26,12 @@ $(document).ready(function() {
 // 아이디 비밀번호 입력 안 한 경우
 function loginCheck() {
 	let loginForm = document.loginForm;
-	let owner_id = document.getElementById('adminId').value;
-	let owner_pw = document.getElementById('adminPw').value;
+	let admin_id = document.getElementById('adminId').value;
+	let admin_pw = document.getElementById('adminPw').value;
 	
-	if(owner_id == "") {
+	if(admin_id == "") {
 		alert("아이디를 입력해주세요.");
-	} else if(owner_pw == "") {
+	} else if(admin_pw == "") {
 		alert("비밀번호를 입력해주세요.");
 	} else {
 		loginForm.submit();
@@ -119,14 +119,16 @@ button {
 						<div class="login_row">
 							<input type="text" id="adminId" name="adminId" class="form-control" placeholder="아이디" title="아이디">
 						</div>
+						
 						<div class="login_row">
 							<input type="password" id="adminPw" name="adminPw" class="form-control" placeholder="비밀번호" title="비밀번호">
 						</div>
 					</div>
+					
 					<div class="login_btn_wrap">
 						<p>
 							<button type="button" class="btn btn-primary" id="btnLogin" onclick="loginCheck()">
-							<span>로그인</span>
+								<span>로그인</span>
 							</button>
 						</p>
 					</div>
