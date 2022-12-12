@@ -241,7 +241,7 @@ input:focus{
 		<input type="text" class="int" id="userId" name="userId" placeholder="아이디" autocomplete="off">
 	</div>
 	<div class="divPhone">
-		<input type="text" class="int" id="userPhone" name="userPhone" placeholder="휴대폰 번호  ex) 010-0000-0000" autocomplete="off">
+		<input type="text" class="int" id="userPhone" name="userPhone" maxlength="13" placeholder="휴대폰 번호  ex) 010-0000-0000" autocomplete="off">
 	</div>
 	<span class="error_msg" id="errorMsg" style="display:none;"></span>
 	
