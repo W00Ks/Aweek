@@ -14,13 +14,27 @@ html {
 }
 body {
 	height: calc(100% - 53px);
+	 -ms-overflow-style: none;
+ }
+body::-webkit-scrollbar {
+  display: none;
+}
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, blockquote, form, fieldset, legend, menu, nav, section, hgroup, article, header, aside, footer, input, select, textarea, button {
+	font-family: 'NanumSquareNeo-Variable';
 }
 .container {
 	display: flex;
 	min-height: 100%;
 }
 .container__left {
-	width: 20%;
+	width: 300px;
 	min-height: 100%;
 	background-color: var(--text-color);
 	border-right: 1px solid var(--border-color);
@@ -31,59 +45,93 @@ body {
 	margin: 50px auto;
 	padding: 0 50px;
 }
-
 .resizer {
   background-color: var(--border-color);
   cursor: ew-resize;
   min-height: 100%;
   width: 2px;
 }
-
 .container__right {
 	width: 80%;
 	min-height: calc(100% - 52px);
 	background-color: var(--light-color);
 	flex: 1;
 }
-.container__right h1 {
-	margin: 0 auto;
-	padding: 30px;
-	border-bottom: 1px solid var(--border-color);
-	background-color: var(--text-color);
-	box-sizing: border-box;
-	font-size: 13px;
+.container__right .main-wrap {
+	margin: 35px;
 }
-.container__right .open-content {
-	margin: 50px auto;
-	width: 70%;
-	display: flex;
-	flex-direction: column;
+.container__right .main-wrap .main-title {
+	padding: 40px 20px;
+    margin: 0 10%;
+    border-bottom: 2px solid var(--border-color);
 }
-.container__right .open-content .object {
-	display: flex;
-	margin: 10px 0;
-}
-.container__right .open-content .object p {
-	width: 130px;
-}
-.container__right .open-content .object input {
-	width: 80%;
-	border-style: none;
-	border-bottom: 2px solid var(--accent-color);
-	background-color: transparent;
-}
-.container__right .open-content .object:nth-child(2) input {
-	line-height: 200px;
-	border: 2px solid var(--accent-color);
-	border-radius: 5px;
-	background-color: transparent;
-}
-.container__right .open-content .object:nth-child(5) input {
-	width: 5%;
+.container__right .main-wrap .main-title h1 {
+	text-align: center;
+    font-size: 35px;
 }
 
-.container__right .open-content .btnsection {
-	margin: 20px 10%;
+
+.container__right .main-wrap .roomBox-wrap {
+	margin: 50px 10%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px 2%;
+    justify-content: space-between;
+    
+
+}
+.container .roomBox-wrap .roomBox {
+	width: 30%;
+    height: 270px;
+    padding: 20px;
+	background-color: var(--text-color);
+    box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 20%);
+    border-radius: 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    z-index: 1;
+}
+
+.container .roomBox-wrap .roomBox .roomName {
+	padding: 10px 0 20px;
+    border-bottom: 3px solid var(--light-color);
+    text-align: center;
+    font-size: 18px;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+}
+.container .roomBox-wrap .roomBox .roomIntroduce{
+	margin-top: 20px;
+    height: 135px;
+    font-size: 15px;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: break-word;
+    display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 9;
+}
+
+.container .roomBox-wrap .roomBox .bottom-wrap {
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+	margin-top: 10px;
+}
+.container .roomBox-wrap .roomBox .roomPublic{
+	font-size: 15px;
+	color: var(--background-color--);
+}
+.container .roomBox-wrap .roomBox .dropOut {
+	font-size: 15px;
+	z-index: 9;	
+	position: absolute;
+	right: 0;
 }
 
 @media screen and (max-width: 768px) {
@@ -94,33 +142,22 @@ body {
 	.container__right {
 		width: 100%;
 	}
-}
-
-.container .roomBox {
-	width: 200px;
-	height: 200px;
-	padding: 20px;
-	margin: 20px;
-	background-color: var(--border-color);
-	border-radius: 20px;
-	box-sizing: border-box;
-	cursor: pointer;
-	position: relative;
-	z-index: 1;
+	
+	.container__right .main-wrap .roomBox-wrap {
+    margin: 50px 0%;
+	}
+	.container .roomBox-wrap .roomBox {
+	    width: 48%;
+	}
 }
 
 
-.container .roomBox .moveDropOut {
-	z-index: 9;
-	position: absolute;
-}
 
 
 </style>
 
 <script defer type="text/javascript">
 function moveSetting(i,j){
-	console.log("click")
 	location.href = "/room/roomInfo?userNo=" + i + "&roomNo=" + j;
 }
 
@@ -134,6 +171,40 @@ function roomList(){
 	location.href = "/room/roomList?userNo=" + userNo;
 }
 
+function roomDelete(roomName,roomNo){
+	
+	let userNo = $(".userNo").val();
+	
+	console.log(roomName)
+	console.log(userNo)
+	console.log(roomNo)
+	
+ 	let conf = confirm( roomName + " 모임을 삭제 하시겠습니까?");
+	
+	if(conf){
+	   
+		$.ajax({
+	        type:"post"
+	        , url: "./delete"
+	       	, data : {
+				roomNo : roomNo
+			}
+			, dataType : "html"
+	        , success : function( result ) {
+	        	console.log("secess userNo:" + userNo)
+	        	console.log("secess roomNo:" + roomNo)
+                alert("삭제가 완료 되었습니다");
+	        	location.href="/room/main";
+	        }
+			, error : function() {
+				console.log("error")
+                alert("삭제에 실패했습니다");
+				return false;
+			}
+	    });
+	}
+	
+}
 function dropOut(roomName,roomNo){
 	
 	let userNo = $(".userNo").val();
@@ -142,7 +213,7 @@ function dropOut(roomName,roomNo){
 	console.log(userNo)
 	console.log(roomNo)
 	
- 	let conf = confirm( roomName + " 모임을 탈퇴하시겠습니까?");
+ 	let conf = confirm( roomName + " 모임을 탈퇴 하시겠습니까?");
 	
 	if(conf){
 	   
@@ -170,6 +241,53 @@ function dropOut(roomName,roomNo){
 }
 
 
+
+function roomBox() {
+	
+/* 	var arr = new Array();
+	
+	<c:forEach items="${myRoomList  }" var="room">
+		arr.push({
+			roomName : "${room.roomName }"
+			, roomIntroduce : "${room.roomIntroduce }"
+		});
+	</c:forEach>
+	
+	for(var i=0; i < arr.length; i++) {
+		
+		console.log(arr[i].roomName)
+		console.log(arr[i].roomIntroduce)
+		
+	} */
+	
+/* 	let roomName = [];
+	
+	<c:forEach items="${myRoomList  }" var="room">
+		roomName.push("${room.roomName }");
+	</c:forEach>
+	
+	let cutName = [];
+	let cut
+	
+	for(var i=0; i < roomName.length; i++) {
+		
+		cutName = roomName[i]
+		
+		if( cutName.length >= 10 ){
+			
+			cut = cutName.subString(10, -1);
+			
+			console.log(cut)
+		}
+		
+		console.log("cutName : " + cutName)
+	}
+	
+	console.log(roomName)
+	 */
+	
+		
+}
 
 //대상 Element 선택
 /* const resizer = document.querySelector('.resizer');
@@ -252,28 +370,37 @@ resizer.addEventListener('mousedown', mouseDownHandler);
 
     <div class="resizer" id="dragMe"></div>
     <div class="container__right">
-    	<form>
-	    	<input type="hidden" name="userNo" class="userNo" value="${userno }">
-			<c:forEach items="${myRoomList  }" var="room">
-			
-				<div class="roomBox" onclick="moveSetting(${room.userNo },${room.roomNo })">
-			    	<input type="hidden" name="userNo" class="roomNo" value="${room.roomNo }">
-					<p class="roomName">${room.roomName }</p>
-					<p class="roomIntroduce">${room.roomIntroduce }<br></p>
-					
-					<c:if test="${room.roomPublic eq '1' }"> 
-						<p id="1">공개</p>
-		        	</c:if>
-		        	<c:if test="${room.roomPublic eq '0' }"> 
-						<p id="2">비공개</p>
-		        	</c:if>
-		        	
-					<p class="dropOut" onclick="dropOut('${room.roomName }',${room.roomNo })">탈퇴</p>
-				</div>
-				
-			
-			</c:forEach>
-		</form>
+    	<div class="main-wrap">
+    		<div class="main-title">
+				<h1>내 모임 목록</h1>
+			</div>
+			<div class="roomBox-wrap">
+		    	<input type="hidden" name="userNo" class="userNo" value="${userno }">
+				<c:forEach items="${myRoomList  }" var="room">
+					<div class="roomBox" onclick="moveSetting(${room.userNo },${room.roomNo })">
+				    	<input type="hidden" name="userNo" class="roomNo" value="${room.roomNo }">
+						<p class="roomName">${room.roomName }</p>
+						<p class="roomIntroduce">${room.roomIntroduce }<br></p>
+						
+						<div class="bottom-wrap">
+							<c:if test="${room.roomPublic eq '1' }"> 
+								<p class="roomPublic" id="1">공개</p>
+				        	</c:if>
+				        	<c:if test="${room.roomPublic eq '0' }"> 
+								<p class="roomPublic" id="2">비공개</p>
+				        	</c:if>
+				        	
+				        	<c:if test ="${room.userNo eq userno}">
+								<p class="dropOut" onclick="roomDelete('${room.roomName }',${room.roomNo })">삭제</p>
+							</c:if>
+							<c:if test ="${room.userNo ne userno}">
+								<p class="dropOut" onclick="dropOut('${room.roomName }',${room.roomNo })">탈퇴</p>
+							</c:if>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
     </div>
 
 </section>

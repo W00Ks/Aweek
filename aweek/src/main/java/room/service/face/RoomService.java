@@ -92,6 +92,13 @@ public interface RoomService {
 	 */
 	public void dropOut(RoomList roomList);
 
+	/**
+	 * 모임 삭제
+	 * 
+	 * @param room - 모임 정보 객체
+	 */
+	public void deleteRoom(int roomNo);
+
 	
 
 

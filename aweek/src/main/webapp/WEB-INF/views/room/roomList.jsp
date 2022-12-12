@@ -14,12 +14,22 @@ html {
 body {
 	height: calc(100% - 53px);
 }
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, blockquote, form, fieldset, legend, menu, nav, section, hgroup, article, header, aside, footer, input, select, textarea, button {
+	font-family: 'NanumSquareNeo-Variable';
+}
 .container {
 	display: flex;
 	min-height: 100%;
 }
 .container__left {
-	width: 20%;
+	width: 300px;
 	min-height: 100%;
 	background-color: var(--text-color);
 	border-right: 1px solid var(--border-color);
@@ -30,59 +40,104 @@ body {
 	margin: 50px auto;
 	padding: 0 50px;
 }
-
 .resizer {
   background-color: var(--border-color);
   cursor: ew-resize;
   min-height: 100%;
   width: 2px;
 }
-
 .container__right {
 	width: 80%;
 	min-height: calc(100% - 52px);
 	background-color: var(--light-color);
 	flex: 1;
 }
-.container__right h1 {
-	margin: 0 auto;
-	padding: 30px;
-	border-bottom: 1px solid var(--border-color);
-	background-color: var(--text-color);
-	box-sizing: border-box;
-	font-size: 13px;
-}
-.container__right .open-content {
-	margin: 50px auto;
-	width: 70%;
-	display: flex;
-	flex-direction: column;
-}
-.container__right .open-content .object {
-	display: flex;
-	margin: 10px 0;
-}
-.container__right .open-content .object p {
-	width: 130px;
-}
-.container__right .open-content .object input {
-	width: 80%;
-	border-style: none;
-	border-bottom: 2px solid var(--accent-color);
-	background-color: transparent;
-}
-.container__right .open-content .object:nth-child(2) input {
-	line-height: 200px;
-	border: 2px solid var(--accent-color);
-	border-radius: 5px;
-	background-color: transparent;
-}
-.container__right .open-content .object:nth-child(5) input {
-	width: 5%;
+.container__right .list-wrap {
+	width: 82%;
+    min-width: 550px;
+    margin: 50px 4%;
+    padding: 50px 5%;
+    display: flex;
+    background-color: var(--text-color);
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 5%);
 }
 
-.container__right .open-content .btnsection {
-	margin: 20px 10%;
+.container__right .list-wrap .list-title {
+	margin: 30px auto;
+}
+.container__right .list-wrap .list-title h1 {
+    text-align: center;
+    font-size: 35px;
+}
+.container__right .list-wrap .list-title h6 {
+    text-align: center;
+    font-size: 15px;
+    margin-top: 30px;
+}
+
+.container__right .list-wrap .table-menu {
+	margin: 40px 0;
+	width: 100%;
+}
+.container__right .list-wrap .table-menu li {
+	list-style-type: none;
+	float: left;
+}
+.container__right .list-wrap .table-menu li:first-child {
+	width: 20%;
+}
+
+.container__right .list-wrap .table-menu li:nth-child(2) {
+	width: 60%;
+}
+.container__right .list-wrap .table-menu li:nth-child(3) {
+	width: 10%;
+}
+.container__right .list-wrap .table-menu li:nth-child(4) {
+	width: 10%;
+}
+
+.container__right .list-wrap .table {
+	width: 100%;
+}
+.container__right .list-wrap .table li {
+	list-style-type: none;
+	float: left;
+	padding: 5px 0;
+	margin: 5px 0;
+	border-bottom: 1px solid var(--border-color);
+	word-break: keep-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.container__right .list-wrap .table li:first-child {
+	width: 20%;
+	cursor: pointer;
+}
+.container__right .list-wrap .table li:nth-child(2) {
+	width: 60%;
+	cursor: pointer;
+}
+.container__right .list-wrap .table li:nth-child(3) {
+	width: 10%;
+}
+.container__right .list-wrap .table li:nth-child(4) {
+	width: 10%;
+}
+.container__right .list-wrap .table.hidden {
+	display: none;
+}
+
+.container__right .list-wrap .table .join {
+	padding: 7px 18px;
+    background-color: var(--border-color);
+    font-size: 14px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
@@ -151,7 +206,7 @@ function goRoomMain(roomNo) {
 	let userNo = $(".userNo").val();
 	console.log(userNo)
 	console.log(roomNo)
- 	location.href = "/room/main?userNo=" + userNo + "&roomNo=" + roomNo;
+ 	location.href = "/room/roomInfo?userNo=" + userNo + "&roomNo=" + roomNo;
 }
 
 </script>
@@ -167,24 +222,46 @@ function goRoomMain(roomNo) {
 
     <div class="resizer" id="dragMe"></div>
     <div class="container__right">
-    
-		<input type="hidden" name="userNo" class="userNo" value="${userNo }">
-		<c:forEach items="${roomList  }" var="room">
-			<div class="listTb">
+    	<div class="list-wrap">
+    		<div class="list-title">
+				<h1>모임 목록</h1>
+				<h6>Aweek의 모임입니다.<br/>
+					다양한 사람들과 함께하고 싶으시다면 가입버튼을 눌러 새로운 사람들을 만나보세요.</h6>
+			</div>
+    		
+			<input type="hidden" name="userNo" class="userNo" value="${userNo }">
+				<ul class="table-menu">
+					<li>모임 이름</li>
+					<li>모임 설명</li>
+					<li>카테고리</li>
+					<li>가입</li>
+				</ul>
+			<c:forEach items="${roomList  }" var="room">
 				<input type="hidden" name="roomNo" class="roomNo" value="${room.roomNo }">
-				<p class="roomName" onclick="goRoomMain(${room.roomNo })">${room.roomName }<br></p>
-				<p class="roomIntroduce">${room.roomIntroduce }<br></p>
+				<c:if test="${room.roomPublic eq '0' }"> 
+					<ul class="table hidden"></ul>
+				</c:if>
 				
 				<c:if test="${room.roomPublic eq '1' }"> 
-					<p id="1">공개</p>
-	        	</c:if>
-	        	<c:if test="${room.roomPublic eq '0' }"> 
-					<p id="2">비공개</p>
-	        	</c:if>
-				<a class="join" onclick="checkUserNo(${room.roomNo })">가입</a>
-			</div>
-		
-		</c:forEach>
+					<ul class="table">
+						<li class="roomName" onclick="goRoomMain(${room.roomNo })">${room.roomName }</li>
+						<li class="roomIntroduce" onclick="goRoomMain(${room.roomNo })">${room.roomIntroduce }</li>
+						
+						<c:if test="${room.roomCategoryNo eq '1' }"> 
+							<li class="roomCategory" id="1">회사</li>
+			        	</c:if>
+			        	<c:if test="${room.roomCategoryNo eq '2' }"> 
+							<li class="roomCategory" id="2">취미</li>
+			        	</c:if>
+			        	<c:if test="${room.roomCategoryNo eq '3' }"> 
+							<li class="roomCategory" id="2">동아리</li>
+			        	</c:if>
+						
+						<li><p class="join" onclick="checkUserNo(${room.roomNo })">가입</p></li>
+					</ul>
+				</c:if>
+			</c:forEach>
+		</div>
     </div>
 
 </section>
