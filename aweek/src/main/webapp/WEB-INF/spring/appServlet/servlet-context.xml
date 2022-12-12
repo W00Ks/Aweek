@@ -70,7 +70,8 @@
 	</beans:bean>
 	
 	<!-- DownloadView 클래스를 스프링 빈으로 등록 -->
-<!-- 	<beans:bean id="down" class=""/> -->
+	<!-- 채팅 관련 파일 DownloadView -->
+	<beans:bean id="chatDown" class="chat.view.DownloadView" />
 	
 	<!-- JSON 응답용 jsonView를 스프링 빈으로 등록 -->
 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">

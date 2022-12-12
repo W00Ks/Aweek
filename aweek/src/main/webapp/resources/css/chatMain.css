@@ -10,24 +10,25 @@
 html {
 	height: calc(100% - 53px);
 }
+
 body, #container, #content-left, #content-right, #msg-wrap {
 	height: 100%;
 }
+
 html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, 
 td, p, blockquote, form, fieldset, legend, menu, nav, section, hgroup, 
-article, header, aside, footer, input, select, textarea, button {
-	font-family: 'NanumSquareNeo-Variable';
-}
-input, textarea, button {
-	outline: none;
-}
+article, header, aside, footer, input, select, textarea, button { font-family: 'NanumSquareNeo-Variable'; }
+
+input, textarea, button { outline: none; }
+
 #container {
     margin: 0 auto;
     display: flex;
 }
 
 #content-left {
-    border: 2px solid #d3c3c3;
+    border-right: 2px solid #d3c3c3;
+    border-bottom: 2px solid #d3c3c3;
 	min-width: 300px;
     float: left;
     box-sizing: border-box;
@@ -54,11 +55,13 @@ input, textarea, button {
     color: #594B4B;
     font-size: 15px;
 }
+
 .btn.btnRoomCreat:hover, .btn.btnChatCreate:hover {
 	background-color: #cb7070;
 	border-color: #f8f1f1;
 	color: #fff;
 }
+
 .btn.btnChatCreate {
 	width: 93%;
     display: inline-block;
@@ -68,6 +71,7 @@ input, textarea, button {
     color: #594B4B;
     font-size: 15px;
 }
+
 #searchWrap {
     display: flex;
     margin: 7px 0 0 29px;
@@ -75,18 +79,21 @@ input, textarea, button {
     width: 240px;
     border-radius: 3px;
 }
+
 #searchBar {
     width: 82%;
     height: 23px;
     border: none;
     background-color: #ddd;
 }
+
 #btnSearch {
 	border: none;
     background: none;
     width: 34px;
     padding-top: 2px;
 }
+
 #chatList {
     width: 96%;
     max-width: 296px;
@@ -104,17 +111,17 @@ input, textarea, button {
     border-radius: 2px;
     margin-bottom: 3px;
 }
-.chatRoomName2:hover {
-	background-color: #f3bfbf5e;
-}
+
+.chatRoomName2:hover { background-color: #f3bfbf5e; }
+
 .disable {
 	background-color: #f4b0b0;
     color: #fff;
     font-weight: bold;
 }
-.disable:hover {
-	background-color: #f4b0b0;
-}
+
+.disable:hover { background-color: #f4b0b0; }
+
 .btn_fold {
 	width: 98%;
     height: 26px;
@@ -126,6 +133,7 @@ input, textarea, button {
     margin-bottom: -15px;
     color: #555
 }
+
 .material-symbols-outlined {
 	font-size: 21px;
 	color: #555
@@ -139,15 +147,15 @@ input, textarea, button {
     overflow: auto;
     background: #fff;
 }
+
 .room-n {
 	display: inline-block;
 	width: 66%;
 	text-align: left;
 	margin-bottom: 13px;
 }
-.room-check-box {
-	margin-bottom: 9px;
-}
+
+.room-check-box { margin-bottom: 9px; }
 
 .roomH4 {
 	margin: 18px 0 11px;
@@ -155,6 +163,7 @@ input, textarea, button {
 	display: inline-block;
 	min-width: 100px;
 }
+
 #createChatRoom {
 	border: 1px solid #ccc;
     min-width: 129%;
@@ -164,34 +173,30 @@ input, textarea, button {
     top: 3%;
     z-index: 2;
 }
+
 .border-radio {
 	border-bottom: 1px solid #ccc;
 	margin: 10px 0;
 }
+
 #chatRoomName1 {
 	width: 60%;
 	height: 25px;
 	font-size: 15px;
 	padding-left: 5px;
 }
-#close-box-wrap {
-	text-align: right;
-}
+
+#close-box-wrap { text-align: right; }
+
 #close-box {
 	border: none;
     background: #fff;
     padding: 0;
     cursor: pointer;
 }
-.timeDiv {
-	display: inline;
-    position: relative;
-    top: 9px;
-}
 
-#mainImgWrap {
-	margin: 20% auto 0;
-}
+#mainImgWrap { margin: 222px auto 0; }
+
 #mainImg {
     width: 485px;
     margin: 0 auto;

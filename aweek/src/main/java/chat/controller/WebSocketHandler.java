@@ -97,6 +97,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			
 			//해당 유저번호를 이용해 회원정보 가져오기
 			Member member = chatService.getUserInfo(userNo);
+			logger.info("### member : {}", member);
 			
 			//유저 정보 세션 Map에 유저 아이디 저장
 			idSessions.put(member.getUserId(), session);
@@ -126,16 +127,23 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			//같은 방 유저에게만 메시지 전송
 			for(String key : idSessions.keySet()) {
 				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
-					if(stack.size() > 1) {
-						//전에 메시지 보낸 사람과 동일한지 검사 후 처리
-						if(stack.get(stack.size()-2).equals(member.getUserId())) {
-							//동일한 사람이면 'id' 추가
-							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":id" + ": " + message.getPayload() + ":" + chatRoomNo));
+					if(!message.getPayload().contains(".png")) {
+						
+						if(stack.size() > 1) {
+							//전에 메시지 보낸 사람과 동일한지 검사 후 처리
+							if(stack.get(stack.size()-2).equals(member.getUserId())) {
+								//동일한 사람이면 'id' 추가
+								idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":id" + ":" + message.getPayload() + ":" + chatRoomNo));
+							} else {
+								idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":" + message.getPayload() + ":" + chatRoomNo));
+							}
 						} else {
-							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ": " + message.getPayload() + ":" + chatRoomNo));
+							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":" + message.getPayload() + ":" + chatRoomNo));
 						}
+						
 					} else {
-						idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ": " + message.getPayload() + ":" + chatRoomNo));
+						//이모티콘 메시지
+						idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":" + message.getPayload() + ":emoticon:" + chatRoomNo));
 					}
 				}
 			}
@@ -157,6 +165,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			
 			//유저 정보 가져오기
 			Member member = chatService.getUserInfo(userNo);
+			logger.info("### member2 : {}", member);
 			
 			//전체 사용자에게 채팅방 생성
 			for(String key : idSessions.keySet()) {
@@ -164,7 +173,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				if(key != member.getUserId()) {
 					//나가기 이벤트가 아닐 경우
 					if(!exitMsg[0].equals("exit")) {
-						idSessions.get(key).sendMessage(new TextMessage("Create Room:" + message.getPayload()));
+						idSessions.get(key).sendMessage(new TextMessage("Create Room:" + message.getPayload() + ":" + member.getUserId() + ":" + key));
 					} else {
 						//같은 방 유저에게만 입장 메시지 전송
 						if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {

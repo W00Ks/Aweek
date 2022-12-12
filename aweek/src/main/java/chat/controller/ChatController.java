@@ -118,8 +118,20 @@ public class ChatController {
 		
 		ChatFile chatFile = chatService.chatFileUpload(file, chatRoomNo, userNo);
 		
-		
 		return chatFile;
+	}
+	
+	@RequestMapping("/fileDownload")
+	public String fileDownload(ChatFile chatFile, Model model) {
+		
+		//첨부파일 정보 객체
+		chatFile = chatService.getFile(chatFile);
+		logger.debug("{}", chatFile);
+		
+		//모델값 전달
+		model.addAttribute("downFile", chatFile);
+		
+		return "chatDown";
 	}
 	
 }
