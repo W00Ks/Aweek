@@ -165,6 +165,15 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 
 <script defer type="text/javascript">
 
+function roomOpen(){
+	let userNo = document.querySelector(".userNo").value
+ 	location.href = "/room/open?userNo=" + userNo;
+}
+
+function roomList(){
+	let userNo = document.querySelector(".userNo").value
+	location.href = "/room/roomList?userNo=" + userNo;
+}
 
 </script>
 
@@ -172,15 +181,18 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 <section class="container">
 	<div class="container__left">
     	<div class="btn-menu">
-			<a href="#" class="btn btn--brown">모임개설</a>
-			<a href="#" class="btn btn--brown">모임목록</a>
+			<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
+		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
      	</div>
 	</div>
+   
+    <div class="resizer" id="dragMe"></div>
    
 	<div class="container__right" >
 	
 		<form action="./open" method="post" id="form">
 			<div class="open-content">
+				<input type="hidden" name="userNo" class="userNo" value="${userNo }">
 				<div class="openTitle">
 					<h1>모임 개설</h1>
 			     	<h6>Aweek 모임에서 다양한 사람들을 만나보세요.</h6>
@@ -206,9 +218,9 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 			    	<p>카테고리 * </p>
 				    	<select name="roomCategoryNo" id="roomCategoryNo">
 				     		<option disabled selected>카테고리</option>
-				     	<c:forEach items="${roomCategory }" var="rc" >
-		 			     	<option value="${rc.roomCategoryNo }">${rc.roomCategoryName }</option>
-				     	</c:forEach>
+					     	<c:forEach items="${roomCategory }" var="rc" >
+			 			     	<option value="${rc.roomCategoryNo }">${rc.roomCategoryName }</option>
+					     	</c:forEach>
 				    </select>
 				</div>
 				<div class="object"> 

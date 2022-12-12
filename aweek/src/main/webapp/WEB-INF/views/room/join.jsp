@@ -128,12 +128,26 @@ form {
 
 </style>
 
+<script type="text/javascript">
+
+function roomOpen(){
+	let userNo = document.querySelector(".userNo").value
+ 	location.href = "/room/open?userNo=" + userNo;
+}
+
+function roomList(){
+	let userNo = document.querySelector(".userNo").value
+	location.href = "/room/roomList?userNo=" + userNo;
+}
+
+</script>
+
 
 <section class="container">
    <div class="container__left">
      <div class="btn-menu">
-		<a href="#" class="btn btn--brown">모임개설</a>
-		<a href="#" class="btn btn--brown">모임목록</a>
+		<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
+		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
      </div>
    </div>
    

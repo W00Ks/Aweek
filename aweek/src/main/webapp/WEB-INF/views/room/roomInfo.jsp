@@ -108,6 +108,9 @@ form {
 	width: 5%;
 }
 
+.btn.hidden {
+	display: hidden;
+}
 
 .material-symbols-outlined.userIcon {
 	font-size: 100px;
@@ -131,6 +134,16 @@ form {
 </style>
 
 <script defer type="text/javascript">
+function roomOpen(){
+	let userNo = document.querySelector(".userNo").value
+ 	location.href = "/room/open?userNo=" + userNo;
+}
+
+function roomList(){
+	let userNo = document.querySelector(".userNo").value
+	location.href = "/room/roomList?userNo=" + userNo;
+}
+
 function setting(){
 	let roomNo = document.querySelector("#roomNo").value
 	let userNo = document.querySelector("#userNo").value;
@@ -186,19 +199,17 @@ function dropOut(){
 <section class="container">
    <div class="container__left">
      <div class="btn-menu">
-		<a href="#" class="btn btn--brown">모임개설</a>
-		<a href="#" class="btn btn--brown">모임목록</a>
+		<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
+		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
      </div>
    </div>
    
    <div class="container__right" id="form">
-     <h1>모임 정보</h1>
      
      <div class="open-content">
      	<div class="object">
-     	
-     	<input type="hidden" name="roomNo" id="roomNo" value="${roomInfo.roomNo }">
-     	<input type="hidden" name="userNo" id="userNo" value="${roomInfo.userNo }">
+     	<input type="hidden" name="roomNo" class="roomNo" value="${roomInfo.roomNo }">
+     	<input type="hidden" name="userNo" class="userNo" value="${roomInfo.userNo }">
 	    	<p>모임 이름 * </p>
 	    	<p id="roomName">${roomInfo.roomName }</p>
 	    </div>
@@ -232,7 +243,11 @@ function dropOut(){
 	    </div>
 	    
 	    <div class="btnsection">
-	    	<a class="btn btn--brown wide" onclick="setting()">모임 설정</a>
+	    	<c:if test="${roomInfo.userNo eq userNo}">
+	    		<a class="btn btn--brown wide" onclick="setting()">모임 설정</a>
+	    	</c:if>
+	    	<c:if test="${roomInfo.userNo ne userNo}">
+	    	</c:if>
 	    	<a class="btn btn--brown wide" onclick="dropOut()">모임 탈퇴</a>
 	    	<a class="btn btn--brown wide">취소</a>
 	    </div>
