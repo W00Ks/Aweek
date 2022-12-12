@@ -4,13 +4,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/adminheader.jsp" />
+<c:import url="./layout/adminheader.jsp" />
 
 <script type="text/javascript">
 
 $(document).ready(function() {
+	
 	$("#btnWrite").click(function() {
+		
 		location.href = "/admin/qnawrite"
+	})
+	
+	$("#btnUpdate").click(function() {
+		
+		location.href = "/admin/qnamodify"
+	})
+	
+	$("#btnDelete").click(function() {
+		
+		location.href = "/admin/qnadelete?qnaNo=${ qna.qnaNo }"
 	})
 })
 
@@ -24,10 +36,6 @@ table {
 
 table, th {
 	text-align: center;
-}
-
-td:nth-child(2) {
-	text-align: left;
 }
 
 th {
@@ -59,6 +67,7 @@ th {
 </style>
 
 <c:if test="${ not empty adminLogin }">
+
 <div class="list">
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">Q&A</h1>
 </div>
@@ -69,16 +78,21 @@ th {
 			<th style="width: 50px;">번호</th>
 			<th style="width: 200px;">제목</th>
 			<th style="width: 200px;">날짜</th>
+			<th style="width: 100px;">조회수</th>
 			<th style="width: 150px;">수정 및 삭제</th>
 	</thead>
 	
 	<tbody>
 	<c:forEach items="${ qnalist }" var="qna">
 		<tr>
-			<td>${ member.userNo }</td>
-			<td><a href="">${ member.userId }</a></td>
-			<td>${ member.userName }</td>
-			<td>${ member.userName }</td>
+			<td>${ qna.qnaNo }</td>
+			<td><a href="">${ qna.qnaTitle }</a></td>
+			<td><fmt:formatDate value="${ qna.qnaDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+			<td>${ qna.qnaHit }</td>
+			<td>
+				<button id="btnUpdate" class="btnUpdate">수정</button>
+				<button id="btnDelete" class="btnDelete">삭제</button>
+			</td>
 		</tr>
 	</c:forEach>
 	</tbody>
@@ -89,10 +103,11 @@ th {
 <div class="qnaWrite">
 	<button id="btnWrite" class="">글쓰기</button>
 </div>
+
 <div class="clearfix"></div>
 
-<c:import url="/WEB-INF/views/admin/qnapaging.jsp" />
+<c:import url="/WEB-INF/views/admin/layout/qnapaging.jsp" />
 
 </c:if>
 
-<c:import url="../layout/adminfooter.jsp" />
+<c:import url="./layout/adminfooter.jsp" />

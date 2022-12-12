@@ -4,13 +4,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/adminheader.jsp" />
+<c:import url="./layout/adminheader.jsp" />
 
 <script type="text/javascript">
 
 $(document).ready(function() {
+	
 	$("#btnWrite").click(function() {
 		location.href = "/admin/noticewrite"
+	})
+	
+	$("#btnUpdate").click(function() {
+		location.href = "/admin/noticemodify"
+	})
+	
+	$("#btnDelete").click(function() {
+		location.href = "/admin/noticedelete?noticeNo=${ viewNotice.noticeNo }"
 	})
 })
 
@@ -24,10 +33,6 @@ table {
 
 table, th {
 	text-align: center;
-}
-
-td:nth-child(2) {
-	text-align: left;
 }
 
 th {
@@ -59,6 +64,7 @@ th {
 </style>
 
 <c:if test="${ not empty adminLogin }">
+
 <div class="list">
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">공지사항</h1>
 </div>
@@ -69,16 +75,21 @@ th {
 			<th style="width: 50px;">번호</th>
 			<th style="width: 200px;">제목</th>
 			<th style="width: 200px;">날짜</th>
+			<th style="width: 100px;">조회수</th>
 			<th style="width: 150px;">수정 및 삭제</th>
 	</thead>
 	
 	<tbody>
 	<c:forEach items="${ noticelist }" var="notice">
 		<tr>
-			<td>${ member.userNo }</td>
-			<td><a href="">${ member.userId }</a></td>
-			<td>${ member.userName }</td>
-			<td>${ member.userName }</td>
+			<td>${ notice.noticeNo }</td>
+			<td><a href="/admin/noticedetail?noticeNo=${ notice.noticeNo }">${ notice.noticeTitle }</a></td>
+			<td><fmt:formatDate value="${ notice.noticeDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+			<td>${ notice.noticeHit }</td>
+			<td>
+				<button id="btnUpdate" class="btnUpdate">수정</button>
+				<button id="btnDelete" class="btnDelete">삭제</button>
+			</td>
 		</tr>
 	</c:forEach>
 	</tbody>
@@ -89,10 +100,9 @@ th {
 <div class="noticeWrite">
 	<button id="btnWrite" class="">글쓰기</button>
 </div>
-<div class="clearfix"></div>
 
-<c:import url="/WEB-INF/views/admin/noticepaging.jsp" />
+<c:import url="/WEB-INF/views/admin/layout/noticepaging.jsp" />
 
 </c:if>
 
-<c:import url="../layout/adminfooter.jsp" />
+<c:import url="./layout/adminfooter.jsp" />

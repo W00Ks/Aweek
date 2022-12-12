@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/adminheader.jsp" />
+<c:import url="./layout/adminheader.jsp" />
 
 <style type="text/css">
 
@@ -14,10 +14,6 @@ table {
 
 table, th {
 	text-align: center;
-}
-
-td:nth-child(2) {
-	text-align: left;
 }
 
 th {
@@ -43,6 +39,7 @@ th {
 </style>
 
 <c:if test="${ not empty adminLogin }">
+
 <div class="list">
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">결제 목록</h1>
 </div>
@@ -62,19 +59,19 @@ th {
 	<tbody>
 	<c:forEach items="${ paymentlist }" var="payment">
 		<tr>
-			<td>${ member.userNo }</td>
+			<td>${ payment.payNo }</td>
 			<td><a href="">${ member.userId }</a></td>
-			<td>${ member.userName }</td>
-			<td>${ member.userName }</td>
-			<td>${ member.userName }</td>
-			<td>${ member.userName }</td>
+			<td>${ payment.paymentAmount }</td>
+			<td>${ payment.paymentMethod }</td>
+			<td>${ payment.paymnetDate }</td>
+			<td>${ payment.reslutstatus }</td>
 		</tr>
 	</c:forEach>
 	</tbody>
 </table>
 
-<c:import url="/WEB-INF/views/admin/paymentpaging.jsp" />
+<c:import url="/WEB-INF/views/admin/layout/paymentpaging.jsp" />
 
 </c:if>
 
-<c:import url="../layout/adminfooter.jsp" />
+<c:import url="./layout/adminfooter.jsp" />

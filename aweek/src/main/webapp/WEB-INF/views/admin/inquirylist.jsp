@@ -4,12 +4,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/adminheader.jsp" />
+<c:import url="./layout/adminheader.jsp" />
 
 <script type="text/javascript">
 
 $(document).ready(function() {
+	
 	$("#btnWrite").click(function() {
+		
 		location.href = "/admin/inquirywrite"
 	})
 })
@@ -24,10 +26,6 @@ table {
 
 table, th {
 	text-align: center;
-}
-
-td:nth-child(2) {
-	text-align: left;
 }
 
 th {
@@ -59,6 +57,7 @@ th {
 </style>
 
 <c:if test="${ not empty adminLogin }">
+
 <div class="list">
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">1:1 문의</h1>
 </div>
@@ -78,12 +77,12 @@ th {
 	<tbody>
 	<c:forEach items="${ inquirylist }" var="inquiry">
 		<tr>
-			<td>${ member.userNo }</td>
+			<td>${ inquiry.inquiryNo }</td>
 			<td><a href="">${ member.userId }</a></td>
-			<td>${ member.userName }</td>
-			<td>${ member.userName }</td>
-			<td>${ member.userName }</td>
-			<td>${ member.userName }</td>
+			<td>${ inquiry.inquiryTitle }</td>
+			<td>${ inquiry.inquiryDate }</td>
+			<td>${ inquiry.inquiryEmail }</td>
+			<td>${ inquiry.inquiryEmail }</td>
 		</tr>
 	</c:forEach>
 	</tbody>
@@ -91,13 +90,8 @@ th {
 
 <hr>
 
-<div class="inquiryWrite">
-	<button id="btnWrite" class="">글쓰기</button>
-</div>
-<div class="clearfix"></div>
-
-<c:import url="/WEB-INF/views/admin/inquirypaging.jsp" />
+<c:import url="/WEB-INF/views/admin/layout/inquirypaging.jsp" />
 
 </c:if>
 
-<c:import url="../layout/adminfooter.jsp" />
+<c:import url="./layout/adminfooter.jsp" />

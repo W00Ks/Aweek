@@ -17,7 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import admin.dto.Admin;
 import admin.service.face.AdminService;
 import common.Paging;
+import cs.dto.Inquiry;
+import cs.dto.Notice;
+import cs.dto.QnA;
 import member.dto.Member;
+import payment.dto.Payment;
+import room.dto.Room;
 
 @Controller
 @RequestMapping("/admin")
@@ -38,20 +43,20 @@ public class AdminController {
 	
 	// 관리자 로그인
 	@GetMapping("/login")
-	public void getLogin() {
+	public void Login() {
 		
 		logger.info("/admin/login [GET]");
 	}
 	
 	// 관리자 로그인 POST
 	@PostMapping("/login")
-	public String postLogin(Admin admin, HttpSession session) {
+	public String LoginProc(Admin admin, HttpSession session) {
 		
 		logger.info("/admin/login [POST]");
 		logger.info("{}", admin);
 		
-		boolean adminLogin = adminService.login(admin);
-		logger.info("adminLogin : {}", adminLogin);
+		boolean adminLogin = adminService.AdminLogin(admin);
+		logger.info("adminLogin : {}", admin);
 	
 		if(adminLogin) {
 			session.setAttribute("adminLogin", adminLogin);
@@ -61,7 +66,7 @@ public class AdminController {
 		} else {
 			session.invalidate();
 		}
-		return "redirect:/admin/main";
+		return "redirect:/admin/login";
 	}
 	
 	// 관리자 로그아웃
@@ -73,6 +78,25 @@ public class AdminController {
 		session.invalidate();
 		
 		return "redirect:/admin/login";
+	}
+	
+	// 관리자 방 목록
+	@RequestMapping("/roomlist")
+	public void roomlist(@RequestParam(defaultValue = "0") int curPage, Model model) {
+		
+		logger.info("admin/roomlist");
+		
+		Paging paging = adminService.getPaging(curPage);
+		
+		logger.info("{}", paging);
+		
+		model.addAttribute("paging", paging);
+		
+		List<Room> roomlist = adminService.roomList(paging);
+		
+		for( Room r : roomlist ) logger.info("{}", r);
+		
+		model.addAttribute("roomlist", roomlist);
 	}
 	
 	// 관리자 회원 목록
@@ -87,38 +111,19 @@ public class AdminController {
 		
 		model.addAttribute("paging", paging);
 		
-		List<Member> memberlist = adminService.memberlist(paging);
+		List<Member> memberlist = adminService.memberList(paging);
 		
 		for( Member m : memberlist ) logger.info("{}", m);
 		
 		model.addAttribute("memberlist", memberlist);
 	}
-
-	// 관리자 방 목록
-	@RequestMapping("/roomlist")
-	public void roomlist(@RequestParam(defaultValue = "0") int curPage, Model model) {
-
-		logger.info("admin/roomlist");
-//		
-//		Paging paging = adminService.getPaging(curPage);
-//		
-//		logger.info("{}", paging);
-//		
-//		model.addAttribute("paging", paging);
-//		
-//		List<Room> roomlist = adminService.roomlist(paging);
-//		
-//		for( Room r : roomlist ) logger.info("{}", r);
-//		
-//		model.addAttribute("roomlist", roomlist);
-	}
-//	
-//	// 관리자 회원 상세 조회
+	
+	// 관리자 회원 상세 조회
 	@RequestMapping("/memberdetail")
 	public String memberdetail(Member member, Model model) {
 		
 		logger.info("/admin/memberdetail");
-
+		
 		logger.info("{}", member);
 		
 		// 잘못된 회원 번호 처리
@@ -135,194 +140,277 @@ public class AdminController {
 		
 		return "admin/memberdetail";
 	}
-//	
+	
 	// 관리자 결제 목록
 	@RequestMapping("/paymentlist")
 	public void paymentlist(@RequestParam(defaultValue = "0") int curPage, Model model) {
-//		
+		
 		logger.info("/admin/paymentlist");
-//		
-//		Paging paging = adminService.getPaging(curPage);
-//		
-//		logger.info("{}", paging);
-//		
-//		model.addAttribute("paging", paging);
-//		
-//		List<Payment> paymentlist = adminService.paymentlist(paging);
-//		
-//		for( Payment p : paymentlist ) logger.info("{}", r);
-//		
-//		model.addAttribute("paymentlist", paymentlist);
+		
+		Paging paging = adminService.getPaging(curPage);
+		
+		logger.info("{}", paging);
+		
+		model.addAttribute("paging", paging);
+		
+		List<Payment> paymentlist = adminService.paymentList(paging);
+		
+		for( Payment p : paymentlist ) logger.info("{}", p);
+		
+		model.addAttribute("paymentlist", paymentlist);
 	}
-//	
-//	// 관리자 결제 상세 조회
+	
+	// 관리자 결제 상세 조회
 	@RequestMapping("/paymentdetail")
-	public void paymentdetail() {
-//		
-//		logger.info("/admin/paymentdetail");
-//
-//		logger.info("{}", payment);
-//		
-//		// 잘못된 게시글 번호 처리
-//		if( payment.getPaymentNo() < 0 ) {
-//			return "redirect:/admin/paymentdetail";
-//		}
-//		
-//		// 게시글 조회
-//		payment = adminService.PaymentDetailView(payment);
-//		logger.info("조회된 게시글 {}", payment);
-//		
-//		// 모델값 전달
-//		model.addAttribute("viewPayment", payment);
-//
-//		return "admin/paymentinfo";
+	public String paymentdetail(Payment payment, Model model) {
+		
+		logger.info("/admin/paymentdetail");
+
+		logger.info("{}", payment);
+		
+		// 잘못된 결제 번호 처리
+		if( payment.getUserNo() < 0 ) {
+			return "redirect:/admin/paymentlist";
+		}
+		
+		// 게시글 조회
+		payment = adminService.paymentDetailView(payment);
+		logger.info("조회된 결제 {}", payment);
+		
+		// 모델값 전달
+		model.addAttribute("payment", payment);
+
+		return "admin/paymentdetail";
 	}
-//	
-//	// 관리자 1:1 문의 조회
+	
+	// 관리자 1:1 문의 조회
 	@RequestMapping("/inquirylist")
 	public void inquirylist(@RequestParam(defaultValue = "0") int curPage, Model model) {
-//		
+		
 		logger.info("/inquirylist");
-//		
-//		Paging paging = adminService.getPaging(curPage);
-//		
-//		logger.info("{}", paging);
-//		
-//		model.addAttribute("paging", paging);
-//		
-//		List<Inquiry> inquirylist = adminService.inquirylist(paging);
-//		
-//		for( Inquiry i : inquirylist ) logger.info("{}", r);
-//		
-//		model.addAttribute("inquirylist", inquirylist);
+		
+		Paging paging = adminService.getPaging(curPage);
+		
+		logger.info("{}", paging);
+		
+		model.addAttribute("paging", paging);
+		
+		List<Inquiry> inquirylist = adminService.inquiryList(paging);
+		
+		for( Inquiry i : inquirylist ) logger.info("{}", i);
+		
+		model.addAttribute("inquirylist", inquirylist);
 	}
-//	
-//	// 관리자 공지사항 조회
+	
+	// 관리자 공지사항 조회
 	@RequestMapping("/noticelist")
 	public void noticelist(@RequestParam(defaultValue = "0") int curPage, Model model) {
-//		
+		
 		logger.info("/admin/noticelist");
-//		
-//		Paging paging = adminService.getPaging(curPage);
-//		
-//		logger.info("{}", paging);
-//		
-//		model.addAttribute("paging", paging);
-//		
-//		List<Notice> noticelist = adminService.noticelist(paging);
-//		
-//		for( Notice n : noticelist ) logger.info("{}", r);
-//		
-//		model.addAttribute("noticelist", noticelist);
+		
+		Paging paging = adminService.getPaging(curPage);
+		
+		logger.info("{}", paging);
+		
+		model.addAttribute("paging", paging);
+		
+		List<Notice> noticelist = adminService.noticeList(paging);
+		
+		for( Notice n : noticelist ) logger.info("{}", n);
+		
+		model.addAttribute("noticelist", noticelist);
 	}
-//	
-//	// 관리자 공지사항 작성
-	@RequestMapping("/noticewrite")
-	public String noticewrite() {
-//		
-		logger.info("/admin/noticewrite");
-//		
-		return "admin/noticewrite";
+	
+	// 관리자 공지사항 상세조회
+	@RequestMapping("/noticedetail")
+	public String noticeDetail(Notice viewNotice, Model model) {
+		
+		logger.info("{}", viewNotice);
+		
+		// 잘못된 공지사항 번호 처리
+		if( viewNotice.getNoticeNo() < 0 ) {
+			return "redirect:/admin/noticelist";
+		}
+		
+		// 공지사항 조회
+		viewNotice = adminService.noticeView(viewNotice);
+		
+		logger.info("조회된 공지사항 {}", viewNotice);
+		
+		// 모델값 전달
+		model.addAttribute("viewNotice", viewNotice);
+		
+		return "admin/noticedetail";
 	}
-//	
-//	// 관리자 공지사항 수정
-//	@RequestMapping("/noticemodify")
-//	public String noticemodify() {
-//		
-//		logger.info("/admin/noticemodify");
-//		
-//		return "admin/noticemodify";
-//	}
-//	
-//	// 관리자 공지사항 삭제
-//	@RequestMapping("/noticedelete")
-//	public String noticedelete(Admin admin) {
-//		
-//		logger.info("/admin/noticedelete");
-//		
-//		adminService.noticedelete(admin);
-//		
-//		return "redirect:/admin/noticelist";
-//	}
-//	
+	
+	// 관리자 공지사항 작성
+	@GetMapping("/noticewrite")
+	public void noticewrite() {
+		
+		logger.info("/admin/noticewrite [GET]");
+	}
+	
+	// 관리자 공지사항 작성 POST
+	@PostMapping("/noticewrite")
+	public String noticewriteProc(Notice notice, HttpSession session) {
+		
+		logger.info("/admin/noticewrite [POST]");
+
+		logger.info("{}", notice);
+		
+		// 공지사항 처리
+		adminService.noticeWrite(notice);
+		
+		return "redirect:/admin/noticelist";
+	}
+
+	// 관리자 공지사항 수정
+	@GetMapping("/noticemodify")
+	public String noticemodify(Notice notice, Model model) {
+		
+		logger.info("{}", notice);
+		
+		// 잘못된 공지사항 번호 처리
+		if( notice.getNoticeNo() < 0 ) {
+			return "redirect:/admin/noticelist";
+		}
+		
+		// 공지사항 조회
+		notice = adminService.noticeView(notice);
+		
+		logger.info("조회된 공지사항 {}", notice);
+		
+		// 모델값 전달
+		model.addAttribute("modifyNotice", notice);
+		
+		return "admin/noticemodify";
+	}
+
+	// 관리자 공지사항 수정 POST
+	@PostMapping("/noticemodify")
+	public String noticemodifyProc(Notice notice) {
+		
+		logger.info("/admin/noticemodify");
+		
+		adminService.noticeModify(notice);
+		
+		return "redirect:/admin/noticelist?noticeNo=" + notice.getNoticeNo();
+	}
+
+	// 관리자 공지사항 삭제
+	@RequestMapping("/noticedelete")
+	public String noticedelete(Notice notice) {
+		
+		logger.info("/admin/noticedelete");
+		
+		adminService.noticeDelete(notice);
+		
+		return "redirect:/admin/noticelist";
+	}
+	
 	// 관리자 Q&A 조회
 	@RequestMapping("/qnalist")
 	public void qnalist(@RequestParam(defaultValue = "0") int curPage, Model model) {
-//		
+		
 		logger.info("/admin/qnalist");
-//		
-//		Paging paging = adminService.getPaging(curPage);
-//		
-//		logger.info("{}", paging);
-//		
-//		model.addAttribute("paging", paging);
-//		
-//		List<Qna> qnalist = adminService.qnalist(paging);
-//		
-//		for( Qna q : qnalist ) logger.info("{}", r);
-//		
-//		model.addAttribute("qnalist", qnalist);
+		
+		Paging paging = adminService.getPaging(curPage);
+		
+		logger.info("{}", paging);
+		
+		model.addAttribute("paging", paging);
+		
+		List<QnA> qnalist = adminService.qnaList(paging);
+		
+		for( QnA q : qnalist ) logger.info("{}", q);
+		
+		model.addAttribute("qnalist", qnalist);
 	}
-//	
-//	// 관리자 Q&A 작성
-	@RequestMapping("/qnawrite")
-	public String qnawrite() {
-//		
-		logger.info("/admin/qnawrite");
-//		
-//		logger.debug("{}", admin);
-//		logger.debug("{}", file);
-//		
-//		// 작성자 정보 추가
-//		admin.setAdminId( (String) session.getAttribute("id") );
-//		logger.debug("{}", admin);
-//		
-//		// 게시글, 첨부파일 처리
-//		adminService.write(admin, file);
-//		
-		return "admin/qnawrite";
+
+	// 관리자 Q&A 작성
+	@GetMapping("/qnawrite")
+	public void qnawrite() {
+		
+		logger.info("/admin/qnawrite [GET]");
 	}
-//	
-//	// 관리자 Q&A 수정
-//	@RequestMapping("/qnamodify")
-//	public String qnamodify(Admin admin, Model model) {
+
+	// 관리자 Q&A 작성 POST
+	@PostMapping("/qnawrite")
+	public String qnawriteProc(QnA qna, HttpSession session) {
+		
+		logger.info("/admin/qnawrite [POST]");
+		
+		logger.info("{}", qna);
+		
+		// Q&A 처리
+		adminService.qnaWrite(qna);
+		
+		return "redirect:/admin/qnalist";
+	}
+
+	// 관리자 Q&A 수정
+	@GetMapping("/qnamodify")
+	public String qnamodify(QnA qna, Model model) {
+	
+		logger.info("{}", qna);
+		
+		// 잘못된 Q&A 번호 처리
+		if( qna.getQnaNo() < 0 ) {
+			return "redirect:/admin/qnalist";
+		}
+		
+		// Q&A 조회
+		qna = adminService.qnaView(qna);
+		
+		logger.info("조회된 Q&A {}", qna);
+		
+		// 모델값 전달
+		model.addAttribute("modifyQnA", qna);
+		
+		return "admin/qnamodify";
+	}
+
+	// 관리자 Q&A 수정 POST
+	@PostMapping("/qnamodify")
+	public String qnamodifyProc(QnA qna) {
+		
+		logger.info("/admin/qnamodify");
+		
+		adminService.qnaModify(qna);
+		
+		return "redirect:/admin/qnalist?qnaNo=" + qna.getQnaNo();
+	}
+	
+	// 관리자 Q&A 삭제
+	@RequestMapping("/qnadelete")
+	public String qnadelete(QnA qna) {
+		
+		logger.info("/admin/qnadelete");
+		
+		adminService.qnaDelete(qna);
+	
+		return "redirect:/admin/qnalist";
+	}
+
+	// 파일 다운로드
+//	@RequestMapping("/download")
+//	public String download(File file, Model model) {
+//
+//		// 첨부파일 정보 객체
+//		file = adminService.getFile(file);
 //		
-//		logger.info("/admin/qnamodify");
-//		
-//		// 잘못된 게시글 번호 처리
-//		if( admin.getQnaNo() < 0 ) {
-//			return "redirect:/admin/qnalist";
-//		}
-//		
-//		// 게시글 조회
-//		admin = adminService.view(admin);
-//		logger.debug("조회된 게시글 {}", admin);
+//		logger.info("{}", file);
 //		
 //		// 모델값 전달
-//		model.addAttribute("updateQnaList", admin);
+//		model.addAttribute("downFile", file);
 //		
-//		// 첨부파일 모델값 전달
-//		QnaFile qnaFile = adminService.getAttachFile(admin);
-//		model.addAttribute("boardFile", qnaFile);
-//		
-//		return "admin/qnamodify";
+//		return "down";
 //	}
 //	
-//	// 관리자 Q&A 삭제
-//	@RequestMapping("/qnadelete")
-//	public String qnadelete(Admin admin) {
+	// 관리자 통계 보기
+//	@GetMapping("/staties")
+//	public void staties() {
 //		
-//		logger.info("/admin/qnadelete");
-//		
-//		adminService.qnadelete(admin);
-//	
-//		return "redirect:/admin/qnalist";
+//		logger.info("/admin/staties");
 //	}
-//	
-//	// 관리자 통계 보기
-	@GetMapping("/staties")
-	public void staties() {
-		
-		logger.info("/admin/staties");
-	}
 }

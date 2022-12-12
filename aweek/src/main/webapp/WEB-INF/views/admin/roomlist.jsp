@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/adminheader.jsp" />
+<c:import url="./layout/adminheader.jsp" />
 
 <style type="text/css">
 
@@ -14,10 +14,6 @@ table {
 
 table, th {
 	text-align: center;
-}
-
-td:nth-child(2) {
-	text-align: left;
 }
 
 th {
@@ -43,6 +39,7 @@ th {
 </style>
 
 <c:if test="${ not empty adminLogin }">
+
 <div class="list">
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">방 목록</h1>
 </div>
@@ -59,7 +56,7 @@ th {
 	</thead>
 	
 	<tbody>
-	<c:forEach items="${ roomList }" var="room">
+	<c:forEach items="${ roomlist }" var="room">
 		<tr>
 			<td>${ room.roomNo }</td>
 			<td>${ Room.roomCategoryNo }</td>
@@ -71,8 +68,8 @@ th {
 	</tbody>
 </table>
 
-<c:import url="/WEB-INF/views/admin/roompaging.jsp" />
+<c:import url="/WEB-INF/views/admin/layout/roompaging.jsp" />
 
 </c:if>
 
-<c:import url="../layout/adminfooter.jsp" />
+<c:import url="./layout/adminfooter.jsp" />

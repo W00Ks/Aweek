@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<c:import url="../layout/adminheader.jsp" />
+<c:import url="./layout/adminheader.jsp" />
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
@@ -56,27 +56,20 @@ td {
 }
 
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 200,
-  'GRAD' 200,
-  'opsz' 24
+	font-variation-settings:
+	'FILL' 0,
+	'wght' 200,
+	'GRAD' 200,
+	'opsz' 24
 }
 
 </style>
 
 <c:if test="${ not empty adminLogin }">
+
 <div class="list">
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">회원 상세 정보</h1>
 </div>
-
-<!--
-<h1>회원 검색</h1>
-	<div>
-		<input type="text" name="userId" id="userId" placeholder="아이디" style="width: 200px;">
-		<span class="material-symbols-outlined">search</span>
-	</div>
- -->
 
 <table>
 	<tr>
@@ -119,4 +112,4 @@ td {
 
 </c:if>
 
-<c:import url="../layout/adminfooter.jsp" />
+<c:import url="./layout/adminfooter.jsp" />
