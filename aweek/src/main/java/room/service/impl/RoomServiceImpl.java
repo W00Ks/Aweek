@@ -123,4 +123,9 @@ public class RoomServiceImpl implements RoomService {
 		roomDao.deleteRoomList(roomList);
 	}
 	
+	@Override
+	public void deleteRoom(int roomNo) {
+		roomDao.deleteRoom(roomNo);
+	}
+	
 }

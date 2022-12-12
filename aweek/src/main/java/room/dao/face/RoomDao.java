@@ -90,6 +90,13 @@ public interface RoomDao {
 	 */
 	public void deleteRoomList(RoomList roomList);
 
+	/**
+	 * roomNo에 해당하는 Room 삭제 (모임 삭재)
+	 * 
+	 * @param room - 모임 정보 삭제
+	 */
+	public void deleteRoom(int roomNo);
+
 	
 
 	

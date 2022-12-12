@@ -68,14 +68,16 @@ public class RoomController {
 	
 	//모임 전체 목록 조회 (내가 가입한 모임 x)
 	@RequestMapping("/room/roomList")
-	public void roomList( HttpSession session, Model model, Member member) {
+	public void roomList( HttpSession session, Model model, Member member ) {
 		//로그인 후 userNo저장
 		session.setAttribute("userNo", member.getUserNo());
 		
 		//모임 전체 목록 조회
 		List<Room> roomList = roomService.roomList();
-		logger.info("roomList : {}", roomList);
+//		logger.info("roomList : {}", roomList);
 		model.addAttribute("roomList", roomList);
+		
+		
 	}
 	
 	//모임 개설
@@ -252,6 +254,22 @@ public class RoomController {
 		
 		//모임 탈퇴
 		roomService.dropOut(roomList);
+		
+		return "/room/main";
+	}
+	
+	//모임 삭제
+	@ResponseBody
+	@RequestMapping("/room/delete")
+	public String roomDelete( HttpSession session, int roomNo, Member member ) {
+		
+		//세션에 저장된 userNo 불러오기
+		session.setAttribute("userNo", member.getUserNo());
+		
+		logger.info("roomNo나와라 얍 : {}", roomNo);
+		
+		//모임 삭제
+		roomService.deleteRoom(roomNo);
 		
 		return "/room/main";
 	}

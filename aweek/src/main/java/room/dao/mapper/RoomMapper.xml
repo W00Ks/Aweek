@@ -66,14 +66,19 @@
 	</select>
 	
 	<update id="updateRoom" parameterType="Room">
-	UPDATE room
-	SET room_name = #{roomName}, room_introduce = #{roomIntroduce}, room_category_no = #{roomCategoryNo}, room_member = #{roomMember}, room_public = #{roomPublic}
-	WHERE room_no = #{roomNo}
+		UPDATE room
+		SET room_name = #{roomName}, room_introduce = #{roomIntroduce}, room_category_no = #{roomCategoryNo}, room_member = #{roomMember}, room_public = #{roomPublic}
+		WHERE room_no = #{roomNo}
 	</update>
 	
 	<delete id="deleteRoomList" parameterType="RoomList">
 		DELETE room_list
 		WHERE room_no = #{roomNo} AND user_no = #{userNo}
+	</delete>
+	
+	<delete id="deleteRoom" parameterType="int">
+		DELETE room
+		WHERE room_no = #{roomNo}
 	</delete>
 
 </mapper>
