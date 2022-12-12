@@ -13,6 +13,7 @@
    			WHERE user_no = #{userNo }) a
 		INNER JOIN chat_room b
 		ON a.room_no = b.room_no
+		ORDER BY chat_room_no
 	</select>
 	
 	<select id="selectUserInfo" resultType="Member" parameterType="int">
@@ -54,11 +55,16 @@
 	
 	<!-- 채팅 내역 조회 -->
 	<select id="selectChatHistory" resultType="Chat" parameterType="Chat">
-		SELECT c.*, m.user_id FROM chat c
-		INNER JOIN member m
+		SELECT c.*, m.user_id, f.chat_file_no, f.chat_origin_name FROM chat c
+		left JOIN member m
 		ON c.user_no = m.user_no
-			WHERE chat_room_no = #{chatRoomNo } AND chat_no >= (SELECT MAX(chat_no) FROM chat
-			WHERE chat_room_no = #{chatRoomNo } AND user_no = #{userNo } AND chat_kind = 1)
+		left JOIN chat_file f
+		ON c.chat_no = f.chat_no
+			WHERE c.chat_room_no = #{chatRoomNo } AND c.chat_no >= (SELECT MAX(chat_no) FROM chat b
+			WHERE b.chat_room_no = #{chatRoomNo } AND b.user_no = #{userNo } AND b.chat_content = '입장하셨습니다.' 
+			     AND b.chat_no > (SELECT NVL(MAX(chat_no),0) FROM chat a
+			WHERE a.chat_room_no = #{chatRoomNo } AND a.user_no = #{userNo } AND a.chat_content = '나가셨습니다.'))
+		ORDER BY c.chat_no
 	</select>
 	
 	<select id="selectMaxChatNo" resultType="Chat" parameterType="int">
@@ -74,6 +80,13 @@
 	<select id="getChatFile" resultType="ChatFile" parameterType="int">
 		SELECT * FROM chat_file
 		WHERE chat_no = #{chatNo }
+	</select>
+	
+	<select id="selectChatFileBychatFileNo" resultType="ChatFile" parameterType="ChatFile">
+		SELECT
+			chat_file_no, chat_no, chat_origin_name, chat_stored_name
+		FROM chat_file
+		WHERE chat_file_no = #{chatFileNo }
 	</select>
 	
 </mapper>

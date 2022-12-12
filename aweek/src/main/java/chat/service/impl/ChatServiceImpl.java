@@ -141,9 +141,6 @@ public class ChatServiceImpl implements ChatService {
 		ChatFile chatFile = new ChatFile();
 		chatFile.setChatOriginName(originName);
 		chatFile.setChatStoredName(storedName);
-//		chatFile.setBoardNo( board.getBoardNo() );
-//		chatFile.setOriginName(originName);
-//		chatFile.setStoredName(storedName);
 		
 		//현재 시간 구하기
 		String format = "aa hh:mm";
@@ -151,13 +148,19 @@ public class ChatServiceImpl implements ChatService {
 
 		SimpleDateFormat type = new SimpleDateFormat(format);
 		
+		System.out.println("originName con : " + originName.contains(".png"));
+		
 		//파일 업로드용 채팅 INSERT
 		Chat chat = new Chat();
 		chat.setUserNo(userNo);
 		chat.setChatRoomNo(chatRoomNo);
 		chat.setChatContent(storedName);
 		chat.setChatTime(type.format(today.getTime()));
-		chat.setChatKind("3");
+		if(originName.contains(".jpg") || originName.contains(".png") || originName.contains(".gif")) {
+			chat.setChatKind("3");
+		} else {
+			chat.setChatKind("5");
+		}
 		
 		chatDao.insertMessage(chat);
 		
@@ -172,6 +175,11 @@ public class ChatServiceImpl implements ChatService {
 		logger.info("chatFile - {}", chatFile);
 		
 		return chatFile;
+	}
+	
+	@Override
+	public ChatFile getFile(ChatFile chatFile) {
+		return chatDao.selectChatFileBychatFileNo(chatFile);
 	}
 	
 }

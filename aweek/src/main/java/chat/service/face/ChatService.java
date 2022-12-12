@@ -70,6 +70,14 @@ public interface ChatService {
 	 */
 	public ChatFile chatFileUpload(MultipartFile file, int chatRoomNo, int userNo);
 	
+	/**
+	 * 파일 번호를 이용하여 업로드된 파일 정보를 조회한다
+	 * 
+	 * @param chatFile - 조회할 파일 번호 객체
+	 * @return 첨부 파일 정보
+	 */
+	public ChatFile getFile(ChatFile chatFile);
+	
 	
 	
 }

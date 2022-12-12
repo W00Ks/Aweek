@@ -9,8 +9,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	//채팅방 만들기 박스 이벤트
+	//채팅방 클릭으로 열고 닫기 이벤트
 	$("#btnRoomCreat").click(function() {
+		
 		var state = $("#createChatRoom").attr("style");
 		if(state == "display: none;") {
 			$("#createChatRoom").attr("style", "display: block;");
@@ -18,13 +19,13 @@ $(document).ready(function() {
 			$("#createChatRoom").attr("style", "display: none;");
 		}
 		
-		//체크박스 해제
+		//열고 닫을 때 체크박스 선택 초기화
 		$("input[name=roomNo]").prop('checked', false); 
 		$("#chatRoomName1").val(""); 
 		
 	}) // End of $("#btnRoomCreat").click()
 	
-	//채팅방 만들기 박스 닫기 이벤트
+	//채팅방 만들기 (x)버튼으로 닫기
 	$("#close-box").click(function() {
 		var state = $("#createChatRoom").attr("style");
 		if(state == "display: none;") {
@@ -105,8 +106,6 @@ function enter(i) {
 			//응답 데이터 반영
 			$("#content-right").html( res )
 			
-			$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
-			
 		}
 		, error: function() {
 			console.log("AJAX 실패")
@@ -144,7 +143,7 @@ function fold(roomNo) {
 			<!-- 방 생성 -->
 			<div id="createChatRoom" style="display: none;">
 				<div id="close-box-wrap">
-					<button id="close-box"><span class="material-symbols-outlined" style="font-size: 21px;">close</span></button>
+					<button id="close-box"><span class="material-symbols-outlined" style="font-size: 21px; font-weight: bold;">close</span></button>
 				</div>
 				<h4 class="roomH4"><label for="chatRoomName1">채팅방 이름</label></h4>
 				<input type="text" id="chatRoomName1" placeholder="채팅방 이름 입력">

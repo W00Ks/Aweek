@@ -93,6 +93,14 @@ public interface ChatDao {
 	 */
 	public ChatFile getChatFile(int chatNo);
 	
+	/**
+	 * 파일 번호를 이용하여 첨부파일 정보를 조회한다
+	 * 
+	 * @param chatFile - 조회할 첨부파일 객체
+	 * @return 조회된 첨부파일 정보
+	 */
+	public ChatFile selectChatFileBychatFileNo(ChatFile chatFile);
+	
 
 }
 
