@@ -177,4 +177,25 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.updateUserModify(member);
 	}
 	
+	@Override
+	public void getPhoneModify(Member member) {
+		memberDao.updatePhone(member);
+	}
+	
+	
+	@Override
+	public boolean getUserWd(Member member) {
+		
+		//탈퇴 회원 정보 탈퇴 DB에 INSERT
+		memberDao.insertWdUser(member);
+		
+		//탈퇴 회원 정보 삭제
+		memberDao.deleteUser(member);
+
+		if( memberDao.selectIdChk(member) > 0 ) {
+			return true;
+		}
+		return false;
+		
+	}
 }

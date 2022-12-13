@@ -19,10 +19,17 @@ $(document).ready(function() {
 	//비밀번호 찾기 페이지 접속 시 이름 입력창에 포커스
 	$("input").eq(0).focus()
 	
-	//이메일 입력창에 엔터키 입력 시 $("#btnSendSms").click() 호출
-	$("input").eq(2).keydown(function(e) {
+	//휴대폰 번호 입력창에 엔터키 입력 시 $("#btnSendSms").click() 호출
+	$("input").eq(2).keypress(function(e) {
 		if( e.keyCode == 13 ) {
 			$("#btnSendSms").click();
+		}
+	})
+	
+	//인증번호 입력창에 엔터키 입력 시 $("#btnAuthOk").click() 호출
+	$("input").eq(3).keypress(function(e) {
+		if( e.keyCode == 13 ) {
+			$("#btnAuthOk").click();
 		}
 	})
 	
@@ -138,11 +145,6 @@ $(document).ready(function() {
 					}
 				})
 			}
-		, error: function() {
-			swal("","입력하신 회원정보가 일치하지 않습니다!", "error").then(function(){
-				$("#userName").focus()
-        	});
-		}
 		})
 	})/* $("#btnReSend").click(function() {} 끝 */
 	
@@ -250,7 +252,7 @@ input:focus{
 	</div>
 
 	<div id="okDiv" style="display:none;">
-		<input type="text" class="int" id="authInput" name="authInput" placeholder="인증번호를 입력해주세요." autocomplete="off">
+		<input type="text" class="int" id="authInput" name="authInput" placeholder="인증번호를 입력해주세요." autocomplete="off" maxlength="6">
 		<button type="button" id="btnReSend">인증번호 재발송</button>
 		<button type="button" id="btnAuthOk">인증번호 확인</button>
 	</div>

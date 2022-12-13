@@ -63,4 +63,20 @@
 		WHERE user_id = #{userId}
 	</update>
 	
+	<update id="updatePhone" parameterType="Member">
+		UPDATE member
+		SET user_Phone = #{userPhone}
+		WHERE user_id = #{userId}
+	</update>
+	
+	<insert id="insertWdUser" parameterType="Member">
+		INSERT INTO wdmember
+		VALUES (wdmember_seq.nextval, #{userNo}, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, #{userName}, #{userAddress}, #{userBirth}, #{userJoin}, SYSDATE)
+	</insert>
+	
+	<delete id="deleteUser" parameterType="Member">
+		DELETE member
+		WHERE user_id = #{userId}
+	</delete>
+	
 </mapper>
