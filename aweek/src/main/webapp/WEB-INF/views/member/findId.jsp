@@ -20,9 +20,16 @@ $(document).ready(function() {
 	$("input").eq(0).focus()
 	
 	//이메일 입력창에 엔터키 입력 시 $("#btnSendEmail").click() 호출
-	$("input").eq(1).keydown(function(e) {
+	$("input").eq(1).keypress(function(e) {
 		if( e.keyCode == 13 ) {
 			$("#btnSendEmail").click();
+		}
+	})
+
+	//이메일 입력창에 엔터키 입력 시 $("#btnAuthOk").click() 호출
+	$("input").eq(2).keypress(function(e) {
+		if( e.keyCode == 13 ) {
+			$("#btnAuthOk").click();
 		}
 	})
 	
@@ -234,7 +241,7 @@ input:focus{
 	</div>
 
 	<div id="okDiv" style="display:none;">
-		<input type="text" class="int" id="authInput" name="authInput" placeholder="인증번호를 입력해주세요." autocomplete="off">
+		<input type="text" class="int" id="authInput" name="authInput" placeholder="인증번호를 입력해주세요." autocomplete="off" maxlength="6">
 		<button type="button" id="btnReSend">인증메일 재발송</button>
 		<button type="button" id="btnAuthOk">인증번호 확인</button>
 	</div>

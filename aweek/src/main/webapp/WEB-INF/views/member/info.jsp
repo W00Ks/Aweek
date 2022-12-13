@@ -106,6 +106,13 @@ $(document).ready(function() {
 		window.open(openUrl, 'pop', popOption);
 	})
 	
+	//회원 탈퇴 버튼 클릭 시 팝업 열기
+	$("#btnWd").click(function() {
+		let openUrl = "/member/userWd";
+		let popOption = "width=800px, height=500px, top=200px, left=1000px, scrollbars=yes";
+		window.open(openUrl, 'pop', popOption);
+	})
+	
     //회원정보 수정 페이지 접속 시 비밀번호 포커스 주기
 	$("#userPw").focus();
 	
@@ -238,6 +245,7 @@ $(document).ready(function() {
 			$("#userAddress").val(address);
 		}
 		
+		//비밀번호 체크
 		$.ajax({
 			type:"post"
 			, url: "/member/pwChk"
@@ -248,7 +256,8 @@ $(document).ready(function() {
 		, dataType: "html"
 		, success: function( res ) {
 			if( res == 1 ) {
-				
+			
+			//회원정보 변경 처리
 			$.ajax({
 				type:"post"
 				, url: "/member/info"
@@ -275,11 +284,6 @@ $(document).ready(function() {
 			}
 		}
 		})
-		
-	})
-	
-	//회원 탈퇴 버튼
-	$("#btnWd").click(function() {
 		
 	})
 	

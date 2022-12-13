@@ -189,7 +189,7 @@ $(document).ready(function() {
 	$("#userId").focus();
 	
 	//패스워드 입력창에 엔터키 입력 시 $("#btnLogin").click() 호출
-	$("input").eq(1).keydown(function(e) {
+	$("input").eq(1).keypress(function(e) {
 		if( e.keyCode == 13 ) { //엔터키
 			$("#btnLogin").click();
 		}

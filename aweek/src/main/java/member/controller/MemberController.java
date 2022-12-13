@@ -213,16 +213,6 @@ public class MemberController {
 		memberService.getPwModify(member);;
 	}
 	
-	//마이페이지
-	@GetMapping("/mypage")
-	public void mypage(HttpSession session) {
-		//세션에 저장된 ID를 통해 회원정보 조회 
-		Member member = new Member();
-		String userId = (String) session.getAttribute("userId");
-		member.setUserId(userId);  
-		member = memberService.getLoginInfo(member);
-	}
-	
 	//------------------------------ 회원 정보 수정 ------------------------------
 	@GetMapping("/info")
 	public void info(HttpSession session, Model model) {
@@ -235,7 +225,6 @@ public class MemberController {
 		
 		//모델값 전달
 		model.addAttribute("member", member);
-		
 	}
 
 	@PostMapping("/info")
@@ -291,29 +280,51 @@ public class MemberController {
 	
 	@PostMapping("/phoneModify")
 	public void phoneModifyProc(Member member) {
-//		memberService.getPhoneModify(member);
-	}
-	
-	//휴대폰 번호 체크
-	@RequestMapping("/phoneChk")
-	public int phoneChk(Member member) {
-//		boolean findPhoneResult = memberService.findPhoneUserInfo(member);
-		
-//		if ( findPhoneResult ) {
-			return 1;
-//		} else {
-//			return 0;
-//		}
+		memberService.getPhoneModify(member);
 	}
 	
 	//------------------------------ 회원 탈퇴 ------------------------------
+	@GetMapping("/userWd")
+	public void userWd(HttpSession session, Model model) {
+		//세션에 저장된 ID를 통해 회원정보 조회 
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);  
+		member = memberService.getLoginInfo(member);
+		
+		//모델값 전달
+		model.addAttribute("member", member);
+	}
 	
+	@PostMapping("/userWd")
+	public void userWdProc(Member member) {
+		
+		//전달파라미터의 ID와 일치하는 회원정보 조회
+		member = memberService.getLoginInfo(member);
+		
+		//회원 탈퇴 진행
+		memberService.getUserWd(member);
+		
+	}
 	
 	
 	//------------------------------ 마이페이지 1:1 문의 ------------------------------
+	
 	@RequestMapping("/myInquiry")
 	public void myInquiry(HttpSession session, Model model) {
+		//세션에 저장된 ID를 통해 회원정보 조회 
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);  
+		member = memberService.getLoginInfo(member);
 		
+		//모델값 전달
+		model.addAttribute("member", member);
+	}
+	
+	@PostMapping("/myInquiry")
+	public void usermyInquiryProc(Member member) {
+//		memberService.getMyInquiryList(member);
 	}
 	
 }

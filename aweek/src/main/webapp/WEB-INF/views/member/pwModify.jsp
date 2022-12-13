@@ -80,7 +80,7 @@ $(document).ready(function() {
 	})
 	
 	//비밀번호 확인창에서 엔터키 입력 시 $("#btnModifyPw").click() 호출
-	$("input").eq(2).keydown(function(e) {
+	$("input").eq(2).keypress(function(e) {
 		if( e.keyCode == 13 ) {
 			$("#btnModifyPw").click();
 		}
@@ -140,15 +140,14 @@ $(document).ready(function() {
 	        	        }
 	        	    });
 	        	} else {
-	        		swal("비밀번호 변경 실패!","비밀번호가 일치하지 않습니다.", "error").then(function(){
+	        		swal("비밀번호 변경 실패!","현재 비밀번호가 일치하지 않습니다.", "error").then(function(){
 	        			$("#OriginUserPw").focus()
 	        		});
 	        	}
 	        }
-		})
-		
+		})//비밀번호 체크 끝
 	    
-	})
+	})//$("#btnModifyPw").click(function() {} 끝
 	
 })
 

@@ -90,7 +90,28 @@ public interface MemberDao {
 	 */
 	public void updateUserModify(Member member);
 
+	/**
+	 * 휴대폰 번호 변경 처리
+	 * 
+	 * @param member - 유저의 ID, Phone
+	 */
+	public void updatePhone(Member member);
 
+	/**
+	 * 탈퇴 회원 정보 탈퇴 회원 DB에 삽입
+	 * 
+	 * @param member - 유저 정보 파라미터(NO, ID, PW, 이름, 휴대폰 번호, 주소, 생년월일, 이메일, 가입날짜)
+	 */
+	public void insertWdUser(Member member);
+
+	/**
+	 * 탈퇴 회원 정보 삭제
+	 * 
+	 * @param member - 유저 정보 파라미터(NO, ID, PW, 이름, 휴대폰 번호, 주소, 생년월일, 이메일, 가입날짜)
+	 */
+	public void deleteUser(Member member);
+
+	
 
 	
 }

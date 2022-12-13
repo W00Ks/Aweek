@@ -98,18 +98,32 @@ public interface MemberService {
 	public String userPhoneCheck(String userPhone) throws CoolsmsException;
 	
 	/**
-	 * 비밀번호 변경 처리
+	 * 비밀번호 변경 요청
 	 * 
 	 * @param member - 회원의 ID, PW
 	 */
 	public void getPwModify(Member member);
 
 	/**
-	 * 회원정보 수정
+	 * 회원정보 수정 요청
 	 * 
-	 * @param member - 유저 정보 파라미터(ID, PW, 이름, 휴대폰 번호, 주소, 이메일, 생년월일)    
+	 * @param member - 유저 정보 파라미터(ID, PW, 이름, 휴대폰 번호, 주소, 생년월일, 이메일)    
 	 */
 	public void getUserModify(Member member);
+
+	/**
+	 * 휴대폰 번호 변경 요청
+	 * 
+	 * @param member - 회원의 ID, Phone
+	 */
+	public void getPhoneModify(Member member);
+
+	/**
+	 * 회원 탈퇴 요청
+	 * 
+	 * @param member - 유저 정보 파라미터(NO, ID, PW, 이름, 휴대폰 번호, 주소, 생년월일, 이메일, 가입날짜)
+	 */
+	public boolean getUserWd(Member member);
 	
 	
 	

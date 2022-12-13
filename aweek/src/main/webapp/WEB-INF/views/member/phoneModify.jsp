@@ -20,7 +20,21 @@
 $(document).ready(function() {
 	
 	//페이지 접속 시 현재 비밀번호에 포커스 주기
-	$("#OriginUserPhone").focus();
+	$("#ModifyUserPhone").focus();
+	
+	//변경할 휴대폰 번호 입력 후 엔터키 입력 시 $("#btnSendSms").click() 호출
+	$("input").eq(1).keypress(function(e) {
+		if( e.keyCode == 13 ) {
+			$("#btnSendSms").click();
+		}
+	})
+
+	//인증번호 입력 후 엔터키 입력 시 $("#btnAuthOk").click() 호출
+	$("input").eq(2).keypress(function(e) {
+		if( e.keyCode == 13 ) {
+			$("#btnAuthOk").click();
+		}
+	})
 	
 	//변경할 휴대폰 번호 blur 시 유효성 검사 및 공백여부 체크
 	$("#ModifyUserPhone").blur(function() {
@@ -43,8 +57,8 @@ $(document).ready(function() {
 	//인증번호 발송 버튼 클릭
 	$("#btnSendSms").click(function() {
 		//변경할 휴대폰 번호 체크(공백인 경우)
-		if($("#ModifyUserPhone").val() == ""){
-			swal("변경하실 휴대폰 번호를 입력해주세요!","", "warning").then(function(){
+		if($("#ModifyUserPhone").val() == "" || $("#ModifyUserPhone").val().length != 13){
+			swal("","변경하실 휴대폰 번호를 올바르게 입력해주세요!", "warning").then(function(){
 				$("input").eq(1).focus()
         	});
 			return;
@@ -66,47 +80,104 @@ $(document).ready(function() {
 				$("input").eq(2).focus()
         	});
 			
+			//인증번호 확인 버튼 클릭
+			$("#btnAuthOk").click(function() {
+				const userNum = $('#authInput').val();
+				
+				if ( checkNum == userNum ) {
+					swal("인증 성공!","휴대폰 번호 변경 버튼을 클릭하시면<br>휴대폰 번호가 변경됩니다.", "success").then(function() {
+						$("#btnModifyPhone").css('display', 'block');
+					});
+					
+					//휴대폰 번호 변경 버튼 클릭
+					$("#btnModifyPhone").click(function() {
+						
+						//변경할 휴대폰 번호 체크(공백인 경우)
+						if($("#ModifyUserPhone").val() == ""){
+							swal("변경하실 휴대폰 번호를 입력해주세요!","", "warning").then(function(){
+								$("input").eq(1).focus()
+				        	});
+							return;
+						} 
+						
+						//인증번호 입력창 체크(공백인 경우)
+						if($("#authInput").val() == ""){
+							swal("","인증번호가 입력되지 않았습니다!", "warning").then(function(){
+								$("input").eq(2).focus()
+				        	});
+							return;
+						}
+						
+						//휴대폰 번호 변경 처리
+						$.ajax({
+							type:"post"
+							, url: "/member/phoneModify"
+							, data: {
+								userId : "${member.userId}"
+								, userPhone : $("#ModifyUserPhone").val()
+							}
+						, dataType: "html"
+						, success: function() {
+							swal("휴대폰 번호 변경 성공!","", "success").then(function(){
+								window.close();
+				        	});
+						}
+						
+						})
+
+					})
+					
+				}
+				else {
+					swal("인증 실패!","인증번호를 다시 입력해주세요!", "error").then(function(){
+						$("input").eq(2).focus()
+		        	});
+				}
+				
+				
+				
+			})
+		}
+		})//인증번호 문자 발송 끝
+	})//$("#btnSendSms").click(function() {} 끝
+	
+	//인증번호 문자 재발송
+	$("#btnReSend").click(function() {
+		$.ajax({
+			type:"post"
+			, url: "/member/smsAuth"
+			, data: {
+				userPhone : $("#ModifyUserPhone").val()
+			}
+		, dataType: "html"
+		, success: function( res ) {
+			const checkNum = res;
+			$("#okDiv").css('display', 'block')
+			$("#sendDiv").css('display','none')
+			swal("","회원님의 핸드폰으로 인증번호를 발송하였습니다.", "info").then(function(){
+				$("input").eq(2).focus()
+        	});
+			
 			$("#btnAuthOk").click(function() {
 				const userNum = $('#authInput').val();
 					
 					if ( checkNum == userNum ) {
-						swal("인증 성공!","휴대폰 번호 변경 버튼을 클릭해주세요!", "success")
-// 						.then(function(){
-// 							location.href='/member/findPwOk';
-			        	});
-					}
-					else {
+						swal("인증 성공!","휴대폰 번호 변경 버튼을 클릭하시면<br>휴대폰 번호가 변경됩니다.", "success").then(function() {
+							$("#btnModifyPhone").css('display', 'block');
+						});
+						
+					} else {
 						swal("인증 실패!","인증번호를 다시 입력해주세요!", "error").then(function(){
 							$("input").eq(2).focus()
 			        	});
 					}
+					
+					
+					
 				})
-			})
-		})//인증번호 문자 발송 끝
-	
-		
-	//휴대폰 번호 변경 버튼 클릭
-	$("#btnModifyPhone").click(function() {
-		
-		//변경할 휴대폰 번호 체크(공백인 경우)
-		if($("#ModifyUserPhone").val() == ""){
-			swal("변경하실 휴대폰 번호를 입력해주세요!","", "warning").then(function(){
-				$("input").eq(1).focus()
-        	});
-			return;
-		} 
-		
-		//변경 비밀번호 체크(공백인 경우)
-		if($("#authInput").val() == ""){
-			swal("","인증번호가 입력되지 않았습니다!", "warning").then(function(){
-				$("input").eq(2).focus()
-        	});
-			return;
-		}
-		
-		
-
-	})
+			}
+		})
+	})/* $("#btnReSend").click(function() {} 끝 */
 	
 })
 
@@ -289,8 +360,7 @@ input:focus{
 <span id="userId" style="display:none">${member.userId}</span>
 	<div class="mainTxt">휴대폰 번호 변경</div>
 	<div class="phoneDiv">
-		<input type="text" class="int" id="OriginUserPhone" name="OriginUserPhone" maxlength="13" value="${member.userPhone}" placeholder="현재 휴대폰 번호" autocomplete="off"><br>
-		<span class="error_msg" id="OriginUserPhoneMsg" style="display:none;"></span>
+		<input type="text" class="int" id="OriginUserPhone" name="OriginUserPhone" maxlength="13" value="${member.userPhone}" placeholder="현재 휴대폰 번호" autocomplete="off" readonly="readonly"><br>
 		
 		<div class="phone-divide">
 			<div class="half-line"></div>
@@ -306,7 +376,7 @@ input:focus{
 		</div>
 
 		<div id="okDiv" style="display:none;">
-			<input type="text" class="int" id="authInput" name="authInput" placeholder="인증번호를 입력해주세요." autocomplete="off">
+			<input type="text" class="int" id="authInput" name="authInput" placeholder="인증번호를 입력해주세요." autocomplete="off" maxlength="6">
 			<button type="button" id="btnReSend">인증번호 재발송</button>
 			<button type="button" id="btnAuthOk">인증번호 확인</button>
 		</div>
@@ -314,7 +384,7 @@ input:focus{
 	
 	<div class="btn_area">
 		<button type="button" id="btnCancel" class="btnType">취소</button>
-		<button type="button" id="btnModifyPhone" class="btnType">휴대폰 번호 변경</button>
+		<button type="button" id="btnModifyPhone" class="btnType" style="display:none;">휴대폰 번호 변경</button>
 	</div>
 	
 </div>
