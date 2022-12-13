@@ -18,36 +18,92 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	function createModal(){
 		
-		//화면의 높이와 너비
-		var windowHeight = $(document).height();
-		var windowWidth = $(document).width();
+		$("#calTitleInput").blur(function(){
+			if($("input[name=calTitle]").val() ==""){
+				console.log("제목을 입력해주세요");
+				
+				$(".calTitle").append("<p class='warn_message title_warn_message'>제목을 입력해주세요!</p>");
+				
+			}else{
+				$(".title_warn_message").remove();
+			}
+		})
 		
-		console.log(windowHeight);
-		console.log(windowWidth);
-		
-		$(".modal").css({
-			'width' : windowWidth,
-			'height' : windowHeight
-		});
-		
-		$(".modal").fadeTo("slow", 0.8);
-		
-		$(".create_modal").show();
-	}
+		$("#startDateInput").blur(function(){
+			if($("input[name=startDate]").val() ==""){
+				console.log("제목을 입력해주세요");
+				
+				$(".startDate").append("<p class='warn_message date_warn_message'>날짜를 입력해주세요!</p>");
+				
+			}else{
+				$(".date_warn_message").remove();
+			}
+		})
 	
-	$(function(){
-		$(".open_modal").click(function(e){
+		//일정 작성 유효성 검사
+		$("#write_form").submit(function(){
+			console.log("유효성검사")
 			
-			console.log("모달창 열기");
-			e.preventDefault();
-			createModal();
+			var calTitle_val = $("input[name=calTitle]").val();
+			
+			var startDate_val = $("input[name=startDate]").val();
+			
+			if(calTitle_val ==""){
+				console.log("제목을 입력해주세요");
+				
+				$(".calTitle").append("<p class='warn_message title_warn_message'>제목을 입력해주세요!</p>");
+				
+				return false;
+			} else if(startDate_val ==""){
+				console.log("날짜를 입력해주세요");
+				
+				$(".startDate").append("<p class='warn_message date_warn_message'>날짜를 입력해주세요!</p>")
+				return false;
+			}
+			return true;
+		})
+		
+		//모달창 생성
+		function createModal() {
+
+			//화면의 높이와 너비
+			var windowHeight = $(document).height();
+			var windowWidth = $(document).width();
+
+			console.log(windowHeight);
+			console.log(windowWidth);
+
+			$(".modal").css({
+				'width' : windowWidth,
+				'height' : windowHeight
+			});
+
+			$(".modal").fadeTo("slow", 0.8);
+
+			$(".create_modal").show();
+		}
+
+		$(function() {
+			$(".open_modal").click(function(e) {
+
+				console.log("모달창 열기");
+				e.preventDefault();
+				createModal();
+
+			})
+
+			//검은 부분 클릭하면 모달창 닫히게
+			$(".modal").click(function() {
+				$(this).hide();
+				$(".create_modal").hide();
+				$(location).attr("href","/calendar/myCal");
+			})
+			
 			
 		})
-	})
 
-})
+	})
 </script>
 <style type="text/css">
 .calendar{
@@ -137,6 +193,27 @@ $(document).ready(function(){
     color: white;
     font-weight: bold;
 }
+.write_form table{
+	margin-top:70px;
+	margin-left: 70px;
+}
+.write_form td{
+	padding: 0px 20px 25px 10px;
+}
+
+
+.write_form textarea{
+	width: 380px;
+	height: 135px;
+}
+.write_form input{
+	width: 380px;
+}
+
+.warn_message{
+	font-size: 12px;
+	color: red;
+}
 </style>
 </head>
 
@@ -181,7 +258,7 @@ $(document).ready(function(){
 <div class="container">
 
 <div class="side-bar">
-	<div class="write-button open_modal">
+	<div class="write-button">
 	<a href="" class="open_modal" ><span>일정쓰기</span></a>
 	</div>
 </div>
@@ -224,7 +301,7 @@ $(document).ready(function(){
 					<%// 해당 날짜에 일정 존재하면 일정 제목 출력 %>
 					<%for(CalDto calDto : clist){ %>
 					<% if(Integer.parseInt(calDto.getStartDate().substring(8, 10))==i&&Integer.parseInt(calDto.getStartDate().substring(5, 7))==month){ %>
-					<a href="/calendar/view?calNo=<%=calDto.getCalNo() %>"><%= calDto.getCalTitle() %></a>
+					<p><a href="/calendar/view?calNo=<%=calDto.getCalNo() %>"><%= calDto.getCalTitle() %></a></p>
 					<%} %>
 					<% } %>
 				</td>				
@@ -252,17 +329,20 @@ $(document).ready(function(){
 		<div class="modal_header">
 			<h2>Add Schedule</h2>
 		</div>
+		<div style="text-align: center">
+			<span style="color: red; font-size: 12px"> *제목과 날짜는 필수입력사항입니다*</span>
+		</div>
 		<div class="write_form">
-			<form action="/calendar/writeForm" method="post" >
+			<form action="/calendar/writeForm" method="post" id="write_form" >
 				<table>
 					<tr>
 					<td>제목</td>
-					<td><input type="text" name="calTitle"></td>
+					<td class="calTitle"><input type="text" name="calTitle" id="calTitleInput"></td>
 					</tr>
 					
 					<tr>
 					<td>날짜</td>
-					<td><input type="text" name="startDate"></td>
+					<td class="startDate"><input type="text" name="startDate" id="startDateInput"></td>
 					</tr>
 					
 					<tr>
@@ -271,10 +351,15 @@ $(document).ready(function(){
 					</tr>
 					
 					<tr>
-					<td>메모</td>
-					<td><input type="text" name="calMemo"></td>
+					<td style="vertical-align: top">메모</td>
+					<td><textarea rows="" cols=""></textarea></td>
 					</tr>
-				
+					
+					<tr>
+					
+					<td><button>작성</button></td>
+					<td><button class="cancel">취소</button></td>
+					</tr>
 				</table>
 			
 			
