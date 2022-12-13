@@ -39,7 +39,7 @@
 	<insert id="insertFavorite" parameterType="diary.dto.DiaryFavorite">
 		INSERT ALL
 			<foreach collection="list" item="item">
-				INTO diary_favorite VALUES (#{item.userNo}, #{item.userFavorite}, (select room_name from room where room_no = #{item.userFavorite}))
+				INTO diary_favorite VALUES (#{item.roomNo}, #{item.userNo}, (select room_name from room where room_no = #{item.roomNo}))
 			</foreach>
 		SELECT * FROM dual
 	</insert>
@@ -47,6 +47,81 @@
 	<select id="selectFavorite" resultType="diary.dto.DiaryFavorite" parameterType="int">
 		SELECT * FROM diary_favorite
 		WHERE user_no = #{userNo}
+	</select>
+	
+	<select id="selectDiaryNotice" resultType="diary.dto.Diary" parameterType="room.dto.Room">
+		SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+		FROM diary d left outer join member m ON d.user_no = m.user_no
+		LEFT OUTER JOIN room r ON d.room_no = r.room_no
+		LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+		LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+		WHERE diary_cate_name = '공지사항' AND (
+		<foreach collection="list" item="item" separator="OR">
+				d.room_no = #{item.roomNo}
+		</foreach>
+		) ORDER BY d.diary_date
+	</select>
+	
+	<select id="selectDiaryRecomm" resultType="diary.dto.Diary" parameterType="room.dto.Room">
+		SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+		FROM diary d left outer join member m ON d.user_no = m.user_no
+		LEFT OUTER JOIN room r ON d.room_no = r.room_no
+		LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+		LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+		WHERE diary_cate_name != '공지사항' AND (
+		<foreach collection="list" item="item" separator="OR">
+				d.room_no = #{item.roomNo}
+		</foreach>
+		) AND d.diary_recommend >= h.diary_hot ORDER BY d.diary_date
+	</select>
+	
+	<select id="selectDiaryCurrent" resultType="diary.dto.Diary" parameterType="room.dto.Room">
+		SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+		FROM diary d left outer join member m ON d.user_no = m.user_no
+		LEFT OUTER JOIN room r ON d.room_no = r.room_no
+		LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+		LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+		WHERE diary_cate_name != '공지사항' AND (
+		<foreach collection="list" item="item" separator="OR">
+				d.room_no = #{item.roomNo}
+		</foreach>
+		) ORDER BY d.diary_date
+	</select>
+	
+	<select id="selectAdminRoom" resultType="room.dto.Room" parameterType="int">
+		SELECT * FROM room
+		WHERE user_no = #{userNo}
+		ORDER BY room_no
+	</select>
+	
+	<select id="selectRoomName" resultType="room.dto.Room" parameterType="int">
+		SELECT * FROM room
+		WHERE room_no = #{roomNo}
+	</select>
+	
+	<select id="selectHotvalue" resultType="diary.dto.DiaryHot" parameterType="int">
+		SELECT * FROM diary_hot
+		WHERE room_no = #{roomNo}
+	</select>
+	
+	<select id="selectHot" resultType="int" parameterType="int">
+		SELECT count(*) FROM diary_hot
+		WHERE room_no = #{roomNo}
+	</select>
+	
+	<insert id="insertHot" parameterType="diary.dto.DiaryHot">
+		INSERT INTO diary_hot
+		values (#{roomNo}, #{diaryHot})
+	</insert>
+	
+	<update id="updateHot" parameterType="diary.dto.DiaryHot">
+		UPDATE diary_hot SET diary_hot = #{diaryHot}
+		WHERE room_no = #{roomNo}
+	</update>
+	
+	<select id="selectDiaryCategory" resultType="diary.dto.DiaryCategory" parameterType="int">
+		SELECT * FROM diary_category
+		WHERE room_no = #{roomNo}
 	</select>
 
 </mapper>

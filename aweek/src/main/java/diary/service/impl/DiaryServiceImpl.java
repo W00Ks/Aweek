@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import diary.dao.face.DiaryDao;
 import diary.dto.Diary;
+import diary.dto.DiaryCategory;
 import diary.dto.DiaryFavorite;
+import diary.dto.DiaryHot;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -43,7 +45,7 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 
 	@Override
-	public List<Room> userRoomInfo(HashMap<String, Object> param) {
+	public List<Room> userRoomInfo(HashMap<String, String[]> param) {
 		return diaryDao.selectRoom(param);
 	}
 
@@ -54,7 +56,7 @@ public class DiaryServiceImpl implements DiaryService {
 		List<DiaryFavorite> list = new ArrayList<>();
 				
 		for(int i=0; i<roomnos.length; i++) {
-			list.add(new DiaryFavorite(userNo, Integer.parseInt(roomnos[i]), ""));
+			list.add(new DiaryFavorite(Integer.parseInt(roomnos[i]), userNo, ""));
 		}
 		
 		for( DiaryFavorite i : list ) logger.trace("##### list : {}", i);
@@ -70,6 +72,56 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public void userFavoriteClear(int userNo) {
 		diaryDao.deleteFavorite(userNo);
+	}
+
+	@Override
+	public List<Diary> selectDiaryNotice(List<Room> userRoom) {
+		return diaryDao.selectDiaryNotice(userRoom);
+	}
+
+	@Override
+	public List<Diary> selectDiaryRecomm(List<Room> userRoom) {
+		return diaryDao.selectDiaryRecomm(userRoom);
+	}
+
+	@Override
+	public List<Diary> selectDiaryCurrent(List<Room> userRoom) {
+		return diaryDao.selectDiaryCurrent(userRoom);
+	}
+
+	@Override
+	public List<Room> adminList(int userNo) {
+		return diaryDao.selectAdminRoom(userNo);
+	}
+
+	@Override
+	public Room roomInfo(int roomNo) {
+		return diaryDao.selectRoomName(roomNo);
+	}
+
+	@Override
+	public DiaryHot diaryHot(int roomNo) {
+		return diaryDao.selectHotvalue(roomNo);
+	}
+	
+	@Override
+	public void setRoomHot(int hot, int roomNo) {
+		int result = diaryDao.selectHot(roomNo);
+		
+		DiaryHot diaryHot = new DiaryHot();
+		diaryHot.setDiaryHot(hot);
+		diaryHot.setRoomNo(roomNo);
+		
+		if( result == 0) {
+			diaryDao.insertHot(diaryHot);
+		} else {
+			diaryDao.updateHot(diaryHot);
+		}
+	}
+
+	@Override
+	public List<DiaryCategory> roomCategory(int roomNo) {
+		return diaryDao.selectDiaryCategory(roomNo);
 	}
 
 }

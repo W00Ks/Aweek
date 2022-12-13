@@ -6,7 +6,7 @@
 
 <style type="text/css">
 html, body {
-	height: 100%;
+	height: 95%;
 }
 .fullmenu {
 	display: flex;
@@ -17,7 +17,7 @@ html, body {
 	overflow: scroll;
 	position: fixed;
 	border-right: 1px solid #C7D1CA;
-	height: 100%;
+	height: 96%;
 	width: 265px;
 	background-color: white;
 	z-index: 1;
@@ -93,7 +93,7 @@ html, body {
 	justify-content: center; /* 수평 정렬*/
 }
 .rightbox1 {
-	height: 100px;
+	height: 70px;
 }
 .rightbox2 {
 	height: 200px;
@@ -107,8 +107,8 @@ html, body {
 .rightbox5 {
 	height: 200px;
 }
-.sidebox1, .sidebox2 {
-	width: 195px;
+.sidebox1, .sidebox3 {
+	width: 205px;
 }
 </style>
 
@@ -134,6 +134,17 @@ $(document).ready(function(){
 		})
 	})
 });
+
+function viewsetting() {
+	
+	const width = 800;
+	const height = 650;
+	let left = (document.body.offsetWidth / 2) - (width / 2);
+	let tops = (document.body.offsetHeight / 2) - (height / 2);
+	left += window.screenLeft;
+	const popup = window.open('<%=request.getContextPath() %>/diary/setting', 'viewsetting', 'width='+ width +',height='+ height +',left='+ left +',top='+ tops);
+	 
+}
 </script>
 
 <div class="fullmenu">
@@ -162,7 +173,7 @@ $(document).ready(function(){
 				0
 				</span><br>
 				<span>
-				최신글
+				전체글
 				</span>
 			</span>
 			</a>
@@ -190,7 +201,7 @@ $(document).ready(function(){
 							<ul id="menublock2" class="hide">
 								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">공지사항</div></a></div></li>
 								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">추천글</div></a></div></li>
-								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">최신글</div></a></div></li>
+								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">전체글</div></a></div></li>
 							</ul>
 						</li>
 					</c:forEach>
@@ -208,34 +219,36 @@ $(document).ready(function(){
 						<ul id="menublock2" class="hide">
 							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">공지사항</div></a></div></li>
 							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">추천글</div></a></div></li>
-							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">최신글</div></a></div></li>
+							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">전체글</div></a></div></li>
 						</ul>
 					</li>
 				</c:forEach>
 			</ul>
+		</div>
+		<div style="width: 265px; height: 4%;">
 		</div>
 	</div>
 	<div style="width: 250px; height: 100%;">
 	</div>
 	<div class="rightmenu">
 		<div class="sidebox1"></div>
-		<div style="width: 1200px; height: 100%;">
+		<div class="sidebox2" style="width: 1200px; height: 100%;">
 			<div class="rightbox1">
 			</div>
 			<div class="rightbox2">
 				<div style="font-size: 1.2em; font-weight:600;">도움말</div>
 			</div>
 			<div class="rightbox3">
-				<div style="font-size: 1.2em; font-weight:600;">공지사항</div>
+				<div style="font-size: 1.2em; font-weight:600;">공지사항<a style="cursor: pointer;"><div style="float: right; font-size: 0.7em; font-weight:400;">더보기<img alt="" src="/resources/diary/submenu1.PNG" style="float: right; margin: 0px 3px;"></div></a></div>
 			</div>
 			<div class="rightbox4">
-				<div style="font-size: 1.2em; font-weight:600;">추천글</div>
+				<div style="font-size: 1.2em; font-weight:600;">추천글<a style="cursor: pointer;"><div style="float: right; font-size: 0.7em; font-weight:400;">더보기<img alt="" src="/resources/diary/submenu1.PNG" style="float: right; margin: 0px 3px;"></div></a></div>
 			</div>
 			<div class="rightbox5">
-				<div style="font-size: 1.2em; font-weight:600;">최신글</div>
+				<div style="font-size: 1.2em; font-weight:600;">전체글<a style="cursor: pointer;"><div style="float: right; font-size: 0.7em; font-weight:400;">더보기<img alt="" src="/resources/diary/submenu1.PNG" style="float: right; margin: 0px 3px;"></div></a></div>
 			</div>
 		</div>
-		<div class="sidebox2"></div>
+		<div class="sidebox3"><a style="display: inline-block; cursor: pointer; position: relative; top: 750px; left: 100px;" onclick="viewsetting();"><img alt="" src="/resources/diary/settings_FILL0_wght400_GRAD0_opsz48.png"></a></div>
 	</div>
 </div>
 </body>

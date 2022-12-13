@@ -56,7 +56,7 @@ $(document).ready(function(){
 	<% int count = 0; %>
 	<% for(int i=0; i<userRoom.size(); i++) { %>
 		<% for(int j=0; j<diaryFavorite.size(); j++) { %>
-			<% if(userRoom.get(i).getRoomNo() == diaryFavorite.get(j).getUserFavorite()) count++; %>
+			<% if(userRoom.get(i).getRoomNo() == diaryFavorite.get(j).getRoomNo()) count++; %>
 		<% } %>
 		<% if(count == 0) { %>
 			<%=userRoom.get(i).getRoomName() %> <input type="checkbox" class="checkbox" name="roomnos" value="<%=userRoom.get(i).getRoomNo() %>" style="float: right;">

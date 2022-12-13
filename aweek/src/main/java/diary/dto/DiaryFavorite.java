@@ -2,22 +2,30 @@ package diary.dto;
 
 public class DiaryFavorite {
 	
+	private int roomNo;
 	private int userNo;
-	private int userFavorite;
 	private String roomName;
-	
+
 	public DiaryFavorite() {}
 
-	public DiaryFavorite(int userNo, int userFavorite, String roomName) {
+	public DiaryFavorite(int roomNo, int userNo, String roomName) {
 		super();
+		this.roomNo = roomNo;
 		this.userNo = userNo;
-		this.userFavorite = userFavorite;
 		this.roomName = roomName;
 	}
 
 	@Override
 	public String toString() {
-		return "DiaryFavorite [userNo=" + userNo + ", userFavorite=" + userFavorite + ", roomName=" + roomName + "]";
+		return "DiaryFavorite [roomNo=" + roomNo + ", userNo=" + userNo + ", roomName=" + roomName + "]";
+	}
+
+	public int getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
 	}
 
 	public int getUserNo() {
@@ -28,14 +36,6 @@ public class DiaryFavorite {
 		this.userNo = userNo;
 	}
 
-	public int getUserFavorite() {
-		return userFavorite;
-	}
-
-	public void setUserFavorite(int userFavorite) {
-		this.userFavorite = userFavorite;
-	}
-
 	public String getRoomName() {
 		return roomName;
 	}
@@ -43,5 +43,5 @@ public class DiaryFavorite {
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
 	}
-
+	
 }
