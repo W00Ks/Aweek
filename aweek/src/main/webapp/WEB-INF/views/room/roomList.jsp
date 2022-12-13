@@ -80,6 +80,10 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 .container__right .list-wrap .table-menu {
 	margin: 40px 0;
 	width: 100%;
+	border-bottom: 2px solid var(--accent-color);
+    padding: 15px 0;
+    font-size: 18px;
+    text-align: center;
 }
 .container__right .list-wrap .table-menu li {
 	list-style-type: none;
@@ -103,15 +107,19 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 	width: 100%;
 }
 .container__right .list-wrap .table li {
-	list-style-type: none;
-	float: left;
-	padding: 5px 0;
-	margin: 5px 0;
-	border-bottom: 1px solid var(--border-color);
-	word-break: keep-all;
+    list-style-type: none;
+    float: left;
+    padding: 5px 20px;
+    margin: 5px 0px;
+    height: 35px;
+    border-bottom: 1px solid var(--border-color);
+    word-break: keep-all;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
 }
 .container__right .list-wrap .table li:first-child {
 	width: 20%;
@@ -126,14 +134,16 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 }
 .container__right .list-wrap .table li:nth-child(4) {
 	width: 10%;
+	padding: 3px 0px;
 }
 .container__right .list-wrap .table.hidden {
 	display: none;
 }
 
 .container__right .list-wrap .table .join {
-	padding: 7px 18px;
-    background-color: var(--border-color);
+	padding: 5px 5px;
+    background-color: var(--accent-color);
+    color: var(--text-color);
     font-size: 14px;
     border-radius: 10px;
     text-align: center;

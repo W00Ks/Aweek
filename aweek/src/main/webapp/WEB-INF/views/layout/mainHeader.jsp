@@ -45,16 +45,95 @@
 
 </head>
 
+<body>
+
 <!-- HEADER -->
 <header>
 	<div class="inner">
-		
-	
+    	<ul class="header__top">
+			<li><a href="javascript:void(0)">회원가입</a></li>
+			<li><a href="javascript:void(0)">로그인</a></li>
+	    </ul>
 	</div>
-
 </header>
 
-<body>
+<nav>
+	<div class="inner">
+		<div class="nav__logo">
+      		<a href="<%=request.getContextPath() %>/aweekHome" class="logo">
+	        	<img src="<%=request.getContextPath() %>/resources/img/aweekLogo.png" alt="aweekLogo">
+	    	</a>
+    	</div>
+    	
+    	<div class="nav__menu-wrap">
+			<ul class="nav__menu">
+				<li>어위크
+					<div class="sub-menu-wrap">
+						<div class="sub-menu">
+							<ul class="inner aweek">
+								<li class="sub-title"><p>어위크 소개</p>
+									<a href="javascript:void(0)"><span>어위크 소개</span></a>
+								</li>
+								<li class="sub-title"><p>모임</p>
+									<a href="/chat/main"><span>채팅</span></a>
+									<a href="/calendar/myCal"><span>캘린더</span></a>
+									<a href="/diary/main"><span>다이어리</span></a>
+									<a href="/room/main"><span>모임 메인</span></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+				<li>결제
+					<div class="sub-menu-wrap">
+						<div class="sub-menu">
+							<ul class="inner pay">
+								<li class="sub-title"><p>결제 안내</p>
+									<a href="javascript:void(0)"><span>상품 및 가격 안내</span></a>
+									<a href="javascript:void(0)"><span>결제</span></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+				<li>고객센터
+					<div class="sub-menu-wrap">
+						<div class="sub-menu">
+							<ul class="inner cs">
+								<li class="sub-title"><p>고객센터</p>
+									<a href="javascript:void(0)"><span>공지사항</span></a>
+									<a href="javascript:void(0)"><span>자주하는 질문</span></a>
+									<a href="javascript:void(0)"><span>1:1 질문</span></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+				<li>마이페이지
+					<div class="sub-menu-wrap">
+						<div class="sub-menu">
+							<ul class="inner my">
+								<li class="sub-title"><p>마이페이지</p>
+									<a href="javascript:void(0)"><span>마이페이지</span></a>
+									<a href="javascript:void(0)"><span>내 모임</span></a>
+									<a href="javascript:void(0)"><span>내 활동</span></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	
+	    <div class="nav__search">
+	    	<input type="text" />
+			<span class="material-symbols-outlined">search</span>
+	    </div>
+	    
+	    <a href="javascript:void(0)" class="nav__toggleBtn">
+	      <span class="material-icons">menu</span>
+	    </a>
+	    
+	</div>
+</nav>
 
-</body>
-</html>
