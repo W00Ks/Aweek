@@ -6,7 +6,6 @@ public class DiaryFile {
 	
 	private int diaryFileNo;
 	private int diaryNo;
-	private int roomNo;
 	private String diaryOriginName;
 	private String diaryStoredName;
 	private int diaryFileSize;
@@ -19,7 +18,6 @@ public class DiaryFile {
 		super();
 		this.diaryFileNo = diaryFileNo;
 		this.diaryNo = diaryNo;
-		this.roomNo = roomNo;
 		this.diaryOriginName = diaryOriginName;
 		this.diaryStoredName = diaryStoredName;
 		this.diaryFileSize = diaryFileSize;
@@ -28,8 +26,7 @@ public class DiaryFile {
 
 	@Override
 	public String toString() {
-		return "DiaryFile [diaryFileNo=" + diaryFileNo + ", diaryNo=" + diaryNo + ", roomNo=" + roomNo
-				+ ", diaryOriginName=" + diaryOriginName + ", diaryStoredName=" + diaryStoredName + ", diaryFileSize="
+		return "DiaryFile [diaryFileNo=" + diaryFileNo + ", diaryNo=" + diaryNo + ", diaryOriginName=" + diaryOriginName + ", diaryStoredName=" + diaryStoredName + ", diaryFileSize="
 				+ diaryFileSize + ", diaryFileDate=" + diaryFileDate + "]";
 	}
 
@@ -47,14 +44,6 @@ public class DiaryFile {
 
 	public void setDiaryNo(int diaryNo) {
 		this.diaryNo = diaryNo;
-	}
-
-	public int getRoomNo() {
-		return roomNo;
-	}
-
-	public void setRoomNo(int roomNo) {
-		this.roomNo = roomNo;
 	}
 
 	public String getDiaryOriginName() {

@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import diary.dto.Diary;
+import diary.dto.DiaryCategory;
 import diary.dto.DiaryFavorite;
+import diary.dto.DiaryHot;
 import member.dto.Member;
 import room.dto.Room;
 import room.dto.RoomList;
@@ -41,7 +43,7 @@ public interface DiaryService {
 	 * @param param - 로그인 사용자의 소속 모임 번호 리스트
 	 * @return 로그인 사용자의 소속 모임 정보 DTO 리스트 반환
 	 */
-	public List<Room> userRoomInfo(HashMap<String, Object> param);
+	public List<Room> userRoomInfo(HashMap<String, String[]> param);
 
 	/**
 	 * 사용자 즐겨찾기 목록 추가
@@ -65,5 +67,69 @@ public interface DiaryService {
 	 * @param userNo - 로그인한 사용자 번호
 	 */
 	public void userFavoriteClear(int userNo);
+
+	/**
+	 * 로그인 사용자 공지사항 조회
+	 * 
+	 * @param userRoom - 로그인 사용자가 가입된 모임 리스트
+	 * @return 공지사항 리스트
+	 */
+	public List<Diary> selectDiaryNotice(List<Room> userRoom);
+
+	/**
+	 * 로그인 사용자 추천글 조회
+	 * 
+	 * @param userRoom - 로그인 사용자가 가입된 모임 리스트
+	 * @return 추천글 리스트
+	 */
+	public List<Diary> selectDiaryRecomm(List<Room> userRoom);
+
+	/**
+	 * 로그인 사용자 최신글 조회
+	 * 
+	 * @param userRoom - 로그인 사용자가 가입된 모임 리스트
+	 * @return 최신글 리스트
+	 */
+	public List<Diary> selectDiaryCurrent(List<Room> userRoom);
+
+	/**
+	 * 로그인 사용자가 관리자인 모임 리스트 조회
+	 * 
+	 * @param userNo - 로그인한 사용자 번호
+	 * @return 로그인 사용자가 관리자인 모임 리스트
+	 */
+	public List<Room> adminList(int userNo);
+
+	/**
+	 * 클릭한 모임의 모임명 반환
+	 * 
+	 * @param roomNo - 클릭한 모임의 번호
+	 * @return 클릭한 모임 DTO
+	 */
+	public Room roomInfo(int roomNo);
+
+	/**
+	 * 모임 추천수 조회
+	 * 
+	 * @param roomNo - 모임 번호
+	 * @return 추천수 값 반환
+	 */
+	public DiaryHot diaryHot(int roomNo);
+	
+	/**
+	 * 모임 추천수 설정
+	 * 
+	 * @param hot - 입력받은 추천수 값
+	 * @param roomNo - 모임 번호
+	 */
+	public void setRoomHot(int hot, int roomNo);
+
+	/**
+	 * 모임 카테고리 리스트 조회
+	 * 
+	 * @param roomNo - 모임 번호
+	 * @return 모임 카테고리 리스트
+	 */
+	public List<DiaryCategory> roomCategory(int roomNo);
 
 }
