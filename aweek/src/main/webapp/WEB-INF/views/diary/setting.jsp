@@ -62,11 +62,11 @@ $(document).ready(function(){
 	})
 	<% } %>
 	
-<%-- 	<%	for(int i=0; i<adminList.size(); i++) { %>
-	$(".delcate<%=i %>").click(function(){
+ 	<%	for(int i=0; i<adminList.size(); i++) { %>
+	$(".manageadmin<%=i %>").click(function(){
 		$.ajax({
 			type: "get"
-			, url: "./delcate"
+			, url: "./manageadmin"
 			, data: {
 				n1 : $(".roomNo<%=i %>").val()	
 			}
@@ -80,7 +80,7 @@ $(document).ready(function(){
 			}
 		})
 	})
-	<% } %> --%>
+	<% } %> 
 	
 });
 </script>
@@ -147,7 +147,7 @@ ul {
 				<div class="menublock1">${data.roomName }<img alt="" src="/resources/diary/menu.PNG" style="display: inline; float: right;"></div>
 				<ul id="menublock2" class="hide">
 					<li><div class="menublock2"><a class="managecate<%=cnt %>" style="cursor: pointer;"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">게시판 관리</div></a></div></li>
-					<%-- <li><div class="menublock2"><a class="manage<%=cnt %>" style="cursor: pointer;"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">관리자 관리</div></a></div></li> --%>
+					<li><div class="menublock2"><a class="manageadmin<%=cnt %>" style="cursor: pointer;"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">관리자 관리</div></a></div></li>
 					<li><div class="menublock2"><a class="hot<%=cnt %>" style="cursor: pointer;"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">추천수 설정</div></a></div></li>
 					<input type="text" class="roomNo<%=cnt++ %>" name="roomNo" value="${data.roomNo }" style="display: none;">
 				</ul>

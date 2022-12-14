@@ -124,4 +124,16 @@ public class DiaryServiceImpl implements DiaryService {
 		return diaryDao.selectDiaryCategory(roomNo);
 	}
 
+	@Override
+	public void crecate(String crecate, int roomNo) {
+		DiaryCategory diaryCategory = new DiaryCategory(0, roomNo, crecate);
+		diaryDao.insertDiaryCategory(diaryCategory);
+	}
+
+	@Override
+	public void delcate(String delcate, int roomNo) {
+		DiaryCategory diaryCategory = new DiaryCategory(0, roomNo, delcate);
+		diaryDao.deleteDiaryCategory(diaryCategory);
+	}
+
 }

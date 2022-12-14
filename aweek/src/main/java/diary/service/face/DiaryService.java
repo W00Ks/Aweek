@@ -132,4 +132,20 @@ public interface DiaryService {
 	 */
 	public List<DiaryCategory> roomCategory(int roomNo);
 
+	/**
+	 * 모임 카테고리 생성
+	 * 
+	 * @param crecate - 생성할 카테고리 제목
+	 * @param roomNo - 카테고리를 생성할 모임 번호
+	 */
+	public void crecate(String crecate, int roomNo);
+
+	/**
+	 * 모임 카테고리 삭제
+	 * 
+	 * @param crecate - 삭제할 카테고리 제목
+	 * @param roomNo - 카테고리를 삭제할 모임 번호
+	 */
+	public void delcate(String delcate, int roomNo);
+
 }

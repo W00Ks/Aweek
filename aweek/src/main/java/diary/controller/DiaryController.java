@@ -205,11 +205,17 @@ public class DiaryController {
 		
 		logger.trace("##### managecate roomNo : {}", roomNo);
 		
+		Room roomInfo = diaryService.roomInfo(roomNo);
+		
+		logger.trace("##### managecate roomInfo : {}", roomInfo);
+		
 		List<DiaryCategory> categoryList = diaryService.roomCategory(roomNo);
 		
 		for( DiaryCategory i : categoryList ) logger.trace("##### categoryList : {}", i);
 		
 		model.addAttribute("categoryList", categoryList);
+		
+		model.addAttribute("roomInfo", roomInfo);
 		
 	}
 	
@@ -236,14 +242,45 @@ public class DiaryController {
 	// @RequestParam(value="page", defaultValue="1") int page // 값이 없으면 1
 	
 	@PostMapping("/hot")
-	public String diaryHotProc(@RequestParam(value="hot", defaultValue="0") int hot, @RequestParam int roomNo) {
+	public void diaryHotProc(@RequestParam(value="hot") int hot, @RequestParam int roomNo) {
 		
 		logger.trace("##### hot : {}", hot);
 		logger.trace("##### hot roomNo : {}", roomNo);
 		
 		diaryService.setRoomHot(hot, roomNo);
 		
-		return "/diary/success";
+	}
+	
+	@PostMapping("/crecate")
+	public void diaryCreCateProc(@RequestParam int roomNo, @RequestParam(value="crecate") String crecate) {
+		
+		logger.trace("##### crecate : {}", crecate);
+		logger.trace("##### crecate roomNo : {}", roomNo);
+		
+		diaryService.crecate(crecate, roomNo);
+		
+	}
+	
+	@PostMapping("/delcate")
+	public void diaryDelCateProc(@RequestParam int roomNo, @RequestParam(value="delcate") String delcate) {
+		
+		logger.trace("##### delcate : {}", delcate);
+		logger.trace("##### delcate roomNo : {}", roomNo);
+		
+		diaryService.delcate(delcate, roomNo);
+		
+	}
+	
+	@GetMapping("/manageadmin")
+	public void diaryAdmin(Model model, @RequestParam("n1") int roomNo) {
+		
+		logger.trace("##### diaryAdmin roomNo : {}", roomNo);
+		
+		Room roomInfo = diaryService.roomInfo(roomNo);
+		
+		logger.trace("##### hot roomInfo : {}", roomInfo);
+		
+		model.addAttribute("roomInfo", roomInfo);
 		
 	}
 
