@@ -123,5 +123,15 @@
 		SELECT * FROM diary_category
 		WHERE room_no = #{roomNo}
 	</select>
+	
+	<insert id="insertDiaryCategory" parameterType="diary.dto.DiaryCategory">
+		INSERT INTO diary_category
+		VALUES (diary_category_seq.nextval, #{roomNo}, #{diaryCateName})
+	</insert>
+	
+	<delete id="deleteDiaryCategory" parameterType="diary.dto.DiaryCategory">
+		DELETE FROM diary_category
+		WHERE (room_no = #{roomNo} AND diary_cate_name = #{diaryCateName}) 
+	</delete>
 
 </mapper>

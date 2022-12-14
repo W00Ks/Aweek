@@ -143,4 +143,18 @@ public interface DiaryDao {
 	 */
 	public List<DiaryCategory> selectDiaryCategory(int roomNo);
 
+	/**
+	 * 모임 카테고리 데이터 추가
+	 * 
+	 * @param diaryCategory - 모임 번호, 카테고리 이름이 포함된 DTO
+	 */
+	public void insertDiaryCategory(DiaryCategory diaryCategory);
+
+	/**
+	 * 모임 카테고리 데이터 삭제
+	 * 
+	 * @param diaryCategory - 모임 번호, 카테고리 이름이 포함된 DTO
+	 */
+	public void deleteDiaryCategory(DiaryCategory diaryCategory);
+
 }
