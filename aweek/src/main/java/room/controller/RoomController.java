@@ -31,15 +31,13 @@ public class RoomController {
 	@RequestMapping("/aweekHome")
 	public void home( HttpSession session, Model model, Member member ) {
 		
+		//로그인 후 userNo저장
+		session.setAttribute("userNo", member.getUserNo());
+		
 		//모임 전체 목록 조회
 		List<Room> roomList = roomService.roomList();
 		logger.info("roomList : {}", roomList);
 		model.addAttribute("roomList", roomList);
-		
-		//로그인 후 userNo저장
-		session.setAttribute("userNo", member.getUserNo());
-		int userno = (int) session.getAttribute("userNo");
-		logger.info("userno : {}", userno);
 	}
 	
 	//세션 테스트 용 로그인
@@ -91,12 +89,14 @@ public class RoomController {
 	}
 	
 	@PostMapping("/room/open")
-	public String roomOpenProc( HttpSession session, Room room, RoomList roomList, Model model ) {
+	public String roomOpenProc( HttpSession session, Model model ) {
 		
 		//세션에 저장된 userNo 불러오기
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("userno : {}", userno);
 		
+		Room room = new Room();
+		RoomList roomList = new RoomList();
 		//room dto에 userNo 저장
 		room.setUserNo(userno);
 		

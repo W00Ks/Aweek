@@ -6,7 +6,7 @@ public class Inquiry {
 
 	private int inquiryNo;
 	private int fileNo;
-	private int adminNo;
+	private int userNo;
 	private String inquiryTitle;
 	private String inquiryContent;
 	private String inquiryEmail;
@@ -14,12 +14,12 @@ public class Inquiry {
 	
 	public Inquiry() {	}
 
-	public Inquiry(int inquiryNo, int fileNo, int adminNo, String inquiryTitle, String inquiryContent,
+	public Inquiry(int inquiryNo, int fileNo, int userNo, String inquiryTitle, String inquiryContent,
 			String inquiryEmail, Date inquiryDate) {
 		super();
 		this.inquiryNo = inquiryNo;
 		this.fileNo = fileNo;
-		this.adminNo = adminNo;
+		this.userNo = userNo;
 		this.inquiryTitle = inquiryTitle;
 		this.inquiryContent = inquiryContent;
 		this.inquiryEmail = inquiryEmail;
@@ -28,7 +28,7 @@ public class Inquiry {
 
 	@Override
 	public String toString() {
-		return "Inquiry [inquiryNo=" + inquiryNo + ", fileNo=" + fileNo + ", adminNo=" + adminNo + ", inquiryTitle="
+		return "Inquiry [inquiryNo=" + inquiryNo + ", fileNo=" + fileNo + ", userNo=" + userNo + ", inquiryTitle="
 				+ inquiryTitle + ", inquiryContent=" + inquiryContent + ", inquiryEmail=" + inquiryEmail
 				+ ", inquiryDate=" + inquiryDate + "]";
 	}
@@ -49,12 +49,12 @@ public class Inquiry {
 		this.fileNo = fileNo;
 	}
 
-	public int getAdminNo() {
-		return adminNo;
+	public int getUserNo() {
+		return userNo;
 	}
 
-	public void setAdminNo(int adminNo) {
-		this.adminNo = adminNo;
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
 	public String getInquiryTitle() {
@@ -88,5 +88,5 @@ public class Inquiry {
 	public void setInquiryDate(Date inquiryDate) {
 		this.inquiryDate = inquiryDate;
 	}
-	
+
 }
