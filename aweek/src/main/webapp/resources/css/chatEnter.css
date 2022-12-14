@@ -31,7 +31,7 @@
 
 #message-menu {
 	width: 80%;
-    height: 100px;
+    height: 102px;
     float: left;
     resize: none;
     box-sizing: border-box;
@@ -80,7 +80,7 @@
 
 #sendBtn {
 	width: 20%;
-    height: 100px;
+    height: 102px;
     box-sizing: border-box;
     border: 1px solid #d3c3c3;
 }
@@ -178,6 +178,7 @@
     max-width: 400px;
     border: 1px solid #ccc;
     box-shadow: 3px 3px 2px 0px rgb(0 0 0 / 10%);
+    cursor: pointer;
 }
 
 .rImg {
@@ -187,11 +188,14 @@
     max-width: 400px;
     border: 1px solid #ccc;
     box-shadow: -3px 3px 2px 0px rgb(0 0 0 / 10%);
+    cursor: hand; 
+    cursor: pointer;
 }
 
 #emoticonContainer {
 	display: inline-block;
     border: 1px solid #ccc;
+    border-radius: 5px;
     width: 370px;
     height: 120px;
     overflow: auto;
@@ -265,9 +269,29 @@
 
 textarea::placeholder { color:#aaa; }
 
+.bigPictureWrap {
+	position: absolute;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	top:52px;
+	width:85%;
+	height:923px;
+	z-index: 100;
+	backdrop-filter: blur(4px);
+	background: rgb(0 0 0 / 50%);
+}
 
+.bigPicture {
+	position: relative;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+}
 
-
+.bigPicture img {
+	width:600px;
+}
 
 
 

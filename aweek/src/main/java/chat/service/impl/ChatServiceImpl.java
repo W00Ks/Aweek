@@ -63,8 +63,16 @@ public class ChatServiceImpl implements ChatService {
 	}
 	
 	@Override
+	public List<ChatCreatRoomInfo> getRoomJoinList(int userNo) {
+		
+		List<ChatCreatRoomInfo> roomJoinList = chatDao.selectRoomJoinlist(userNo); 
+		
+		return roomJoinList;
+	}
+	
+	@Override
 	@Transactional
-	public int createChatRoom(ChatRoom chatRoom, int userNo) {
+	public int createChatRoom(ChatRoom chatRoom, int userNo, int inviteUserNo) {
 		
 		//채팅방 INSERT
 		chatDao.insertChatRoom(chatRoom);
@@ -75,7 +83,8 @@ public class ChatServiceImpl implements ChatService {
 		chatList.setChatRoomNo(chatRoom.getChatRoomNo());
 		chatList.setRoomNo(chatRoom.getRoomNo());
 		chatList.setUserNo(userNo);
-		
+		chatList.setInviteUserNo(inviteUserNo);
+		logger.info("+ + + chatList.getInviteUserNo() : {} + + +", chatList.getInviteUserNo());
 		//채팅방 목록 INSERT
 		chatDao.insertChatList(chatList);
 		

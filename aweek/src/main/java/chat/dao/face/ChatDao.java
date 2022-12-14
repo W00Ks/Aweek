@@ -38,6 +38,14 @@ public interface ChatDao {
 	public List<ChatCreatRoomInfo> selectRoomList(int userNo);
 	
 	/**
+	 * 유저와 같은 모임의 유저를 조회한다
+	 * 
+	 * @param userNo - 유저 번호
+	 * @return 같은 모임의 유저 전체 목록
+	 */
+	public List<ChatCreatRoomInfo> selectRoomJoinlist(int userNo);
+	
+	/**
 	 *  입력 받은 정보를 이용하여
 	 * 새로운 채팅방을 생성한다 (INSERT)
 	 * 
@@ -100,6 +108,8 @@ public interface ChatDao {
 	 * @return 조회된 첨부파일 정보
 	 */
 	public ChatFile selectChatFileBychatFileNo(ChatFile chatFile);
+
+	
 	
 
 }

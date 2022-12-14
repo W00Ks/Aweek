@@ -8,12 +8,10 @@
 <mapper namespace="chat.dao.face.ChatDao">
 
 	<select id="selectChatRoomList" resultType="ChatRoom" parameterType="int">
-		SELECT b.* FROM (
-    		SELECT * FROM room_list
-   			WHERE user_no = #{userNo }) a
-		INNER JOIN chat_room b
-		ON a.room_no = b.room_no
-		ORDER BY chat_room_no
+		SELECT b.*, c.invite_user_no FROM chat_room b
+		INNER JOIN ( SELECT a.chat_room_no, a.invite_user_no FROM chat_list a
+					 WHERE a.invite_user_no = #{userNo } OR a.invite_user_no = 0 or a.user_no = #{userNo } ) c
+		ON c.chat_room_no = b.chat_room_no
 	</select>
 	
 	<select id="selectUserInfo" resultType="Member" parameterType="int">
@@ -29,12 +27,23 @@
    			ON a.room_no = b.room_no
 	</select>
 	
+	<select id="selectRoomJoinlist" resultType="ChatCreatRoomInfo" parameterType="int">
+		SELECT b.room_no, m.user_id, m.user_no FROM (
+		    SELECT * FROM room_list
+		    WHERE user_no = #{userNo }) a
+		INNER JOIN room_list b
+		ON a.room_no = b.room_no
+		INNER JOIN member m
+		ON b.user_no = m.user_no
+		WHERE b.user_no != #{userNo }
+		ORDER BY b.room_no
+	</select>
+	
 	<!-- 채팅방 INSERT -->
 	<insert id="insertChatRoom" parameterType="ChatRoom">
 		<selectKey keyProperty="chatRoomNo" resultType="int" order="BEFORE">
 			SELECT chat_room_seq.nextval FROM dual
 		</selectKey>
-		
 		INSERT INTO chat_room (chat_room_no, chat_room_name, chat_room_date, room_no)
 		VALUES (#{chatRoomNo }, #{chatRoomName }, sysdate, #{roomNo })
 	</insert>
@@ -44,8 +53,8 @@
 		<selectKey keyProperty="chatListNo" resultType="int" order="BEFORE">
 			SELECT chat_list_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO chat_list (chat_list_no, chat_room_no, room_no, user_no)
-		VALUES (#{chatListNo }, #{chatRoomNo }, #{roomNo }, #{userNo })
+		INSERT INTO chat_list (chat_list_no, chat_room_no, room_no, user_no, invite_user_no)
+		VALUES (#{chatListNo }, #{chatRoomNo }, #{roomNo }, #{userNo }, #{inviteUserNo })
 	</insert>
 	
 	<insert id="insertMessage" parameterType="Chat">

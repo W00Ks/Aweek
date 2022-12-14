@@ -7,22 +7,24 @@ public class ChatList {
 	private int chatRoomNo; //FK 채팅방 번호
 	private int roomNo; //FK 모임 번호
 	private int userNo; //FK 회원번호
+	private int inviteUserNo; //초대받은 사람 회원번호
 	
 	public ChatList() {}
 
-	public ChatList(int chatListNo, String enterState, int chatRoomNo, int roomNo, int userNo) {
+	public ChatList(int chatListNo, String enterState, int chatRoomNo, int roomNo, int userNo, int inviteUserNo) {
 		super();
 		this.chatListNo = chatListNo;
 		this.enterState = enterState;
 		this.chatRoomNo = chatRoomNo;
 		this.roomNo = roomNo;
 		this.userNo = userNo;
+		this.inviteUserNo = inviteUserNo;
 	}
 
 	@Override
 	public String toString() {
 		return "ChatList [chatListNo=" + chatListNo + ", enterState=" + enterState + ", chatRoomNo=" + chatRoomNo
-				+ ", roomNo=" + roomNo + ", userNo=" + userNo + "]";
+				+ ", roomNo=" + roomNo + ", userNo=" + userNo + ", inviteUserNo=" + inviteUserNo + "]";
 	}
 
 	public int getChatListNo() {
@@ -63,6 +65,14 @@ public class ChatList {
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
+	}
+
+	public int getInviteUserNo() {
+		return inviteUserNo;
+	}
+
+	public void setInviteUserNo(int inviteUserNo) {
+		this.inviteUserNo = inviteUserNo;
 	}
 	
 }

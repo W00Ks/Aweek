@@ -28,7 +28,7 @@ input, textarea, button { outline: none; }
 
 #content-left {
     border-right: 2px solid #d3c3c3;
-    border-bottom: 2px solid #d3c3c3;
+/*     border-bottom: 2px solid #d3c3c3; */
 	min-width: 300px;
     float: left;
     box-sizing: border-box;
@@ -63,7 +63,7 @@ input, textarea, button { outline: none; }
 }
 
 .btn.btnChatCreate {
-	width: 93%;
+	width: 94.7%;
     display: inline-block;
     margin-bottom: 10px;
     border-color: #d3c3c3;
@@ -116,7 +116,7 @@ input, textarea, button { outline: none; }
 
 .disable {
 	background-color: #f4b0b0;
-    color: #fff;
+    color: #594B4B;
     font-weight: bold;
 }
 
@@ -130,7 +130,7 @@ input, textarea, button { outline: none; }
     font-size: 16px;
     font-weight: bold;
     display: flex;
-    margin-bottom: -15px;
+    margin: 7px 0 -15px;
     color: #555
 }
 
@@ -142,8 +142,8 @@ input, textarea, button { outline: none; }
 #roomList {
 	border: 1px solid #ccc;
     width: 94%;
-    height: 172px;
-    margin: 13px auto;
+    height: 252px;
+    margin: 11px auto;
     overflow: auto;
     background: #fff;
 }
@@ -153,9 +153,14 @@ input, textarea, button { outline: none; }
 	width: 66%;
 	text-align: left;
 	margin-bottom: 13px;
+	cursor: pointer;
 }
 
-.room-check-box { margin-bottom: 9px; }
+.room-check-box { 
+	margin-bottom: 9px;
+	accent-color: #594B4B;
+	cursor: pointer;
+}
 
 .roomH4 {
 	margin: 18px 0 11px;
@@ -176,7 +181,15 @@ input, textarea, button { outline: none; }
 
 .border-radio {
 	border-bottom: 1px solid #ccc;
-	margin: 10px 0;
+	margin: 0;
+	padding-top: 9px;
+}
+.border-radio:hover {
+	color: #cb7070;
+}
+
+.roomMemberList {
+	background-color: #efefef;
 }
 
 #chatRoomName1 {
@@ -201,6 +214,44 @@ input, textarea, button { outline: none; }
     width: 485px;
     margin: 0 auto;
 }
+
+.hover1, .hover2 {
+	border: 1px solid #555;
+	border-top: none;
+	box-sizing: border-box;
+	height: 300px;
+	overflow: auto;
+	padding-top: 3px;
+}
+
+.nomal_chat {
+    float: left;
+}
+
+.group_chat {
+    float: right;
+}
+
+.nomal_chat, .group_chat {
+	width: 50%;
+    height: 30px;
+    display: inline-block;
+    box-sizing: border-box;
+	padding-top: 7px;
+	cursor: pointer;
+    border: 1px solid #d3c3c3;
+	border-bottom: 1px solid #555;
+}
+
+.chat_cate {
+	font-weight: bold;
+	border: 1px solid #555;
+	border-bottom: none;
+}
+
+
+
+
 
 
 
