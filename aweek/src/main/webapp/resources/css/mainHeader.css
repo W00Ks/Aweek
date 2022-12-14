@@ -114,6 +114,7 @@ nav > .inner {
 }
 .nav__menu-wrap .nav__menu li {
 	padding: 0 30px;
+	margin: 0 5px;
     font-size: 16px;
     color: var(--real-black);
     align-items: center;
