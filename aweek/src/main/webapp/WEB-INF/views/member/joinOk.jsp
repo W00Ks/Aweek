@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -21,7 +17,7 @@ $(document).ready(function() {
 			}
 		, dataType: "html"
 		, success: function() {
-			window.location.href="/aweek/main";
+			window.location.href="/aweekHome";
 		}
 		})
 	})
@@ -51,7 +47,7 @@ $(document).ready(function() {
 	color: #f4b0b0;
 	font-size: 40px;
 	font-weight: bold;
-	margin: 250px auto 50px;
+	margin: 150px auto 50px;
 }
 
 /* 컨테이너 전체 */
@@ -128,8 +124,7 @@ $(document).ready(function() {
 
 </style>
 
-</head>
-<body>
+<c:import url="../layout/mainHeader.jsp" />
 
 <div class="container">
 	<div class="mainTxt">회원가입 완료</div>

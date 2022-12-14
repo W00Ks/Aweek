@@ -1,6 +1,7 @@
 package member.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
+import common.Paging;
+import cs.dto.Inquiry;
 import member.dao.face.MemberDao;
 import member.dto.Member;
 import member.service.face.MemberService;
@@ -198,4 +201,34 @@ public class MemberServiceImpl implements MemberService {
 		return false;
 		
 	}
+	
+	@Override
+	public Paging getPaging(int curPage, Member member) {
+		//총 게시글 수 조회
+		int totalCount = memberDao.selectPagingCntAll(member);
+		
+		//페이징 계산
+		Paging paging = new Paging(totalCount, curPage);
+		
+		return paging;
+	}
+	
+	@Override
+	public List<Inquiry> myInquiryList(Paging paging, Member member) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("paging", paging);
+		map.put("member", member);
+		
+		return memberDao.selectMyInquiryList(map);
+	}
+	
+	@Override
+	public Inquiry myInquiryView(Inquiry viewInquiry, Member member) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("inquiry", viewInquiry);
+		map.put("member", member);
+		
+		return memberDao.selectMyInquiryView(map);
+	}
+	
 }

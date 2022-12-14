@@ -71,9 +71,8 @@ $(document).ready(function() {
 	        	    				}
 	        	    			, dataType: "html"
 	        	    			, success: function() {
-// 		        	        		window.close();
-// 		        	        		Window.opener.location.href="/aweek/main";
-									opener.parent.location="/member/info"("/aweek/main");
+		        	        		window.close();
+									opener.parent.location="/aweekHome";
 	        	    			}
 	        	    			})
 	        	        	});

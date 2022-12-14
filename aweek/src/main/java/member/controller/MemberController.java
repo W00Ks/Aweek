@@ -1,16 +1,23 @@
 package member.controller;
 
+import java.util.List;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.Paging;
+import cs.dto.Inquiry;
 import member.dto.Member;
 import member.service.face.MemberService;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -18,6 +25,9 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 @Controller
 @RequestMapping("/member")
 public class MemberController {
+	
+	//로그 객체
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	//서비스 객체
 	@Autowired private MemberService memberService;
@@ -307,24 +317,75 @@ public class MemberController {
 		
 	}
 	
-	
-	//------------------------------ 마이페이지 1:1 문의 ------------------------------
-	
-	@RequestMapping("/myInquiry")
-	public void myInquiry(HttpSession session, Model model) {
+	//------------------------------ 마이페이지 나의 1:1 문의 ------------------------------
+	@RequestMapping("/myInquiryList")
+	public void myInquiryList(@RequestParam(defaultValue = "0") int curPage, HttpSession session, Model model) {
 		//세션에 저장된 ID를 통해 회원정보 조회 
 		Member member = new Member();
 		String userId = (String) session.getAttribute("userId");
 		member.setUserId(userId);  
 		member = memberService.getLoginInfo(member);
 		
+		Paging paging = memberService.getPaging(curPage, member);
+		logger.debug("{}", paging);
+		
+		List<Inquiry> list = memberService.myInquiryList(paging, member);
+		for( Inquiry i : list )	logger.debug("{}", i);
+		
 		//모델값 전달
 		model.addAttribute("member", member);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
 	}
 	
-	@PostMapping("/myInquiry")
-	public void usermyInquiryProc(Member member) {
-//		memberService.getMyInquiryList(member);
+	@RequestMapping("/myInquiryView")
+	public void myInquiryView(Inquiry viewInquiry, HttpSession session, Model model) {
+		//세션에 저장된 ID를 통해 회원정보 조회 
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);  
+		member = memberService.getLoginInfo(member);
+		
+//		viewInquiry = memberService.myInquiryView(member);
+		logger.debug("조회된 게시글 {}", viewInquiry);
+		
+		model.addAttribute("viewInquiry", viewInquiry);
+		
 	}
+	
+	
+	//------------------------------ 마이페이지 나의 구독 ------------------------------
+	@RequestMapping("/mySubscription")
+	public void mySubscription(HttpSession session, Model model) {
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);  
+		member = memberService.getLoginInfo(member);
+		
+		model.addAttribute("member", member);
+		
+	}
+	
+	
+	//------------------------------ 마이페이지 나의 모임 ------------------------------
+	@RequestMapping("/myRoom")
+	public void myRoom(HttpSession session, Model model) {
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);  
+		member = memberService.getLoginInfo(member);
+		
+		model.addAttribute("member", member);
+		
+	}
+	
+	
+	//------------------------------ 마이페이지 나의 캘린더 ------------------------------
+	
+	
+	
+	//------------------------------ 마이페이지 나의 다이어리 ------------------------------
+
+	
 	
 }

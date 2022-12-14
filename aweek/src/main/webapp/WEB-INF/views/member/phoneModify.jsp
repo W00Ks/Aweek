@@ -120,6 +120,7 @@ $(document).ready(function() {
 						, success: function() {
 							swal("휴대폰 번호 변경 성공!","", "success").then(function(){
 								window.close();
+								opener.parent.location="/member/info";
 				        	});
 						}
 						
