@@ -3,12 +3,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -58,7 +52,7 @@ function kakaoLogin() {
 							, success: function( res ) {
 								if ( res == 1 ) {
 									swal("로그인 성공!", uName + "님 환영합니다!", "success").then(function(){
-										window.location.href="/aweek/main";
+										window.location.href="/aweekHome";
 						        	});
 								} else {
 									swal("로그인 실패!", "다시 시도 해주세요", "error")
@@ -189,7 +183,7 @@ $(document).ready(function() {
 	$("#userId").focus();
 	
 	//패스워드 입력창에 엔터키 입력 시 $("#btnLogin").click() 호출
-	$("input").eq(1).keypress(function(e) {
+	$("input").eq(2).keypress(function(e) {
 		if( e.keyCode == 13 ) { //엔터키
 			$("#btnLogin").click();
 		}
@@ -204,14 +198,14 @@ $(document).ready(function() {
 	    //아이디가 공백인 경우
 		if(id == ""){
 			showErrorMsg(oMsg,"※ 아이디를 입력해주세요!");
-			$("input").eq(0).focus()
+			$("input").eq(1).focus()
 			return false;
 		} 
 
 		//비밀번호가 공백인 경우
 		if(pw == ""){
 			showErrorMsg(oMsg,"※ 비밀번호를 입력해주세요!");
-			$("input").eq(1).focus()
+			$("input").eq(2).focus()
 			return false;
 		} 
 		
@@ -226,7 +220,7 @@ $(document).ready(function() {
 	        , success : function( result ) {
 	            if (result == 0) {
 	            	swal("로그인 실패","아이디 또는 비밀번호를 확인해주세요!", "error").then(function(){
-		                $("input").eq(1).focus();
+		                $("input").eq(2).focus();
 		                hideMsg(oMsg);
 	            	});
 // 	            	alert("로그인 실패 : 아이디 또는 비밀번호를 확인해주세요!");
@@ -234,7 +228,7 @@ $(document).ready(function() {
 				    
 	            } else if ( result == 1 ) {
 	            	swal("로그인 성공!", $('#userId').val() + "님 환영합니다!", "success").then(function(){
-	            		location.href='/aweek/main';
+	            		location.href='/aweekHome';
 	            	});
 // 	            	alert("로그인 성공! " + $("#userId").val() + "님 환영합니다!");
 // 	            	window.location.href = "/aweek/main";
@@ -253,7 +247,7 @@ $(document).ready(function() {
 				}
 			, dataType: "html"
 			, success: function( res ) {
-				window.location.href="/aweek/main";
+				window.location.href="/aweekHome";
 			}
 			})
 		});
@@ -277,19 +271,13 @@ function hideMsg(obj) {
 
 <style type="text/css">
 
-a {
-	color: #666666;
-	font-size: 12px;
-	text-decoration: none;
-}
-
 /* 로그인 텍스트 */
 .mainTxt {
 	text-align: center;
 	color: #f4b0b0;
 	font-size: 40px;
 	font-weight: bold;
-	margin: 250px auto 50px;
+	margin: 150px auto 50px;
 }
 
 /* 컨테이너 전체 */
@@ -302,7 +290,7 @@ a {
 .int {
 	border: 1px solid #ccc;
 	outline: 0;
-	width: 392px;
+	width: 411px;
 	height: 40px;
 	cursor: pointer;
 	font-size: 16px;
@@ -319,19 +307,34 @@ input:focus{
 .joinDiv {
 	position: relative;
 	height: 40px;
-	margin-top: 10px;
 }
 
 /* 아이디|비밀번호 찾기 버튼 */
 #find {
 	position: absolute;;
 	margin-left: 3px;
+	margin-top: 10px;
+}
+
+#join > a {
+	color: #666666;
+	font-size: 12px;
+	text-decoration: none;
+}
+
+#join > a:hover {
+	color: #390;
+	font-size: 13px;
+	font-weight: bold;
 }
 
 /* 아이디|비밀번호 찾기 속성 */
 #find > a {
 	letter-spacing :-0.5px;
 	padding: 0;
+	color: #666666;
+	font-size: 12px;
+	text-decoration: none;
 }
 
 /* 아이디|비밀번호 찾기 hover */
@@ -345,6 +348,7 @@ input:focus{
 #join {
 	position: absolute;;
 	right: 3px;
+	margin-top: 10px;
 }
 
 /* 로그인, 카카오 로그인 사이 */
@@ -432,14 +436,13 @@ input:focus{
 	font-size: 12px;
 	color: #666666;
 	position: absolute;
-	top: 2px;
-	left: 23px;
+	top: 3px;
+	left: 22px;
 }
 
 </style>
 
-</head>
-<body>
+<c:import url="../layout/mainHeader.jsp" />
 
 <div class="container">
 	<div class="mainTxt">로그인</div>

@@ -4,23 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>: : : Aweek Join : : :</title>
-
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-
-<!-- 구글 아이콘 -->
-<!--Google Material Icons new ver.-->
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <!-- 주소검색 API(카카오) -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -206,7 +195,7 @@ $(document).ready(function() {
 		//아이디 체크(공백인 경우)
 		if($("#userId").val() == ""){
 			swal("아이디를 입력해주세요","", "warning").then(function(){
-                $("input").eq(0).focus();
+                $("input").eq(1).focus();
         	});
 			return;
 		} 
@@ -214,7 +203,7 @@ $(document).ready(function() {
 		//비밀번호 체크(공백인 경우)
 		if($("#userPw").val() == ""){
 			swal("비밀번호를 입력해주세요","", "warning").then(function(){
-				$("input").eq(1).focus()
+				$("input").eq(2).focus()
         	});
 			return;
 		} 
@@ -222,7 +211,7 @@ $(document).ready(function() {
 		//비밀번호 확인 체크 (비밀번호와 같지 않거나 공백인 경우)
 		if($("#userPwChk").val() != $("#userPw").val() || $("#userPwChk").val() == ""){
 			swal("비밀번호 확인을 비밀번호와 동일하게 입력해주세요","", "warning").then(function(){
-				$("input").eq(2).focus()
+				$("input").eq(3).focus()
         	});
 			return;
 		} 
@@ -230,7 +219,7 @@ $(document).ready(function() {
 		//이름 체크(공백인 경우)
 		if($("#userName").val() == ""){
 			swal("이름을 입력해주세요","", "warning").then(function(){
-				$("input").eq(3).focus()
+				$("input").eq(4).focus()
         	});
 			return;
 		} 
@@ -239,7 +228,7 @@ $(document).ready(function() {
 		//휴대폰 번호 체크(공백인 경우)
 		if($("#userPhone").val() == ""){
 			swal("휴대폰 번호를 입력해주세요","", "warning").then(function(){
-				$("input").eq(4).focus()
+				$("input").eq(5).focus()
         	});
 			return;
 		} 
@@ -247,7 +236,7 @@ $(document).ready(function() {
 		//주소 체크(공백인 경우)
 		if($("#userAddress1").val() == ""){
 			swal("주소를 입력해주세요","", "warning").then(function(){
-				$("input").eq(7).focus()
+				$("input").eq(8).focus()
         	});
 			return;
 		} 
@@ -255,7 +244,7 @@ $(document).ready(function() {
 		//상세주소 체크(공백인 경우)
 		if($("#userAddress2").val() == ""){
 			swal("상세주소를 입력해주세요","", "warning").then(function(){
-				$("input").eq(8).focus()
+				$("input").eq(9).focus()
         	});
 			return;
 		} 
@@ -263,7 +252,7 @@ $(document).ready(function() {
 		//생년월일 체크(공백인 경우)
 		if($("#userBirth").val() == ""){
 			swal("생년월일을 입력해주세요","", "warning").then(function(){
-				$("input").eq(10).focus()
+				$("input").eq(11).focus()
         	});
 			return;
 		} 
@@ -271,7 +260,7 @@ $(document).ready(function() {
 		//이메일 체크(공백인 경우)
 		if($("#userEmail").val() == ""){
 			swal("이메일을 입력해주세요","", "warning").then(function(){
-				$("input").eq(11).focus()
+				$("input").eq(12).focus()
         	});
 			return;
 		} 
@@ -404,7 +393,7 @@ function checkPwChk() {
 	color: #f4b0b0;
 	font-size: 40px;
 	font-weight: bold;
-	margin: 50px auto;
+	margin: 40px auto;
 }
 
 /* 컨테이너 전체 */
@@ -416,17 +405,20 @@ function checkPwChk() {
 /* 회원가입 항목 이름 */
 .join_title {
 	margin: 20px 0 10px; /* 상 좌우 하 */
+    font-size: 1.17em;
+    font-weight: bold;
 }
 
 /* input box */
 .int {
 	border: 1px solid #ccc;
 	outline: 0;
-	width: 392px;
+	width: 411px;
 	height: 40px;
 	cursor: pointer;
 	font-size: 16px;
 	padding-left: 15px;
+	margin-bottom: 5px;
 }
 
 /* input focus */
@@ -438,12 +430,14 @@ input:focus{
 .error_msg {
 	font-size: 12px;
 	color: red;
+	padding-left: 3px;
 }
 
 /* 성공 메시지 */
 .success_msg {
 	font-size: 12px;
 	color: green;
+	padding-left: 3px;
 }
 
 /* 비밀번호 보기 아이콘 */
@@ -468,9 +462,9 @@ input:focus{
 
 /* 버튼 div 영역 */
 .btn_area {
-	margin-top: 40px;
-	margin-bottom: 50px;
+	margin-top: 30px;
 	width: 411px;
+    height: 90px;
 }
 
 /* 가입 취소 버튼 */
@@ -503,7 +497,7 @@ input:focus{
 /* 주소찾기 div */
 .findAddr {
     position: absolute;
-    top: -3px;
+    top: -8px;
     right: -10px;
 }
 
@@ -521,8 +515,7 @@ input:focus{
 
 </style>
 
-</head>
-<body>
+<c:import url="../layout/mainHeader.jsp" />
 
 <form action="/member/join" method="post">
 
@@ -571,7 +564,7 @@ input:focus{
 		</h3>
 		<span class="findAddr"><input type="button" onclick="findAddress()" id="findAddrBtn" value="주소 검색"><br></span>
 			<input type="hidden" id="postCode" placeholder="우편번호">
-		<span><input type="text" id="userAddress1" class="int" placeholder="주소 검색 버튼을 눌러주세요" readonly="readonly"><br></span>
+		<span><input type="text" id="userAddress1" class="int" placeholder="주소 검색 버튼을 눌러주세요" readonly="readonly" style="margin:0;"><br></span>
 		<span><input type="text" style="margin-top: 5px;" id="userAddress2" class="int" placeholder="상세주소" autocomplete="off"></span>
 			<input type="hidden" name="userAddress" id="userAddress" class="int" autocomplete="off">
 		<span class="error_msg" id="userAddressMsg" style="display:none;"></span>

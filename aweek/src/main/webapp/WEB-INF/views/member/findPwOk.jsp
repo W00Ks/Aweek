@@ -2,12 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -191,7 +185,7 @@ function checkPwChk() {
 	color: #f4b0b0;
 	font-size: 40px;
 	font-weight: bold;
-	margin: 250px auto 30px;
+	margin: 150px auto 30px;
 }
 
 /* 안내 텍스트 영역 */
@@ -219,7 +213,7 @@ function checkPwChk() {
 
 /* input Div 영역 */
 .pwDiv {
-    width: 430px;
+    width: 411px;
     margin: 10px auto 20px;
 }
 
@@ -234,7 +228,7 @@ function checkPwChk() {
 .int {
 	border: 1px solid #ccc;
 	outline: 0;
-	width: 400px;
+	width: 405px;
 	height: 40px;
 	cursor: pointer;
 	font-size: 16px;
@@ -251,12 +245,14 @@ input:focus{
 .error_msg {
 	font-size: 12px;
 	color: red;
+	padding-left: 3px;
 }
 
 /* 성공 메시지 */
 .success_msg {
 	font-size: 12px;
 	color: green;
+	padding-left: 3px;
 }
 
 /* 비밀번호 설정 안내 메시지 */
@@ -313,8 +309,7 @@ input:focus{
 
 </style>
 
-</head>
-<body>
+<c:import url="../layout/mainHeader.jsp" />
 
 <div class="container">
 	<div class="mainTxt">비밀번호 찾기</div>

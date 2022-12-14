@@ -1,5 +1,10 @@
 package member.dao.face;
 
+import java.util.HashMap;
+import java.util.List;
+
+import common.Paging;
+import cs.dto.Inquiry;
 import member.dto.Member;
 
 public interface MemberDao {
@@ -111,7 +116,29 @@ public interface MemberDao {
 	 */
 	public void deleteUser(Member member);
 
+	/**
+	 * 나의 1:1 문의 전체 게시글 수를 조회한다
+	 * 
+	 * @param member - 회원 정보 
+	 * @return 나의 1:1 문의 총 게시글 수
+	 */
+	public int selectPagingCntAll(Member member);
 	
+	/**
+	 * 페이징을 적용하여 나의 1:1 문의글 목록 조회
+	 * 
+	 * @param map - 페이징 정보 객체, 회원 정보 객체
+	 * @return 페이징이 적용된 나의 1:1 문의글 목록
+	 */
+	public List<Inquiry> selectMyInquiryList(HashMap<String, Object> map);
+
+	/**
+	 * 게시글 번호를 이용하여 게시글을 조회한다
+	 * 
+	 * @param map - 조회하려는 나의 1:1문의글 번호, 회원 정보 객체
+	 * @return 조회된 나의 1:1 문의글 정보
+	 */
+	public Inquiry selectMyInquiryView(HashMap<String, Object> map);
 
 	
 }

@@ -43,12 +43,12 @@ $(document).ready(function () {
 		l4.classList.add("choose");
 	}
 	
-	if( window.location.href.indexOf("chat") > -1 ) {
+	if( window.location.href.indexOf("mySubscription") > -1 ) {
 		t5.classList.add("choose");
 		l5.classList.add("choose");
 	}
 	
-	if( window.location.href.indexOf("myInquiry") > -1 ) {
+	if( window.location.href.indexOf("myInquiryList") > -1 ) {
 		t6.classList.add("choose");
 		l6.classList.add("choose");
 	}
@@ -78,6 +78,7 @@ a {
 	align-items: center;
 	justify-content: center;
 	padding-left: 0;
+	margin-top: 20px;
 }
 
 .top_menu span {
@@ -124,11 +125,11 @@ a {
 		<span class="material-icons">info</span></a>
 	</li>
 	<li class="l_5">
-		<a href="<%=request.getContextPath() %>/chat/main" class="top_5" id="top_chat">
-		<span class="material-icons">forum</span></a>
+		<a href="<%=request.getContextPath() %>/member/mySubscription" class="top_5" id="top_mySubscription">
+		<span class="material-icons">paid</span></a>
 	</li>
 	<li class="l_6">
-		<a href="<%=request.getContextPath() %>/member/myInquiry" class="top_6" id="top_myInquiry">
+		<a href="<%=request.getContextPath() %>/member/myInquiryList" class="top_6" id="top_myInquiryList">
 		<span class="material-icons">email</span></a>
 	</li>
 </ul>

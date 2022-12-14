@@ -1,7 +1,11 @@
 package member.service.face;
 
+import java.util.List;
+
 import javax.mail.MessagingException;
 
+import common.Paging;
+import cs.dto.Inquiry;
 import member.dto.Member;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
@@ -125,6 +129,35 @@ public interface MemberService {
 	 */
 	public boolean getUserWd(Member member);
 	
+	/**
+	 * 게시글 목록을 위한 페이징 객체를 생성한다
+	 * 
+	 * 	파라미터 curPage(현재 페이지)
+	 * 	DB에서 조회한 totalCount(총 게시글 수)
+	 * 	두 가지 데이터를 활용하여 페이징객체를 생성하여 반환한다
+	 * 
+	 * @param curPage - 요청 페이지 번호
+	 * @param member - 회원정보
+	 * @return 계산이 완료된 Paging객체
+	 */
+	public Paging getPaging(int curPage, Member member);
 	
+	/**
+	 * 페이징이 적용된 나의 1:1 문의 목록 조회
+	 * 
+	 * @param paging - 페이징 정보 객체
+	 * @param member - 회원 정보
+	 * @return 페이징이 적용된 나의 1:1 문의 목록
+	 */
+	public List<Inquiry> myInquiryList(Paging paging, Member member);
+
+	/**
+	 * 나의 1:1 문의글 상세보기
+	 * 
+	 * @param viewInquiry - 상세 조회할 게시글 번호 객체
+	 * @param member - 회원 정보
+	 * @return 조회된 상세 나의 1:1 문의글 객체
+	 */
+	public Inquiry myInquiryView(Inquiry viewInquiry, Member member);
 	
 }

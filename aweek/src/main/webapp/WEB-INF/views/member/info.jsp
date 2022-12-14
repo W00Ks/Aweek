@@ -3,22 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-
-<!--Google Material Icons new ver.-->
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 <!-- 주소검색 API(카카오) -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -116,12 +106,12 @@ $(document).ready(function() {
     //회원정보 수정 페이지 접속 시 비밀번호 포커스 주기
 	$("#userPw").focus();
 	
-	//휴대폰 번호 blur 시 유효성 검사 및 공백여부 체크
-	$("#userPhone").blur(function() {
-		var phone = $("#userPhone").val();
-		var oMsg = $("#userPhoneMsg");
-		if ( phone == "" || phone.length != 13 ) {
-	        showErrorMsg(oMsg,"휴대폰 번호를 올바르게 입력해주세요!");
+	//이름 blur 시 공백여부 체크
+	$("#userName").blur(function() {
+		var name = $("#userName").val();
+		var oMsg = $("#userNameMsg");
+		if ( name == "" ) {
+	        showErrorMsg(oMsg,"필수 정보입니다.");
 	        return false;
 	    } else {
 	    	hideMsg(oMsg);
@@ -181,7 +171,7 @@ $(document).ready(function() {
 	    }
     });
 	
-	//회원가입 버튼 클릭 시 공백 항목 체크
+	//회원정보 수정 버튼 클릭 시 공백 항목 체크
 	$("#btnModify").click(function() {
 		
 		//비밀번호 체크(공백인 경우)
@@ -200,14 +190,14 @@ $(document).ready(function() {
 			return;
 		} 
 
-		//휴대폰 번호 체크(공백인 경우)
-		if($("#userPhone").val() == ""){
-			swal("휴대폰 번호를 입력해주세요","", "warning").then(function(){
-				$("input").eq(4).focus()
+		//이름 체크(공백인 경우)
+		if($("#userName").val() == ""){
+			swal("이름을 입력해주세요","", "warning").then(function(){
+				$("input").eq(3).focus()
         	});
 			return;
 		} 
-
+		
 		//주소 체크(공백인 경우)
 		if($("#userAddress1").val() == ""){
 			swal("주소를 입력해주세요","", "warning").then(function(){
@@ -312,14 +302,14 @@ function hideMsg(obj) {
 
 <style type="text/css">
 
-/* 회원가입 텍스트 */
+/* 회원정보 수정 텍스트 */
 .infoTxt {
 /* 	width: 800px; */
     text-align: center;
     color: #555555;
     font-size: 30px;
     font-weight: bold;
-    margin: 20px auto;
+    margin: 20px auto 30px;
 }
 
 /* 컨테이너 전체 */
@@ -328,8 +318,8 @@ function hideMsg(obj) {
 	width: 500px;
 }
 
-/* 회원가입 항목 이름 */
-label {
+/* 회원정보 항목 이름 */
+.i_label {
 	width: 105px;
 	display: inline-block;
 	padding-right: 15px;
@@ -391,8 +381,8 @@ input:focus{
 /* 비밀번호 변경 span 영역 */
 .modifyPw {
     position: absolute;
-    top: 20px;
-    right: 480px;
+    top: 40px;
+    width: 170px;
 }
 
 /* 비밀번호 변경 버튼 */
@@ -434,7 +424,6 @@ input:focus{
 #btnWd {
     width: 100px;
     height: 30px;
-    float: right;
     border-radius: 30px;
     font-size: 10px;
     background-color: white;
@@ -442,7 +431,7 @@ input:focus{
     color: #ccc;
     cursor: pointer;
     position: absolute;
-    left: 395px;
+    left: 375px;
     top: -45px;
     margin: 10px 0;
 }
@@ -450,8 +439,8 @@ input:focus{
 /* 주소검색 span 영역 */
 .findAddr {
     position: absolute;
-    top: 19px;
-    right: 8px;
+	top: 17px;
+    right: 25px;
 }
 
 /* 주소검색 버튼 */
@@ -475,8 +464,8 @@ input:focus{
 /* 휴대폰 번호 변경 span 영역 */
 .modifyPhone {
     position: absolute;
-    top: 18px;
-    right: 8px;
+    top: 17px;
+    right: 25px;
 }
 
 /* 휴대폰 번호 변경 버튼 */
@@ -493,8 +482,7 @@ input:focus{
 
 </style>
 
-</head>
-<body>
+<c:import url="../layout/mainHeader.jsp" />
 
 <c:import url="../layout/mypageTop.jsp" />
 
@@ -507,13 +495,13 @@ input:focus{
 
 <div class="info_content">
 	<div class="info_title">
-		<label for="userId">아이디</label>
+		<label class="i_label" for="userId">아이디</label>
 		<input type="text" name="userId" id="userId" class="int" maxlength="20" value="${member.userId }" readonly="readonly">
 	</div>
 	<span class="error_msg" id="userIdMsg" style="display:none;"></span>
 	
 	<div class="info_title">
-		<label for="userPw">비밀번호</label>
+		<label class="i_label" for="userPw">비밀번호</label>
 		<span class="pwBox"><input type="password" name="userPw" id="userPw" class="int" maxlength="16" autocomplete="off">
 			<span class="material-icons" id="pwView1">visibility</span>
 		</span>
@@ -521,7 +509,7 @@ input:focus{
 	<span class="error_msg" id="userPwMsg" style="display:none;">비밀번호를 수정 하실 경우에만 입력해주세요.</span>
 
 	<div class="info_title">
-		<label for="userPwChk">비밀번호 확인</label>
+		<label class="i_label" for="userPwChk">비밀번호 확인</label>
 	<span class="pwBox"><input type="password" name="userPwChk" id="userPwChk" class="int" maxlength="16" autocomplete="off">
 		<span class="material-icons" id="pwView2">visibility</span>
 	</span>
@@ -529,13 +517,13 @@ input:focus{
 	<span class="error_msg" id="userPwChkMsg" style="display:none;"></span>
 	
 	<div class="info_title">
-		<label for="userName">이름</label>
+		<label class="i_label" for="userName">이름</label>
 	<span><input type="text" name="userName" id="userName" class="int" maxlength="10" value="${member.userName }" autocomplete="off"></span>
 	</div>
 	<span class="error_msg" id="userNameMsg" style="display:none;"></span>
 	
 	<div class="info_title" style="position:relative;">
-		<label for="userPhone">휴대폰번호</label>
+		<label class="i_label" for="userPhone">휴대폰번호</label>
 		<input type="text" name="userPhone" id="userPhone" class="int" maxlength="13" value="${member.userPhone }" readonly="readonly" placeholder="ex) 010-0000-0000">
 		<span class="modifyPhone"><input type="button" id="modifyPhoneBtn" value="휴대폰 번호 변경"><br></span>
 	</div>
@@ -543,13 +531,13 @@ input:focus{
 	
 	<div class="addrDiv" style="position:relative;">
 		<div class="info_title">
-			<label for="userAddress2">주소</label>
+			<label class="i_label" for="userAddress2">주소</label>
 		<span class="findAddr"><input type="button" onclick="findAddress()" id="findAddrBtn" value="주소 검색"><br></span>
 		<c:set var="address" value="${member.userAddress}" />
 			<input type="hidden" id="postCode" placeholder="우편번호" value="${fn:split(address, ',')[0]}">
 		<span><input type="text" id="userAddress1" class="int" placeholder="주소 검색 버튼을 눌러주세요" readonly="readonly"
 					value="${fn:split(address, ',')[1]}"><br></span>
-		<label></label>
+		<label class="i_label"></label>
 			<span><input type="text" style="margin-top: 5px;" id="userAddress2" class="int" placeholder="상세주소" autocomplete="off"
 						value="${fn:split(address, ',')[2]}"></span>
 			<input type="hidden" name="userAddress" id="userAddress" class="int" autocomplete="off">
@@ -558,13 +546,13 @@ input:focus{
 	</div>
 	
 	<div class="info_title">
-		<label for="userBirth">생년월일</label>
+		<label class="i_label" for="userBirth">생년월일</label>
 	<span><input type="text" name="userBirth" id="userBirth" class="int" maxlength="10" value="${member.userBirth }" autocomplete="off" placeholder="ex) 0000-00-00"></span>
 	</div>
 	<span class="error_msg" id="userBirthMsg" style="display:none;"></span>
 	
 	<div class="info_title">
-		<label for="userEmail">이메일</label>
+		<label class="i_label" for="userEmail">이메일</label>
 	<span><input type="email" name="userEmail" id="userEmail" class="int" maxlength="30" value="${member.userEmail }" autocomplete="off"></span>
 	</div>
 	<span class="error_msg" id="userEmailMsg" style="display:none;"></span>

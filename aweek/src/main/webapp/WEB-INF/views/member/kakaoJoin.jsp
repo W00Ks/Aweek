@@ -4,21 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>: : : Aweek Join : : :</title>
-
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
-
-<!-- 구글 아이콘 -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <!-- 주소검색 API(카카오) -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -275,7 +266,7 @@ function hideMsg(obj) {
 	color: #f4b0b0;
 	font-size: 40px;
 	font-weight: bold;
-	margin: 50px auto;
+	margin: 40px auto;
 }
 
 /* 컨테이너 전체 */
@@ -287,17 +278,20 @@ function hideMsg(obj) {
 /* 회원가입 항목 이름 */
 .join_title {
 	margin: 20px 0 10px; /* 상 좌우 하 */
+    font-size: 1.17em;
+    font-weight: bold;
 }
 
 /* input box */
 .int {
 	border: 1px solid #ccc;
 	outline: 0;
-	width: 392px;
+	width: 411px;
 	height: 40px;
 	cursor: pointer;
 	font-size: 16px;
 	padding-left: 15px;
+	margin-bottom: 5px;
 }
 
 /* input focus */
@@ -309,12 +303,14 @@ input:focus{
 .error_msg {
 	font-size: 12px;
 	color: red;
+	padding-left: 3px;
 }
 
 /* 성공 메시지 */
 .success_msg {
 	font-size: 12px;
 	color: green;
+	padding-left: 3px;
 }
 
 /* 비밀번호 span 영역 */
@@ -326,9 +322,10 @@ input:focus{
 
 /* 버튼 div 영역 */
 .btn_area {
-	margin-top: 40px;
+	margin-top: 30px;
 	margin-bottom: 50px;
 	width: 411px;
+	height: 90px;
 }
 
 /* 가입 취소 버튼 */
@@ -361,7 +358,7 @@ input:focus{
 /* 주소찾기 div */
 .findAddr {
     position: absolute;
-    top: -3px;
+    top: -8px;
     right: -10px;
 }
 
@@ -380,12 +377,12 @@ input:focus{
 /* 카카오 계정 파라미터 */
 #userId, #userPw, #userName, #userEmail {
 	background-color: #e9e9e9;
+	border: none;
 }
 
 </style>
 
-</head>
-<body>
+<c:import url="../layout/mainHeader.jsp" />
 
 <form action="/member/join" method="post">
 
@@ -424,7 +421,7 @@ input:focus{
 		</h3>
 		<span class="findAddr"><input type="button" onclick="findAddress()" id="findAddrBtn" value="주소 검색"><br></span>
 			<input type="hidden" id="postCode" placeholder="우편번호">
-		<span><input type="text" id="userAddress1" class="int" placeholder="주소 검색 버튼을 눌러주세요" readonly="readonly"><br></span>
+		<span><input type="text" id="userAddress1" class="int" placeholder="주소 검색 버튼을 눌러주세요" readonly="readonly" style="margin:0;"><br></span>
 		<span><input type="text" style="margin-top: 5px;" id="userAddress2" class="int" placeholder="상세주소" autocomplete="off"></span>
 			<input type="hidden" name="userAddress" id="userAddress" class="int" autocomplete="off">
 		<span class="error_msg" id="userAddressMsg" style="display:none;"></span>

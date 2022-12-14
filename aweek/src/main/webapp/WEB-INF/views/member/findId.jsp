@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -17,29 +13,22 @@
 $(document).ready(function() {
 	
 	//아이디 찾기 페이지 접속 시 이름 입력창에 포커스
-	$("input").eq(0).focus()
+	$("#userName").focus()
 	
 	//이메일 입력창에 엔터키 입력 시 $("#btnSendEmail").click() 호출
-	$("input").eq(1).keypress(function(e) {
+	$("input").eq(2).keypress(function(e) {
 		if( e.keyCode == 13 ) {
 			$("#btnSendEmail").click();
 		}
 	})
 
-	//이메일 입력창에 엔터키 입력 시 $("#btnAuthOk").click() 호출
-	$("input").eq(2).keypress(function(e) {
-		if( e.keyCode == 13 ) {
-			$("#btnAuthOk").click();
-		}
-	})
-	
 	//아이디 찾기 버튼 클릭
 	$("#btnSendEmail").click(function() {
 		
 		//아이디 공백 체크
 		if($("#userName").val() == "") {
 			swal("이름을 입력해주세요!","", "warning").then(function(){
-				$("input").eq(0).focus()
+				$("input").eq(1).focus()
         	});
 			return;
 		} 
@@ -47,7 +36,7 @@ $(document).ready(function() {
 		//이메일 공백 체크
 		if($("#userEmail").val() == "") {
 			swal("이메일을 입력해주세요!","", "warning").then(function(){
-				$("input").eq(1).focus()
+				$("input").eq(2).focus()
         	});
  			return;
 		}
@@ -75,7 +64,7 @@ $(document).ready(function() {
 				$("#okDiv").css('display', 'block')
 				$("#sendDiv").css('display','none')
 					swal("","회원님의 이메일로 인증번호를 발송하였습니다.", "info").then(function(){
-						$("input").eq(2).focus()
+						$("input").eq(3).focus()
 		        	});
 				
 				//인증번호 확인 버튼 클릭
@@ -87,7 +76,7 @@ $(document).ready(function() {
 			        	});
 					} else {
 						swal("인증 실패!","인증번호를 다시 입력해주세요!", "error").then(function(){
-							$("input").eq(2).focus()
+							$("input").eq(3).focus()
 			        	});
 					}
 				})
@@ -118,7 +107,7 @@ $(document).ready(function() {
 			$("#okDiv").css('display', 'block')
 			$("#sendDiv").css('display','none')
 				swal("","회원님의 이메일로 인증번호를 발송하였습니다.", "info").then(function(){
-					$("input").eq(2).focus()
+					$("input").eq(3).focus()
 	        	});
 			
 			//인증번호 확인 버튼 클릭
@@ -130,7 +119,7 @@ $(document).ready(function() {
 		        	});
 				} else {
 					swal("인증 실패!","인증번호를 다시 입력해주세요!", "error").then(function(){
-						$("input").eq(2).focus()
+						$("input").eq(3).focus()
 		        	});
 				}
 			})			
@@ -151,7 +140,7 @@ $(document).ready(function() {
 	color: #f4b0b0;
 	font-size: 40px;
 	font-weight: bold;
-	margin: 250px auto 50px;
+	margin: 150px auto 50px;
 }
 
 /* 컨테이너 전체 */
@@ -164,7 +153,7 @@ $(document).ready(function() {
 .int {
 	border: 1px solid #ccc;
 	outline: 0;
-	width: 392px;
+	width: 411px;
 	height: 40px;
 	cursor: pointer;
 	font-size: 16px;
@@ -221,8 +210,7 @@ input:focus{
 
 </style>
 
-</head>
-<body>
+<c:import url="../layout/mainHeader.jsp" />
 
 <div class="container">
 	<div class="mainTxt">아이디 찾기</div>

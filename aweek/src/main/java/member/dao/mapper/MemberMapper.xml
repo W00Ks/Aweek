@@ -79,4 +79,25 @@
 		WHERE user_id = #{userId}
 	</delete>
 	
+	<select id="selectPagingCntAll" resultType="int" parameterType="Member">
+		SELECT count(*) FROM inquiry
+		WHERE user_no = #{userNo}
+	</select>
+	
+	<select id="selectMyInquiryList" resultType="Inquiry" parameterType="hashmap">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT * FROM inquiry
+				WHERE user_no = #{member.userNo}
+				ORDER BY inquiry_no DESC
+			) B
+		) INQUIRY
+		WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
+	</select>
+	
+	<select id="selectMyInquiryView" resultType="Inquiry" parameterType="hashmap">
+		SELECT * FROM Inquiry
+		WHERE inquiry_no = #{inquiry.inquiryNo} AND user_no = #{member.userNo}
+	</select>
+	
 </mapper>
