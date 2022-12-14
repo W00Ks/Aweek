@@ -39,12 +39,20 @@ public interface ChatService {
 	public List<ChatCreatRoomInfo> getRoomList(int userNo);
 	
 	/**
+	 * 회원이 가입한 모임에 속해있는 다른 유저의 목록을 가져온다
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 같은 모임 유저 목록
+	 */
+	public List<ChatCreatRoomInfo> getRoomJoinList(int userNo);
+	
+	/**
 	 * 새로운 채팅방을 생성한다
 	 * 
 	 * @param chatRoom - 생성하려는 채팅방 정보
 	 * @return 생성 결과
 	 */
-	public int createChatRoom(ChatRoom chatRoom, int userNo);
+	public int createChatRoom(ChatRoom chatRoom, int userNo, int inviteUserNo);
 	
 	/**
 	 * 입력한 메시지를 DB에 저장한다
@@ -77,6 +85,8 @@ public interface ChatService {
 	 * @return 첨부 파일 정보
 	 */
 	public ChatFile getFile(ChatFile chatFile);
+
+	
 	
 	
 	

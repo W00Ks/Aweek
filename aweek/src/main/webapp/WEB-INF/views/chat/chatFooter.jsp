@@ -24,7 +24,7 @@
 	   if(i == 1) { 	   //채팅 메시지 처리
 		   ws.send($("#message").val());
 	   } else if(i == 2) { //방 생성 메시지 처리
-		   ws.send($("#chatRoomName1").val() + ":" + $('input[name=roomNo]:checked').val() + ":" + $("#ajaxChatRoomNo").val());
+		   ws.send($("#chatRoomName1").val() + ":" + $('input[name=roomNo]:checked').val() + ":" + $("#ajaxChatRoomNo").val() + ":" + $('input[name=userId]:checked').val());
 	   } else if(i == 3) { //나가기 메시지 처리
 		   ws.send("exit:채팅방 나가기");
 	   } else if(i == 4) { //첨부파일 메시지 처리
@@ -153,13 +153,31 @@
       	if(roomMsg[0] == "Create Room" && roomMsg[2] != '4' && roomMsg[3] != '4') {
       		console.log("+ + + Room Create 메시지 + + +");
       		
-      		//Apply Room Creation
-   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
+      		console.log("초대 받은사람 roomMsg[4] : " + roomMsg[4]);
+      		console.log("roomMsg[5] : " + roomMsg[5]);
       		
-      		//생성과 동시에 입장 시키기
-      		if(roomMsg[4] == roomMsg[5]) {
-	      		$('.chatRoomName2[value=' + roomMsg[3] + ']').click();
+      		//단체 채팅방인 경우 처리
+      		if(roomMsg[4] == 'undefined') {
+      			
+	      		//Apply Room Creation
+	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover2').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
+      		
+	      	//1대1 채팅인 경우 처리
+      		} else if(roomMsg[5] == roomMsg[6] || roomMsg[4] == roomMsg[6]) {
+      			
+	      		//Apply Room Creation
+	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover1').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
+      		
       		}
+	      	
+      		//방 생성한 사람은 바로 입장시키기
+      		if(roomMsg[5] == roomMsg[6]) {
+      			
+	      		//생성과 동시에 입장 시키기
+	      		$('.chatRoomName2[value=' + roomMsg[3] + ']').click();
+
+      		}
+	      		
       		
       	//File Upload 메시지 처리
       	} else if(roomMsg[2] == '4' && enter[1] != "입장하셨습니다." && enter[1] != "나가셨습니다." && roomMsg[3] != '4') {
@@ -175,7 +193,7 @@
 											+ "<div class='timeDiv'>"
 												+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
 											+ "</div>"
-											+ "<img class='sendImg' alt='none' src='${pageContext.request.contextPath}" + roomMsg[1] + "'>" 
+											+ "<img class='sendImg imgs' alt='none' src='${pageContext.request.contextPath}" + roomMsg[1] + "'>" 
 											+ "<div style='margin: 35px;'></div>"
 										+ "</div>");
 	      		
@@ -185,7 +203,7 @@
       			
       			$("#MessageArea").append("<div class='rMsg' style='text-align: left;'>"
 											+ "<div class='chatUserName'>" + roomMsg[4] + "</div>"
-					      					+ "<img class='rImg' alt='none' src='${pageContext.request.contextPath}" + roomMsg[1] + "'>" 
+					      					+ "<img class='rImg imgs' alt='none' src='${pageContext.request.contextPath}" + roomMsg[1] + "'>" 
 					      					+ "<div class='rtimeDiv'>"
 												+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
 											+ "</div>" 

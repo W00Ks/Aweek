@@ -33,8 +33,13 @@
 			</div>
 			<span class="material-symbols-outlined chatDot">more_horiz</span>
 		</div>
+		<div class="bigPictureWrap">
+			<div class="bigPicture">
+			</div>
+		</div>
 		<!-- 채팅 내역 출력 -->
-		<c:set var="cnt" value="0"/> 
+		<c:set var="cnt" value="0"/>
+		<c:set var="u_id" value="${member.userId }"/>
 		<c:forEach items="${chatHistory }" var="ch">
 			<c:choose>
 			<c:when test="${ch.chatContent eq '입장하셨습니다.' }"> <!-- 입장이면 띄위기 -->
@@ -58,7 +63,7 @@
 		   	    </div>
 		   	    <c:set var="cnt" value="0"/>
 			</c:when>
-			<c:when test="${cnt eq 0  and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}"> <!-- 본인, 나가기X, 사진X -->	
+			<c:when test="${u_id ne ch.userId and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}"> <!-- 본인, 나가기X, 사진X -->	
 				<div class='rMsg' style='text-align: left;'> 
 	       			<div class='chatUserName'>${ch.userId }</div>
 	       			<div class='chatReceiveMsg'>${ch.chatContent }</div>
@@ -67,14 +72,16 @@
 	       			</div>
 	       		</div>
 	       		<c:set var="cnt" value="1"/>
+	       		<c:set var="u_id" value="${ch.userId }"/>
 			</c:when>
-	       	<c:when test="${cnt ne 0  and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}">
+	       	<c:when test="${u_id eq ch.userId and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}">
 				<div class='rMsg' style='text-align: left;'>
 	       			<div class='chatReceiveMsg'>${ch.chatContent }</div>
 	       			<div class='timeDiv'>
 	       				<p class='chatTime'>${ch.chatTime }</p>
 	       			</div>
 	       		</div>
+	       		<c:set var="cnt" value="0"/>
 	       	</c:when>
 	       	<c:when test="${ch.chatKind eq '3' and ch.chatContent ne '나가셨습니다.' and member.userNo eq ch.userNo}"><!-- Img File -->
 	       		<div style="text-align: right;">
@@ -84,7 +91,7 @@
 					<div class='timeDiv'>
 	       				<p class='chatTime'>${ch.chatTime }</p>
 	       			</div>
-					<img class="sendImg" alt="none" src="${pageContext.request.contextPath}/upload/${ch.chatContent }">
+					<img class="sendImg imgs" alt="none" src="${pageContext.request.contextPath}/upload/${ch.chatContent }">
 					<div style="margin: 35px;"></div>
 				</div>
 				<c:set var="cnt" value="0"/>
@@ -92,7 +99,7 @@
 	       	<c:when test="${ch.chatKind eq '3' and ch.chatContent ne '나가셨습니다.' and member.userNo ne ch.userNo}"><!-- Img File -->
 				<div class='rMsg' style='text-align: left;'> 
 	       			<div class='chatUserName'>${ch.userId }</div>
-	       			<img class="rImg" alt="none" src="${pageContext.request.contextPath}/upload/${ch.chatContent }">
+	       			<img class="rImg imgs" alt="none" src="${pageContext.request.contextPath}/upload/${ch.chatContent }">
 	       			<div class='rtimeDiv'>
 	       				<p class='chatTime'>${ch.chatTime }</p>
 	       			</div>
@@ -415,8 +422,34 @@ $('html').click(function(e) {
 	}
 }); 
 
+//사진 상세보기
+$(document).on("click",".imgs",function(){
+	var path = $(this).attr('src');
+	showImage(path);
+});
+
+function showImage(fileCallPath){
+	$(".bigPictureWrap").css("display","flex").show();
+	
+	$(".bigPicture").html("<img src='${pageContext.request.contextPath}"+fileCallPath+"' >");
+}
+  
+$(".bigPictureWrap").on("click", function(e){
+	$('.bigPictureWrap').hide();
+});
+
 </script>
 
 <%@ include file="./chatFooter.jsp" %>
 
 </html>
+
+
+
+
+
+
+
+
+
+

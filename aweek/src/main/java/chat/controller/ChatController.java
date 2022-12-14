@@ -51,19 +51,26 @@ public class ChatController {
 		List<ChatCreatRoomInfo> roomList = chatService.getRoomList(userNo);
 		logger.info("roomList - {}", roomList);
 		
+		//모임별로 가입한 유저 전체목록 조회
+		List<ChatCreatRoomInfo> roomJoinMemberList = chatService.getRoomJoinList(userNo);
+		logger.info("roomJoinMemberList - {}", roomJoinMemberList);
+		
 		model.addAttribute("chatList", chatRoomList);
 		model.addAttribute("roomList", roomList);
+		model.addAttribute("roomJoinMemberList", roomJoinMemberList);
+		
 	}
 	
 	@PostMapping("/create")
 	@ResponseBody
-	public int chatCreate(ChatRoom chatRoom, HttpSession session, Model model) {
+	public int chatCreate(ChatRoom chatRoom, int inviteUserNo, HttpSession session, Model model) {
 		logger.info("+ + + Create Chat Room - Info : {} + + +", chatRoom);
+		logger.info("+ + + inviteUserNo - Info : {} + + +", inviteUserNo);
 		
 		int userNo = (int) session.getAttribute("userNo");
 		
 		//채팅방 생성
-		int result = chatService.createChatRoom(chatRoom, userNo);
+		int result = chatService.createChatRoom(chatRoom, userNo, inviteUserNo);
 		
 		return result;
 	}

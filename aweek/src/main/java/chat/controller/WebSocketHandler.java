@@ -109,17 +109,21 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
+		int userNo = 0; 		//유저번호
+		int chatRoomNo = 0;		//방번호
+		Member member = null;	//유저 정보 객체
+		
 		//채팅 관련 메시지일 때
 		if(session.getAttributes().get("chatRoomNo") != null && !message.getPayload().contains(":")) {
 			
-			int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
-			int chatRoomNo = (int) session.getAttributes().get("chatRoomNo"); //방번호
+			userNo = (int) session.getAttributes().get("userNo"); //유저 번호
+			chatRoomNo = (int) session.getAttributes().get("chatRoomNo"); //방번호
 			
 			//유저 정보 가져오기
-			Member member = chatService.getUserInfo(userNo);
+			member = chatService.getUserInfo(userNo);
 			
-			logger.info("### {}로 부터 {} 받음", session.getId(), message.getPayload());
-			logger.info("### {}님, {}번방에 메시지 보냄", member.getUserId(), chatRoomNo);
+			logger.info("+ + + session.getId() : {}, message.getPayload() : {}", session.getId(), message.getPayload());
+			logger.info("+ + + {}님, {}번방에 메시지 보냄", member.getUserId(), chatRoomNo);
 			
 			//메시지 보낸사람 추가
 			stack.push(member.getUserId());
@@ -127,6 +131,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			//같은 방 유저에게만 메시지 전송
 			for(String key : idSessions.keySet()) {
 				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
+					//일반 메시지일 때 처리
 					if(!message.getPayload().contains(".png")) {
 						
 						if(stack.size() > 1) {
@@ -140,7 +145,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 						} else {
 							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":" + message.getPayload() + ":" + chatRoomNo));
 						}
-						
+					
+					//이미지 파일일 때 처리	
 					} else {
 						//이모티콘 메시지
 						idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":" + message.getPayload() + ":emoticon:" + chatRoomNo));
@@ -150,8 +156,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			
 		} else {
 			
-			int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
-			int chatRoomNo = 0; //방번호
+			userNo = (int) session.getAttributes().get("userNo"); //유저 번호
+//			chatRoomNo = 0; //방번호
 			
 			//채팅 나가기 동작에서만 방번호 구하기
 			String[] exitMsg = message.getPayload().split(":");
@@ -160,26 +166,30 @@ public class WebSocketHandler extends TextWebSocketHandler {
 				chatRoomNo = (int) session.getAttributes().get("chatRoomNo");
 			}
 			
-			logger.info("### 채팅방 생성 메시지.");
-			logger.info("###  WebSocketSession ID - {}, 채팅방 이름:모임 번호:방 번호 - {}", session.getId(), message.getPayload());
+			logger.info("+ + + 채팅방 생성 메시지.");
+			logger.info("+ + + WebSocketSession ID - {}, 채팅방 이름:모임 번호:방 번호:상대 ID - {}", session.getId(), message.getPayload());
 			
 			//유저 정보 가져오기
-			Member member = chatService.getUserInfo(userNo);
-			logger.info("### member2 : {}", member);
+			member = chatService.getUserInfo(userNo);
+			logger.info("+ + + member2 : {}", member);
 			
 			//전체 사용자에게 채팅방 생성
 			for(String key : idSessions.keySet()) {
+				
 				//본인 제외 메시지 보내기
 				if(key != member.getUserId()) {
+					
 					//나가기 이벤트가 아닐 경우
 					if(!exitMsg[0].equals("exit")) {
 						idSessions.get(key).sendMessage(new TextMessage("Create Room:" + message.getPayload() + ":" + member.getUserId() + ":" + key));
 					} else {
+						
 						//같은 방 유저에게만 입장 메시지 전송
 						if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
 							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + "님이 나가셨습니다. " + chatRoomNo));
 							roomId.remove(chatRoomNo+":"+userNo);
 						}
+						
 					}
 				}
 			}
