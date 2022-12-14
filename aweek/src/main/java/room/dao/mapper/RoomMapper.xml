@@ -41,6 +41,13 @@
 		VALUES ( #{roomListNo }, #{roomNo }, #{userNo } )
 	</insert>
 	
+<!-- 	<insert id="insertDiaryCategory" parameterType="DiaryCategory">
+		<selectKey resultType="int" keyProperty="diary.dto.DiaryCategory.diaryCateNo" order="BEFORE" >
+		SELECT diary_category_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO diary_category ( diary_cate_no, room_no, diary_cate_name )
+		VALUES ( #{diaryCateNo }, #{roomNo }, "공지사항" )
+	</insert> -->
 	
 	<select id="selectRoomInfo" resultType="Room" parameterType="Room">
 		SELECT room_no, user_no, room_category_no, room_name, room_introduce, room_member, room_public

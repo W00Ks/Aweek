@@ -51,8 +51,15 @@
 <header>
 	<div class="inner">
     	<ul class="header__top">
-			<li><a href="javascript:void(0)">회원가입</a></li>
-			<li><a href="javascript:void(0)">로그인</a></li>
+			<c:choose>
+				<c:when test="${empty userNo || userNo eq '0'}">
+					<li><a href="/member/join">회원가입</a></li>
+					<li><a href="/member/login">로그인</a></li>
+				</c:when>
+				<c:otherwise>
+	    			<li><a href="/member/logout" id="btnLogout">로그아웃</a></li>
+				</c:otherwise>
+			</c:choose>
 	    </ul>
 	</div>
 </header>
@@ -90,7 +97,7 @@
 							<ul class="inner pay">
 								<li class="sub-title"><p>결제 안내</p>
 									<a href="javascript:void(0)"><span>상품 및 가격 안내</span></a>
-									<a href="javascript:void(0)"><span>결제</span></a>
+									<a href="/payment/payment"><span>결제</span></a>
 								</li>
 							</ul>
 						</div>
@@ -101,9 +108,9 @@
 						<div class="sub-menu">
 							<ul class="inner cs">
 								<li class="sub-title"><p>고객센터</p>
-									<a href="javascript:void(0)"><span>공지사항</span></a>
-									<a href="javascript:void(0)"><span>자주하는 질문</span></a>
-									<a href="javascript:void(0)"><span>1:1 질문</span></a>
+									<a href="/cs/notice"><span>공지사항</span></a>
+									<a href="/cs/qna"><span>자주하는 질문</span></a>
+									<a href="/cs/inquiry"><span>1:1 질문</span></a>
 								</li>
 							</ul>
 						</div>
@@ -115,8 +122,8 @@
 							<ul class="inner my">
 								<li class="sub-title"><p>마이페이지</p>
 									<a href="javascript:void(0)"><span>마이페이지</span></a>
-									<a href="javascript:void(0)"><span>내 모임</span></a>
-									<a href="javascript:void(0)"><span>내 활동</span></a>
+									<a href="/room/main"><span>내 모임</span></a>
+									<a href="/member/myInquiry"><span>내 활동</span></a>
 								</li>
 							</ul>
 						</div>

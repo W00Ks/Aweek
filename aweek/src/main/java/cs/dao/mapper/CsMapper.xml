@@ -5,4 +5,24 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="cs.dao.face.CsDao"></mapper>
+<mapper namespace="cs.dao.face.CsDao">
+
+	<select id="selectNoticeAll" resultType="Notice">
+		select * from notice
+		order by notice_no DESC
+	</select>
+	
+	<select id="selectQnAAll" resultType="QnA">
+		select * from qna
+		order by qna_no DESC
+	</select>
+
+	<insert id="insertInquiry" parameterType="Inquiry">
+		<selectKey resultType="int" keyProperty="roomListNo" order="BEFORE">
+			SELECT inquiry_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO inquiry ( inquiry_no, user_no, inquiry_tilte, inquiry_content, inquiry_email, inquiry_date )
+		VALUES ( #{inquiryNo }, #{userNo }, #{inquiryTitle }, #{inquiryContent }, #{inquiryEmail }, sysdate )
+	</insert>
+
+</mapper>

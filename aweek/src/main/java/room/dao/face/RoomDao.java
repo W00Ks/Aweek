@@ -2,6 +2,7 @@ package room.dao.face;
 
 import java.util.List;
 
+import diary.dto.DiaryCategory;
 import room.dto.Room;
 import room.dto.RoomCategory;
 import room.dto.RoomList;
@@ -43,6 +44,12 @@ public interface RoomDao {
 	 * @param roomList - 모임 목록 정보 객체
 	 */
 	public void insertRoomInfo(RoomList roomList);
+	
+	/**
+	 * 
+	 * 
+	 */
+//	public void insertDiaryCategory(DiaryCategory diaryCategory);
 	
 	/**
 	 * 개설한 모임 정보 select
@@ -96,6 +103,8 @@ public interface RoomDao {
 	 * @param room - 모임 정보 삭제
 	 */
 	public void deleteRoom(int roomNo);
+
+	
 
 	
 

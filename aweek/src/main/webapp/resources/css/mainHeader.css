@@ -127,8 +127,10 @@ nav > .inner {
 .nav__menu-wrap .nav__menu li .sub-menu-wrap {
 	width: 100%;
 	position: fixed;
-	top: 70px;
+	top: 69px;
 	left: 0;
+	z-index: 9;
+	background-color: var(--text-color);
    	display: none;
 }
 .nav__menu-wrap .nav__menu li:hover .sub-menu-wrap {
@@ -230,14 +232,14 @@ nav > .inner {
 		position: relative;
 	}
 	.nav__menu-wrap {
-		width: 100%;
+
+		padding: 0 20px;
 	}
 	.nav__menu-wrap .nav__menu {
 		display: none;
 		flex-direction: column;
 		align-items: center;
 		width: 100%;
-		background-color: var(--baby-pink);
 	}
 	.nav__menu-wrap .nav__menu.active {
 		display: flex;
@@ -247,16 +249,36 @@ nav > .inner {
 		width: 100%;
 	}
 	.nav__menu-wrap .nav__menu li {
-		height: 50px;
-	    align-items: center;
-	    display: flex;
-	    padding: 0 100%;
+
+	
 	}
 	.nav__menu-wrap .nav__menu li:hover {
-		color: var(--baby-pink);
-		background-color: var(--soft-black);
-		color: var(--text-color);
+
+	
 	}
+	
+	.nav__menu-wrap .nav__menu li .sub-menu-wrap {
+	
+	}
+	.nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu {
+	
+	}
+	.nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner {
+	
+	}
+	.nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner .sub-title {
+	
+	}
+	.nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner .sub-title a {
+	
+	}
+	.nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner .sub-title a span {
+	
+	}
+	
+	
+	
+	
 	.nav__search {
 		position: absolute;
 		right: 60px;

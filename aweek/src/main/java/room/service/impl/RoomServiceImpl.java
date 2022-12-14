@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import diary.dto.DiaryCategory;
 import room.dao.face.RoomDao;
 import room.dto.Room;
 import room.dto.RoomCategory;
@@ -58,6 +59,10 @@ public class RoomServiceImpl implements RoomService {
 		roomList.setRoomNo(room.getRoomNo());
 		roomList.setUserNo(room.getUserNo());
 		roomDao.insertRoomInfo(roomList);
+		
+//		DiaryCategory diaryCategory = new DiaryCategory();
+//		diaryCategory.setRoomNo(room.getRoomNo());
+//		roomDao.insertDiaryCategory(diaryCategory);
 	}
 	
 	@Override

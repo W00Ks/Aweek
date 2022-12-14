@@ -31,3 +31,43 @@ toggleBtn.addEventListener('click', function() {
   menu.classList.toggle('active');
 })
 
+
+/**
+ * 로그인
+ */ 
+//카카오로그아웃  
+function kakaoLogout() {
+    if (Kakao.Auth.getAccessToken()) {
+      Kakao.API.request({
+        url: '/v1/user/unlink',
+        success: function (response) {
+        	console.log(response)
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+      Kakao.Auth.setAccessToken(undefined)
+    }
+}
+
+
+$(document).ready(function() {
+
+	$("#btnLogout").click(function() {
+		swal("로그아웃 완료!","다음에 또 만나요~", "success").then(function(){
+			kakaoLogout();
+			$.ajax({
+				type:"post"
+				, url: "/member/logout"
+				, data: {
+				}
+			, dataType: "html"
+			, success: function( res ) {
+				window.location.href="/aweekHome";
+			}
+			})
+		});
+	})
+
+})
