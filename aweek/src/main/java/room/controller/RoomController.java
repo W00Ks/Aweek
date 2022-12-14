@@ -32,7 +32,7 @@ public class RoomController {
 	public void home( HttpSession session, Model model, Member member ) {
 		
 		//로그인 후 userNo저장
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		
 		//모임 전체 목록 조회
 		List<Room> roomList = roomService.roomList();
@@ -53,7 +53,7 @@ public class RoomController {
 		logger.info("이거 메인 get이야");
 		
 		//로그인 후 userNo저장
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		int userno = (int) session.getAttribute("userNo");
 		model.addAttribute("userno", userno);
 		logger.info("userno : {}", userno);
@@ -68,7 +68,7 @@ public class RoomController {
 	@RequestMapping("/room/roomList")
 	public void roomList( HttpSession session, Model model, Member member ) {
 		//로그인 후 userNo저장
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		
 		//모임 전체 목록 조회
 		List<Room> roomList = roomService.roomList();
@@ -82,7 +82,7 @@ public class RoomController {
 	@GetMapping("/room/open")
 	public void roomOpenPage( HttpSession session, Model model, Member member ) {
 		//로그인 후 userNo저장
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		
 		List<RoomCategory> roomCategory = roomService.getRoomCategoryList();
 		model.addAttribute("roomCategory",roomCategory);
@@ -120,7 +120,7 @@ public class RoomController {
 	@GetMapping("/room/roomInfo")
 	public void roomInfoPage( HttpSession session, Member member, Room room, Model model ) {
 		
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		
 		//roomNo로 모임정보 불러오기
 		room = roomService.getRoomInfo(room);
@@ -154,7 +154,7 @@ public class RoomController {
 	@GetMapping("/room/join")
 	public void roomJoin(  HttpSession session, Member member, Room room, Model model ) {
 		
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		
 		//세션에 저장된 userNo 불러오기
 		int userno = (int) session.getAttribute("userNo");
@@ -210,7 +210,7 @@ public class RoomController {
 	@GetMapping("/room/setting")
 	public void roomSettingPage( HttpSession session, Member member, Room room, Model model ) {
 		
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		
 		//roomNo로 모임정보 불러오기
 		room = roomService.getRoomInfo(room);
@@ -264,7 +264,7 @@ public class RoomController {
 	public String roomDelete( HttpSession session, int roomNo, Member member ) {
 		
 		//세션에 저장된 userNo 불러오기
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		
 		logger.info("roomNo나와라 얍 : {}", roomNo);
 		

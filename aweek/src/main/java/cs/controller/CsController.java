@@ -31,7 +31,7 @@ public class CsController {
 	public void notice(HttpSession session, Model model, Member member) {
 		
 		//로그인 후 userNo저장
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("userno : {}",userno);
 		
@@ -49,7 +49,7 @@ public class CsController {
 	public void qna(HttpSession session, Model model, Member member) {
 		
 		//로그인 후 userNo저장
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 		
 		//공지사항 리스트 불러오기
 		List<QnA> qnaList = csService.getQnAList();
@@ -61,7 +61,7 @@ public class CsController {
 	public void inquiry(HttpSession session, Member member) {
 		
 		//로그인 후 userNo저장
-		session.setAttribute("userNo", member.getUserNo());
+		session.getAttribute("userNo");
 				
 	}
 	@PostMapping("/inquiry")
