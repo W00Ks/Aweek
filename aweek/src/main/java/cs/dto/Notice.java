@@ -6,7 +6,8 @@ public class Notice {
 
 	private int noticeNo;
 	private int fileNo;
-	private int adminNo;
+	private String writerId;
+	private String writerNick;
 	private String noticeTitle;
 	private String noticeContent;
 	private Date noticeDate;
@@ -14,12 +15,13 @@ public class Notice {
 	
 	public Notice() {}
 
-	public Notice(int noticeNo, int fileNo, int adminNo, String noticeTitle, String noticeContent, Date noticeDate,
-			int noticeHit) {
+	public Notice(int noticeNo, int fileNo, String writerId, String writerNick, String noticeTitle,
+			String noticeContent, Date noticeDate, int noticeHit) {
 		super();
 		this.noticeNo = noticeNo;
 		this.fileNo = fileNo;
-		this.adminNo = adminNo;
+		this.writerId = writerId;
+		this.writerNick = writerNick;
 		this.noticeTitle = noticeTitle;
 		this.noticeContent = noticeContent;
 		this.noticeDate = noticeDate;
@@ -28,9 +30,9 @@ public class Notice {
 
 	@Override
 	public String toString() {
-		return "Notice [noticeNo=" + noticeNo + ", fileNo=" + fileNo + ", adminNo=" + adminNo + ", noticeTitle="
-				+ noticeTitle + ", noticeContent=" + noticeContent + ", noticeDate=" + noticeDate + ", noticeHit="
-				+ noticeHit + "]";
+		return "Notice [noticeNo=" + noticeNo + ", fileNo=" + fileNo + ", writerId=" + writerId + ", writerNick="
+				+ writerNick + ", noticeTitle=" + noticeTitle + ", noticeContent=" + noticeContent + ", noticeDate="
+				+ noticeDate + ", noticeHit=" + noticeHit + "]";
 	}
 
 	public int getNoticeNo() {
@@ -49,12 +51,20 @@ public class Notice {
 		this.fileNo = fileNo;
 	}
 
-	public int getAdminNo() {
-		return adminNo;
+	public String getWriterId() {
+		return writerId;
 	}
 
-	public void setAdminNo(int adminNo) {
-		this.adminNo = adminNo;
+	public void setWriterId(String writerId) {
+		this.writerId = writerId;
+	}
+
+	public String getWriterNick() {
+		return writerNick;
+	}
+
+	public void setWriterNick(String writerNick) {
+		this.writerNick = writerNick;
 	}
 
 	public String getNoticeTitle() {
