@@ -15,9 +15,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<!-- Noto Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<!-- Noto Fonts End -->
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	
+		function titleClick(){
+			console.log(123);
+		}
 		
 		$("#calTitleInput").blur(function(){
 			if($("input[name=calTitle]").val() ==""){
@@ -64,7 +75,7 @@ $(document).ready(function(){
 			return true;
 		})
 		
-		//모달창 생성
+		//일정쓰기 모달창 생성
 		function createModal() {
 
 			//화면의 높이와 너비
@@ -97,18 +108,80 @@ $(document).ready(function(){
 			$(".modal").click(function() {
 				$(this).hide();
 				$(".create_modal").hide();
-				$(location).attr("href","/calendar/myCal");
+				$(location).attr("href","");
 			})
 			
 			
 		})
+		
+		//일정상세보기 클릭 함수
+		$(".schedule_detail_req").click(function(e){
+			
+			
+			console.log("일정 상세보기");
+			
+			//ajax로 상세정보 가져오기
+			var calNo = e.target.id;
+			console.log(calNo);
+			$.ajax({
+				url : '/calendar/view?calNo=' + calNo,
+				type : 'get',
+				dataType : 'text',
+				success : function(res){
+					console.log("응답성공");
+					$(".schedule_detail").append(res);
+				
+				},
+				error : function(request , status, error){
+					console.log("응답실패");
+				}
+				
+				
+						
+			})
+			
+			var windowHeight = $(document).height();
+			var windowWidth = $(document).width();
 
+			console.log(windowHeight);
+			console.log(windowWidth);
+
+			$(".schedule_detail_modal").css({
+				'width' : windowWidth,
+				'height' : windowHeight
+			});
+			
+			$(".schedule_detail_modal").fadeTo("fast", 0);
+			
+			$(".schedule_detail_wrap").show();
+			
+
+			
+			
+				
+		})
+		
+		$(".schedule_detail_modal").click(function(){
+			$(this).hide();
+			$(".schedule_detail_wrap").hide();
+			$(location).attr("href", "");
+		})
+		
 	})
 </script>
+<!-- Noto Fonts -->
+<style> @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap'); </style>
+<!-- Noto Fonts End -->
+
 <style type="text/css">
+.container{
+	display: flex;
+}
+
 .calendar{
-	width: 80%;
-	margin-left: 320px;
+	width: 100%;
+	position: relative;
+	
 }
 .calendar_body{
 	width: 100%;
@@ -116,12 +189,15 @@ $(document).ready(function(){
 	border-collapse: collapse;
 	
 }
-
+.calendar_body a:link{
+	color:#000000;
+}
 .calendar_body th{
 	background-color:#f4b0b0;
 	width:80px;
 	border: 1px solid white;
 	font-weight: bold;
+	font-family: 'Noto Sans KR', sans-serif; 
 }
 .calendar_body td{
 	background-color:#EFEFEF;
@@ -133,14 +209,16 @@ $(document).ready(function(){
 	font-weight: bold;	
 }
 .side-bar{
-	position: relative;
-	height: 100%;
 	display: flex;
-	flex-direction: column;
+    flex: 0 0 auto;
+    flex-direction: column;
+    height: 917px;
+    border-right: 1px solid #c5c5c7
 }
 .write-button{
 	display: inline-block;
-	padding: 16px 12px 14px;
+    padding: 55px 12px 55px;
+    border-bottom: 1px solid #c5c5c7;
 }
 
 .write-button a{
@@ -150,12 +228,12 @@ $(document).ready(function(){
     height: 75px;
     text-align: center;
     width: 244px;
-    margin-top: 23px;
     line-height: 4;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
+    font-family: 'Noto Sans KR', sans-serif; 
 }
 
 .modal{
@@ -214,6 +292,66 @@ $(document).ready(function(){
 	font-size: 12px;
 	color: red;
 }
+.cal_nav{
+	text-align: center;
+    margin-top: 83px;
+    margin-bottom: 75px;
+}
+.cal_nav a{
+	padding: 10px;
+	font-weight: bold;
+	font-family: "돋움";
+	text-decoration: none;
+}
+
+.cal_nav a:hover{
+	color: red;
+}
+
+.cal_nav a:link{
+	color:#000000;
+}
+.year_month{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-size: 25px;
+}
+
+.group-list{
+	height: 100%;
+    border-bottom: 1px solid #c5c5c7;
+    padding-top: 7px;
+    font-size: 22px;
+}
+.group-list span{
+	font-family: 'Noto Sans KR', sans-serif;
+}
+.Dday-list{
+	height: 100%;
+	padding-top: 7px;
+    font-size: 22px;
+}
+.Dday-list span{
+	font-family: 'Noto Sans KR', sans-serif;
+}
+.schedule_detail_modal{
+	position: absolute;
+	z-index: 10;
+	background-color: #fff;
+	top: 0;
+	display: none;
+}
+.schedule_detail_wrap{
+	display: none;
+	position: fixed;
+    z-index: 10000;
+    background-color: white;
+    left: 35%;
+    top: 16%;
+    width: 460px;
+    height: 308px;
+	border-radius: 2px;
+	border: 1px solid #989898;
+}
 </style>
 </head>
 
@@ -261,12 +399,27 @@ $(document).ready(function(){
 	<div class="write-button">
 	<a href="" class="open_modal" ><span>일정쓰기</span></a>
 	</div>
+	
+	<div class="group-list">
+		<span>모임목록</span>
+	</div>
+	
+	<div class="Dday-list">
+		<span>D-day</span>
+	</div>
 </div>
 
 
 <div class="calendar">
+<div class="cal_nav">
+<a href="/calendar/myCal?year=<%=year-1 %>&month=<%=month %>">&lt;&lt;</a>
+		<a href="/calendar/myCal?year=<%=year %>&month=<%=month-1 %>">&lt;</a>
+		<span class="year_month"><%= year %>년 <%= month %>월</span>
+		<a href="/calendar/myCal?year=<%=year %>&month=<%=month+1 %>">&gt;</a>
+		<a href="/calendar/myCal?year=<%=year+1 %>&month=<%=month %>">&gt;&gt;</a>
+</div>
 <table border="1" class="calendar_body">
-	<caption>
+	<!-- <caption>
 	
 		<a href="/calendar/myCal?year=<%=year-1 %>&month=<%=month %>">◁</a>
 		<a href="/calendar/myCal?year=<%=year %>&month=<%=month-1 %>">◀</a>
@@ -274,7 +427,7 @@ $(document).ready(function(){
 		<a href="/calendar/myCal?year=<%=year %>&month=<%=month+1 %>">▶</a>
 		<a href="/calendar/myCal?year=<%=year+1 %>&month=<%=month %>">▷</a>
 		
-	</caption>
+	</caption> -->
 	<tr>
 		<th style="color:red;">일</th>
 		<th>월</th>
@@ -291,7 +444,7 @@ $(document).ready(function(){
 			for(int i=0; i<dayOfWeek-1; i++){
 				out.print("<td>&nbsp</td>");
 			}
-			
+		//"/calendar/view?calNo=<%=calDto.getCalNo()
 			//날짜 출력하는 for문
 			for(int i=1; i<=lastDay; i++){
 				%>
@@ -301,10 +454,11 @@ $(document).ready(function(){
 					<%// 해당 날짜에 일정 존재하면 일정 제목 출력 %>
 					<%for(CalDto calDto : clist){ %>
 					<% if(Integer.parseInt(calDto.getStartDate().substring(8, 10))==i&&Integer.parseInt(calDto.getStartDate().substring(5, 7))==month){ %>
-					<p><a href="/calendar/view?calNo=<%=calDto.getCalNo() %>"><%= calDto.getCalTitle() %></a></p>
+					<p><a href="" onclick="return false" class="schedule_detail_req" id="<%=calDto.getCalNo() %>" value="<%= calDto.getCalNo()%>"><%= calDto.getCalTitle() %></a></p>
 					<%} %>
 					<% } %>
-				</td>				
+				</td>			
+				
 				<% 
 				
 				//공백 수 + 일 수 ==7 토요일
@@ -312,13 +466,13 @@ $(document).ready(function(){
 					out.print("</tr><tr>"); //개행
 				}
 				
-			}
-			//나머지 공백 출력하는 for문
-			int countNbsp =(7-(dayOfWeek-1 + lastDay)%7)%7;
-			for(int i=0; i<countNbsp; i++){
-				out.print("<td>&nbsp</td>");
-			}
-		%>
+			}%>
+			<%-- //나머지 공백 출력하는 for문--%>
+			<% int countNbsp =(7-(dayOfWeek-1 + lastDay)%7);
+			for(int i=0; i<countNbsp; i++){%>
+				<td><%= i+1 %></td>
+			<% }%>
+		
 	</tr>
 </table>
 </div>
@@ -352,7 +506,7 @@ $(document).ready(function(){
 					
 					<tr>
 					<td style="vertical-align: top">메모</td>
-					<td><textarea rows="" cols=""></textarea></td>
+					<td><textarea rows="" cols="" name="calMemo"></textarea></td>
 					</tr>
 					
 					<tr>
@@ -370,9 +524,19 @@ $(document).ready(function(){
 		</div>
 	
 	</div>
+<div class="schedule_detail_modal"></div>
+<div class="schedule_detail_wrap">
+	<div class="schedule_detail">
+	
+	
 
-
+	</div>
+	
+	
+</div>
 
 
 </body>
+
+
 </html>
