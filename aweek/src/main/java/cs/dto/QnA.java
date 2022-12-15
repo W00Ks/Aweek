@@ -6,18 +6,21 @@ public class QnA {
 
 	private int qnaNo;
 	private int fileNo;
-	private int adminNo;
+	private String writerId;
+	private String writerNick;
 	private String qnaTitle;
 	private String qnaContent;
 	private Date qnaDate;
 	
 	public QnA() {}
 
-	public QnA(int qnaNo, int fileNo, int adminNo, String qnaTitle, String qnaContent, Date qnaDate) {
+	public QnA(int qnaNo, int fileNo, String writerId, String writerNick, String qnaTitle, String qnaContent,
+			Date qnaDate) {
 		super();
 		this.qnaNo = qnaNo;
 		this.fileNo = fileNo;
-		this.adminNo = adminNo;
+		this.writerId = writerId;
+		this.writerNick = writerNick;
 		this.qnaTitle = qnaTitle;
 		this.qnaContent = qnaContent;
 		this.qnaDate = qnaDate;
@@ -25,8 +28,8 @@ public class QnA {
 
 	@Override
 	public String toString() {
-		return "QnA [qnaNo=" + qnaNo + ", fileNo=" + fileNo + ", adminNo=" + adminNo + ", qnaTitle=" + qnaTitle
-				+ ", qnaContent=" + qnaContent + ", qnaDate=" + qnaDate + "]";
+		return "QnA [qnaNo=" + qnaNo + ", fileNo=" + fileNo + ", writerId=" + writerId + ", writerNick=" + writerNick
+				+ ", qnaTitle=" + qnaTitle + ", qnaContent=" + qnaContent + ", qnaDate=" + qnaDate + "]";
 	}
 
 	public int getQnaNo() {
@@ -45,12 +48,20 @@ public class QnA {
 		this.fileNo = fileNo;
 	}
 
-	public int getAdminNo() {
-		return adminNo;
+	public String getWriterId() {
+		return writerId;
 	}
 
-	public void setAdminNo(int adminNo) {
-		this.adminNo = adminNo;
+	public void setWriterId(String writerId) {
+		this.writerId = writerId;
+	}
+
+	public String getWriterNick() {
+		return writerNick;
+	}
+
+	public void setWriterNick(String writerNick) {
+		this.writerNick = writerNick;
 	}
 
 	public String getQnaTitle() {
