@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import member.dto.Member;
+import payment.dto.Payment;
 import payment.service.face.PaymentService;
 
 
@@ -35,5 +37,16 @@ public class PaymentController {
 		
 		model.addAttribute("paymentInfo", paymentInfo);
 	}
+	
+//	@RequestMapping("/payment/point")
+//	public @ResponseBody void chargePoint(Long amount) {
+//		logger.info("/payment/point : {}", amount);
+//		
+//		String id = paymentService.getIdFromAuth();
+//		
+//		paymentService.chargePoint(new Payment(amount), id);
+//		
+//		
+//	}
 
 }

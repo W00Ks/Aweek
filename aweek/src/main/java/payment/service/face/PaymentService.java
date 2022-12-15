@@ -13,7 +13,9 @@ public interface PaymentService {
 	 * @param userid - 정보를 조회할 userid
 	 * @return 조회된 사용자 정보
 	 */
-	Member paymentInfo(String userid);
+	public Member paymentInfo(String userid);
+
+	public void chargePoint(Payment payment, String id);
 
 
 

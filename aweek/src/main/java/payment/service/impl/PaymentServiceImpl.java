@@ -28,6 +28,22 @@ public class PaymentServiceImpl implements PaymentService{
 		return paymentDao.selectPaymentInfoById(userid);
 	}
 
+	@Override
+	public void chargePoint(Payment payment, String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+//	@Override
+//	public void chargePoint(Payment payment, String id) {
+//		Member member = paymentDao.findUserById(id);
+//		
+//		member.setUserId(id);
+//		
+//		return paymentDao.save(PaymentMapper.map(Payment, Payment.class));
+//		
+//	}
+
 
 	
 	
