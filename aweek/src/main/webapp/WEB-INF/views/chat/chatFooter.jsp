@@ -24,7 +24,13 @@
 	   if(i == 1) { 	   //채팅 메시지 처리
 		   ws.send($("#message").val());
 	   } else if(i == 2) { //방 생성 메시지 처리
-		   ws.send($("#chatRoomName1").val() + ":" + $('input[name=roomNo]:checked').val() + ":" + $("#ajaxChatRoomNo").val() + ":" + $('input[name=userId]:checked').val());
+		   if(j > 0) {
+			   ws.send($("#chatRoomName1").val() + ":" + $('input[name=roomNo]:checked').val() + ":" 
+					   + $("#ajaxChatRoomNo").val() + ":" + $('input[name=userId]:checked').val());
+		   } else {
+			   ws.send($("#chatRoomName2").val() + ":" + $('input[name=roomNo]:checked').val() + ":" 
+					   + $("#ajaxChatRoomNo").val() + ":" + $('input[name=userId]:checked').val());
+		   }
 	   } else if(i == 3) { //나가기 메시지 처리
 		   ws.send("exit:채팅방 나가기");
 	   } else if(i == 4) { //첨부파일 메시지 처리
@@ -98,17 +104,20 @@
        //--- Sender/Receiver 메시지 처리 ---
        if(uid[0] == "${member.userId }" && roomMsg[0] != "Create Room" && enter[1] != "입장하셨습니다." && enter[1] != "나가셨습니다."&& emoMsg[2] != 'emoticon') {
     	   console.log("+ + + Sender 메시지 + + +");
+    	   console.log("Sender+" + uid);
     	   
     	    // + Sender Message Process + 
    	    	if(uid[1] == 'id') {
 	   	    	$("#MessageArea").append("<div style='text-align: right;'>" 
 	   	    								+ "<div class='timeDiv'>" 
 	   	    									+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
-	   	    								+ "</div>" 
-	   	    								+ "<div class='chatSendMsg'>" + uid[2] + "</div>" 
+	   	    								+ "</div>"
+	   	    								+ "<div class='chatSendMsg'>" + uid[2] + "</div>"
 	   	    							+ "</div>");
 	   	    	//Insert Chat to DB
 	   	    	insertChat(roomMsg[3], uid[2], dateFormat('time'), 0);
+// 		   	    $('.msgView[id=' + roomMsg[3] + ']').html(uid[2]);
+	   	    	
     	    } else {
 	   	    	$("#MessageArea").append("<div style='text-align: right;'>" 
 	   	    								+ "<div class='timeDiv'>" 
@@ -118,13 +127,16 @@
 	   	    							+ "</div>");
 	   	   		//Insert Chat to DB
 	   	    	insertChat(roomMsg[2], uid[1], dateFormat('time'), 0);
+// 		   	    $('.msgView[id=' + roomMsg[2] + ']').html(uid[1]);
+		   	    
     	    }
     	    
       	    $("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
-    	   
+      	    
        } else if(uid[0] != "${member.userId }" && enter[1] != "입장하셨습니다." && enter[1] != "나가셨습니다." && roomMsg[0] != "Create Room"&& emoMsg[2] != 'emoticon') {
     	    console.log("+ + + Receiver 메시지 + + +");
-    	   
+    	    console.log("Receiver+" + uid)
+    	    
     	    // + Receiver 메시지 처리 +
     	    if(uid[1] == 'id') { //Repeated Message Processing
         		$("#MessageArea").append("<div style='text-align: left;'>" 
@@ -133,7 +145,8 @@
         										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
         									+ "</div>" 
         								+ "</div>");
-        		
+    	    
+//         		$('.msgView[id=' + roomMsg[3] + ']').html(uid[2]);
     	    } else { //First Message Processing
         		$("#MessageArea").append("<div style='text-align: left;'>" 
         									+ "<div class='chatUserName'>" + uid[0] + "</div>" 
@@ -142,7 +155,8 @@
         										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
         									+ "</div>"
         								+ "</div>");
-    	    
+    	    	
+//         		$('.msgView[id=' + roomMsg[2] + ']').html(uid[1]);
     	    }
 
     	    $("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
@@ -161,12 +175,16 @@
       			
 	      		//Apply Room Creation
 	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover2').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
+// 	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover2').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] 
+// 																				   	 + "<div id='" + roomMsg[3] + "' class='msgView'></div></button><br>");
       		
 	      	//1대1 채팅인 경우 처리
       		} else if(roomMsg[5] == roomMsg[6] || roomMsg[4] == roomMsg[6]) {
       			
 	      		//Apply Room Creation
 	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover1').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
+// 	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover1').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] 
+// 	   	   																			+ "<div id='" + roomMsg[3] + "' class='msgView'></div></button><br>");
       		
       		}
 	      	

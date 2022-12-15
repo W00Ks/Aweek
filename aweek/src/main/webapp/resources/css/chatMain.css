@@ -15,6 +15,10 @@ body, #container, #content-left, #content-right, #msg-wrap {
 	height: 100%;
 }
 
+body.swal2-height-auto {
+    height: 100% !important;
+}
+
 html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, 
 td, p, blockquote, form, fieldset, legend, menu, nav, section, hgroup, 
 article, header, aside, footer, input, select, textarea, button { font-family: 'NanumSquareNeo-Variable'; }
@@ -94,6 +98,36 @@ input, textarea, button { outline: none; }
     padding-top: 2px;
 }
 
+#chatRoomType {
+	border: 1px solid #777;
+    width: 240px;
+    display: inline-block;
+    position: absolute;
+    left: 270px;
+    top: 25px;
+    background-color: #fff;
+    border-radius: 3px;
+    z-index: 4;
+}
+#one, #group {
+	width: 50%;
+    box-sizing: border-box;
+    height: 46px;
+    padding-top: 14px;
+}
+#one {
+	float: left;
+}
+#group {
+	float: right;	
+    border-left: 1px solid #ccc;
+}
+#one:hover, #group:hover {
+	background-color: #f3bfbf5e;
+	cursor: pointer;
+}
+
+
 #chatList {
     width: 96%;
     max-width: 296px;
@@ -106,10 +140,11 @@ input, textarea, button { outline: none; }
     border: 1px solid #d3c3c3;
     background-color: #fff;
     width: 98%;
-    height: 42px;
+    height: 47px;
     cursor: pointer;
     border-radius: 2px;
     margin-bottom: 3px;
+    font-size: 16px;
 }
 
 .chatRoomName2:hover { background-color: #f3bfbf5e; }
@@ -121,6 +156,18 @@ input, textarea, button { outline: none; }
 }
 
 .disable:hover { background-color: #f4b0b0; }
+
+/* .msgView {
+	font-size: 13px;
+    color: #777;
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 145px;
+    height: 15px;
+    margin: 3px auto 0;
+} */
 
 .btn_fold {
 	width: 98%;
@@ -139,7 +186,7 @@ input, textarea, button { outline: none; }
 	color: #555
 }
 
-#roomList {
+.roomList {
 	border: 1px solid #ccc;
     width: 94%;
     height: 252px;
@@ -148,7 +195,7 @@ input, textarea, button { outline: none; }
     background: #fff;
 }
 
-.room-n {
+.room-n, .room-g {
 	display: inline-block;
 	width: 66%;
 	text-align: left;
@@ -156,7 +203,7 @@ input, textarea, button { outline: none; }
 	cursor: pointer;
 }
 
-.room-check-box { 
+.room-check-box, .room-check-box2 { 
 	margin-bottom: 9px;
 	accent-color: #594B4B;
 	cursor: pointer;
@@ -170,7 +217,16 @@ input, textarea, button { outline: none; }
 }
 
 #createChatRoom {
-	border: 1px solid #ccc;
+	border: 1px solid #777;
+    min-width: 129%;
+    background: #fff;
+    position: absolute;
+    left: 91%;
+    top: 3%;
+    z-index: 2;
+}
+#createGroupChatRoom {
+	border: 1px solid #777;
     min-width: 129%;
     background: #fff;
     position: absolute;
@@ -192,16 +248,17 @@ input, textarea, button { outline: none; }
 	background-color: #efefef;
 }
 
-#chatRoomName1 {
+.chatRoomName1 {
 	width: 60%;
 	height: 25px;
 	font-size: 15px;
 	padding-left: 5px;
 }
 
-#close-box-wrap { text-align: right; }
+.clsBoxWrap { text-align: right; }
+/* .close-box-wrap { text-align: right; } */
 
-#close-box {
+.clsBox {
 	border: none;
     background: #fff;
     padding: 0;
@@ -216,12 +273,13 @@ input, textarea, button { outline: none; }
 }
 
 .hover1, .hover2 {
-	border: 1px solid #555;
+	border: 1px solid #777;
 	border-top: none;
 	box-sizing: border-box;
 	height: 300px;
 	overflow: auto;
 	padding-top: 3px;
+	box-shadow: 1px 1px 5px 0px rgb(0 0 0 / 19%);
 }
 
 .nomal_chat {
@@ -240,12 +298,12 @@ input, textarea, button { outline: none; }
 	padding-top: 7px;
 	cursor: pointer;
     border: 1px solid #d3c3c3;
-	border-bottom: 1px solid #555;
+	border-bottom: 1px solid #777;
 }
 
 .chat_cate {
 	font-weight: bold;
-	border: 1px solid #555;
+	border: 1px solid #777;
 	border-bottom: none;
 }
 

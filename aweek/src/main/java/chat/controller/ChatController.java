@@ -36,8 +36,8 @@ public class ChatController {
 	public void chatLogin() {}
 	
 	@RequestMapping("/main") 
-	public void chatMain(int userno, HttpSession session, Model model) {
-		session.setAttribute("userNo", userno); //테스트용 세션 설정
+	public void chatMain(HttpSession session, Model model) {
+//		session.setAttribute("userNo", userno); //테스트용 세션 설정
 		session.removeAttribute("chatRoomNo");
 		//회원 번호 가져오기
 		int userNo = (int) session.getAttribute("userNo");

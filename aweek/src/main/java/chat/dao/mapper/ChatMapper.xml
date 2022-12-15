@@ -8,10 +8,16 @@
 <mapper namespace="chat.dao.face.ChatDao">
 
 	<select id="selectChatRoomList" resultType="ChatRoom" parameterType="int">
-		SELECT b.*, c.invite_user_no FROM chat_room b
+		SELECT b.*, c.invite_user_no, d.chat_content last_message FROM chat_room b
 		INNER JOIN ( SELECT a.chat_room_no, a.invite_user_no FROM chat_list a
-					 WHERE a.invite_user_no = #{userNo } OR a.invite_user_no = 0 or a.user_no = #{userNo } ) c
+		             WHERE a.invite_user_no = #{userNo } OR a.invite_user_no = 0 or a.user_no = #{userNo } ) c
 		ON c.chat_room_no = b.chat_room_no
+		INNER JOIN (SELECT * FROM
+		            ( SELECT chat_room_no, chat_no, chat_content,
+		            RANK() OVER (PARTITION BY chat_room_no ORDER BY chat_no DESC) AS RNK
+		            FROM chat )
+		            WHERE RNK = 1) d
+		ON b.chat_room_no = d.chat_room_no
 	</select>
 	
 	<select id="selectUserInfo" resultType="Member" parameterType="int">

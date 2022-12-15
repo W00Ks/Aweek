@@ -62,6 +62,7 @@
 		   	    	<div class='chatSendMsg'>${ch.chatContent }</div>
 		   	    </div>
 		   	    <c:set var="cnt" value="0"/>
+		   	    <c:set var="u_id" value="${ch.userId }"/>
 			</c:when>
 			<c:when test="${u_id ne ch.userId and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}"> <!-- 본인, 나가기X, 사진X -->	
 				<div class='rMsg' style='text-align: left;'> 
@@ -131,7 +132,7 @@
 					</div> 
 				</div>
 	       	</c:when>
-	       	<c:when test="${ch.chatKind eq '4' and ch.chatContent ne '나가셨습니다.' and member.userNo eq ch.userNo }"><!-- Emoticon -->
+	       	<c:when test="${ch.chatKind eq '4' and ch.chatContent ne '나가셨습니다.' and member.userNo eq ch.userNo }"><!-- emoticon -->
 	       		<div style="text-align: right;">
 					<div class='timeDiv'>
 	       				<p class='chatTime'>${ch.chatTime }</p>
@@ -140,7 +141,7 @@
 					<div style="margin: 23px;"></div>
 				</div>
 	       	</c:when>
-	       	<c:when test="${ch.chatKind eq '4' and ch.chatContent ne '나가셨습니다.' and member.userNo ne ch.userNo }"><!-- Emoticon -->
+	       	<c:when test="${ch.chatKind eq '4' and ch.chatContent ne '나가셨습니다.' and member.userNo ne ch.userNo }"><!-- emoticon -->
 				<div class='rMsg' style='text-align: left;'> 
 	       			<div class='chatUserName'>${ch.userId }</div>
 	       			<img class="remoticonMsg" src="${ch.chatContent }">
@@ -158,6 +159,7 @@
 		<div id="message-menu">
 			<!-- 파일 전송 form -->
 			<textarea id="message" autofocus placeholder="메시지를 입력해주세요. (Enter: 전송 / Shift + Enter: 줄바꿈)"></textarea>
+			<div id="emoSave" style="display: none;"></div>
 			<form id="btnAddFile" enctype="multipart/form-data">
 				<label for="file">
 					<span class="material-symbols-outlined" style="transform: rotate(45deg);" title="파일전송">attach_file</span>
@@ -166,52 +168,120 @@
 			</form>
 			<!-- 이모티콘 전송 -->
 			<div id="emoticonContainer" style="display: none;" class="area">
-				<img class='emoticon' src='/resources/chat/grinning-face_1f600.png'>
-				<img class="emoticon" src="/resources/chat/grinning-face-with-big-eyes_1f603.png">
-				<img class="emoticon" src="/resources/chat/grinning-face-with-smiling-eyes_1f604.png">
-				<img class="emoticon" src="/resources/chat/beaming-face-with-smiling-eyes_1f601.png">
-				<img class="emoticon" src="/resources/chat/grinning-squinting-face_1f606.png">
-				<img class="emoticon" src="/resources/chat/grinning-face-with-sweat_1f605.png">
-				<img class="emoticon" src="/resources/chat/rolling-on-the-floor-laughing_1f923.png">
-				<img class="emoticon" src="/resources/chat/face-with-tears-of-joy_1f602.png">
-				<img class="emoticon" src="/resources/chat/slightly-smiling-face_1f642.png">
-				<img class="emoticon" src="/resources/chat/upside-down-face_1f643.png">
-				<img class="emoticon" src="/resources/chat/melting-face_1fae0.png">
-				<img class="emoticon" src="/resources/chat/winking-face_1f609.png">
-				<img class="emoticon" src="/resources/chat/smiling-face-with-smiling-eyes_1f60a.png">
-				<img class="emoticon" src="/resources/chat/smiling-face-with-halo_1f607.png">
-				<img class="emoticon" src="/resources/chat/smiling-face-with-hearts_1f970.png">
-				<img class="emoticon" src="/resources/chat/smiling-face-with-heart-eyes_1f60d.png">
-				<img class="emoticon" src="/resources/chat/star-struck_1f929.png">
-				<img class="emoticon" src="/resources/chat/face-blowing-a-kiss_1f618.png">
-				<img class="emoticon" src="/resources/chat/kissing-face_1f617.png">
-				<img class="emoticon" src="/resources/chat/smiling-face_263a-fe0f.png">
-				<img class="emoticon" src="/resources/chat/kissing-face-with-closed-eyes_1f61a.png">
-				<img class="emoticon" src="/resources/chat/kissing-face-with-smiling-eyes_1f619.png">
-				<img class="emoticon" src="/resources/chat/smiling-face-with-tear_1f972.png">
-				<img class="emoticon" src="/resources/chat/face-savoring-food_1f60b.png">
-				<img class="emoticon" src="/resources/chat/face-with-tongue_1f61b.png">
-				<img class="emoticon" src="/resources/chat/winking-face-with-tongue_1f61c.png">
-				<img class="emoticon" src="/resources/chat/zany-face_1f92a.png">
-				<img class="emoticon" src="/resources/chat/squinting-face-with-tongue_1f61d.png">
-				<img class="emoticon" src="/resources/chat/money-mouth-face_1f911.png">
-				<img class="emoticon" src="/resources/chat/hugging-face_1f917.png">
-				<img class="emoticon" src="/resources/chat/face-with-hand-over-mouth_1f92d.png">
-				<img class="emoticon" src="/resources/chat/face-with-open-eyes-and-hand-over-mouth_1fae2.png">
-				<img class="emoticon" src="/resources/chat/face-with-peeking-eye_1fae3.png">
-				<img class="emoticon" src="/resources/chat/face-vomiting_1f92e.png">
-				<img class="emoticon" src="/resources/chat/face-with-symbols-on-mouth_1f92c.png">
-				<img class="emoticon" src="/resources/chat/ghost_1f47b.png">
-				<img class="emoticon" src="/resources/chat/alien_1f47d.png">
-				<img class="emoticon" src="/resources/chat/angry-face-with-horns_1f47f.png">
-				<img class="emoticon" src="/resources/chat/hundred-points_1f4af.png">
-				<img class="emoticon" src="/resources/chat/blue-heart_1f499.png">
-				<img class="emoticon" src="/resources/chat/green-heart_1f49a.png">
-				<img class="emoticon" src="/resources/chat/orange-heart_1f9e1.png">
-				<img class="emoticon" src="/resources/chat/purple-heart_1f49c.png">
-				<img class="emoticon" src="/resources/chat/red-heart_2764-fe0f.png">
-				<img class="emoticon" src="/resources/chat/yellow-heart_1f49b.png">
-				<img class="emoticon" src="/resources/chat/pile-of-poo_1f4a9.png">
+				<div id="sticker" class="area">스티커</div>
+				<div id="emoticon" class="area btn_style">이모티콘</div>
+				<div id="emo-content" class="area">
+					<div id="sticker-box" style="display: none;" class="area">
+						<img class='sticker area' src='/resources/chat/grinning-face_1f600.png'>
+						<img class="sticker area" src="/resources/chat/grinning-face-with-big-eyes_1f603.png">
+						<img class="sticker area" src="/resources/chat/grinning-face-with-smiling-eyes_1f604.png">
+						<img class="sticker area" src="/resources/chat/beaming-face-with-smiling-eyes_1f601.png">
+						<img class="sticker area" src="/resources/chat/grinning-squinting-face_1f606.png">
+						<img class="sticker area" src="/resources/chat/grinning-face-with-sweat_1f605.png">
+						<img class="sticker area" src="/resources/chat/rolling-on-the-floor-laughing_1f923.png">
+						<img class="sticker area" src="/resources/chat/face-with-tears-of-joy_1f602.png">
+						<img class="sticker area" src="/resources/chat/slightly-smiling-face_1f642.png">
+						<img class="sticker area" src="/resources/chat/upside-down-face_1f643.png">
+						<img class="sticker area" src="/resources/chat/melting-face_1fae0.png">
+						<img class="sticker area" src="/resources/chat/winking-face_1f609.png">
+						<img class="sticker area" src="/resources/chat/smiling-face-with-smiling-eyes_1f60a.png">
+						<img class="sticker area" src="/resources/chat/smiling-face-with-halo_1f607.png">
+						<img class="sticker area" src="/resources/chat/smiling-face-with-hearts_1f970.png">
+						<img class="sticker area" src="/resources/chat/smiling-face-with-heart-eyes_1f60d.png">
+						<img class="sticker area" src="/resources/chat/star-struck_1f929.png">
+						<img class="sticker area" src="/resources/chat/face-blowing-a-kiss_1f618.png">
+						<img class="sticker area" src="/resources/chat/kissing-face_1f617.png">
+						<img class="sticker area" src="/resources/chat/smiling-face_263a-fe0f.png">
+						<img class="sticker area" src="/resources/chat/kissing-face-with-closed-eyes_1f61a.png">
+						<img class="sticker area" src="/resources/chat/kissing-face-with-smiling-eyes_1f619.png">
+						<img class="sticker area" src="/resources/chat/smiling-face-with-tear_1f972.png">
+						<img class="sticker area" src="/resources/chat/face-savoring-food_1f60b.png">
+						<img class="sticker area" src="/resources/chat/face-with-tongue_1f61b.png">
+						<img class="sticker area" src="/resources/chat/winking-face-with-tongue_1f61c.png">
+						<img class="sticker area" src="/resources/chat/zany-face_1f92a.png">
+						<img class="sticker area" src="/resources/chat/squinting-face-with-tongue_1f61d.png">
+						<img class="sticker area" src="/resources/chat/money-mouth-face_1f911.png">
+						<img class="sticker area" src="/resources/chat/hugging-face_1f917.png">
+						<img class="sticker area" src="/resources/chat/face-with-hand-over-mouth_1f92d.png">
+						<img class="sticker area" src="/resources/chat/face-with-open-eyes-and-hand-over-mouth_1fae2.png">
+						<img class="sticker area" src="/resources/chat/face-with-peeking-eye_1fae3.png">
+						<img class="sticker area" src="/resources/chat/face-vomiting_1f92e.png">
+						<img class="sticker area" src="/resources/chat/face-with-symbols-on-mouth_1f92c.png">
+						<img class="sticker area" src="/resources/chat/ghost_1f47b.png">
+						<img class="sticker area" src="/resources/chat/alien_1f47d.png">
+						<img class="sticker area" src="/resources/chat/angry-face-with-horns_1f47f.png">
+						<img class="sticker area" src="/resources/chat/hundred-points_1f4af.png">
+						<img class="sticker area" src="/resources/chat/blue-heart_1f499.png">
+						<img class="sticker area" src="/resources/chat/green-heart_1f49a.png">
+						<img class="sticker area" src="/resources/chat/orange-heart_1f9e1.png">
+						<img class="sticker area" src="/resources/chat/purple-heart_1f49c.png">
+						<img class="sticker area" src="/resources/chat/red-heart_2764-fe0f.png">
+						<img class="sticker area" src="/resources/chat/yellow-heart_1f49b.png">
+						<img class="sticker area" src="/resources/chat/pile-of-poo_1f4a9.png">
+					</div>
+					<div id="emoticon-box" class="area">
+						<div class="emoticon area" id="&#128512;">&#128512;</div>
+						<div class="emoticon area" id="&#128513;">&#128513;</div>
+						<div class="emoticon area" id="&#128514;">&#128514;</div>
+						<div class="emoticon area" id="&#128515;">&#128515;</div>
+						<div class="emoticon area" id="&#128516;">&#128516;</div>
+						<div class="emoticon area" id="&#128517;">&#128517;</div>
+						<div class="emoticon area" id="&#128518;">&#128518;</div>
+						<div class="emoticon area" id="&#128519;">&#128519;</div>
+						<div class="emoticon area" id="&#128520;">&#128520;</div>
+						<div class="emoticon area" id="&#128521;">&#128521;</div>
+						<div class="emoticon area" id="&#128522;">&#128522;</div>
+						<div class="emoticon area" id="&#128523;">&#128523;</div>
+						<div class="emoticon area" id="&#128524;">&#128524;</div>
+						<div class="emoticon area" id="&#128525;">&#128525;</div>
+						<div class="emoticon area" id="&#128526;">&#128526;</div>
+						<div class="emoticon area" id="&#128527;">&#128527;</div>
+						<div class="emoticon area" id="&#128528;">&#128528;</div>
+						<div class="emoticon area" id="&#128529;">&#128529;</div>
+						<div class="emoticon area" id="&#128530;">&#128530;</div>
+						<div class="emoticon area" id="&#128531;">&#128531;</div>
+						<div class="emoticon area" id="&#128532;">&#128532;</div>
+						<div class="emoticon area" id="&#128533;">&#128533;</div>
+						<div class="emoticon area" id="&#128534;">&#128534;</div>
+						<div class="emoticon area" id="&#128535;">&#128535;</div>
+						<div class="emoticon area" id="&#128536;">&#128536;</div>
+						<div class="emoticon area" id="&#128537;">&#128537;</div>
+						<div class="emoticon area" id="&#128538;">&#128538;</div>
+						<div class="emoticon area" id="&#128539;">&#128539;</div>
+						<div class="emoticon area" id="&#128540;">&#128540;</div>
+						<div class="emoticon area" id="&#128541;">&#128541;</div>
+						<div class="emoticon area" id="&#128542;">&#128542;</div>
+						<div class="emoticon area" id="&#128543;">&#128543;</div>
+						<div class="emoticon area" id="&#128544;">&#128544;</div>
+						<div class="emoticon area" id="&#128545;">&#128545;</div>
+						<div class="emoticon area" id="&#128546;">&#128546;</div>
+						<div class="emoticon area" id="&#128547;">&#128547;</div>
+						<div class="emoticon area" id="&#128548;">&#128548;</div>
+						<div class="emoticon area" id="&#128549;">&#128549;</div>
+						<div class="emoticon area" id="&#128550;">&#128550;</div>
+						<div class="emoticon area" id="&#128551;">&#128551;</div>
+						<div class="emoticon area" id="&#128000;">&#128000;</div>
+						<div class="emoticon area" id="&#128001;">&#128001;</div>
+						<div class="emoticon area" id="&#128002;">&#128002;</div>
+						<div class="emoticon area" id="&#128003;">&#128003;</div>
+						<div class="emoticon area" id="&#128004;">&#128004;</div>
+						<div class="emoticon area" id="&#128005;">&#128005;</div>
+						<div class="emoticon area" id="&#128006;">&#128006;</div>
+						<div class="emoticon area" id="&#128007;">&#128007;</div>
+						<div class="emoticon area" id="&#128008;">&#128008;</div>
+						<div class="emoticon area" id="&#128009;">&#128009;</div>
+						<div class="emoticon area" id="&#128010;">&#128010;</div>
+						<div class="emoticon area" id="&#128011;">&#128011;</div>
+						<div class="emoticon area" id="&#128012;">&#128012;</div>
+						<div class="emoticon area" id="&#128013;">&#128013;</div>
+						<div class="emoticon area" id="&#128014;">&#128014;</div>
+						<div class="emoticon area" id="&#128015;">&#128015;</div>
+						<div class="emoticon area" id="&#128016;">&#128016;</div>
+						<div class="emoticon area" id="&#128017;">&#128017;</div>
+						<div class="emoticon area" id="&#128018;">&#128018;</div>
+						<div class="emoticon area" id="&#128019;">&#128019;</div>
+					</div>
+				</div>
 			</div>
 			<span class="material-symbols-outlined btnEmoticon area" title="이모지">sentiment_satisfied</span>
 		</div>
@@ -256,6 +326,7 @@ $('#message').keyup(function(key) {
 			$("#message").val($("#message").val().replace(/(?:\r\n|\r|\n)/g, '<br>'));
 	    	sendMessage(1);
 	    	$("#message").val("");
+	    	$('#emoSave').empty();
 	        $('#sendBtn').attr('disabled', 'disabled');
 	        $('#sendBtn').css("background-color", "#dfdfdf");
 	        $('#sendBtn').css("color", "#898888b8");
@@ -272,7 +343,8 @@ $('#message').keyup(function(key) {
 $("#sendBtn").click(function() {
 	console.log($("#message").html());
    sendMessage(1);
-   $("#message").val("")
+   $("#message").val("");
+   $('#emoSave').empty();
    $('#sendBtn').attr('disabled', 'disabled');
    $('#sendBtn').css("background-color", "#dfdfdf");
    $('#sendBtn').css("color", "#898888b8");
@@ -399,7 +471,7 @@ function fileUpload() {
 	
 //이모티콘 보내기
 $(".btnEmoticon").click(function() {
-	
+
 	var state = $('#emoticonContainer').attr("style");
 	if(state == "display: none;") {
 		$('#emoticonContainer').attr("style", "display: block;");
@@ -409,11 +481,37 @@ $(".btnEmoticon").click(function() {
 	
 })
 
+$(".sticker").click(function() {
+	sendMessage(5, $(this).attr("src"));
+})
+
+//이모티콘 추가 부분
 $(".emoticon").click(function() {
 	
-	sendMessage(5, $(this).attr("src"));
-	$('#emoticonContainer').attr("style", "display: none;");
+	if ($('#message').val() != '') {
+        $('#sendBtn').removeAttr("disabled");
+        $('#sendBtn').css("background-color", "#e78787");
+        $('#sendBtn').css("color", "#fff");
+    }
 	
+	$('#emoSave').append($(this).attr('id'));
+	$("#message").val($('#emoSave').html());
+})
+
+$("#emoticon").click(function() {
+	$('#emoticon-box').attr('style', 'display: block;');
+	$('#sticker-box').attr('style', 'display: none;');
+	
+	$('#emoticon').addClass('btn_style');
+	$('#sticker').removeClass('btn_style');
+})
+
+$("#sticker").click(function() {
+	$('#sticker-box').attr('style', 'display: block;');
+	$('#emoticon-box').attr('style', 'display: none;');
+	
+	$('#sticker').addClass('btn_style');
+	$('#emoticon').removeClass('btn_style');
 })
 
 $('html').click(function(e) {   
