@@ -166,13 +166,11 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 <script defer type="text/javascript">
 
 function roomOpen(){
-	let userNo = document.querySelector(".userNo").value
- 	location.href = "/room/open?userNo=" + userNo;
+ 	location.href = "/room/open";
 }
 
 function roomList(){
-	let userNo = document.querySelector(".userNo").value
-	location.href = "/room/roomList?userNo=" + userNo;
+	location.href = "/room/roomList";
 }
 
 </script>

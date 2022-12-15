@@ -56,8 +56,8 @@ public class RoomServiceImpl implements RoomService {
 	@Transactional
 	public void createRoom(Room room, RoomList roomList) {
 		roomDao.insertRoom(room);
-		roomList.setRoomNo(room.getRoomNo());
 		roomList.setUserNo(room.getUserNo());
+		roomList.setRoomNo(room.getRoomNo());
 		roomDao.insertRoomInfo(roomList);
 		
 //		DiaryCategory diaryCategory = new DiaryCategory();

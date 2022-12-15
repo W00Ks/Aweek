@@ -12,13 +12,24 @@
 		order by notice_no DESC
 	</select>
 	
+	<update id="updateNoticeHit" parameterType="Notice">
+		UPDATE notice
+		SET notice_hit = notice_hit + 1
+		WHERE notice_no = #{noticeNo}
+	</update>
+	
+	<select id="selectNoticeDetail" resultType="Notice">
+		select * from notice
+		WHERE notice_no = #{noticeNo}
+	</select>
+	
 	<select id="selectQnAAll" resultType="QnA">
 		select * from qna
 		order by qna_no DESC
 	</select>
 
 	<insert id="insertInquiry" parameterType="Inquiry">
-		<selectKey resultType="int" keyProperty="roomListNo" order="BEFORE">
+		<selectKey resultType="int" keyProperty="inquiryNo" order="BEFORE">
 			SELECT inquiry_seq.nextval FROM dual
 		</selectKey>
 		INSERT INTO inquiry ( inquiry_no, user_no, inquiry_tilte, inquiry_content, inquiry_email, inquiry_date )

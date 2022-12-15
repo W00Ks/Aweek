@@ -88,6 +88,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 .container__right .list-wrap .table-menu li {
 	list-style-type: none;
 	float: left;
+	white-space: nowrap;
 }
 .container__right .list-wrap .table-menu li:first-child {
 	width: 20%;
@@ -158,6 +159,19 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 	.container__right {
 		width: 100%;
 	}
+	.container__right .list-wrap .table-menu li:nth-child(2) {
+		width: 50%;
+	}
+	.container__right .list-wrap .table-menu li:nth-child(3) {
+		width: 20%;
+	}
+	.container__right .list-wrap .table li:nth-child(2) {
+		width: 50%;
+	}
+	.container__right .list-wrap .table li:nth-child(3) {
+		width: 20%;
+	}
+		
 }
 
 .container .listTb {
@@ -181,13 +195,11 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 <script defer type="text/javascript">
 
 function roomOpen(){
-	let userNo = document.querySelector(".userNo").value
- 	location.href = "/room/open?userNo=" + userNo;
+ 	location.href = "/room/open";
 }
 
 function roomList(){
-	let userNo = document.querySelector(".userNo").value
-	location.href = "/room/roomList?userNo=" + userNo;
+	location.href = "/room/roomList";
 }
 
 //userNo 중복 검사
@@ -222,11 +234,9 @@ function checkUserNo(roomNo) {
     });
 }
 
-function goRoomMain(roomNo) {
-	let userNo = $(".userNo").val();
-	console.log(userNo)
+function goRoomInfo(roomNo) {
 	console.log(roomNo)
- 	location.href = "/room/roomInfo?userNo=" + userNo + "&roomNo=" + roomNo;
+ 	location.href = "/room/roomInfo?roomNo=" + roomNo;
 }
 
 </script>
@@ -264,8 +274,8 @@ function goRoomMain(roomNo) {
 				
 				<c:if test="${room.roomPublic eq '1' }"> 
 					<ul class="table">
-						<li class="roomName" onclick="goRoomMain(${room.roomNo })">${room.roomName }</li>
-						<li class="roomIntroduce" onclick="goRoomMain(${room.roomNo })">${room.roomIntroduce }</li>
+						<li class="roomName" onclick="goRoomInfo(${room.roomNo })">${room.roomName }</li>
+						<li class="roomIntroduce" onclick="goRoomInfo(${room.roomNo })">${room.roomIntroduce }</li>
 						
 						<c:if test="${room.roomCategoryNo eq '1' }"> 
 							<li class="roomCategory" id="1">회사</li>

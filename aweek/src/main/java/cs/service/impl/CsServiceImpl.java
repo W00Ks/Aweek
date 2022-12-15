@@ -29,6 +29,14 @@ public class CsServiceImpl implements CsService {
 	}
 	
 	@Override
+	public Notice getNoticeView(Notice notice) {
+
+		csDao.updateNoticeHit(notice);
+		
+		return csDao.selectNoticeDetail(notice);
+	}
+	
+	@Override
 	public List<QnA> getQnAList() {
 
 		List<QnA> qnaList = csDao.selectQnAAll();

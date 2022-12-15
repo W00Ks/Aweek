@@ -40,6 +40,16 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
+	<!-- jQuery 2.2.4 -->
+   <script defer type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+   
+   <!-- SweetAlert2 -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+   
+   <!-- kakao Login -->
+   <script defer src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
  	<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/mainHeader.css" type="text/css" />
 	<script defer type="text/javascript" src="<%=request.getContextPath() %>/resources/js/mainHeader.js"></script>
 
@@ -57,7 +67,7 @@
 					<li><a href="/member/login">로그인</a></li>
 				</c:when>
 				<c:otherwise>
-	    			<li><a href="/member/logout" id="btnLogout">로그아웃</a></li>
+	    			<li><a id="btnLogout">로그아웃</a></li>
 				</c:otherwise>
 			</c:choose>
 	    </ul>

@@ -60,7 +60,7 @@ public class RoomController {
 		
 		//userNo로 모임 list 조회(내가 가입한 모임)
 		List<Room> myRoomList = roomService.myRoomList(userno);
-		logger.info("myRoomList : {}", myRoomList);
+//		logger.info("myRoomList : {}", myRoomList);
 		model.addAttribute("myRoomList", myRoomList);
 	}
 	
@@ -81,6 +81,7 @@ public class RoomController {
 	//모임 개설
 	@GetMapping("/room/open")
 	public void roomOpenPage( HttpSession session, Model model, Member member ) {
+		
 		//로그인 후 userNo저장
 		session.getAttribute("userNo");
 		
@@ -89,23 +90,16 @@ public class RoomController {
 	}
 	
 	@PostMapping("/room/open")
-	public String roomOpenProc( HttpSession session, Model model ) {
+	public String roomOpenProc( HttpSession session, Model model, Room room ) {
 		
 		//세션에 저장된 userNo 불러오기
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("userno : {}", userno);
 		
-		Room room = new Room();
 		RoomList roomList = new RoomList();
-		//room dto에 userNo 저장
-		room.setUserNo(userno);
 		
 		//모임 생성
 		roomService.createRoom(room, roomList);
-		
-		//로그인 후 userNo저장
-		model.addAttribute("userno", userno);
-		logger.info("userno : {}", userno);
 		
 		//userNo로 모임 list 조회(내가 가입한 모임)
 		List<Room> myRoomList = roomService.myRoomList(userno);
@@ -113,7 +107,7 @@ public class RoomController {
 		model.addAttribute("myRoomList", myRoomList);
 		
 		
-		return "/room/main";
+		return "redirect:/room/main";
 	}
 	
 	//모임 정보
@@ -184,7 +178,7 @@ public class RoomController {
 		
 		logger.info("roomList :{}" ,roomList);
 		
-		return "/room/main";
+		return "redirect:/room/main";
 	}
 	
 	//모임 가입 전 가입 중복 검사
@@ -228,15 +222,11 @@ public class RoomController {
 	
 	@PostMapping("/room/setting")
 	public String roomSettingProc( HttpSession session, Room room ) {
-		
-		//세션에 저장된 userNo 불러오기
-		int userno = (int) session.getAttribute("userNo");
-		logger.info("userno : {}", userno);
-		
+
 		//수정한 모임정보 저장
 		roomService.updateRoom(room);
 
-		return "/room/roomInfo";
+		return "redirect:/room/main";
 	}
 	
 	//모임 탈퇴
@@ -255,7 +245,7 @@ public class RoomController {
 		//모임 탈퇴
 		roomService.dropOut(roomList);
 		
-		return "/room/main";
+		return "redirect:/room/main";
 	}
 	
 	//모임 삭제
@@ -271,6 +261,6 @@ public class RoomController {
 		//모임 삭제
 		roomService.deleteRoom(roomNo);
 		
-		return "/room/main";
+		return "redirect:/room/main";
 	}
 }

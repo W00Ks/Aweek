@@ -157,8 +157,8 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 </style>
 
 <script defer type="text/javascript">
-function moveSetting(i,j){
-	location.href = "/room/roomInfo?userNo=" + i + "&roomNo=" + j;
+function moveSetting(i){
+	location.href = "/room/roomInfo?roomNo=" + i;
 }
 
 function roomOpen(){
@@ -377,7 +377,7 @@ resizer.addEventListener('mousedown', mouseDownHandler);
 			<div class="roomBox-wrap">
 		    	<input type="hidden" name="userNo" class="userNo" value="${userno }">
 				<c:forEach items="${myRoomList  }" var="room">
-					<div class="roomBox" onclick="moveSetting(${room.userNo },${room.roomNo })">
+					<div class="roomBox" onclick="moveSetting(${room.roomNo })">
 				    	<input type="hidden" name="userNo" class="roomNo" value="${room.roomNo }">
 						<p class="roomName">${room.roomName }</p>
 						<p class="roomIntroduce">${room.roomIntroduce }<br></p>
