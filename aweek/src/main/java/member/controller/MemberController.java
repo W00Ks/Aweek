@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import common.Paging;
+import common.Mypaging;
 import cs.dto.Inquiry;
 import member.dto.Member;
 import member.service.face.MemberService;
@@ -71,7 +71,7 @@ public class MemberController {
 	public String login(HttpSession session) {
 		if ( session.getAttribute("loginResult") != null ) {
 			//로그인 세션이 있는 상태에서 로그인 페이지를 접속한 경우 로그인 에러 페이지 리다이렉트
-//			return "redirect:/member/loginError"; 
+			return "redirect:/member/loginError"; 
 		}
 		return "/member/login";
 	}
@@ -141,13 +141,20 @@ public class MemberController {
 	public void kakaoJoin() {}
 	
 	@PostMapping("/kakaoJoin")
-	public void kakaoJoinProc(Member member, HttpSession session) {
-		System.out.println("member: " + member);
+	public String kakaoJoinProc(Member member, HttpSession session) throws MessagingException {
 		
-		memberService.kakaoJoin(member);
+		//카카오 회원가입 처리
+		boolean kakaoJoinResult = memberService.kakaoJoin(member);
 		
-		session.setAttribute("userName", member.getUserName());
-		
+		if( kakaoJoinResult ) {
+			//세션에 ID값 저장
+			session.setAttribute("userId", member.getUserId());
+			//이메일로 회원정보 수정용 비밀번호 발송
+			memberService.userPwEmailSend(member);
+			return "redirect:/member/joinOk";
+		} else {
+			return "redirect:/member/kakaoJoin";
+		}
 	}
 	
 	//------------------------------ 로그아웃 ------------------------------
@@ -326,8 +333,8 @@ public class MemberController {
 		member.setUserId(userId);  
 		member = memberService.getLoginInfo(member);
 		
-		Paging paging = memberService.getPaging(curPage, member);
-		logger.debug("{}", paging);
+		Mypaging paging = memberService.getPaging(curPage, member);
+		logger.debug("- - - {}", paging);
 		
 		List<Inquiry> list = memberService.myInquiryList(paging, member);
 		for( Inquiry i : list )	logger.debug("{}", i);
@@ -353,7 +360,6 @@ public class MemberController {
 		
 	}
 	
-	
 	//------------------------------ 마이페이지 나의 구독 ------------------------------
 	@RequestMapping("/mySubscription")
 	public void mySubscription(HttpSession session, Model model) {
@@ -365,27 +371,5 @@ public class MemberController {
 		model.addAttribute("member", member);
 		
 	}
-	
-	
-	//------------------------------ 마이페이지 나의 모임 ------------------------------
-	@RequestMapping("/myRoom")
-	public void myRoom(HttpSession session, Model model) {
-		Member member = new Member();
-		String userId = (String) session.getAttribute("userId");
-		member.setUserId(userId);  
-		member = memberService.getLoginInfo(member);
-		
-		model.addAttribute("member", member);
-		
-	}
-	
-	
-	//------------------------------ 마이페이지 나의 캘린더 ------------------------------
-	
-	
-	
-	//------------------------------ 마이페이지 나의 다이어리 ------------------------------
-
-	
 	
 }

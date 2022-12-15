@@ -231,8 +231,16 @@ $(document).ready(function() {
 	
 	//가입 취소 버튼(뒤로가기)
 	$("#btnCancel").click(function() {
-		sessionStorage.clear()	/* 세션 삭제 */
-		history.go(-1)
+		$.ajax({
+			type:"post"
+			, url: "/member/logout"
+			, data: {
+			}
+		, dataType: "html"
+		, success: function() {
+			history.go(-1)
+		}
+		})
 	})
 	
 })
@@ -384,7 +392,7 @@ input:focus{
 
 <c:import url="../layout/mainHeader.jsp" />
 
-<form action="/member/join" method="post">
+<form action="/member/kakaoJoin" method="post">
 
 <div class="joinTxt">회원가입</div>
 

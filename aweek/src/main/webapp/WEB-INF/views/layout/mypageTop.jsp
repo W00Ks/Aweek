@@ -88,6 +88,7 @@ a {
 .top_menu li {
 	list-style: none;
 	padding: 10px;
+	position: relative;
 }
 
 .top_menu li a {
@@ -105,31 +106,72 @@ a {
 	color: var(--background-color);
 }
 
+.top_menu li .tooltipText {
+	visibility: hidden;
+	background-color: var(--accent-color);
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	font-size: 11px;
+	font-weight: bold;
+
+	position: absolute;
+	z-index: 1;
+	
+	width: 90px;
+	bottom: 95%;
+	margin-left: -60px;
+	
+}
+
+.top_menu li .tooltipText::after {
+	content: " ";
+	position: absolute;
+	border-style: solid;
+	border-width: 5px;
+  
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-color: var(--accent-color) transparent transparent transparent;
+}
+
+.top_menu li:hover .tooltipText {
+	visibility: visible;
+}
+
 </style>
 
 <ul class="top_menu">
 	<li class="l_1">
 		<a href="<%=request.getContextPath() %>/calender/main" class="top_1" id="top_calendar">
 		<span class="material-icons">calendar_month</span></a>
+		<span class="tooltipText">나의 캘린더</span>
 	</li>
 	<li class="l_2">
 		<a href="<%=request.getContextPath() %>/diary/main" class="top_2" id="top_diary">
 		<span class="material-icons">note_alt</span></a>
+		<span class="tooltipText">나의 다이어리</span>
 	</li>
 	<li class="l_3">
 		<a href="<%=request.getContextPath() %>/member/info" class="top_3" id="top_info">
 		<span class="material-icons">person</span></a>
+		<span class="tooltipText">회원정보 수정</span>
 	</li>
 	<li class="l_4">
-		<a href="<%=request.getContextPath() %>/room/main" class="top_4" id="top_room" title="모임">
+		<a href="<%=request.getContextPath() %>/room/main" class="top_4" id="top_room">
 		<span class="material-icons">info</span></a>
+		<span class="tooltipText">나의 모임</span>
 	</li>
 	<li class="l_5">
 		<a href="<%=request.getContextPath() %>/member/mySubscription" class="top_5" id="top_mySubscription">
 		<span class="material-icons">paid</span></a>
+		<span class="tooltipText">나의 구독 상태</span>
 	</li>
 	<li class="l_6">
 		<a href="<%=request.getContextPath() %>/member/myInquiryList" class="top_6" id="top_myInquiryList">
 		<span class="material-icons">email</span></a>
+		<span class="tooltipText">나의 1:1 문의</span>
 	</li>
 </ul>

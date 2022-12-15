@@ -58,6 +58,13 @@ function findAddress() {
 <script type="text/javascript">
 $(document).ready(function() {
 	
+	//로그인 세션이 없을 경우 로그인 페이지로 이동
+	if( '${loginResult}' == null || '${loginResult}' == '' ){
+		swal("로그인이 필요합니다!","", "warning").then(function(){
+			window.location.href="/member/login";
+    	});
+	}
+	
 	//비밀번호 보여주기
 	$('#pwView1').on('click',function(){
         $('input').toggleClass('active');
@@ -184,9 +191,7 @@ $(document).ready(function() {
 
 		//비밀번호 확인 체크 (비밀번호와 같지 않거나 공백인 경우)
 		if($("#userPwChk").val() != $("#userPw").val() || $("#userPwChk").val() == ""){
-			swal("비밀번호 확인을 비밀번호와 동일하게 입력해주세요","", "warning").then(function(){
-				$("input").eq(2).focus()
-        	});
+			
 			return;
 		} 
 
@@ -304,7 +309,6 @@ function hideMsg(obj) {
 
 /* 회원정보 수정 텍스트 */
 .infoTxt {
-/* 	width: 800px; */
     text-align: center;
     color: #555555;
     font-size: 30px;

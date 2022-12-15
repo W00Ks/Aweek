@@ -93,21 +93,21 @@ function kakaoLogin() {
       },
     })
   }
-//카카오로그아웃  
-function kakaoLogout() {
-    if (Kakao.Auth.getAccessToken()) {
-      Kakao.API.request({
-        url: '/v1/user/unlink',
-        success: function (response) {
-        	console.log(response)
-        },
-        fail: function (error) {
-          console.log(error)
-        },
-      })
-      Kakao.Auth.setAccessToken(undefined)
-    }
-  }  
+// //카카오로그아웃  
+// function kakaoLogout() {
+//     if (Kakao.Auth.getAccessToken()) {
+//       Kakao.API.request({
+//         url: '/v1/user/unlink',
+//         success: function (response) {
+//         	console.log(response)
+//         },
+//         fail: function (error) {
+//           console.log(error)
+//         },
+//       })
+//       Kakao.Auth.setAccessToken(undefined)
+//     }
+//   }  
 </script>
 
 <!---------- 아이디 저장 기능 처리 ---------->
@@ -224,34 +224,34 @@ $(document).ready(function() {
 		                hideMsg(oMsg);
 	            	});
 // 	            	alert("로그인 실패 : 아이디 또는 비밀번호를 확인해주세요!");
-// 	                $("input").eq(1).focus();
+// 	                $("input").eq(2).focus();
 				    
 	            } else if ( result == 1 ) {
 	            	swal("로그인 성공!", $('#userId').val() + "님 환영합니다!", "success").then(function(){
 	            		location.href='/aweekHome';
 	            	});
 // 	            	alert("로그인 성공! " + $("#userId").val() + "님 환영합니다!");
-// 	            	window.location.href = "/aweek/main";
+// 	            	window.location.href = "/aweekHome";
 	            }
 	        }
 	    });
 	});
 	
-	$("#btnLogout").click(function() {
-		swal("로그아웃 완료!","다음에 또 만나요~", "success").then(function(){
-			kakaoLogout();
-			$.ajax({
-				type:"post"
-				, url: "/member/logout"
-				, data: {
-				}
-			, dataType: "html"
-			, success: function( res ) {
-				window.location.href="/aweekHome";
-			}
-			})
-		});
-	})
+// 	$("#btnLogout").click(function() {
+// 		swal("로그아웃 완료!","다음에 또 만나요~", "success").then(function(){
+// 			kakaoLogout();
+// 			$.ajax({
+// 				type:"post"
+// 				, url: "/member/logout"
+// 				, data: {
+// 				}
+// 			, dataType: "html"
+// 			, success: function( res ) {
+// 				window.location.href="/aweekHome";
+// 			}
+// 			})
+// 		});
+// 	})
 	
 });
 
@@ -485,7 +485,7 @@ input:focus{
 	<div class="KakaoDiv">
 		<span class="kakaoIcon"><img src="/resources/member/kakaoicon.jpg"></span>
 		<button id="btnKakaoLogin" onclick="kakaoLogin();">카카오 로그인</button>
-		<button id="btnLogout">로그아웃</button>
+<!-- 		<button id="btnLogout">로그아웃</button> -->
 	</div>
 
 </div>

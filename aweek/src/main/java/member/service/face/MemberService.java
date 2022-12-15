@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
-import common.Paging;
+import common.Mypaging;
 import cs.dto.Inquiry;
 import member.dto.Member;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -58,6 +58,15 @@ public interface MemberService {
 	 * @return 회원가입 결과
 	 */
 	public boolean kakaoJoin(Member member);
+	
+	/**
+	 * 카카오 계정 회원가입 시 회원정보 수정용 비밀번호 이메일 발송
+	 * 
+	 * @param member - 회원 정보 파라미터
+	 * @return - 인증번호
+	 * @throws MessagingException
+	 */
+	public String userPwEmailSend(Member member) throws MessagingException;
 	
 	/**
 	 * 아이디 찾기 유저 정보 조회
@@ -140,7 +149,7 @@ public interface MemberService {
 	 * @param member - 회원정보
 	 * @return 계산이 완료된 Paging객체
 	 */
-	public Paging getPaging(int curPage, Member member);
+	public Mypaging getPaging(int curPage, Member member);
 	
 	/**
 	 * 페이징이 적용된 나의 1:1 문의 목록 조회
@@ -149,7 +158,7 @@ public interface MemberService {
 	 * @param member - 회원 정보
 	 * @return 페이징이 적용된 나의 1:1 문의 목록
 	 */
-	public List<Inquiry> myInquiryList(Paging paging, Member member);
+	public List<Inquiry> myInquiryList(Mypaging paging, Member member);
 
 	/**
 	 * 나의 1:1 문의글 상세보기
@@ -159,5 +168,5 @@ public interface MemberService {
 	 * @return 조회된 상세 나의 1:1 문의글 객체
 	 */
 	public Inquiry myInquiryView(Inquiry viewInquiry, Member member);
-	
+
 }
