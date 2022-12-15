@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
-import common.Paging;
+import common.Mypaging;
 import cs.dto.Inquiry;
 import member.dao.face.MemberDao;
 import member.dto.Member;
@@ -95,6 +93,24 @@ public class MemberServiceImpl implements MemberService {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public String userPwEmailSend(Member member) throws MessagingException {
+		
+		String userPw = member.getUserPw();
+		
+//	    MimeMessage mailMessage = mailSender.createMimeMessage();
+//        String mailContent = "[AWEEK] 카카오 회원의 회원정보 수정용 비밀번호 발송 메일입니다.<br><br> "
+//        						+ "회원정보 수정 시 입력해주세요!<br><br>"
+//        						+ "회원 정보 수정용 비밀번호는 " + userPw + " 입니다." ;     //보낼 메시지
+//        mailMessage.setSubject("[AWEEK] 카카오 회원의 회원정보 수정용 비밀번호 발송 메일입니다.", "UTF-8"); 
+//        mailMessage.setText(mailContent, "UTF-8", "html");
+//        mailMessage.addRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress(member.getUserEmail()));
+//        mailSender.send(mailMessage);
+		
+        logger.info("+++ 카카오 회원 비밀번호: " + userPw + " +++");
+		return userPw;
 	}
 	
 	@Override
@@ -203,18 +219,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public Paging getPaging(int curPage, Member member) {
+	public Mypaging getPaging(int curPage, Member member) {
 		//총 게시글 수 조회
 		int totalCount = memberDao.selectPagingCntAll(member);
 		
 		//페이징 계산
-		Paging paging = new Paging(totalCount, curPage);
-		
+		Mypaging paging = new Mypaging(totalCount, curPage);
 		return paging;
 	}
 	
 	@Override
-	public List<Inquiry> myInquiryList(Paging paging, Member member) {
+	public List<Inquiry> myInquiryList(Mypaging paging, Member member) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("paging", paging);
 		map.put("member", member);

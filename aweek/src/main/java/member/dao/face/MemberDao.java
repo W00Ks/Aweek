@@ -3,7 +3,6 @@ package member.dao.face;
 import java.util.HashMap;
 import java.util.List;
 
-import common.Paging;
 import cs.dto.Inquiry;
 import member.dto.Member;
 

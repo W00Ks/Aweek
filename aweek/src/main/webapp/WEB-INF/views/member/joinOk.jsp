@@ -86,7 +86,7 @@ $(document).ready(function() {
 .idArea {
 	font-weight: 600;
 	font-size: 25px;
-	color: #3c6fff;
+	color: #594B4B;
 }
 
 /* 버튼 영역 */
