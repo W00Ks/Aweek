@@ -4,6 +4,7 @@ import java.util.List;
 
 import admin.dto.Admin;
 import common.Paging;
+import cs.dto.File;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
@@ -21,13 +22,56 @@ public interface AdminDao {
 	 * @return - 조회된 행 수
 	 */
 	public int selectAdmin(Admin adminParam);
+	
+	/**
+	 * 로그인 ID와 PW가 일치하는 관리자 정보
+	 * 
+	 * @param admin - 조회할 ID와 PW 정보
+	 * @return - 조회된 관리자
+	 */
+	public Admin selectAdminInfo(Admin admin);
 
 	/**
-	 * 전체 게시글 수를 조회함
+	 * 전체 방 목록을 조회함
 	 * 
-	 * @return - 총 게시글 수
+	 * @return - 전체 방 목록 수
 	 */
-	public int selectCntAll();
+	public int selectCntRoom();
+	
+	/**
+	 * 전체 회원 목록을 조회함
+	 * 
+	 * @return - 전체 회원 목록 수
+	 */
+	public int selectCntMember();
+	
+	/**
+	 * 전체 결제 목록을 조회함
+	 * 
+	 * @return - 전체 결제 목록 수
+	 */
+	public int selectCntPayment();
+	
+	/**
+	 * 전체 1:1 문의 목록을 조회함
+	 * 
+	 * @return - 전체 1:1 문의 목록 수
+	 */
+	public int selectCntInquiry();
+	
+	/**
+	 * 전체 공지사항 목록을 조회함
+	 * 
+	 * @return - 전체 공지사항 목록 수
+	 */
+	public int selectCntNotice();
+	
+	/**
+	 * 전체 Q&A 목록을 조회함
+	 * 
+	 * @return - 전체 Q&A 목록 수
+	 */
+	public int selectCntQnA();
 
 	/**
 	 * 페이징을 적용하여 회원 목록 조회
@@ -93,14 +137,23 @@ public interface AdminDao {
 	 * @return - 조회된 결제 정보
 	 */
 	public Payment selectPaymentDetail(Payment payment);
-
+	
 	/**
-	 * 공지사항 정보를 삽입
+	 * 공지사항 번호를 이용하여 공지사항을 조회
 	 * 
-	 * @param notice - 삽입할 공지사항 정보
+	 * @param viewNotice - 조회하려는 공지사항 번호
+	 * @return - 조회된 공지사항 번호
 	 */
-	public void insertNotice(Notice notice);
-
+	public Notice selelctNoticeView(Notice viewNotice);
+	
+	/**
+	 * Q&A 번호를 이용하여 Q&A를 조회
+	 * 
+	 * @param qna - 조회하려는 Q&A 번호
+	 * @return - 조회된 Q&A 번호
+	 */
+	public QnA selelctdQnaView(QnA qna);
+	
 	/**
 	 * 조회하려는 공지사항의 조회수를 1 증가시킴
 	 * 
@@ -109,12 +162,11 @@ public interface AdminDao {
 	public void updateNoticeHit(Notice viewNotice);
 
 	/**
-	 * 공지사항 번호를 이용하여 공지사항을 조회
+	 * 공지사항 정보를 삽입
 	 * 
-	 * @param viewNotice - 조회하려는 공지사항 번호
-	 * @return - 조회된 공지사항 번호
+	 * @param notice - 삽입할 공지사항 정보
 	 */
-	public Notice selelctNoticeView(Notice viewNotice);
+	public void insertNotice(Notice notice);
 
 	/**
 	 * 공지사항 정보를 수정
@@ -138,14 +190,6 @@ public interface AdminDao {
 	public void insertQna(QnA qna);
 
 	/**
-	 * Q&A 번호를 이용하여 Q&A를 조회
-	 * 
-	 * @param qna - 조회하려는 Q&A 번호
-	 * @return - 조회된 Q&A 번호
-	 */
-	public QnA selelctdQnaView(QnA qna);
-
-	/**
 	 * Q&A 정보를 수정
 	 * 
 	 * @param qna - 수정할 Q&A 정보
@@ -158,4 +202,29 @@ public interface AdminDao {
 	 * @param qna - 삭제할 Q&A 정보
 	 */
 	public void deleteQna(QnA qna);
+
+	/**
+	 * 회원 검색 기능
+	 * 
+	 * @param memberSelect
+	 * @param keyword
+	 * @return
+	 */
+	public List<Member> memberSearch(Member member);
+
+	/**
+	 * 파일 번호를 이용하여 첨부파일 정보를 조회
+	 * 
+	 * @param file - 조회할 첨부파일 객체
+	 * @return - 조회된 첨부파일 정보
+	 */
+	public File selectCsFileByCsFileNo(File file);
+	
+	/**
+	 * 공지사항 번호를 이용하여 첨부파일 정보를 조회
+	 * 
+	 * @param viewNotice - 조회된 공지사항 번호
+	 * @return - 조회된 첨부파일 정보
+	 */
+	public File selelctNoticeFileByNoticeNo(Notice viewNotice);
 }

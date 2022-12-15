@@ -13,19 +13,52 @@
 		SELECT count(*) FROM admin
 		WHERE admin_id = #{ adminId } AND admin_pw = #{ adminPw }
 	</select>
-
-	<select id="selectCntAll" resultType="int">
+	
+	<select id="selectAdminInfo" resultType="admin.dto.Admin" parameterType="admin.dto.Admin">
+		SELECT * FROM admin
+		WHERE admin_id = #{ adminId }
+	</select>
+	
+	<select id="selectCntRoom" resultType="int">
+		SELECT count(*) FROM room
+	</select>
+	
+	<select id="selectCntMember" resultType="int">
 		SELECT count(*) FROM member
 	</select>
 	
-	<select id="selectMemberList" resultType="member.dto.Member" parameterType="common.Paging">
-		SELECT user_no, user_id, user_name FROM member
-		ORDER BY user_no
+	<select id="selectCntPayment" resultType="int">
+		SELECT count(*) FROM payment
+	</select>
+	
+	<select id="selectCntInquiry" resultType="int">
+		SELECT count(*) FROM inquiry
+	</select>
+	
+	<select id="selectCntNotice" resultType="int">
+		SELECT count(*) FROM notice
+	</select>
+	
+	<select id="selectCntQnA" resultType="int">
+		SELECT count(*) FROM qna
 	</select>
 
 	<select id="selectRoomList" resultType="room.dto.Room" parameterType="common.Paging">
 		SELECT room_no FROM room
 		ORDER BY room_no
+	</select>
+	
+	<select id="selectMemberList" resultType="member.dto.Member" parameterType="common.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, M.* FROM (
+				SELECT
+					user_no, user_id, user_name, user_phone
+					, user_address, user_birth, user_email, user_join
+				FROM member
+				ORDER BY user_no DESC
+			) M
+		) MEMBER
+		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
 	</select>
 
 	<select id="selectPaymentList" resultType="payment.dto.Payment" parameterType="common.Paging">
@@ -34,13 +67,28 @@
 	</select>
 	
 	<select id="selectNoticeList" resultType="cs.dto.Notice" parameterType="common.Paging">
-		SELECT notice_no, notice_title, notice_content, notice_date FROM notice
-		ORDER BY notice_no
+		SELECT * FROM (
+			SELECT rownum rnum, N.* FROM (
+				SELECT
+					notice_no, writer_id, writer_nick, notice_title, notice_content
+					, notice_date, notice_hit
+				FROM notice
+				ORDER BY notice_no DESC
+			) N
+		) NOTICE
+		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
 	</select>
 	
 	<select id="selectQnAList" resultType="cs.dto.QnA" parameterType="common.Paging">
-		SELECT qna_no FROM qna
-		ORDER BY qna_no
+		SELECT * FROM (
+			SELECT rownum rnum, Q.* FROM (
+				SELECT
+					qna_no, writer_id, writer_nick, qna_title, qna_content, qna_date
+				FROM qna
+				ORDER BY qna_no DESC
+			) Q
+		) QNA
+		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
 	</select>
 	
 	<select id="selectInquiryList" resultType="cs.dto.Inquiry" parameterType="common.Paging">
@@ -65,27 +113,81 @@
 	
 	<select id="selelctNoticeView" resultType="cs.dto.Notice" parameterType="cs.dto.Notice">
 		SELECT
-			notice_no, notice_title, notice_content, notice_date
+			notice_no, file_no, writer_id, writer_nick, notice_title, notice_content, notice_date
 		FROM notice
 		WHERE notice_no = #{ noticeNo }
 	</select>
 	
-	<select id="selelctdQnaView">
+	<select id="selelctdQnaView" resultType="cs.dto.QnA" parameterType="cs.dto.QnA">
 		SELECT
-			qna_no, qna_title, qna_content, qna_date
+			qna_no, file_no, writer_id, writer_nick, qna_title, qna_content, qna_date
 		FROM qna
 		WHERE qna_no = #{ qnaNo }
 	</select>
+<!-- 	
+	<select id="memberSearch" resultType="member.dto.Member">
+		SELECT user_no, user_id, user_name FROM member
+		<include refid="search"></include>
+		ORDER BY user_no DESC
+	</select>
 	
+	<sql id="search">
+		<choose>
+			<when test="memberSelect == 'all'">
+				WHERE user_no LIKE '%' || #{ userNo } || '%'
+				AND user_id LIKE '%' || #{ userId } || '%'
+				AND user_name LIKE '%' || #{ userName } || '%'
+			</when>
+			<otherwise>
+				WHERE ${ memberSelect } LIKE '%' || #{ keyword } || '%'
+			</otherwise>
+		</choose>
+	</sql>
+		(
+				SELECT user_no, user_id, user_name FROM member
+  					WHERE user_no LIKE '%' || '${ userNo }' || '%'
+					AND user_id LIKE '%' || '${ userId }' || '%'
+					AND user_name LIKE '%' || '${ userName }' || '%'
+ 			) member
+		ORDER BY user_no DESC;
+ -->	
+<!--  
+ 	<select id="memberSearch" parameterType="member.dto.Member">
+		SELECT user_no, user_id, user_name
+			FROM (
+				SELECT user_no, user_id, user_name FROM member
+					WHERE user_no LIKE '%' || '${ userNo }' || '%'
+					AND user_id LIKE '%' || '${ userId }' || '%'
+					AND user_name LIKE '%' || '${ userName }' || '%'
+			) member
+		ORDER BY user_no DESC;
+ 	</select>
+ --> 	
+
+	<select id="selectCsFileByCsFileNo" resultType="cs.dto.File" parameterType="cs.dto.File">
+		SELECT
+			file_no, origin_name, stored_name
+		FROM cs_file
+		WHERE file_no = #{ fileNo }
+	</select>
+
+	<select id="selelctNoticeFileByNoticeNo" resultType="cs.dto.File" parameterType="cs.dto.File">
+		SELECT
+			file_no, origin_name, stored_name
+		FROM cs_file
+		WHERE file_no = #{ fileNo }
+	</select>
+
+
 <!-- - - - - - - - - - - INSERT - - - - - - - - - - -->
-<!-- 
+
 	<insert id="insertNotice" parameterType="cs.dto.Notice">
 		<selectKey order="BEFORE" resultType="int" keyProperty="noticeNo">
 			SELECT notice_seq.nextval FROM dual
 		</selectKey>
 	
-		INSERT INTO notice ( notice_no, file_no, admin_no, notice_title, notice_content, notice_date )
-		VALUES ( #{ noticeNo }, #{ fileNo }, #{ adminNo }, #{ noticeTitle }, #{ noticeContent }, SYSDATE )
+		INSERT INTO notice ( notice_no, writer_id, writer_nick, notice_title, notice_content, notice_date )
+		VALUES ( #{ noticeNo }, #{ writerId }, #{ writerNick}, #{ noticeTitle }, #{ noticeContent }, SYSDATE )
 	</insert>
 	
 	<insert id="insertQna" parameterType="cs.dto.QnA">
@@ -93,12 +195,12 @@
 			SELECT qna_seq.nextval FROM dual
 		</selectKey>
 	
-		INSERT INTO qna ( qna_no, qna_title, qna_content, qna_date )
-		VALUES ( #{ qnaNo }, #{ qnaTitle }, #{ qnaContent }, SYSDATE )
+		INSERT INTO qna ( qna_no, writer_id, writer_nick, qna_title, qna_content, qna_date )
+		VALUES ( #{ qnaNo }, #{ writerId }, #{ writerNick }, #{ qnaTitle }, #{ qnaContent }, SYSDATE )
 	</insert>
- -->
+
 <!-- - - - - - - - - - - UPDATE - - - - - - - - - - -->
-<!-- 
+
 	<update id="updateNotice" parameterType="cs.dto.Notice">
 		UPDATE notice
 		SET notice_title = #{ noticeTitle }
@@ -118,9 +220,9 @@
 			, qna_content = #{ qnaContent }
 		WHERE qna_no = #{ qnaNo }
 	</update>
- -->	
+
 <!-- - - - - - - - - - - DELETE - - - - - - - - - - -->
-<!-- 
+
 	<delete id="deleteNotice" parameterType="cs.dto.Notice">
 		DELETE notice
 		WHERE notice_no = #{ noticeNo }
@@ -130,5 +232,5 @@
 		DELETE qna
 		WHERE qna_no = #{ qnaNo }
 	</delete>
- -->	
+
 </mapper>

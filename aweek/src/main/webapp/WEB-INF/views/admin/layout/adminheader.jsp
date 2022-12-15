@@ -131,6 +131,7 @@ ul.nav > li > ul > li > a:hover {
 				</c:if>
 
 				<c:if test="${ not empty adminLogin }">
+					<span>${ adminNick } 로그인 중...</span>
 					<a href="/admin/logout" style="color: black;">로그아웃</a>
 				</c:if>
 			</li>
