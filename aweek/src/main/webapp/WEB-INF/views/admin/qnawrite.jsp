@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Q&A 작성</title>
+<title>자주묻는질문 작성</title>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -13,12 +13,10 @@
 $(document).ready(function() {
 	
 	$("#btnWrite").click(function() {
-		
 		$("form").submit();
 	})
 	
-	$("#cancel").click(function() {
-		
+	$("#btnCancel").click(function() {
 		$(location).attr('href', '/admin/qnalist')
 	})
 })
@@ -28,29 +26,34 @@ $(document).ready(function() {
 </head>
 <body>
 
-<h1>Q&A작성</h1>
+<h1>자주묻는질문 작성</h1>
 <hr>
 
 <div class="container">
 
-<form action="./noticewrite" method="post" enctype="multipart/form-data">
+<form action="./qnawrite" method="post" enctype="multipart/form-data">
+	<label for="writerId">작성자</label>
 	<div class="form-group">
-		<label for="adminId">작성자</label>
-		<input type="text" id="adminId" name="adminId" value="${ adminId }" class="form-control">
+		<input type="text" id="writerId" name="writerId" class="form-control" value="${ writerId }">
+	</div>
+
+	<label for="writerNick">닉네임</label>
+	<div class="form-group">
+		<input type="text" id="writerNick" name="writerNick" class="form-control" value="${ writerNick }">
 	</div>
 	
+	<label for="qnaTitle">제목</label>
 	<div class="form-group">
-		<label for="qnaTitle">제목</label>
-		<input type="text" id="qnaTitle" name="qnaTitle" class="form-control">
+		<input type="text" id="qnaTitle" name="qnaTitle" class="form-control" value="${ updateQna.qnaTitle }">
 	</div>
 	
+	<label for="qnaContent">본문</label>
 	<div class="form-group">
-		<label for="qnaContent">본문</label>
-		<textarea rows="10" style="width: 4%;" id="qnaContent" name="qnaContent" class="form-control"></textarea>
+		<textarea rows="10" style="width: 40%;" id="qnaContent" name="qnaContent" class="form-control">${ updateQna.qnaContent }</textarea>
 	</div>
 	
+	<label for="file">첨부파일</label>
 	<div class="form-group">
-		<label for="file">첨부파일</label>
 		<input type="file" id="file" name="file">
 	</div>
 	

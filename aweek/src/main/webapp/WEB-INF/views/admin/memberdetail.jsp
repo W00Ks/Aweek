@@ -111,5 +111,3 @@ td {
 </div>
 
 </c:if>
-
-<c:import url="./layout/adminfooter.jsp" />

@@ -21,6 +21,18 @@ $(document).ready(function() {
 	$("#btnDelete").click(function() {
 		location.href = "/admin/noticedelete?noticeNo=${ viewNotice.noticeNo }"
 	})
+	
+	$("#btnOld").click(function() {
+	
+	})
+
+	$("#btnNew").click(function() {
+
+	})
+	
+	$("#btnTitle").click(function() {
+	
+	})
 })
 
 </script>
@@ -69,14 +81,24 @@ th {
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">공지사항</h1>
 </div>
 
+<div>
+	<a class="btnOld" class="totallist">오래된 순</a>
+	<a class="btnNew" class="totallist">최신 순</a>
+	<a class="btnTitle" class="totallist">제목 순</a>
+</div>
+
 <table style="margin: 0 auto;">
 	<thead>
 		<tr>
 			<th style="width: 50px;">번호</th>
 			<th style="width: 200px;">제목</th>
+			<th style="width: 100px;">아이디</th>
+			<th style="width: 100px;">닉네임</th>
 			<th style="width: 200px;">날짜</th>
-			<th style="width: 100px;">조회수</th>
-			<th style="width: 150px;">수정 및 삭제</th>
+			<th style="width: 100px;">내용</th>
+			<th style="width: 150px;">조회수</th>
+			<!-- <th style="width: 150px;">수정 및 삭제</th> -->
+		</tr>
 	</thead>
 	
 	<tbody>
@@ -84,12 +106,18 @@ th {
 		<tr>
 			<td>${ notice.noticeNo }</td>
 			<td><a href="/admin/noticedetail?noticeNo=${ notice.noticeNo }">${ notice.noticeTitle }</a></td>
+			<td>${ notice.writerId }</td>
+			<td>${ notice.writerNick }</td>
 			<td><fmt:formatDate value="${ notice.noticeDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+			<td>${ notice.noticeContent }</td>
 			<td>${ notice.noticeHit }</td>
+			
+			<!--
 			<td>
 				<button id="btnUpdate" class="btnUpdate">수정</button>
 				<button id="btnDelete" class="btnDelete">삭제</button>
 			</td>
+			-->
 		</tr>
 	</c:forEach>
 	</tbody>
@@ -104,5 +132,3 @@ th {
 <c:import url="/WEB-INF/views/admin/layout/noticepaging.jsp" />
 
 </c:if>
-
-<c:import url="./layout/adminfooter.jsp" />

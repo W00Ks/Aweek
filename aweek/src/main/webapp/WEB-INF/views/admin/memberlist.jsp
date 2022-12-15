@@ -6,6 +6,30 @@
 
 <c:import url="./layout/adminheader.jsp" />
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(() => {
+
+	$("#btnClick").click(() => {
+		
+		console.log("#btnClick")
+	})
+})
+
+function search() {
+	let searchForm = document.searchForm;
+	let memberSearch = document.getElementById('memberSearch').value;
+	
+	if(memberSearch == "") {
+		alert("검색어를 입력해주세요.");
+		return;
+	}
+}
+
+</script>
+
 <style type="text/css">
 
 table {
@@ -44,6 +68,41 @@ th {
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">회원 목록</h1>
 </div>
 
+<form action="/admin/membersearch" method="post" name="searchForm">
+	<div>
+		<h2>회원 검색</h2>
+		<select name="memberSelect">
+			<option value="userNo"<c:if test="${ memberSelect eq 'userNo' }">selected</c:if>>
+			번호</option>
+			<option value="userId">아이디</option>
+			<option value="userName">이름</option>
+		</select>
+		<input type="text" name="memberSearch" id="memberSearch" class="search-input" placeholder="search ~.~" value="${ map.keyword }">
+		<!-- <input type="submit" name="" class="into-btn"> -->
+			<button class="" id="btnClick" onclick="search()" type="submit">
+				<i class="glyphicon glyphicon-search" aria-hidden="true"></i>
+			</button>
+	</div>
+</form>
+
+<!-- <script>
+$(document).ready(function() {
+	$("#btnClick").click(function() {
+		$.ajax({
+			url: "/admin/memberlist"
+			, type: "get"
+			, data: $("#searchForm").serialize()
+			, success: function(res) {
+				console.log(res);
+			}
+			, error: function(e) {
+				console.log(e);
+			}
+		})
+	})
+})
+</script> -->
+
 <table style="margin: 0 auto;">
 	<thead>
 		<tr>
@@ -67,5 +126,3 @@ th {
 <c:import url="/WEB-INF/views/admin/layout/memberpaging.jsp" />
 
 </c:if>
-
-<c:import url="./layout/adminfooter.jsp" />

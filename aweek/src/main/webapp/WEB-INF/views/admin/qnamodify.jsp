@@ -25,7 +25,7 @@ $(document).ready(function() {
 	})
 	
 	$("#btnCancel").click(function() {
-		location.href = "/admin/noticelist"
+		location.href = "/admin/qnalist"
 	})
 })
 
@@ -43,24 +43,23 @@ $(document).ready(function() {
 
 <div class="container">
 
-<form action="./noticemodify" method="post" enctype="multipart/form-data">
-	<%-- <input type="hidden" id="noticeNo" name="noticeNo" value="${ Notice.noticeNo }"> --%>
+<form action="./qnamodify" method="post" enctype="multipart/form-data">
 	
-	<input type="hidden" name="noticeNo" value="${ notice.noticeNo }">
+	<input type="hidden" name="qnaNo" value="${ qnA.qnaNo }">
 	
 	<label for="writerId">작성자</label>
 	<div class="form-group">
 		<input type="text" id="writerId" name="writerId" class="form-control" value="${ writerId }">
 	</div>
 	
-	<label for="noticeTitle">제목</label>
+	<label for="qnaTitle">제목</label>
 	<div class="form-group">
-		<input type="text" id="noticeTitle" name="noticeTitle" class="form-control" value="${ modifyNotice.noticeTitle }">
+		<input type="text" id="qnaTitle" name="qnaTitle" class="form-control" value="${ modifyQnA.qnaTitle }">
 	</div>
 	
 	<label for="noticeContent">본문</label>
 	<div class="form-group">
-		<textarea rows="10" style="width: 40%;" id="noticeContent" name="noticeContent" class="form-control">${ modifyNotice.noticeContent }</textarea>
+		<textarea rows="10" style="width: 40%;" id="qnaContent" name="qnaContent" class="form-control">${ modifyQnA.qnaContent }</textarea>
 	</div>
 
 	<div class="text-center">

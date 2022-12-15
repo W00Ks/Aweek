@@ -5,19 +5,22 @@ public class Admin {
 	private int adminNo;
 	private String adminId;
 	private String adminPw;
+	private String adminNick;
 	
 	public Admin() {}
 
-	public Admin(int adminNo, String adminId, String adminPw) {
+	public Admin(int adminNo, String adminId, String adminPw, String adminNick) {
 		super();
 		this.adminNo = adminNo;
 		this.adminId = adminId;
 		this.adminPw = adminPw;
+		this.adminNick = adminNick;
 	}
 
 	@Override
 	public String toString() {
-		return "Admin [adminNo=" + adminNo + ", adminId=" + adminId + ", adminPw=" + adminPw + "]";
+		return "Admin [adminNo=" + adminNo + ", adminId=" + adminId + ", adminPw=" + adminPw + ", adminNick="
+				+ adminNick + "]";
 	}
 
 	public int getAdminNo() {
@@ -42,5 +45,13 @@ public class Admin {
 
 	public void setAdminPw(String adminPw) {
 		this.adminPw = adminPw;
+	}
+
+	public String getAdminNick() {
+		return adminNick;
+	}
+
+	public void setAdminNick(String adminNick) {
+		this.adminNick = adminNick;
 	}
 }

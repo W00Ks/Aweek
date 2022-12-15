@@ -17,20 +17,19 @@
 $(document).ready(function() {
 	
 	$("#btnList").click(function() {
-		location.href = "/admin/noticelist"
+		location.href = "/admin/qnalist"
 	})
 		
 	$("#btnUpdate").click(function() {
-		location.href = "/admin/noticemodify?noticeNo=${ viewNotice.noticeNo }"
+		location.href = "/admin/qnamodify?qnaNo=${ viewQna.qnaNo }"
 	})
 	
 	$("#btnDelete").click(function() {
-		
 		var del_list = confirm ("삭제하시겠습니까?")
 		
 		if( del_list == true ) {
 			alert("삭제하셨습니다")
-			location.href = "/admin/noticedelete?noticeNo=${ viewNotice.noticeNo }"
+			location.href = "/admin/qnadelete?qnaNo=${ viewQna.qnaNo }"
 		} else if( del_list == false ) {
 			return;
 		}
@@ -42,33 +41,33 @@ $(document).ready(function() {
 </head>
 <body>
 
-<h1>공지사항 상세보기</h1>
+<h1>자주묻는질문 상세보기</h1>
 <hr>
 
 <table>
 	<tr>
 		<td>글번호</td>
-		<td>${ viewNotice.noticeNo }</td>
+		<td>${ viewQna.qnaNo }</td>
 	</tr>
 	
 	<tr>
 		<td>아이디</td>
-		<td>${ viewNotice.writerNick }</td>
+		<td>${ viewQna.writerId }</td>
 	</tr>
 	
 	<tr>
 		<td>제목</td>
-		<td>${ viewNotice.noticeTitle }</td>
+		<td>${ viewQna.qnaTitle }</td>
 	</tr>
 	
 	<tr>
 		<td>작성일</td>
-		<td><fmt:formatDate value="${ viewNotice.noticeDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+		<td><fmt:formatDate value="${ viewQna.qnaDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 	</tr>
 	
 	<tr>
 		<td>본문</td>
-		<td>${ viewNotice.noticeContent }</td>
+		<td>${ viewQna.qnaContent }</td>
 	</tr>
 	
 	<tr>
@@ -79,10 +78,6 @@ $(document).ready(function() {
 		</td>
 	</tr>
 </table>
-
-<span>다운로드
-<a href="/admin/download?fileNo=${ file.fileNo }">${ file.originName }</a>
-</span>
 
 </body>
 </html>

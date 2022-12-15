@@ -73,5 +73,3 @@ th {
 <c:import url="/WEB-INF/views/admin/layout/paymentpaging.jsp" />
 
 </c:if>
-
-<c:import url="./layout/adminfooter.jsp" />

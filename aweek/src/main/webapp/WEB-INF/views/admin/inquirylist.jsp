@@ -11,7 +11,6 @@
 $(document).ready(function() {
 	
 	$("#btnWrite").click(function() {
-		
 		location.href = "/admin/inquirywrite"
 	})
 })
@@ -93,5 +92,3 @@ th {
 <c:import url="/WEB-INF/views/admin/layout/inquirypaging.jsp" />
 
 </c:if>
-
-<c:import url="./layout/adminfooter.jsp" />
