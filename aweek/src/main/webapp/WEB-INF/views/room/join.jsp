@@ -131,15 +131,12 @@ form {
 <script type="text/javascript">
 
 function roomOpen(){
-	let userNo = document.querySelector(".userNo").value
- 	location.href = "/room/open?userNo=" + userNo;
+ 	location.href = "/room/open";
 }
 
 function roomList(){
-	let userNo = document.querySelector(".userNo").value
-	location.href = "/room/roomList?userNo=" + userNo;
+	location.href = "/room/roomList";
 }
-
 </script>
 
 

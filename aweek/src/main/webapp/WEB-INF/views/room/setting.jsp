@@ -161,20 +161,16 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 
 </style>
 
-function roomOpen(){
-	let userNo = document.querySelector(".userNo").value
- 	location.href = "/room/open?userNo=" + userNo;
-}
-
-function roomList(){
-	let userNo = document.querySelector(".userNo").value
-	location.href = "/room/roomList?userNo=" + userNo;
-}
-
 <script type="text/javascript">
 
 
+function roomOpen(){
+ 	location.href = "/room/open";
+}
 
+function roomList(){
+	location.href = "/room/roomList";
+}
 </script>
 
 
@@ -194,9 +190,11 @@ function roomList(){
 				<div class="settingTitle">
 					<h1>모임 설정</h1>
 					<h6>모임의 이름, 소개, 인원 수, 카테고리, 공개설정을 수정 해보세요.</h6>
-				</div>	
+				</div>
 		     	<input type="hidden" name="roomNo" class="roomNo" value="${roomInfo.roomNo }">
 		     	<input type="hidden" name="userNo" class="userNo" value="${roomInfo.userNo }">
+		     	
+		     	
 		     	<div class="object">
 				    <p>모임 이름 * </p>
 				    <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" value="${roomInfo.roomName }">

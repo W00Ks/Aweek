@@ -135,35 +135,57 @@ form {
 
 <script defer type="text/javascript">
 function roomOpen(){
-	let userNo = document.querySelector(".userNo").value
- 	location.href = "/room/open?userNo=" + userNo;
+ 	location.href = "/room/open";
 }
 
 function roomList(){
-	let userNo = document.querySelector(".userNo").value
-	location.href = "/room/roomList?userNo=" + userNo;
+	location.href = "/room/roomList";
 }
 
 function setting(){
-	let roomNo = document.querySelector("#roomNo").value
-	let userNo = document.querySelector("#userNo").value;
-	location.href = "/room/setting?userNo=" + userNo +"&roomNo=" + roomNo;
+	let roomNo = document.querySelector(".roomNo").value;
+	location.href = "/room/setting?roomNo=" + roomNo;
 }
-
-function dropOut(){
-	let roomNo = document.querySelector("#roomNo").value
-	let userNo = document.querySelector("#userNo").value
-	location.href = "/room/setting?userNo=" + userNo +"&roomNo=" + roomNo;
+function roomDelete(roomName,roomNo){
+	
+	let userNo = $(".userNo").val();
+	
+	console.log(roomName)
+	console.log(userNo)
+	console.log(roomNo)
+	
+ 	let conf = confirm( roomName + " 모임을 삭제 하시겠습니까?");
+	
+	if(conf){
+	   
+		$.ajax({
+	        type:"post"
+	        , url: "./delete"
+	       	, data : {
+				roomNo : roomNo
+			}
+			, dataType : "html"
+	        , success : function( result ) {
+	        	console.log("secess userNo:" + userNo)
+	        	console.log("secess roomNo:" + roomNo)
+                alert("삭제가 완료 되었습니다");
+	        	location.href="/room/main";
+	        }
+			, error : function() {
+				console.log("error")
+                alert("삭제에 실패했습니다");
+				return false;
+			}
+	    });
+	}
+	
 }
-
 function dropOut(){
-	let roomName = document.querySelector("#roomName").innerText
+	let roomName = document.querySelector(".roomName").innerText
 	console.log(roomName)
 	
-	let userNo = $("#userNo").val();
-	let roomNo = $("#roomNo").val();
+	let roomNo = $(".roomNo").val();
 	
-	console.log(userNo)
 	console.log(roomNo)
 	
  	let conf = confirm( "'" + roomName + "' 모임을 탈퇴하시겠습니까?");
@@ -174,12 +196,10 @@ function dropOut(){
 	        type:"post"
 	        , url: "./dropOut"
 	       	, data : {
-				userno : $("#userNo").val(),
-				roomNo : $("#roomNo").val()
+				roomNo : roomNo
 			}
 			, dataType : "html"
 	        , success : function( result ) {
-	        	console.log("secess userNo:" + userNo)
 	        	console.log("secess roomNo:" + roomNo)
                 alert("탈퇴가 완료 되었습니다");
 	        }
@@ -209,13 +229,12 @@ function dropOut(){
      <div class="open-content">
      	<div class="object">
      	<input type="hidden" name="roomNo" class="roomNo" value="${roomInfo.roomNo }">
-     	<input type="hidden" name="userNo" class="userNo" value="${roomInfo.userNo }">
 	    	<p>모임 이름 * </p>
-	    	<p id="roomName">${roomInfo.roomName }</p>
+	    	<p class="roomName">${roomInfo.roomName }</p>
 	    </div>
 	    <div class="object">
 	    	<p>모임 소개 * </p>
-	    	<p id="roomIntroduce">${roomInfo.roomIntroduce }</p>
+	    	<p class="roomIntroduce">${roomInfo.roomIntroduce }</p>
 	    </div>
 	    <div class="object">
 	    	<p>인원 수 * </p>
@@ -223,7 +242,7 @@ function dropOut(){
 		</div>
 	    <div class="object">
 	    	<p>카테고리 * </p>
-			<p id="roomCategoryName">${roomCaName }</p>
+			<p class="roomCategoryName">${roomCaName }</p>
 		</div>
 		<div class="object"> 
 	    	<p>공개설정 * </p>
@@ -243,12 +262,14 @@ function dropOut(){
 	    </div>
 	    
 	    <div class="btnsection">
+	    
 	    	<c:if test="${roomInfo.userNo eq userNo}">
 	    		<a class="btn btn--brown wide" onclick="setting()">모임 설정</a>
+		    	<a class="btn btn--brown wide" onclick="roomDelete('${room.roomName }',${room.roomNo })">모임 삭제</a>
 	    	</c:if>
 	    	<c:if test="${roomInfo.userNo ne userNo}">
+		    	<a class="btn btn--brown wide" onclick="dropOut()">모임 탈퇴</a>
 	    	</c:if>
-	    	<a class="btn btn--brown wide" onclick="dropOut()">모임 탈퇴</a>
 	    	<a class="btn btn--brown wide">취소</a>
 	    </div>
      </div>

@@ -8,6 +8,27 @@
 
 <style type="text/css">
 
+body {
+    font-family: 'NanumSquareNeo-Variable';
+}
+.inquiryTitle {
+	width: 100%;
+	text-align: center;
+}
+.inquiryTitle h2 {
+	padding: 60px;
+    border-bottom: 1px solid var(--shadow-gray);
+    font-size: 30px;
+    font-weight: 400;
+}
+.inquiry-content {
+	margin: 70px 15%;
+	padding: 50px;
+	border: 1px solid var(--shadow-gray);
+}
+
+
+
 </style>
 
 <script defer type="text/javascript">
@@ -16,23 +37,19 @@
 
 <section>
 	<div class="inquiryTitle">
-		<h1>1대1 문의 작성</h1>
+		<h2>1대1 문의 작성</h2>
 	</div>
 	
-	<form action="/inquiry" method="post" id="form">
+	<form action="/cs/inquiry" method="post" id="form">
 		<div class="inquiry-content">
 			<input type="hidden" name="userNo" class="userNo" value="${userNo }">
 			<div class="object">
-		    	<p>이름 * </p>
-		    	<input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" maxlength='40'>
+		    	<p>제목 * </p>
+		    	<input type="text" id="inquiryTitle" name="inquiryTitle" placeholder="문의 제목을 적어주세요!" maxlength='40'>
 		    </div>
 			<div class="object">
 		    	<p>이메일 * </p>
-		    	<input type="text" id="inquiryEmail" name="inquiryEmail" placeholder="모임 이름를 적어주세요!" maxlength='40'>
-		    </div>
-			<div class="object">
-		    	<p>제목 * </p>
-		    	<input type="text" id="inquiryTitle" name="inquiryTitle" placeholder="모임 이름를 적어주세요!" maxlength='40'>
+		    	<input type="text" id="inquiryEmail" name="inquiryEmail" placeholder="답변을 받을 이메일을 적어주세요!" maxlength='40'>
 		    </div>
 		    <div class="object">
 		    	<p>문의사항 * </p>
@@ -42,12 +59,12 @@
 			<div class="object"> 
 		    	<p>개인정보 동의 * </p>
 		    	<div class="roomPublic-section">
-			    	<input type="checkBox" name="roomPublic" value="1"  id="roomPublicY" checked>
+			    	<input type="checkBox" id="agree" checked>
 		    	</div>
 		    </div>
 		    
 		    <div class="btnsection">
-		    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">모임 개설</a>
+		    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">전달</a>
 		    	<a href="#" class="btn btn--brown wide">취소</a>
 		    </div>
 		</div>

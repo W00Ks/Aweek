@@ -28,49 +28,55 @@ public class CsController {
 	@Autowired CsService csService;
 	
 	@RequestMapping("/notice")
-	public void notice(HttpSession session, Model model, Member member) {
+	public void notice(HttpSession session, Model model) {
 		
 		//로그인 후 userNo저장
 		session.getAttribute("userNo");
-		int userno = (int) session.getAttribute("userNo");
-		logger.info("userno : {}",userno);
 		
 		//공지사항 리스트 불러오기
 		List<Notice> noticeList = csService.getNoticeList();
-		logger.info("noticeList : {}", noticeList);
+//		logger.info("noticeList : {}", noticeList);
 		model.addAttribute("noticeList", noticeList);
 		
 	}
-	@RequestMapping("/noticeList")
-	public void noticeList(HttpSession session, Model model, Member member) {
-		
-	}
-	@RequestMapping("/qna")
-	public void qna(HttpSession session, Model model, Member member) {
+	
+	@RequestMapping("/noticeView")
+	public void noticeView(HttpSession session, Model model, Notice notice) {
 		
 		//로그인 후 userNo저장
 		session.getAttribute("userNo");
 		
-		//공지사항 리스트 불러오기
+		//공지사항 상세보기
+		notice = csService.getNoticeView(notice);
+		model.addAttribute("notice", notice);
+	}
+	
+	@RequestMapping("/qna")
+	public void qna(HttpSession session, Model model) {
+		
+		//로그인 후 userNo저장
+		session.getAttribute("userNo");
+		
+		//자주하는 질문 리스트 불러오기
 		List<QnA> qnaList = csService.getQnAList();
-		logger.info("noticeList : {}", qnaList);
-		model.addAttribute("noticeList", qnaList);
+		logger.info("qnaList : {}", qnaList);
+		model.addAttribute("qnaList", qnaList);
 		
 	}
 	@GetMapping("/inquiry")
-	public void inquiry(HttpSession session, Member member) {
+	public void inquiry(HttpSession session) {
 		
 		//로그인 후 userNo저장
 		session.getAttribute("userNo");
 				
 	}
 	@PostMapping("/inquiry")
-	public void inquiryProc(HttpSession session, Model model, Member member) {
+	public String inquiryProc(HttpSession session, Inquiry inquiry) {
 		
-		Inquiry inquiry = new Inquiry();
+		session.getAttribute("userNo");
+		
 		csService.createInquiry(inquiry);
-		
-		session.setAttribute("userNo", member.getUserNo());
+		return "/member/myInquiry";
 		
 	}
 	

@@ -53,7 +53,7 @@
   <div class="inner">
 
     <div class="header__logo">
-      <a href="<%=request.getContextPath() %>/" class="logo">
+      <a href="<%=request.getContextPath() %>/aweekHome" class="logo">
         <img src="<%=request.getContextPath() %>/resources/img/aweekLogo.png" alt="aweekLogo">
       </a>
     </div>
