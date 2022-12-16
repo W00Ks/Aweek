@@ -42,6 +42,10 @@ $(document).ready(function() {
 
 <style type="text/css">
 
+body {
+	font-family: 'NanumSquareNeo-Variable';
+}
+
 /* 아이디 찾기 텍스트 */
 .mainTxt {
 	text-align: center;
@@ -49,12 +53,14 @@ $(document).ready(function() {
 	font-size: 40px;
 	font-weight: bold;
 	margin: 150px auto 50px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 컨테이너 전체 */
 .container {
 	margin: 0 auto;
 	width: 600px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 아이디 div 영역 */
@@ -70,7 +76,7 @@ $(document).ready(function() {
 /* 아이디 안내 텍스트 */
 .idBoxWord {
 	position: absolute;
-	top: 55px;
+	top: 65px;
 	width: 100%;
 	text-align: center; 
 }
@@ -107,6 +113,7 @@ $(document).ready(function() {
     border: 1px solid #f4b0b0;
     color: #ffffff;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 비밀번호 찾기 버튼 */
@@ -120,6 +127,7 @@ $(document).ready(function() {
     border: 1px solid #f4b0b0;
     color: #f4b0b0;
 	cursor: pointer;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 </style>

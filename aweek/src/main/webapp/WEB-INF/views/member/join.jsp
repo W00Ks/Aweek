@@ -354,7 +354,7 @@ function checkPw() {
     var isPW = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,15}$/;
 //    var isPW = /^[a-zA-Z][!@#$%^*+=-][0-9]{7,15}$/;
     if (!isPW.test(pw)) {
-        showErrorMsg(oMsg,"비밀번호는 8~16자의 영문자+숫자+특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)");
+        showErrorMsg(oMsg,"비밀번호는 8 ~ 16자의 영문자 + 숫자 + 특수문자 조합으로 사용 가능합니다. (사용가능 특수문자: !@#$%^*+=-)");
         return false;
     } else {
     	showSuccessMsg(oMsg, "사용 가능한 비밀번호입니다!");
@@ -387,6 +387,10 @@ function checkPwChk() {
 
 <style type="text/css">
 
+body {
+	font-family: 'NanumSquareNeo-Variable';
+}
+
 /* 회원가입 텍스트 */
 .joinTxt {
 	text-align: center;
@@ -394,12 +398,14 @@ function checkPwChk() {
 	font-size: 40px;
 	font-weight: bold;
 	margin: 40px auto;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 컨테이너 전체 */
 .join_content {
 	margin: 0 auto;
 	width: 400px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 회원가입 항목 이름 */
@@ -419,6 +425,7 @@ function checkPwChk() {
 	font-size: 16px;
 	padding-left: 15px;
 	margin-bottom: 5px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input focus */
@@ -478,6 +485,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #f4b0b0;
 	cursor: pointer;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 회원가입 버튼 */
@@ -492,6 +500,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #ffffff;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 주소찾기 div */
@@ -511,6 +520,7 @@ input:focus{
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 </style>
@@ -534,15 +544,15 @@ input:focus{
 		<label for="userPw">비밀번호</label>
 	</h3>
 	<span class="pwBox"><input type="password" name="userPw" id="userPw" class="int" maxlength="16" autocomplete="off">
-		<span class="material-icons" id="pwView1">visibility</span>
+		<span class="material-icons" id="pwView1" title="비밀번호 보기">visibility</span>
 	</span>
-	<span class="error_msg" id="userPwMsg" style="display:none;">비밀번호는 8~16자의 영문자+숫자+특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)</span>
+	<span class="error_msg" id="userPwMsg" style="display:none;">비밀번호는 8 ~ 16자의 영문자 + 숫자 + 특수문자 조합으로 사용 가능합니다. (사용가능 특수문자: !@#$%^*+=-)</span>
 
 	<h3 class="join_title">
 		<label for="userPwChk">비밀번호 확인</label>
 	</h3>
 	<span class="pwBox"><input type="password" name="userPwChk" id="userPwChk" class="int" maxlength="16" autocomplete="off">
-		<span class="material-icons" id="pwView2">visibility</span>
+		<span class="material-icons" id="pwView2" title="비밀번호 보기">visibility</span>
 	</span>
 	<span class="error_msg" id="userPwChkMsg" style="display:none;"></span>
 	

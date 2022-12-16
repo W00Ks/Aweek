@@ -307,19 +307,25 @@ function hideMsg(obj) {
 
 <style type="text/css">
 
+body {
+	font-family: 'NanumSquareNeo-Variable';
+}
+
 /* 회원정보 수정 텍스트 */
 .infoTxt {
     text-align: center;
     color: #555555;
     font-size: 30px;
     font-weight: bold;
-    margin: 20px auto 30px;
+    margin: 20px auto 40px;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 컨테이너 전체 */
 .info_content {
 	margin: 0 auto;
 	width: 500px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 회원정보 항목 이름 */
@@ -342,6 +348,7 @@ function hideMsg(obj) {
 	font-size: 14px;
 	padding-left: 15px;
     margin: 12px 0;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input focus */
@@ -385,20 +392,22 @@ input:focus{
 /* 비밀번호 변경 span 영역 */
 .modifyPw {
     position: absolute;
-    top: 40px;
-    width: 170px;
+    top: 50px;
+    width: 175px;
 }
 
 /* 비밀번호 변경 버튼 */
 #modifyPwBtn {
-	width: 95px;
+	width: 100px;
     height: 25px;
     border-radius: 5px;
-    border: 1px solid #f4b0b0;
-    background: #f4b0b0;
+    border: 1px solid #f7cccc;
+    background: #f7cccc;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 13px;
     cursor: pointer;
+    color: #666666;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 회원 정보 수정 버튼 div 영역 */
@@ -422,6 +431,7 @@ input:focus{
     color: #ffffff;
     cursor: pointer;
     margin: 20px 0;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 회원 탈퇴 버튼 */
@@ -438,6 +448,7 @@ input:focus{
     left: 375px;
     top: -45px;
     margin: 10px 0;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 주소검색 span 영역 */
@@ -452,11 +463,13 @@ input:focus{
 	width: 75px;
     height: 25px;
     border-radius: 5px;
-    border: 1px solid #f4b0b0;
-    background: #f4b0b0;
+    border: 1px solid #f7cccc;
+    background: #f7cccc;
     font-weight: 600;
     font-size: 13px;
     cursor: pointer;
+    color: #666666;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 아이디, 휴대폰 번호 span영역 */
@@ -477,11 +490,13 @@ input:focus{
 	width: 115px;
     height: 25px;
     border-radius: 5px;
-    border: 1px solid #f4b0b0;
-    background: #f4b0b0;
+    border: 1px solid #f7cccc;
+    background: #f7cccc;
     font-weight: 600;
     font-size: 13px;
     cursor: pointer;
+    color: #666666;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 </style>
@@ -507,7 +522,7 @@ input:focus{
 	<div class="info_title">
 		<label class="i_label" for="userPw">비밀번호</label>
 		<span class="pwBox"><input type="password" name="userPw" id="userPw" class="int" maxlength="16" autocomplete="off">
-			<span class="material-icons" id="pwView1">visibility</span>
+			<span class="material-icons" id="pwView1" title="비밀번호 보기">visibility</span>
 		</span>
 	</div>
 	<span class="error_msg" id="userPwMsg" style="display:none;">비밀번호를 수정 하실 경우에만 입력해주세요.</span>
@@ -515,7 +530,7 @@ input:focus{
 	<div class="info_title">
 		<label class="i_label" for="userPwChk">비밀번호 확인</label>
 	<span class="pwBox"><input type="password" name="userPwChk" id="userPwChk" class="int" maxlength="16" autocomplete="off">
-		<span class="material-icons" id="pwView2">visibility</span>
+		<span class="material-icons" id="pwView2" title="비밀번호 보기">visibility</span>
 	</span>
 	</div>
 	<span class="error_msg" id="userPwChkMsg" style="display:none;"></span>

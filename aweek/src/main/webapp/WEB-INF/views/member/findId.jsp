@@ -134,6 +134,10 @@ $(document).ready(function() {
 
 <style type="text/css">
 
+body {
+	font-family: 'NanumSquareNeo-Variable';
+}
+
 /* 아이디 찾기 텍스트 */
 .mainTxt {
 	text-align: center;
@@ -147,6 +151,7 @@ $(document).ready(function() {
 .container {
 	margin: 0 auto;
 	width: 411px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input box */
@@ -159,6 +164,7 @@ $(document).ready(function() {
 	font-size: 16px;
 	padding-left: 15px;
 	margin: 10px auto;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input focus */
@@ -178,6 +184,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #ffffff;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 인증메일 재발송 버튼 */
@@ -192,6 +199,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #f4b0b0;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 인증번호 확인 버튼 */
@@ -206,6 +214,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #ffffff;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 </style>

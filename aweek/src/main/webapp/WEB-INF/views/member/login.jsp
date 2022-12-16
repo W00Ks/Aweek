@@ -271,6 +271,10 @@ function hideMsg(obj) {
 
 <style type="text/css">
 
+body {
+	font-family: 'NanumSquareNeo-Variable';
+}
+
 /* 로그인 텍스트 */
 .mainTxt {
 	text-align: center;
@@ -284,6 +288,7 @@ function hideMsg(obj) {
 .container {
 	margin: 0 auto;
 	width: 411px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input box */
@@ -296,6 +301,7 @@ function hideMsg(obj) {
 	font-size: 16px;
 	padding-left: 15px;
 	margin: 10px auto;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input focus */
@@ -384,6 +390,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #ffffff;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 카카오 로그인 버튼 */
@@ -397,6 +404,7 @@ input:focus{
     border: 1px solid #FFE812;
     color: black;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 카카오 로그인 div */

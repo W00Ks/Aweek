@@ -156,12 +156,14 @@ $(document).ready(function() {
 	font-size: 40px;
 	font-weight: bold;
 	margin: 150px auto 50px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 컨테이너 전체 */
 .container {
 	margin: 0 auto;
 	width: 411px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input box */
@@ -174,6 +176,7 @@ $(document).ready(function() {
 	font-size: 16px;
 	padding-left: 15px;
 	margin: 10px auto;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input focus */
@@ -193,6 +196,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #ffffff;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 인증메일 재발송 버튼 */
@@ -207,6 +211,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #f4b0b0;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 인증번호 확인 버튼 */
@@ -221,6 +226,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #ffffff;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 </style>

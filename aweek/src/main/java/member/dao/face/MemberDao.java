@@ -134,10 +134,10 @@ public interface MemberDao {
 	/**
 	 * 게시글 번호를 이용하여 게시글을 조회한다
 	 * 
-	 * @param map - 조회하려는 나의 1:1문의글 번호, 회원 정보 객체
+	 * @param viewInquiry - 조회하려는 나의 1:1문의글 번호
 	 * @return 조회된 나의 1:1 문의글 정보
 	 */
-	public Inquiry selectMyInquiryView(HashMap<String, Object> map);
+	public Inquiry selectMyInquiryView(Inquiry viewInquiry);
 
 	
 }

@@ -164,9 +164,8 @@ public interface MemberService {
 	 * 나의 1:1 문의글 상세보기
 	 * 
 	 * @param viewInquiry - 상세 조회할 게시글 번호 객체
-	 * @param member - 회원 정보
 	 * @return 조회된 상세 나의 1:1 문의글 객체
 	 */
-	public Inquiry myInquiryView(Inquiry viewInquiry, Member member);
+	public Inquiry myInquiryView(Inquiry viewInquiry);
 
 }

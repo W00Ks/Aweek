@@ -268,6 +268,10 @@ function hideMsg(obj) {
 
 <style type="text/css">
 
+body {
+	font-family: 'NanumSquareNeo-Variable';
+}
+
 /* 회원가입 텍스트 */
 .joinTxt {
 	text-align: center;
@@ -275,12 +279,14 @@ function hideMsg(obj) {
 	font-size: 40px;
 	font-weight: bold;
 	margin: 40px auto;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 컨테이너 전체 */
 .join_content {
 	margin: 0 auto;
 	width: 400px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 회원가입 항목 이름 */
@@ -300,6 +306,7 @@ function hideMsg(obj) {
 	font-size: 16px;
 	padding-left: 15px;
 	margin-bottom: 5px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input focus */
@@ -347,6 +354,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #f4b0b0;
 	cursor: pointer;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 회원가입 버튼 */
@@ -361,6 +369,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #ffffff;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 주소찾기 div */
@@ -380,6 +389,7 @@ input:focus{
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 카카오 계정 파라미터 */

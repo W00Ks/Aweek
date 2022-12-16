@@ -94,6 +94,13 @@ $(document).ready(function() {
 
 <style type="text/css">
 
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 h3 {
 	margin: 10px 0;
 }
@@ -111,6 +118,7 @@ p {
 .container {
 	margin: 0 auto;
 	width: 600px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 비밀번호 변경 텍스트 */
@@ -120,6 +128,7 @@ p {
 	font-size: 40px;
 	font-weight: bold;
 	margin-top: 30px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* PW BOX 영역 */
@@ -138,6 +147,7 @@ p {
 	font-size: 16px;
 	padding-left: 15px;
 	margin: 10px auto;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input focus */
@@ -162,6 +172,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #f4b0b0;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 회원 탈퇴 버튼 */
@@ -177,6 +188,7 @@ input:focus{
 	cursor: pointer;
 	float: right;
 	padding-right: 5px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* V 아이콘 */
