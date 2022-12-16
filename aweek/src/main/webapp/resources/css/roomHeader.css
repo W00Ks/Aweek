@@ -65,9 +65,10 @@ a {
 .btn {
   width: 100px;
   padding: 10px;
-  border: 1px solid var(--accent-color);
+  border: 1px solid var(--soft-black);
+  background-color: var(--baby-pink);
   border-radius: 4px;
-  color: var(--accent-color);
+  color: var(--soft-black);
   font-size: 12px;
   font-weight: 700;
   text-align: center;
@@ -77,8 +78,9 @@ a {
   transition: .4s;
 }
 .btn:hover {
-  background-color: var(--accent-color);
-  color: var(--text-color);
+  border: 1px solid var(--soft-black);
+  background-color: var(--text-color);
+  color: var(--soft-black);
 }
 .btn.btn--reverse {
   background-color: var(--text-color);
@@ -106,6 +108,17 @@ a {
   color: var(--accent-color);
   background-color: var(--text-color);
 }
+.btn.wide {
+	width: 100%;
+    margin: 10px 0;
+    padding: 15px 0;
+    height: 40px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 
 /* HEADER */
@@ -186,6 +199,7 @@ header > .inner {
 	right: 10px;
 	font-size: 45px;
 	color: var(--accent-color);
+    top: 16px;
 }
 
 
@@ -219,11 +233,13 @@ header > .inner {
   .header__my {
     position: absolute;
     top: 12px;
-    right: 50px;
+    right: 60px;
   }
 
   .header__toggleBtn {
-    display: block;
+    display: flex;
+    font-size: 16px;
+    
   }
 
   .header__menu.active {

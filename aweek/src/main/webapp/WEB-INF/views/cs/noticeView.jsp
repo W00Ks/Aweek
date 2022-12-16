@@ -26,19 +26,25 @@ body {
 }
 .detail-wrap .detail .title-detail {
 	display: flex;
-    padding: 10px 0px;
+    padding: 15px 0px;
     margin: 15px 0;
     border-bottom: 2px solid var(--shadow-gray);
     justify-content: space-between;
     font-size: 14px;
 }
 .detail-wrap .detail .title-detail .date {
+    flex-grow: 1;
+}
+.detail-wrap .detail .title-detail .hit-title {
+	padding: 0 10px;
 }
 .detail-wrap .detail .title-detail .hit {
 
 }
 .detail-wrap .detail .content {
 	margin: 70px 0;
+	white-space: break-spaces;
+    line-height: 2.2em;
 }
 
 
@@ -83,6 +89,7 @@ body {
 			<p class="title">${notice.noticeTitle }</p>
 				<div class="title-detail">
 					<p class="date"><fmt:formatDate value="${notice.noticeDate }" /></p>
+					<p class="hit-title">조회수</p>
 					<p class="hit">${notice.noticeHit }</p>
 				</div>
 			<p class="content">${notice.noticeContent }</p>

@@ -12,20 +12,6 @@
 html {
 	height: 100vh;	
 }
-body {
-	height: calc(100% - 53px);
-	 -ms-overflow-style: none;
- }
-body::-webkit-scrollbar {
-  display: none;
-}
-@font-face {
-    font-family: 'NanumSquareNeo-Variable';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
 html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, blockquote, form, fieldset, legend, menu, nav, section, hgroup, article, header, aside, footer, input, select, textarea, button {
 	font-family: 'NanumSquareNeo-Variable';
 }
@@ -89,8 +75,10 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
     border-radius: 20px;
     box-sizing: border-box;
     cursor: pointer;
-
     z-index: 1;
+}
+.container .roomBox-wrap .roomBox:hover {
+	transform: translate( 0, -1% );
 }
 
 .container .roomBox-wrap .roomBox .roomName {
@@ -128,10 +116,14 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 	color: var(--background-color--);
 }
 .container .roomBox-wrap .roomBox .dropOut {
+	color: var(--deep-gray);
 	font-size: 15px;
 	z-index: 9;	
 	position: absolute;
 	right: 0;
+}
+.container .roomBox-wrap .roomBox .dropOut:hover {
+	color: var(--soft-black);
 }
 
 @media screen and (max-width: 768px) {
@@ -241,130 +233,14 @@ function dropOut(roomName,roomNo){
 }
 
 
-
-function roomBox() {
-	
-/* 	var arr = new Array();
-	
-	<c:forEach items="${myRoomList  }" var="room">
-		arr.push({
-			roomName : "${room.roomName }"
-			, roomIntroduce : "${room.roomIntroduce }"
-		});
-	</c:forEach>
-	
-	for(var i=0; i < arr.length; i++) {
-		
-		console.log(arr[i].roomName)
-		console.log(arr[i].roomIntroduce)
-		
-	} */
-	
-/* 	let roomName = [];
-	
-	<c:forEach items="${myRoomList  }" var="room">
-		roomName.push("${room.roomName }");
-	</c:forEach>
-	
-	let cutName = [];
-	let cut
-	
-	for(var i=0; i < roomName.length; i++) {
-		
-		cutName = roomName[i]
-		
-		if( cutName.length >= 10 ){
-			
-			cut = cutName.subString(10, -1);
-			
-			console.log(cut)
-		}
-		
-		console.log("cutName : " + cutName)
-	}
-	
-	console.log(roomName)
-	 */
-	
-		
-}
-
-//대상 Element 선택
-/* const resizer = document.querySelector('.resizer');
-console.log(resizer)
-const leftSide = resizer.previousElementSibling;
-console.log(leftSide)
-const rightSide = resizer.nextElementSibling;
-
-// 마우스의 위치값 저장을 위해 선언
-let x = 0;
-let y = 0;
-
-// 크기 조절시 왼쪽 Element를 기준으로 삼기 위해 선언
-let leftWidth = 0;
-
-// resizer에 마우스 이벤트가 발생하면 실행하는 Handler
-const mouseDownHandler = function (e) {
-    // 마우스 위치값을 가져와 x, y에 할당
-    x = e.clientX;
-    y = e.clientY;
-    // left Element에 Viewport 상 width 값을 가져와 넣음
-    leftWidth = leftSide.getBoundingClientRect().width;
-
-    // 마우스 이동과 해제 이벤트를 등록
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);
-};
-
-const mouseMoveHandler = function (e) {
-    // 마우스가 움직이면 기존 초기 마우스 위치에서 현재 위치값과의 차이를 계산
-    const dx = e.clientX - x;
-    const dy = e.clientY - y;
-
-  	// 크기 조절 중 마우스 커서를 변경함
-    // class="resizer"에 적용하면 위치가 변경되면서 커서가 해제되기 때문에 body에 적용
-    document.body.style.cursor = 'col-resize';
-    
-    // 이동 중 양쪽 영역(왼쪽, 오른쪽)에서 마우스 이벤트와 텍스트 선택을 방지하기 위해 추가
-    leftSide.style.userSelect = 'none';
-    leftSide.style.pointerEvents = 'none';
-    
-    rightSide.style.userSelect = 'none';
-    rightSide.style.pointerEvents = 'none';
-    
-    // 초기 width 값과 마우스 드래그 거리를 더한 뒤 상위요소(container)의 너비를 이용해 퍼센티지를 구함
-    // 계산된 퍼센티지는 새롭게 left의 width로 적용
-    const newLeftWidth = ((leftWidth + dx) * 100) / resizer.parentNode.getBoundingClientRect().width;
-    leftSide.style.width = `${newLeftWidth}%`;
-};
-
-const mouseUpHandler = function () {
-    // 모든 커서 관련 사항은 마우스 이동이 끝나면 제거됨
-    resizer.style.removeProperty('cursor');
-    document.body.style.removeProperty('cursor');
-
-    leftSide.style.removeProperty('user-select');
-    leftSide.style.removeProperty('pointer-events');
-
-    rightSide.style.removeProperty('user-select');
-    rightSide.style.removeProperty('pointer-events');
-
-    // 등록한 마우스 이벤트를 제거
-    document.removeEventListener('mousemove', mouseMoveHandler);
-    document.removeEventListener('mouseup', mouseUpHandler);
-};
-
-// 마우스 down 이벤트를 등록
-resizer.addEventListener('mousedown', mouseDownHandler);
- */
 </script>
 
 
 <section class="container">
     <div class="container__left">
       <div class="btn-menu">
-		<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
-		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
+		<div class="btn" onclick="roomOpen()">모임개설</div>
+		<div class="btn" onclick="roomList()">모임목록</div>
      </div>
     </div>
 

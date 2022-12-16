@@ -49,7 +49,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 .container__right {
 	width: 80%;
 	min-height: calc(100% - 52px);
-	background-color: var(--light-color);
+	background-color: var(--text-color);
 	flex: 1;
 }
 .container__right .list-wrap {
@@ -61,7 +61,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
     background-color: var(--text-color);
     flex-direction: column;
     border-radius: 10px;
-    box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 5%);
+    box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 8%);
 }
 
 .container__right .list-wrap .list-title {
@@ -80,10 +80,11 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 .container__right .list-wrap .table-menu {
 	margin: 40px 0;
 	width: 100%;
-	border-bottom: 2px solid var(--accent-color);
+	border-bottom: 1px solid var(--accent-color);
     padding: 15px 0;
     font-size: 18px;
     text-align: center;
+    background-color: var(--light-color);
 }
 .container__right .list-wrap .table-menu li {
 	list-style-type: none;
@@ -143,7 +144,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 
 .container__right .list-wrap .table .join {
 	padding: 5px 5px;
-    background-color: var(--accent-color);
+    background-color: var(--soft-black);
     color: var(--text-color);
     font-size: 14px;
     border-radius: 10px;
@@ -205,9 +206,6 @@ function roomList(){
 //userNo 중복 검사
 function checkUserNo(roomNo) {
 	
-	let userNo = $(".userNo").val();
-	
-	console.log(userNo)
 	console.log(roomNo)
 	
     $.ajax({
@@ -222,7 +220,7 @@ function checkUserNo(roomNo) {
         	console.log(result)
             if (result == 0) {
             	console.log( "seccess" )
-				location.href = "/room/join?userNo=" + userNo + "&roomNo=" + roomNo;
+				location.href = "/room/join?roomNo=" + roomNo;
 			    return true;
 			    
             } else if ( result == 1 ) {
@@ -245,8 +243,8 @@ function goRoomInfo(roomNo) {
 <section class="container">
     <div class="container__left">
       <div class="btn-menu">
-		<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
-		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
+		<div class="btn" onclick="roomOpen()">모임개설</div>
+		<div class="btn" onclick="roomList()">모임목록</div>
      </div>
     </div>
 

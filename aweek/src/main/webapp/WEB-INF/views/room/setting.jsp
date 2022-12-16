@@ -43,15 +43,15 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 	padding: 0 50px;
 }
 .resizer {
-  background-color: #cbd5e0;
+  background-color: var(--border-color);
   cursor: ew-resize;
-  height: 100%;
+  min-height: 100%;
   width: 2px;
 }
 .container__right {
 	width: calc(100% - 300px);
 	height: calc(100% - 52px);
-	background-color: var(--light-color);
+	background-color: var(--text-color);
 }
 .container__right .setting-content {
     margin: 50px 10%;
@@ -60,7 +60,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
     background-color: var(--text-color);
     flex-direction: column;
     border-radius: 10px;
-    box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 5%);
+    box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 8%);
 }
 .container__right .setting-content .settingTitle {
 	margin: 80px auto;
@@ -177,8 +177,8 @@ function roomList(){
 <section class="container">
 	<div class="container__left">
 		<div class="btn-menu">
-			<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
-		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
+			<div class="btn" onclick="roomOpen()">모임개설</div>
+		<div class="btn" onclick="roomList()">모임목록</div>
 		</div>
 	</div>
    
@@ -232,8 +232,8 @@ function roomList(){
 			    </div>
 			    
 			    <div class="btnsection">
-			    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">설정</a>
-			    	<a href="#" class="btn btn--brown wide">취소</a>
+			    	<a href="#" class="btn wide" onclick="document.getElementById('form').submit();">설정</a>
+			    	<a href="#" class="btn wide">취소</a>
 				</div>
 			</div>
 		</form>

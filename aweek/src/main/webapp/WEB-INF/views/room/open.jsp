@@ -10,21 +10,6 @@ html {
 	height: 100vh;	
 }
 body {
-	height: calc(100% - 53px);
-	 -ms-overflow-style: none;
- }
-body::-webkit-scrollbar {
-  display: none;
-}
-
-@font-face {
-    font-family: 'NanumSquareNeo-Variable';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, blockquote, form, fieldset, legend, menu, nav, section, hgroup, article, header, aside, footer, input, select, textarea, button {
 	font-family: 'NanumSquareNeo-Variable';
 }
 .container {
@@ -42,18 +27,16 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 	margin: 50px auto;
 	padding: 0 50px;
 }
-
 .resizer {
-  background-color: #cbd5e0;
+  background-color: var(--border-color);
   cursor: ew-resize;
-  height: 100%;
+  min-height: 100%;
   width: 2px;
 }
-
 .container__right {
 	width: calc(100% - 300px);
 	height: calc(100% - 52px);
-	background-color: var(--light-color);
+	background-color: var(--text-color);
 }
 .container__right .open-content {
     margin: 50px 10%;
@@ -62,7 +45,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
     background-color: var(--text-color);
     flex-direction: column;
     border-radius: 10px;
-    box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 5%);
+    box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 8%);
 }
 .container__right .open-content .openTitle {
 	margin: 80px auto;
@@ -92,7 +75,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 	border-radius: 2px;
     border: 2px solid var(--accent-color);
     box-sizing: border-box;
-    background-color: transparent;
+    background-color: var(--text-color);
     font-size: 14px;
     height: 35px;
     padding-left: 10px;
@@ -108,7 +91,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
     box-sizing: border-box;
     border: solid 2px var(--accent-color);
     border-radius: 2px;
-    background-color: transparent;
+    background-color: var(--text-color);
     font-size: 14px;
     resize: none;
 }
@@ -131,19 +114,12 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 	width: 120px;
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-left: 10px;
 }
 
 .container__right .open-content .btnsection {
 	margin: 80px 20%;
-}
-
-.btn.wide {
-	width: 100%;
-    margin: 10px 0;
-    padding: 15px 0;
-    height: 50px;
-    font-size: 16px;
 }
 
 @media screen and (max-width: 768px) {
@@ -179,8 +155,8 @@ function roomList(){
 <section class="container">
 	<div class="container__left">
     	<div class="btn-menu">
-			<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
-		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
+			<div class="btn" onclick="roomOpen()">모임개설</div>
+			<div class="btn" onclick="roomList()">모임목록</div>
      	</div>
 	</div>
    
@@ -230,8 +206,8 @@ function roomList(){
 			    </div>
 			    
 			    <div class="btnsection">
-			    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">모임 개설</a>
-			    	<a href="#" class="btn btn--brown wide">취소</a>
+			    	<a href="#" class="btn wide" onclick="document.getElementById('form').submit();">모임 개설</a>
+			    	<a href="#" class="btn wide">취소</a>
 			    </div>
 			</div>
 		</form>
