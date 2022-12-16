@@ -11,7 +11,7 @@
 		VALUES(seq_my_calender.nextval, 1, #{calTitle}, #{startDate}, #{startTime} ,  #{calPlace}, #{calMemo})
 	</insert>
 	<select id="selectMyCal" resultType="calendar.dto.CalDto">
-		SELECT * FROM my_calender
+		SELECT * FROM my_calender ORDER BY start_time
 	</select>
 	
 	<select id="selectMyCalByCalNo" parameterType="calendar.dto.CalDto" resultType="calendar.dto.CalDto">
