@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatFile;
 import chat.dto.ChatList;
+import chat.dto.ChatProfile;
 import chat.dto.ChatRoom;
 import chat.service.face.ChatService;
 import member.dto.Member;
@@ -71,6 +73,14 @@ public class ChatServiceImpl implements ChatService {
 	}
 	
 	@Override
+	public ChatProfile getProfileInfo(int userNo) {
+		
+		ChatProfile chatProf = chatDao.selectChatProfile(userNo);
+		
+		return chatProf;
+	}
+	
+	@Override
 	@Transactional
 	public int createChatRoom(ChatRoom chatRoom, int userNo, int inviteUserNo) {
 		
@@ -116,34 +126,11 @@ public class ChatServiceImpl implements ChatService {
 	public ChatFile chatFileUpload(MultipartFile file, int chatRoomNo, int userNo) {
 		
 		//첨부파일 처리
-		
-		//빈 파일일 경우
-		if( file.getSize() <= 0 ) {
-			return null;
-		}
-		
-		//파일이 저장될 경로
-		String storedPath = context.getRealPath("upload");
-		File storedFolder = new File( storedPath );
-		if( !storedFolder.exists() ) {
-			storedFolder.mkdir();
-		}
-		
-		//파일이 저장될 이름
-		String originName = file.getOriginalFilename();
-		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
-		
-		//저장할 파일의 정보 객체
-		File dest = new File( storedFolder, storedName );
-		
-		try {
-			file.transferTo(dest);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+		String[] names = getFileNames(file);
+		String originName = names[0];
+		String storedName = names[1];
+		logger.info("originName: {}, storedName: {}", originName, storedName);
+
 		//--------------------------------------------
 		
 		//첨부파일 정보 DB 기록
@@ -189,6 +176,88 @@ public class ChatServiceImpl implements ChatService {
 	@Override
 	public ChatFile getFile(ChatFile chatFile) {
 		return chatDao.selectChatFileBychatFileNo(chatFile);
+	}
+	
+	@Override
+	public ChatProfile profileUpload(MultipartFile file, HttpSession session) {
+		int userNo = (int) session.getAttribute("userNo");
+		
+		//이미 프로필 등록한 적 있는지 확인
+		int res = chatDao.isAlreadyProf(userNo);
+		
+		ChatProfile chatProfile;
+		
+		
+		if(res == 0) { //등록한 프로필이 없을 때
+			
+			//첨부파일 처리
+			String[] names = getFileNames(file);
+			logger.info("originName: {}, storedName: {}", names[0], names[1]);
+			
+			//파일 정보 INSERT
+			chatProfile = new ChatProfile();
+			chatProfile.setUserNo(userNo);
+			chatProfile.setChatProfileOriginName(names[0]);
+			chatProfile.setChatProfileStoredName(names[1]);
+			
+			//파일 INSERT
+			chatDao.insertChatProfile(chatProfile);
+			
+			return chatProfile;
+			
+		} else { //등록한 프로필이 이미 존재할 때
+			
+			//첨부파일 처리
+			String[] names = getFileNames(file);
+			logger.info("originName: {}, storedName: {}", names[0], names[1]);
+			
+			//파일 정보 INSERT
+			chatProfile = new ChatProfile();
+			chatProfile.setUserNo(userNo);
+			chatProfile.setChatProfileOriginName(names[0]);
+			chatProfile.setChatProfileStoredName(names[1]);
+			
+			//파일 UPDATE
+			chatDao.updateChatProfile(chatProfile);
+			
+			return chatProfile;
+		}
+		
+	}
+	
+	//파일 정보를 가져오는 메소드
+	public String[] getFileNames(MultipartFile file) {
+		
+		//빈 파일일 경우
+		if( file.getSize() <= 0 ) {
+			return null;
+		}
+		
+		//파일이 저장될 경로
+		String storedPath = context.getRealPath("upload");
+		File storedFolder = new File( storedPath );
+		if( !storedFolder.exists() ) {
+			storedFolder.mkdir();
+		}
+		
+		//파일이 저장될 이름
+		String originName = file.getOriginalFilename();
+		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+		
+		//저장할 파일의 정보 객체
+		File dest = new File( storedFolder, storedName );
+		
+		try {
+			file.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String[] fileNames = {originName, storedName};
+		
+		return fileNames;
 	}
 	
 }

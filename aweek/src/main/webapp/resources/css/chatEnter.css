@@ -1,9 +1,15 @@
 @charset "UTF-8";
 
+body.swal2-height-auto {
+    height: 100% !important;
+}
+
 #MessageArea {
     height: calc(100% - 101px);
     overflow: scroll;
     background-color: #f3f3f3;
+    border-left: 1px solid #d3c3c3;
+    border-radius: 30px 0 0 0;
 }
 
 .chatSendMsg, .chatReceiveMsg {
@@ -38,7 +44,9 @@
     box-sizing: border-box;
     border-top: 1px solid #d3c3c3;
     border-bottom: 1px solid #d3c3c3;
+    border-left: 1px solid #d3c3c3;
     position: relative;
+    background: #fff;
 }
 
 #btnAddFile {
@@ -116,26 +124,23 @@
 }
 
 #chatMenu {
-	display: inline-block;
     border: 1px solid #ccc;
     width: 120px;
-    padding: 10px 0;
     position: relative;
-    top: 1px;
+    top: 37px;
     background-color: #fff;
 }
 
-#btnExit {
+.btnCM {
 	border: none;
     background: none;
     width: 100%;
     height: 35px;
 }
 
-#btnExit:hover { background-color: #ddd; }
+.btnCM:hover { background-color: #ddd; }
 
 .chatDot {
-	margin: 30px;
 	margin: 20px 30px 30px 1px;
     font-size: 40px;
     cursor: pointer;
@@ -156,7 +161,16 @@
     color: #333;
 }
 
-#proflieImg {
+#setProflieImg {
+	width: 50px;
+    height: 50px;
+    border: 1px solid #eee;
+    border-radius: 35px;
+    float: left;
+    margin: 5px 0 0 5px;
+}
+
+#profileImg {
 	display: inline-block;
     float: left;
     color: #777;

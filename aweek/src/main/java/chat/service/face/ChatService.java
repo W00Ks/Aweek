@@ -3,11 +3,14 @@ package chat.service.face;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatFile;
+import chat.dto.ChatProfile;
 import chat.dto.ChatRoom;
 import member.dto.Member;
 import room.dto.RoomList;
@@ -45,6 +48,14 @@ public interface ChatService {
 	 * @return 같은 모임 유저 목록
 	 */
 	public List<ChatCreatRoomInfo> getRoomJoinList(int userNo);
+	
+	/**
+	 * 회원의 프로필 사진 정보를 가져온다
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 프로필 사진 정보 객체
+	 */
+	public ChatProfile getProfileInfo(int userNo);
 	
 	/**
 	 * 새로운 채팅방을 생성한다
@@ -85,6 +96,17 @@ public interface ChatService {
 	 * @return 첨부 파일 정보
 	 */
 	public ChatFile getFile(ChatFile chatFile);
+	
+	/**
+	 * 회원의 프로필을 등록 후 값을 반환한다
+	 * 
+	 * @param file - 업로드한 파일 정보
+	 * @param session - 회원 정보 세션
+	 * @return 업로드한 프로필 정보
+	 */
+	public ChatProfile profileUpload(MultipartFile file, HttpSession session);
+	
+	
 
 	
 	

@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<div id="mainImgWrap"><img id="mainImg" src="/resources/chat/aweekLogo.png"></div>
+<div id="mainImgWrap"><img id="mainImg" src="/resources/img/aweekLogo_black.png"></div>
 
 </body>
 </html>

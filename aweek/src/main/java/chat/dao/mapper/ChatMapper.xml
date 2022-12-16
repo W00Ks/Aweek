@@ -45,6 +45,11 @@
 		ORDER BY b.room_no
 	</select>
 	
+	<select id="selectChatProfile" resultType="ChatProfile" parameterType="int">
+		SELECT * FROM chat_profile
+		WHERE user_no = #{userNo }
+	</select>
+	
 	<!-- 채팅방 INSERT -->
 	<insert id="insertChatRoom" parameterType="ChatRoom">
 		<selectKey keyProperty="chatRoomNo" resultType="int" order="BEFORE">
@@ -103,6 +108,27 @@
 		FROM chat_file
 		WHERE chat_file_no = #{chatFileNo }
 	</select>
+	
+	<select id="isAlreadyProf" resultType="int" parameterType="int">
+		SELECT count(*) FROM chat_profile
+		WHERE user_no = #{userNo }
+	</select>
+	
+	<insert id="insertChatProfile" parameterType="ChatProfile">
+		INSERT INTO chat_profile
+			(chat_profile_no, chat_profile_origin_name, chat_profile_stored_name
+			, chat_profile_file_date, user_no)
+		VALUES (chat_profile_seq.nextval,#{chatProfileOriginName }, #{chatProfileStoredName }
+				, sysdate, #{userNo })
+	</insert>
+	
+	<update id="updateChatProfile" parameterType="ChatProfile">
+		UPDATE chat_profile
+		SET chat_profile_origin_name = #{chatProfileOriginName }
+			, chat_profile_stored_name = #{chatProfileStoredName }
+			, chat_profile_file_date = sysdate
+		WHERE user_no = #{userNo }
+	</update>
 	
 </mapper>
 

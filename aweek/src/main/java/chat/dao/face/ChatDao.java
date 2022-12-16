@@ -7,6 +7,7 @@ import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatFile;
 import chat.dto.ChatList;
+import chat.dto.ChatProfile;
 import chat.dto.ChatRoom;
 import member.dto.Member;
 import room.dto.RoomList;
@@ -44,6 +45,14 @@ public interface ChatDao {
 	 * @return 같은 모임의 유저 전체 목록
 	 */
 	public List<ChatCreatRoomInfo> selectRoomJoinlist(int userNo);
+	
+	/**
+	 * 회원의 프로필 사진을 조회한다
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 프로필 사진 정보 객체
+	 */
+	public ChatProfile selectChatProfile(int userNo);
 	
 	/**
 	 *  입력 받은 정보를 이용하여
@@ -108,6 +117,30 @@ public interface ChatDao {
 	 * @return 조회된 첨부파일 정보
 	 */
 	public ChatFile selectChatFileBychatFileNo(ChatFile chatFile);
+	
+	/**
+	 * 회원이 이미 등록한 프로필 사진이 있는지 확인
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return ( 0 - 없음, 0이상 - 있음 )
+	 */
+	public int isAlreadyProf(int userNo);
+	
+	/**
+	 * 회원의 프로필 사진 정보를 DB에 INSERT한다
+	 * 
+	 * @param chatProfile - 프로필 사진 정보 객체
+	 */
+	public void insertChatProfile(ChatProfile chatProfile);
+	
+	/**
+	 * 회원의 프로필을 변경한다
+	 * 
+	 * @param chatProfile - 프로필 사진 정보 객체 
+	 */
+	public void updateChatProfile(ChatProfile chatProfile);
+
+	
 
 	
 	
