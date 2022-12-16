@@ -78,7 +78,7 @@
 	<div class="inner">
 		<div class="nav__logo">
       		<a href="<%=request.getContextPath() %>/aweekHome" class="logo">
-	        	<img src="<%=request.getContextPath() %>/resources/img/aweekLogo.png" alt="aweekLogo">
+	        	<img src="<%=request.getContextPath() %>/resources/img/aweekLogo_black.png" alt="aweekLogo">
 	    	</a>
     	</div>
     	
@@ -91,6 +91,14 @@
 								<li class="sub-title"><p>어위크 소개</p>
 									<a href="javascript:void(0)"><span>어위크 소개</span></a>
 								</li>
+							</ul>
+						</div>
+					</div>
+				</li>
+				<li>모임
+					<div class="sub-menu-wrap">
+						<div class="sub-menu">
+							<ul class="inner room">
 								<li class="sub-title"><p>모임</p>
 									<a href="/chat/main"><span>채팅</span></a>
 									<a href="/calendar/myCal"><span>캘린더</span></a>

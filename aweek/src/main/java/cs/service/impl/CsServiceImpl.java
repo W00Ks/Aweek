@@ -52,6 +52,13 @@ public class CsServiceImpl implements CsService {
 	}
 	
 	@Override
+	public List<QnA> getQnAListEqualCaNo(int qnaCategoryNo) {
+
+		List<QnA> qnaList = csDao.selectQnAEqualCaNo(qnaCategoryNo);
+		return qnaList;
+	}
+	
+	@Override
 	public void createInquiry(Inquiry inquiry) {
 		csDao.insertInquiry(inquiry);
 	}

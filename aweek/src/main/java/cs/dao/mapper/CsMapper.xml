@@ -32,6 +32,12 @@
 		select * from qna
 		order by qna_no DESC
 	</select>
+	
+	<select id="selectQnAEqualCaNo" resultType="QnA" parameterType="int">
+		select * from qna
+		WHERE qna_category_no = #{qnaCategoryNo}
+		order by qna_no DESC
+	</select>
 
 	<insert id="insertInquiry" parameterType="Inquiry">
 		<selectKey resultType="int" keyProperty="inquiryNo" order="BEFORE">

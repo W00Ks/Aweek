@@ -1,6 +1,14 @@
 @charset "UTF-8";
 
 :root {
+	--background-color: #f4b0b0;
+	--lightPink-color: #edc7c7;
+	--deepPink-color: #cb7070;
+	--accent-color: #594B4B;
+	--light-color: #f8f1f1;
+	--border-color: #d3c3c3;
+	--shadow--color: #f1ecec;
+	
 	--text-color: #fff;
 	--shadow-gray: #f1f1f1;
 	--baby-pink: #fde6e7;
@@ -151,17 +159,21 @@ nav > .inner {
 }
 .nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner.aweek {
 	padding: 0 0 0 30%;
-    margin: 0 6%;
+    margin: 0 3%;
+}
+.nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner.room {
+	padding: 0 0 0 30%;
+    margin: 0 10%;
 }
 .nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner.pay{
 	padding: 0 0 0 35%;
-	margin: 0 8%;
+	margin: 0 12%;
 }
 .nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner.cs {
-	padding: 0;
+	padding: 0 50px;
 }
 .nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner.my {
-	padding: 0px 0 0 130px;
+	padding: 0px 0 0 180px;
 }
 .nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner .sub-title {
 	display: flex;
@@ -196,6 +208,7 @@ nav > .inner {
 	box-sizing: border-box;
  	border: 1px solid transparent;
  	cursor: pointer;
+	opacity: 0%;
 }
 .nav__search.focused input {
 	width: 200px;
