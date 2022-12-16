@@ -22,7 +22,7 @@
 	   if(i == 5) var msg = j.split(".");
 	   
 	   if(i == 1) { 	   //채팅 메시지 처리
-		   ws.send($("#message").val());
+		   ws.send($("#message").val() + "/" + $('#setProflieImg').attr('class'));
 	   } else if(i == 2) { //방 생성 메시지 처리
 		   if(j > 0) {
 			   ws.send($("#chatRoomName1").val() + ":" + $('input[name=roomNo]:checked').val() + ":" 
@@ -55,11 +55,13 @@
    function onMessage(msg) {
        console.log("+ + + onMessage + + +");
        var data = msg.data;
+       console.log("+ + + " + data);
        
        var enter = data.split(" "); 	//입장 메시지인지 확인
        var uid = data.split(":"); 		//유저 아이디 확인
        var roomMsg = data.split(":");	//방 생성 메시지인지 확인
        var emoMsg = data.split(":");
+       
        //--- 입장/퇴장 메시지 처리 ---
        if(enter[1] == "입장하셨습니다." && roomMsg[0] != "Create Room") {
     	   console.log("+ + + 입장 메시지 + + +");
@@ -104,30 +106,30 @@
        //--- Sender/Receiver 메시지 처리 ---
        if(uid[0] == "${member.userId }" && roomMsg[0] != "Create Room" && enter[1] != "입장하셨습니다." && enter[1] != "나가셨습니다."&& emoMsg[2] != 'emoticon') {
     	   console.log("+ + + Sender 메시지 + + +");
-    	   console.log("Sender+" + uid);
+    	   console.log("Sender : " + uid[0]);
     	   
     	    // + Sender Message Process + 
    	    	if(uid[1] == 'id') {
+   	    		var prof = uid[2].split('/');
 	   	    	$("#MessageArea").append("<div style='text-align: right;'>" 
 	   	    								+ "<div class='timeDiv'>" 
 	   	    									+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
 	   	    								+ "</div>"
-	   	    								+ "<div class='chatSendMsg'>" + uid[2] + "</div>"
+	   	    								+ "<div class='chatSendMsg'>" + prof[0] + "</div>"
 	   	    							+ "</div>");
 	   	    	//Insert Chat to DB
-	   	    	insertChat(roomMsg[3], uid[2], dateFormat('time'), 0);
-// 		   	    $('.msgView[id=' + roomMsg[3] + ']').html(uid[2]);
+	   	    	insertChat(roomMsg[3], prof[0], dateFormat('time'), 0);
 	   	    	
     	    } else {
-	   	    	$("#MessageArea").append("<div style='text-align: right;'>" 
+   	    		var prof = uid[1].split('/');
+	   	    	$("#MessageArea").append("<div style='text-align: right;'>"
 	   	    								+ "<div class='timeDiv'>" 
 	   	    									+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
 	   	    								+ "</div>" 
-	   	    								+ "<div class='chatSendMsg'>" + uid[1] + "</div>" 
+	   	    								+ "<div class='chatSendMsg'>" + prof[0] + "</div>" 
 	   	    							+ "</div>");
 	   	   		//Insert Chat to DB
-	   	    	insertChat(roomMsg[2], uid[1], dateFormat('time'), 0);
-// 		   	    $('.msgView[id=' + roomMsg[2] + ']').html(uid[1]);
+	   	    	insertChat(roomMsg[2], prof[0], dateFormat('time'), 0);
 		   	    
     	    }
     	    
@@ -135,34 +137,64 @@
       	    
        } else if(uid[0] != "${member.userId }" && enter[1] != "입장하셨습니다." && enter[1] != "나가셨습니다." && roomMsg[0] != "Create Room"&& emoMsg[2] != 'emoticon') {
     	    console.log("+ + + Receiver 메시지 + + +");
-    	    console.log("Receiver+" + uid)
+    	    console.log("Receiver : " + uid)
+    	    
     	    
     	    // + Receiver 메시지 처리 +
     	    if(uid[1] == 'id') { //Repeated Message Processing
+    	    	
+    	    	//storedName 추출
+	    	    var prof = uid[2].split('/');
+			   	console.log("Receiver Profile StoredName : " + prof[1])
+			   	
+			   	//프로필이 없으면 기본 프로필로 설정
+			   	if(prof[1] == 'undefined') {
+			   		console.log("여긴 디폴트 프로필1")
+			   		var profileImg = "<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>"
+			   	} else {
+			   		var profileImg = "<img class='setProflieImgWS' alt='prof' src='${pageContext.request.contextPath}/upload/" + prof[1] + "'>"
+			   	}
+			   	
+			   	//메시지 폼 추가
         		$("#MessageArea").append("<div style='text-align: left;'>"
-        									+ "<div class='chatReceiveMsg'>" + uid[2] + "</div>" 
+        									+ profileImg
+        									+ "<div class='chatReceiveMsg'>" + prof[0] + "</div>" 
         									+ "<div class='timeDiv'>" 
         										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
         									+ "</div>" 
         								+ "</div>");
     	    
-//         		$('.msgView[id=' + roomMsg[3] + ']').html(uid[2]);
     	    } else { //First Message Processing
+    	    	
+    	    	//storedName 추출
+	    	    var prof = uid[1].split('/');
+			   	console.log("Receiver Profile StoredName : " + prof[1])
+			   	
+			   	//프로필이 없으면 기본 프로필로 설정
+			   	if(prof[1] == 'undefined') {
+			   		console.log("여긴 디폴트 프로필2")
+			   		var profileImg = "<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>"
+			   	} else {
+			   		var profileImg = "<img class='setProflieImgWS' alt='prof' src='${pageContext.request.contextPath}/upload/" + prof[1] + "'>"
+			   	}
+			   	
+			  	//메시지 폼 추가
         		$("#MessageArea").append("<div style='text-align: left;'>" 
+        									+ profileImg
         									+ "<div class='chatUserName'>" + uid[0] + "</div>" 
-        									+ "<div class='chatReceiveMsg'>" + uid[1] + "</div>" 
+        									+ "<div class='chatReceiveMsg'>" + prof[0] + "</div>" 
         									+ "<div class='timeDiv'>" 
         										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
         									+ "</div>"
         								+ "</div>");
     	    	
-//         		$('.msgView[id=' + roomMsg[2] + ']').html(uid[1]);
     	    }
-
+			
+    	    //스크롤 최하단으로 이동
     	    $("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);
       	 	
        }
-       
+       	
      	//Room Create 메시지 처리
       	if(roomMsg[0] == "Create Room" && roomMsg[2] != '4' && roomMsg[3] != '4') {
       		console.log("+ + + Room Create 메시지 + + +");
@@ -175,16 +207,12 @@
       			
 	      		//Apply Room Creation
 	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover2').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
-// 	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover2').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] 
-// 																				   	 + "<div id='" + roomMsg[3] + "' class='msgView'></div></button><br>");
       		
 	      	//1대1 채팅인 경우 처리
       		} else if(roomMsg[5] == roomMsg[6] || roomMsg[4] == roomMsg[6]) {
       			
 	      		//Apply Room Creation
 	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover1').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
-// 	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover1').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] 
-// 	   	   																			+ "<div id='" + roomMsg[3] + "' class='msgView'></div></button><br>");
       		
       		}
 	      	
@@ -200,7 +228,7 @@
       	//File Upload 메시지 처리
       	} else if(roomMsg[2] == '4' && enter[1] != "입장하셨습니다." && enter[1] != "나가셨습니다." && roomMsg[3] != '4') {
       		console.log("+ + + file upload 메시지(1) + + +");
-      		console.log("+ + + " + data);
+      		console.log("+ + + " + data + " + + +");
       		
       		if(roomMsg[4] == "${member.userId }") {
       			
@@ -236,7 +264,7 @@
       		
       	} else if(roomMsg[3] == '4' && enter[1] != "입장하셨습니다." && enter[1] != "나가셨습니다.") {
       		console.log("+ + + file upload 메시지(2) + + +");
-      		console.log("+ + + " + data);
+      		console.log("+ + + " + data + " + + +");
       		
 			if(roomMsg[4] == "${member.userId }") {
       			
@@ -271,6 +299,7 @@
      	//이모티콘 띄우기 부분
         if(emoMsg[2] == 'emoticon') {
         	console.log("+ + + emoticon 메시지 + + +");
+        	
         	//내가 보낸 이모티콘
         	if(emoMsg[0] == "${member.userId }") {
         		$("#MessageArea").append("<div style='text-align: right;'>" 

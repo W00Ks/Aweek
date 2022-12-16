@@ -154,6 +154,7 @@ public class ChatController {
 		logger.info("{}", file);
 		ChatProfile chatProfile = chatService.profileUpload(file, session);
 		
+		logger.info("chatProfile {}", chatProfile);
 		return chatProfile;
 	}
 	

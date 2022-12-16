@@ -32,7 +32,7 @@ body.swal2-height-auto {
 .chatReceiveMsg {
     background-color: #eee;
     border-color: #c3c3c3;
-    margin: 7px 4px 7px 22px;
+    margin: 7px 4px 7px 11px;
     box-shadow: -3px 3px 2px 0px rgb(0 0 0 / 10%);
 }
 
@@ -100,7 +100,7 @@ body.swal2-height-auto {
 }
 
 .chatUserName {
-	margin: 7px 27px 0px;
+	margin: 7px 77px 0px;
     font-size: 14px;
 }
 
@@ -168,6 +168,20 @@ body.swal2-height-auto {
     border-radius: 35px;
     float: left;
     margin: 5px 0 0 5px;
+}
+
+.setProflieImgWS {
+	width: 40px;
+    height: 40px;
+    border: 1px solid #eee;
+    border-radius: 35px;
+    float: left;
+    margin: -3px 0 0 23px;
+}
+
+.defaultProf {
+	width: 42px;
+	height: 42px;
 }
 
 #profileImg {

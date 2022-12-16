@@ -75,11 +75,13 @@
 	
 	<!-- 채팅 내역 조회 -->
 	<select id="selectChatHistory" resultType="Chat" parameterType="Chat">
-		SELECT c.*, m.user_id, f.chat_file_no, f.chat_origin_name FROM chat c
-		left JOIN member m
+		SELECT c.*, m.user_id, f.chat_file_no, f.chat_origin_name, cp.chat_profile_stored_name FROM chat c
+		LEFT JOIN member m
 		ON c.user_no = m.user_no
-		left JOIN chat_file f
+		LEFT JOIN chat_file f
 		ON c.chat_no = f.chat_no
+		LEFT JOIN chat_profile cp
+		ON m.user_no = cp.user_no
 			WHERE c.chat_room_no = #{chatRoomNo } AND c.chat_no >= (SELECT MAX(chat_no) FROM chat b
 			WHERE b.chat_room_no = #{chatRoomNo } AND b.user_no = #{userNo } AND b.chat_content = '입장하셨습니다.' 
 			     AND b.chat_no > (SELECT NVL(MAX(chat_no),0) FROM chat a

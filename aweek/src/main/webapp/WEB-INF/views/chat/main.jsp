@@ -22,6 +22,7 @@ $(document).ready(function() {
             , "position": "absolute"
         }).show();
     });
+	
     $("#layerClose").click(function(){
         $('#layer').css('display','none');
     });

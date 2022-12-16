@@ -28,10 +28,10 @@
 			<div id="left_profile">
 				<c:choose>
 					<c:when test="${chatProfile.chatProfileStoredName eq null || chatProfile.chatProfileStoredName == null}">
-						<span id="profileImg" class="material-symbols-outlined">account_circle</span>
+						<img id="setProflieImg" class="${chatProfile.chatProfileStoredName } defaultProfImg" alt="prof" src="/resources/chat/account_circle.png">
 					</c:when>
 					<c:otherwise>
-						<img id="setProflieImg" alt="prof" src="${pageContext.request.contextPath}/upload/${chatProfile.chatProfileStoredName }">
+						<img id="setProflieImg" class="${chatProfile.chatProfileStoredName }" alt="prof" src="${pageContext.request.contextPath}/upload/${chatProfile.chatProfileStoredName }">
 					</c:otherwise>
 				</c:choose>
 				<div id="userinfo">
@@ -78,7 +78,15 @@
 		   	    <c:set var="u_id" value="${ch.userId }"/>
 			</c:when>
 			<c:when test="${u_id ne ch.userId and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}"> <!-- 본인, 나가기X, 사진X -->	
-				<div class='rMsg' style='text-align: left;'> 
+				<div class='rMsg' style='text-align: left;'>
+					<c:choose>
+						<c:when test="${ch.chatProfileStoredName eq null}">
+							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
+						</c:when>
+						<c:otherwise>
+							<img class='setProflieImgWS' alt='prof' src='${pageContext.request.contextPath}/upload/${ch.chatProfileStoredName }'>
+						</c:otherwise>
+					</c:choose>
 	       			<div class='chatUserName'>${ch.userId }</div>
 	       			<div class='chatReceiveMsg'>${ch.chatContent }</div>
 	       			<div class='timeDiv'>
@@ -90,6 +98,14 @@
 			</c:when>
 	       	<c:when test="${u_id eq ch.userId and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}">
 				<div class='rMsg' style='text-align: left;'>
+					<c:choose>
+						<c:when test="${ch.chatProfileStoredName eq null}">
+							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
+						</c:when>
+						<c:otherwise>
+							<img class='setProflieImgWS' alt='prof' src='${pageContext.request.contextPath}/upload/${ch.chatProfileStoredName }'>
+						</c:otherwise>
+					</c:choose>
 	       			<div class='chatReceiveMsg'>${ch.chatContent }</div>
 	       			<div class='timeDiv'>
 	       				<p class='chatTime'>${ch.chatTime }</p>
@@ -336,6 +352,7 @@ $('#message').keyup(function(key) {
     	
     	//SHIFT + ENTER 가 아닐 경우
 		if(!key.shiftKey) {
+			console.log("엔터 눌러서 일로옴")
 			$("#message").val($("#message").val().replace(/(?:\r\n|\r|\n)/g, '<br>'));
 	    	sendMessage(1);
 	    	$("#message").val("");
@@ -458,9 +475,10 @@ function profileUp() {
 				console.log("AJAX 성공")
 				
 				console.log(res)
+				console.log($('#setProflieImg').attr('src'))
 				
-				$('#setProflieImg').attr('src', '${pageContext.request.contextPath}/upload/' + res.chatProfileStoredName)
-				
+				$('#setProflieImg').attr('src', '${pageContext.request.contextPath}/upload/' + res.chatProfileStoredName);
+				$('#setProflieImg').attr('class', res.chatProfileStoredName);$
 				//메뉴 닫기
 				$("#chatMenu").attr("style", "display: none;");
 			}
