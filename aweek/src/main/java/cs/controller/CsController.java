@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
+import cs.dto.QnACategory;
 import cs.service.face.CsService;
 import member.dto.Member;
 
@@ -56,6 +57,9 @@ public class CsController {
 		
 		//로그인 후 userNo저장
 		session.getAttribute("userNo");
+		
+		List<QnACategory> qnaCategoryList = csService.getQnACategoryList();
+		model.addAttribute("qnaCategoryList",qnaCategoryList);
 		
 		//자주하는 질문 리스트 불러오기
 		List<QnA> qnaList = csService.getQnAList();

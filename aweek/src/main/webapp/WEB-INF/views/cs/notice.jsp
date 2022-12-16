@@ -49,6 +49,29 @@ body {
     font-size: 30px;
     font-weight: 400;
 }
+.place {
+	display: flex;
+	float: right;
+    margin: 30px 15%;
+    font-size: 13px;
+}
+.place a {
+	color: var(--deep-gray);
+	display: flex;
+	align-items: center;
+}
+.place a::before {
+	content: '>';
+	color: var(--deep-gray);
+	margin: 0 6px;
+}
+.place a:first-child::before {
+	display: none;
+}
+.place a .material-symbols-outlined {
+	font-size: 18px;
+}
+
 .notice-table {
 	margin: 70px 15%;
 }
@@ -109,6 +132,12 @@ body {
 <section>
 	<div class="title">
 		<h2>공지사항</h2>
+	</div>
+	
+	<div class="place">
+		<a href="/aweekHome"><span class="material-symbols-outlined">home</span></a>
+		<a href="/cs/notice">고객센터</a>
+		<a href="/cs/notice">공지사항</a>
 	</div>
 	
 	<div class="notice-table">

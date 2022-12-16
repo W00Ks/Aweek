@@ -40,6 +40,9 @@ body {
 		<h2>1대1 문의 작성</h2>
 	</div>
 	
+	<div class="place">
+		
+	</div>
 	<form action="/cs/inquiry" method="post" id="form">
 		<div class="inquiry-content">
 			<input type="hidden" name="userNo" class="userNo" value="${userNo }">

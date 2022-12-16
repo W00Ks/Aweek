@@ -5,6 +5,7 @@ import java.util.List;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
+import cs.dto.QnACategory;
 
 public interface CsDao {
 
@@ -31,6 +32,13 @@ public interface CsDao {
 	public Notice selectNoticeDetail(Notice notice);
 	
 	/**
+	 * 자주하는 질문 카테고리 리스트 불러오기
+	 * 
+	 * @return List<QnACategory> - 자주하는 질문 카테고리 리스트
+	 */
+	public List<QnACategory> selectQnACategoryAll();
+
+	/**
 	 * 자주하는 질문 리스트 불러오기
 	 * 
 	 * @return List<QnA> - 자주하는 질문 리스트
@@ -43,6 +51,7 @@ public interface CsDao {
 	 * @param inquiry - 1대1 질문 객체
 	 */
 	public void insertInquiry(Inquiry inquiry);
+
 
 
 

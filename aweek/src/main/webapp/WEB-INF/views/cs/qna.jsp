@@ -36,7 +36,171 @@
     color: #fff;
 }
 
+
+body {
+    font-family: 'NanumSquareNeo-Variable';
+}
+.qna-title {
+	width: 100%;
+	text-align: center;
+}
+.qna-title h2 {
+	padding: 60px;
+    border-bottom: 1px solid var(--shadow-gray);
+    font-size: 30px;
+    font-weight: 400;
+}
+.place {
+	display: flex;
+	float: right;
+    margin: 30px 15%;
+    font-size: 13px;
+}
+.place a {
+	color: var(--deep-gray);
+	display: flex;
+	align-items: center;
+}
+.place a::before {
+	content: '>';
+	color: var(--deep-gray);
+	margin: 0 6px;
+}
+.place a:first-child::before {
+	display: none;
+}
+.place a .material-symbols-outlined {
+	font-size: 18px;
+}
+
+.qna-table {
+	margin: 70px 15%;
+}
+
+.qna-table .qnaCategoryName {
+	display: flex;
+	width: 100%;
+	margin: 70px 0px;
+	justify-content: space-between;
+}
+.qna-table .qnaCategoryName li {
+	padding: 10px 3%;
+    border-radius: 29px;
+    text-align: center;
+    color: var(--soft-black);
+    border: 1px solid var(--deep-gray);
+    font-weight: 700;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.qna {
+    padding: 0 40px;
+    margin: 15px 0;
+	border: 1px solid var(--deep-gray);
+    border-radius: 5px;
+    font-size: 14px;
+}
+.qna .qnaTitle-wrap,
+.qna .qnaContent-wrap {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+}
+.qna .qnaContent-wrap {
+	border-top: 2px solid var(--shadow-gray);
+ 	display: none;
+}
+.qna .qnaContent-wrap.active {
+	display: block;
+}
+.qna .qnaTitle-wrap .qnaTitle,
+.qna .qnaContent-wrap .qnaContent {
+    padding-left: 20px;
+}
+.qna .qnaTitle-wrap .qnaTitle {
+	cursor: pointer;
+}
+.qna .qMark,
+.qna .aMark {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	font-size: 15px;
+	font-weight: 700;
+	border-radius: 50%;
+	margin: 5px;
+	padding: 10px;
+	background-color: var(--baby-pink);
+	color: var(--soft-black);
+}
+.qna .aMark {
+	background-color: var(--soft-black);
+	color: var(--text-color);
+}
+
+
 </style>
+
+
+
+<section>
+	<div class="qna-title">
+		<h2>자주하는 질문</h2>
+	</div>
+	
+	<div class="place">
+		<a href="/aweekHome"><span class="material-symbols-outlined">home</span></a>
+		<a href="/cs/notice">고객센터</a>
+		<a href="/cs/notice">자주하는 질문</a>
+	</div>
+	
+	<div class="qna-table">
+		<ul class="qnaCategoryName">
+			<li>전체</li>
+			<c:forEach items="${qnaCategoryList }" var="category">
+				<li>${category.qnaCategoryName }</li>
+			</c:forEach>		
+		</ul>
+		
+		<c:forEach items="${qnaList }" var="qna">
+			<input type="hidden" name="qnaNo" value="${qna.qnaNo }"/>
+			<ul class="qna">
+				<li class="qnaTitle-wrap">
+					<p class="qMark">Q.</p>
+					<p class="qnaTitle">${qna.qnaTitle }</p>
+				</li>
+				<li class="qnaContent-wrap">
+					<p class="aMark">A.</p>
+					<p class="qnaContent">${qna.qnaContent }</p>
+				</li>
+			</ul>
+		</c:forEach>
+		<ul id="pagingul">
+		
+		
+		
+		</ul>
+	</div>
+	
+</section>
+
+
+<script defer type="text/javascript">
+
+const qnaTitleEl = document.querySelector('.qnaTitle');
+const qnaContentEl = document.querySelector('.qnaContent-wrap');
+
+qnaTitleEl.addEventListener('click', function () {
+	qnaContentEl.classList.add('active')
+});
+
+
+</script>
+
 
 <script defer type="text/javascript">
 
@@ -163,28 +327,6 @@ $("#dataPerPage").change(function () {
 
 
 </script>
-
-<section>
-	<div class="qna-title">
-		<h2>자주하는 질문</h2>
-	</div>
-	
-	<div class="qna-table">
-		<c:forEach items="${qnaList }" var="qna">
-			<input type="hidden" name="qnaNo" value="${qna.qnaNo }"/>
-			<ul class="qna">
-				<li class="qnaTitle">${qna.qnaTitle }</li>
-				<li class="qnaContent">${qna.qnaContent }</li>
-			</ul>
-		</c:forEach>
-		<ul id="pagingul">
-		
-		
-		
-		</ul>
-	</div>
-	
-</section>
 
 </body>
 </html>

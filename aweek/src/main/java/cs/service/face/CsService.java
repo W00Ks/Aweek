@@ -5,6 +5,7 @@ import java.util.List;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
+import cs.dto.QnACategory;
 
 public interface CsService {
 
@@ -24,6 +25,13 @@ public interface CsService {
 	public Notice getNoticeView(Notice notice);
 	
 	/**
+	 * 자주하는 질문 카테고리 리스트 불러오기
+	 * 
+	 * @return List<QnACategory> - 자주하는 질문 카테고리 리스트
+	 */
+	public List<QnACategory> getQnACategoryList();
+	
+	/**
 	 * 자주하는 질문 리스트 불러오기
 	 * 
 	 * @return List<QnA> - 자주하는 질문 리스트
@@ -36,6 +44,7 @@ public interface CsService {
 	 * @param inquiry - 1대1 질문 객체
 	 */
 	public void createInquiry(Inquiry inquiry);
+
 
 
 	
