@@ -5,58 +5,19 @@
 
 <style type="text/css">
 
-form {
-	width: 100%;
+html {
+	height: 100vh;	
 }
-
-.btn {
-  width: 100px;
-  padding: 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background-color: var(--text-color);
-  color: var(--accent-color);
-  font-size: 12px;
-  font-weight: 700;
-  text-align: center;
-  cursor: pointer;
-  box-sizing: border-box;
-  display: block;
-  transition: .4s;
+html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, blockquote, form, fieldset, legend, menu, nav, section, hgroup, article, header, aside, footer, input, select, textarea, button {
+	font-family: 'NanumSquareNeo-Variable';
 }
-.btn:hover {
-  background-color: var(--accent-color);
-  color: var(--text-color);
-}
-.btn.btn--reverse {
-  background-color: var(--text-color);
-  color: var(--accent-color);
-}
-.btn.btn--reverse:hover {
-  background-color: transparent;
-  color: var(--text-color);
-}
-.btn.btn--brown {
-  background-color: var(--accent-color);
-  color: var(--text-color);
-  border-color: var(--border-color);
-}
-.btn.btn--brown:hover {
-  color: var(--accent-color);
-  background-color: var(--text-color);
-}
-.btn.wide {
-	width: 100%;
-	margin-top: 10px;
-}
-
-
 .container {
 	display: flex;
+	min-height: 100%;
 }
 .container__left {
 	width: 300px;
-	height: 700px;
+	min-height: 100%;
 	background-color: var(--text-color);
 	border-right: 1px solid var(--border-color);
 }
@@ -66,10 +27,20 @@ form {
 	margin: 50px auto;
 	padding: 0 50px;
 }
+.resizer {
+  background-color: var(--border-color);
+  cursor: ew-resize;
+  min-height: 100%;
+  width: 2px;
+}
 .container__right {
-	width: calc(100% - 300px);
-	height: 700px;
-	background-color: var(--light-color);
+	width: 80%;
+	min-height: calc(100% - 52px);
+	background-color: var(--text-color);
+	flex: 1;
+}
+.container__right .main-wrap {
+	margin: 35px;
 }
 .container__right h1 {
 	margin: 0 auto;
@@ -142,67 +113,68 @@ function roomList(){
 
 <section class="container">
    <div class="container__left">
-     <div class="btn-menu">
-		<div class="btn btn--brown" onclick="roomOpen()">모임개설</div>
-		<div class="btn btn--brown" onclick="roomList()">모임목록</div>
+      <div class="btn-menu">
+		<div class="btn" onclick="roomOpen()">모임개설</div>
+		<div class="btn" onclick="roomList()">모임목록</div>
      </div>
-   </div>
-   
-   <form action="./join" method="post" class="container__right" id="form">
-     <h1>모임 개설</h1>
-     
-     <div class="open-content">
-     	<div class="object">
-     	
-     	<input type="hidden" name="roomNo" value="${roomInfo.roomNo }">
-	     <p>모임 이름 * </p>
-	     <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" value="${roomInfo.roomName }">
-	    </div>
-	    <div class="object">
-	     <p>모임 소개 * </p>
-	     <input type="text" id="roomIntroduce" name="roomIntroduce" placeholder="모임 소개를 적어주세요!" value="${roomInfo.roomIntroduce }">
-	    </div>
-	    <div class="object">
-	     <p>인원 수 * </p>
-	     	<select name="roomMember" id="roomMember">
-		     	<option disabled selected>인원 수</option>
-		     	<option value="10">10</option>
-		     	<option value="100">100</option>
-		     </select>
-		</div>
-	    <div class="object">
-	     <p>카테고리 * </p>
-		     <div class="cont">
-		     	<c:if test="${roomInfo.roomCategoryNo eq '1' }"> 
-		     		<p id="categoryNo1">회사</p>
-		     	</c:if>
-		     	<c:if test="${roomInfo.roomCategoryNo eq '2' }"> 
-		     		<p id="categoryNo2">취미</p>
-		     	</c:if>
-		     	<c:if test="${roomInfo.roomCategoryNo eq '3' }"> 
-		     		<p id="categoryNo3">동아리</p>
-		     	</c:if>
-	     	</div>
-		</div>
-		<div class="object"> 
-			<p>공개설정 * </p>
-			<div class="cont">
-		     	<c:if test="${roomInfo.roomPublic eq '1' }"> 
-					<p id="roomPublicY">공개</p>
-	        	</c:if>
-	        	<c:if test="${roomInfo.roomPublic eq '0' }"> 
-					<p id="roomPublicN">비공개</p>
-	        	</c:if>
-        	</div>
-	    </div>
-	    
-	    <div class="btnsection">
-	    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">가입</a>
-	    	<a href="#" class="btn btn--brown wide">취소</a>
-	    </div>
-     </div>
-   </form>
+    </div>
 
+    <div class="resizer" id="dragMe"></div>
+    <div class="container__right">
+   
+		<form action="./join" method="post" id="form">
+	     <div class="open-content">
+	     	<div class="object">
+	     	
+	     	<input type="hidden" name="roomNo" value="${roomInfo.roomNo }">
+		     <p>모임 이름 * </p>
+		     <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" value="${roomInfo.roomName }">
+		    </div>
+		    <div class="object">
+		     <p>모임 소개 * </p>
+		     <input type="text" id="roomIntroduce" name="roomIntroduce" placeholder="모임 소개를 적어주세요!" value="${roomInfo.roomIntroduce }">
+		    </div>
+		    <div class="object">
+		     <p>인원 수 * </p>
+		     	<select name="roomMember" id="roomMember">
+			     	<option disabled selected>인원 수</option>
+			     	<option value="10">10</option>
+			     	<option value="100">100</option>
+			     </select>
+			</div>
+		    <div class="object">
+		     <p>카테고리 * </p>
+			     <div class="cont">
+			     	<c:if test="${roomInfo.roomCategoryNo eq '1' }"> 
+			     		<p id="categoryNo1">회사</p>
+			     	</c:if>
+			     	<c:if test="${roomInfo.roomCategoryNo eq '2' }"> 
+			     		<p id="categoryNo2">취미</p>
+			     	</c:if>
+			     	<c:if test="${roomInfo.roomCategoryNo eq '3' }"> 
+			     		<p id="categoryNo3">동아리</p>
+			     	</c:if>
+		     	</div>
+			</div>
+			<div class="object"> 
+				<p>공개설정 * </p>
+				<div class="cont">
+			     	<c:if test="${roomInfo.roomPublic eq '1' }"> 
+						<p id="roomPublicY">공개</p>
+		        	</c:if>
+		        	<c:if test="${roomInfo.roomPublic eq '0' }"> 
+						<p id="roomPublicN">비공개</p>
+		        	</c:if>
+	        	</div>
+		    </div>
+		    
+		    <div class="btnsection">
+		    	<a href="#" class="btn wide" onclick="document.getElementById('form').submit();">가입</a>
+		    	<a href="#" class="btn wide">취소</a>
+		    </div>
+	     </div>
+		</form>
+	</div>
 </section>
 
 </body>
