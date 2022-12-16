@@ -54,7 +54,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 .container__right {
 	width: 80%;
 	min-height: calc(100% - 52px);
-	background-color: var(--light-color);
+	background-color: var(--text-color);
 	flex: 1;
 }
 .container__right .main-wrap {

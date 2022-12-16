@@ -37,6 +37,11 @@
 
 <section>
 	<div class="detail-wrap">
+		<div class="place">
+			<a href="/aweekHome"><span class="material-symbols-outlined">home</span></a>
+			<a href="/cs/notice">고객센터</a>
+			<a href="/cs/notice">공지사항</a>
+		</div>
 		<div class="detail">
 			<p class="title">${notice.noticeTitle }</p>
 			<p class="date"><fmt:formatDate value="${notice.noticeDate }" /></p>

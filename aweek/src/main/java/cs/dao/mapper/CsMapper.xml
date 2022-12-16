@@ -23,6 +23,11 @@
 		WHERE notice_no = #{noticeNo}
 	</select>
 	
+	<select id="selectQnACategoryAll" resultType="QnACategory">
+		select * from qna_category
+		order by qna_category_no DESC
+	</select>
+	
 	<select id="selectQnAAll" resultType="QnA">
 		select * from qna
 		order by qna_no DESC

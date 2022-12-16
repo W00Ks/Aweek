@@ -11,6 +11,7 @@ import cs.dao.face.CsDao;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
+import cs.dto.QnACategory;
 import cs.service.face.CsService;
 
 @Service
@@ -34,6 +35,13 @@ public class CsServiceImpl implements CsService {
 		csDao.updateNoticeHit(notice);
 		
 		return csDao.selectNoticeDetail(notice);
+	}
+	
+	@Override
+	public List<QnACategory> getQnACategoryList() {
+
+		List<QnACategory> qnaCategoryList = csDao.selectQnACategoryAll();
+		return qnaCategoryList;
 	}
 	
 	@Override
