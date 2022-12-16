@@ -238,12 +238,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public Inquiry myInquiryView(Inquiry viewInquiry, Member member) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("inquiry", viewInquiry);
-		map.put("member", member);
-		
-		return memberDao.selectMyInquiryView(map);
+	public Inquiry myInquiryView(Inquiry viewInquiry) {
+		return memberDao.selectMyInquiryView(viewInquiry);
 	}
 	
 }

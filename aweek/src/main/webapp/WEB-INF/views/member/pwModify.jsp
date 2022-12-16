@@ -203,10 +203,18 @@ function checkPwChk() {
 
 <style type="text/css">
 
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* 컨테이너 전체 */
 .container {
 	margin: 0 auto;
 	width: 600px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 비밀번호 변경 텍스트 */
@@ -216,6 +224,7 @@ function checkPwChk() {
 	font-size: 40px;
 	font-weight: bold;
 	margin-top: 30px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input Div 영역 */
@@ -241,6 +250,7 @@ function checkPwChk() {
 	font-size: 16px;
 	padding-left: 15px;
 	margin: 10px auto;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input focus */
@@ -290,6 +300,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #f4b0b0;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 비밀번호 변경 버튼 */
@@ -305,6 +316,7 @@ input:focus{
 	cursor: pointer;
 	float: right;
 	padding-right: 5px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 </style>
@@ -317,16 +329,16 @@ input:focus{
 	<div class="mainTxt">비밀번호 변경</div>
 	<div class="pwDiv">
 		<span class="pwBox"><input type="password" name="OriginUserPw" id="OriginUserPw" class="int" maxlength="16" placeholder="현재 비밀번호" autocomplete="off">
-			<span class="material-icons" id="pwView1">visibility</span>
+			<span class="material-icons" id="pwView1" title="비밀번호 보기">visibility</span>
 		</span>
 		
 		<span class="pwBox"><input type="password" name="ModifyUserPw" id="ModifyUserPw" class="int" maxlength="16" placeholder="새 비밀번호" autocomplete="off">
-			<span class="material-icons" id="pwView2">visibility</span>
+			<span class="material-icons" id="pwView2" title="비밀번호 보기">visibility</span>
 		</span>
 		<span class="error_msg" id="userPwMsg" style="display:none;"></span>
 	
 		<span class="pwBox"><input type="password" name="userPwChk" id="userPwChk" class="int" maxlength="16" placeholder="새 비밀번호 확인" autocomplete="off">
-			<span class="material-icons" id="pwView3">visibility</span>
+			<span class="material-icons" id="pwView3" title="비밀번호 보기">visibility</span>
 		</span>
 		<span class="error_msg" id="userPwChkMsg" style="display:none;"></span>
 	</div>

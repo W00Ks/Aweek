@@ -95,9 +95,9 @@
 		WHERE rnum BETWEEN #{paging.startNo} AND #{paging.endNo}
 	</select>
 	
-	<select id="selectMyInquiryView" resultType="Inquiry" parameterType="hashmap">
-		SELECT * FROM Inquiry
-		WHERE inquiry_no = #{inquiry.inquiryNo} AND user_no = #{member.userNo}
+	<select id="selectMyInquiryView" resultType="Inquiry" parameterType="Inquiry">
+		SELECT * FROM inquiry
+		WHERE inquiry_no = #{inquiryNo}
 	</select>
 	
 </mapper>

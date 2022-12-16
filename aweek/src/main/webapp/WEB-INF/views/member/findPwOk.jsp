@@ -82,7 +82,16 @@ $(document).ready(function() {
         	});
 			return;
 		} 
-
+		
+		//비밀번호 유효성 검사
+		var isPW = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,15}$/;
+		if($("#userPw").val() != isPW){
+			swal("","비밀번호는 8 ~ 16자의 영문자 + 숫자 + 특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)", "warning").then(function(){
+				$("input").eq(0).focus()
+        	});
+			return;
+		} 
+		
 		//비밀번호 확인 체크 (비밀번호와 같지 않거나 공백인 경우)
 		if($("#userPwChk").val() != $("#userPw").val() || $("#userPwChk").val() == ""){
 			swal("비밀번호 확인을 비밀번호와 동일하게 입력해주세요","", "warning").then(function(){
@@ -147,7 +156,7 @@ function checkPw() {
 	
     var isPW = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,15}$/;
     if (!isPW.test(pw)) {
-        showErrorMsg(oMsg,"비밀번호는 8~16자의 영문자+숫자+특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)");
+        showErrorMsg(oMsg,"비밀번호는 8 ~ 16자의 영문자 + 숫자 + 특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)");
         return false;
     } else {
     	showSuccessMsg(oMsg, "사용 가능한 비밀번호입니다!");
@@ -177,6 +186,7 @@ function checkPwChk() {
 .container {
 	margin: 0 auto;
 	width: 600px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 비밀번호 찾기 텍스트 */
@@ -234,6 +244,7 @@ function checkPwChk() {
 	font-size: 16px;
 	padding-left: 15px;
 	margin: 10px auto;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 /* input focus */
@@ -290,6 +301,7 @@ input:focus{
     border: 1px solid #f4b0b0;
     color: #f4b0b0;
     cursor: pointer;
+    font-family: 'NanumSquareNeo-Variable';
 }
 
 /* 비밀번호 변경 버튼 */
@@ -305,6 +317,7 @@ input:focus{
 	cursor: pointer;
 	float: right;
 	padding-right: 5px;
+	font-family: 'NanumSquareNeo-Variable';
 }
 
 </style>

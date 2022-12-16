@@ -353,9 +353,11 @@ public class MemberController {
 		member.setUserId(userId);  
 		member = memberService.getLoginInfo(member);
 		
-//		viewInquiry = memberService.myInquiryView(member);
+		viewInquiry = memberService.myInquiryView(viewInquiry);
 		logger.debug("조회된 게시글 {}", viewInquiry);
 		
+		//모델값 전달
+		model.addAttribute("member", member);
 		model.addAttribute("viewInquiry", viewInquiry);
 		
 	}
