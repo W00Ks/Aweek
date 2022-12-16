@@ -36,14 +36,15 @@
     color: #fff;
 }
 
+
 body {
     font-family: 'NanumSquareNeo-Variable';
 }
-.title {
+.qna-title {
 	width: 100%;
 	text-align: center;
 }
-.title h2 {
+.qna-title h2 {
 	padding: 60px;
     border-bottom: 1px solid var(--shadow-gray);
     font-size: 30px;
@@ -52,7 +53,7 @@ body {
 .place {
 	display: flex;
 	float: right;
-    margin: 30px 15% 0 0;
+    margin: 30px 15%;
     font-size: 13px;
 }
 .place a {
@@ -72,96 +73,147 @@ body {
 	font-size: 18px;
 }
 
-.notice-table {
+.qna-table {
 	margin: 70px 15%;
 }
-.notice-table .notice-table__title {
-	display: flex;
-	margin: 5px 0 20px 0;
-    padding: 15px 0;
-    white-space: nowrap;
-    font-weight: 400;
-    background-color: var(--baby-pink);
-    text-align: center;
-    white-space: nowrap;
-    word-break: keep-all;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    border-top: 2px solid var(--soft-black);
-    border-bottom: 1px solid var(--soft-black);
-}
-.notice-table .notice-table__title li {
-    padding: 0 15px;
 
-}
-.notice-table .notice-table__content {
+.qna-table .qnaCategoryName {
 	display: flex;
-	white-space: nowrap;
-	word-break: keep-all;
-    text-overflow: ellipsis;
-    overflow: hidden;
-	margin: 0;
+	width: 100%;
+	margin: 70px 0px;
+	justify-content: space-between;
 }
-.notice-table .notice-table__content li {
-	border-bottom: 2px solid var(--shadow-gray);
-	padding: 15px;
+.qna-table .qnaCategoryName li {
+	padding: 10px 3%;
+    border-radius: 29px;
+    text-align: center;
+    color: var(--soft-black);
+    border: 1px solid var(--deep-gray);
+    font-weight: 700;
+    box-sizing: border-box;
+    white-space: nowrap;
+    font-size: 14px;
+    cursor: pointer;
 }
-.notice-table .notice-table__content li a {
+.qna-table .qnaCategoryName li:first-child {
+    color: var(--baby-pink);
+}
+.qna-table .qnaCategoryName li a {
 	color: var(--soft-black);
 }
-.notice-table .noticeNo {
-	width: 5%;
-	text-align: center;
+
+.qna {
+    padding: 0 40px;
+    margin: 15px 0;
+	border: 1px solid var(--deep-gray);
+    border-radius: 5px;
+    font-size: 14px;
 }
-.notice-table .noticeTitle {
-	width: 80%;
+.qna .qnaTitle-wrap,
+.qna .qnaContent-wrap {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
 }
-.notice-table .noticeDate {
-	width: 10%;
-	text-align: center;
+.qna .qnaContent-wrap {
+	border-top: 2px solid var(--shadow-gray);
+ 	display: none;
 }
-.notice-table .noticeHit {
-	width: 5%;
-	text-align: center;
+.qna .qnaContent-wrap.active {
+	display: flex;
+ 	align-items: flex-start;
+}
+.qna .qnaTitle-wrap .qnaTitle,
+.qna .qnaContent-wrap .qnaContent {
+	white-space: break-spaces;
+    line-height: 2.2em;
+    padding-left: 20px;
+}
+.qna .qnaTitle-wrap .qnaTitle {
+	cursor: pointer;
+}
+.qna .qMark,
+.qna .aMark {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	font-size: 15px;
+	font-weight: 700;
+	border-radius: 50%;
+	margin: 5px;
+	padding: 10px;
+	background-color: var(--baby-pink);
+	color: var(--soft-black);
+}
+.qna .aMark {
+	background-color: var(--soft-black);
+	color: var(--text-color);
 }
 
 
 </style>
 
 
+
 <section>
-	<div class="title">
-		<h2>공지사항</h2>
+	<div class="qna-title">
+		<h2>자주하는 질문</h2>
 	</div>
 	
 	<div class="place">
 		<a href="/aweekHome"><span class="material-symbols-outlined">home</span></a>
 		<a href="/cs/notice">고객센터</a>
-		<a href="/cs/notice">공지사항</a>
+		<a href="/cs/qna">자주하는 질문</a>
 	</div>
 	
-	<div class="notice-table">
-		<ul class="notice-table__title">
-			<li class="noticeNo">NO</li>
-			<li class="noticeTitle">제목</li>
-			<li class="noticeDate">날짜</li>
-			<li class="noticeHit">조회수</li>
+	<div class="qna-table">
+		<ul class="qnaCategoryName">
+			<li><a href="/cs/qna">전체</a></li>
+			<c:forEach items="${qnaCategoryList }" var="category">
+				<li onclick="viewDetail(${category.qnaCategoryNo })">${category.qnaCategoryName }</li>
+			</c:forEach>		
 		</ul>
-	
-		<c:forEach items="${noticeList }" var="notice">
-			<ul class="notice-table__content">
-				<li class="noticeNo">${notice.noticeNo }</li>
-				<li class="noticeTitle"><a href="/cs/noticeView?noticeNo=${notice.noticeNo }">${notice.noticeTitle }</a></li>
-				<li class="noticeDate"><fmt:formatDate value="${notice.noticeDate }" /></li>
-				<li class="noticeHit">${notice.noticeHit }</li>
+		
+		<c:forEach items="${qnaList }" var="qna">
+			<input type="hidden" name="qnaNo" value="${qna.qnaNo }"/>
+			<ul class="qna">
+				<li class="qnaTitle-wrap">
+					<p class="qMark">Q.</p>
+					<p class="qnaTitle" onclick="toggle(${qna.qnaNo })">${qna.qnaTitle }</p>
+				</li>
+				<li class="qnaContent-wrap" id="${qna.qnaNo }">
+					<p class="aMark">A.</p>
+					<p class="qnaContent">${qna.qnaContent }</p>
+				</li>
 			</ul>
 		</c:forEach>
-			<ul id="pagingul">
-			
-			</ul>
+		<ul id="pagingul">
+		
+		
+		
+		</ul>
 	</div>
 	
 </section>
+
+
+<script defer type="text/javascript">
+
+function toggle(qnaNo) {
+	
+	const qnaContentEl = document.getElementById(qnaNo);
+	
+	qnaContentEl.classList.toggle('active')
+}
+
+function viewDetail(cateNo) {
+	location.href = "/cs/qnaDetail?qnaCategoryNo=" + cateNo;
+}
+
+</script>
+
 
 <script defer type="text/javascript">
 
@@ -288,7 +340,6 @@ $("#dataPerPage").change(function () {
 
 
 </script>
-
 
 </body>
 </html>

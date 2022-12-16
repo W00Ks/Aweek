@@ -9,24 +9,60 @@
 
 <style type="text/css">
 
+body {
+    font-family: 'NanumSquareNeo-Variable';
+}
+
 .detail-wrap {
 	margin: 70px 15%;
 }
 
-.detail {
+.detail-wrap .detail {
 	
 }
-.detail .title {
+.detail-wrap .detail .title {
+	font-size: 26px;
+    padding: 30px 0;
+}
+.detail-wrap .detail .title-detail {
+	display: flex;
+    padding: 10px 0px;
+    margin: 15px 0;
+    border-bottom: 2px solid var(--shadow-gray);
+    justify-content: space-between;
+    font-size: 14px;
+}
+.detail-wrap .detail .title-detail .date {
+}
+.detail-wrap .detail .title-detail .hit {
 
 }
-.detail .date {
-
+.detail-wrap .detail .content {
+	margin: 70px 0;
 }
-.detail .hit {
 
+
+.place {
+	display: flex;
+	justify-content: flex-end;
+    margin: 30px 15%;
+    font-size: 13px;
 }
-.detail .content {
-
+.place a {
+	color: var(--deep-gray);
+	display: flex;
+	align-items: center;
+}
+.place a::before {
+	content: '>';
+	color: var(--deep-gray);
+	margin: 0 6px;
+}
+.place a:first-child::before {
+	display: none;
+}
+.place a .material-symbols-outlined {
+	font-size: 18px;
 }
 
 </style>
@@ -36,16 +72,19 @@
 </script>
 
 <section>
+	<div class="place">
+		<a href="/aweekHome"><span class="material-symbols-outlined">home</span></a>
+		<a href="/cs/notice">고객센터</a>
+		<a href="/cs/notice">공지사항</a>
+	</div>
+	
 	<div class="detail-wrap">
-		<div class="place">
-			<a href="/aweekHome"><span class="material-symbols-outlined">home</span></a>
-			<a href="/cs/notice">고객센터</a>
-			<a href="/cs/notice">공지사항</a>
-		</div>
 		<div class="detail">
 			<p class="title">${notice.noticeTitle }</p>
-			<p class="date"><fmt:formatDate value="${notice.noticeDate }" /></p>
-			<p class="hit">${notice.noticeHit }</p>
+				<div class="title-detail">
+					<p class="date"><fmt:formatDate value="${notice.noticeDate }" /></p>
+					<p class="hit">${notice.noticeHit }</p>
+				</div>
 			<p class="content">${notice.noticeContent }</p>
 		</div>
 	</div>

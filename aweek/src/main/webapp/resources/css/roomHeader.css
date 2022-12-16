@@ -17,6 +17,30 @@
 	--deep-gray: #a0a0a0;
 }
 
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'NEXON Lv1 Gothic OTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'LeferiPoint-WhiteObliqueA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiPoint-WhiteObliqueA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'GongGothicMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10@1.0/GongGothicMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /* COMMONS */
 body {
@@ -33,7 +57,7 @@ a {
   text-decoration: none;
 }
 .inner {
-  max-width: 1100px;
+  max-width: 1435px;
   margin: 0 auto;
   position: relative;
 }
@@ -118,30 +142,43 @@ header > .inner {
 }
 .header__menu li a {
 	color: var(--soft-black);
+	opacity: 30%;
 }
 .header__menu li a.choose {
-	color: var(--text-color);
+	color: var(--soft-black);
+	opacity: 100%;
 }
 .header__menu li a:hover {
-	color: var(--text-color);
+	color: var(--soft-black);
+	opacity: 100%;
 }
 .header__my {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 1px solid var(--text-color);
 	width: 35px;
 	height: 35px;
 	margin: auto 0;
 	border-radius: 50%;
-	background-color: var(--text-color);
 }
 .header__my li{
 	font-weight: bold;
 	font-style: var(--text-color);
+	display: flex;
 }
 .header__my li a{
 	color: var(--soft-black);
+    font-family: 'GongGothicMedium';
+    font-size: 12px;
+    font-weight: 300;
+    border: 1px solid var(--soft-black);
+    padding: 5px 7px;
+    border-radius: 4px;
+}
+.header__my li a:hover {
+	color: var(--text-color);
+    border: 1px solid var(--text-color);
+	background-color: var(--soft-black);
 }
 .header__toggleBtn {
 	display:none;

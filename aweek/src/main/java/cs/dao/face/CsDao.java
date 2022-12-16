@@ -46,11 +46,19 @@ public interface CsDao {
 	public List<QnA> selectQnAAll();
 
 	/**
+	 * 카테고리 번호에 해당하는 자주하는 질문 리스트 불러오기
+	 * 
+	 * @param qnaCategoryNo - 카테고리 번호
+	 * @return List<QnA> - 자주하는 질문 리스트
+	 */
+	public List<QnA> selectQnAEqualCaNo(int qnaCategoryNo);
+	/**
 	 * 1대1 질문 작성
 	 * 
 	 * @param inquiry - 1대1 질문 객체
 	 */
 	public void insertInquiry(Inquiry inquiry);
+
 
 
 

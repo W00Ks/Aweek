@@ -93,8 +93,14 @@ body {
     box-sizing: border-box;
     white-space: nowrap;
     font-size: 14px;
+    cursor: pointer;
 }
-
+.qna-table .qnaCategoryName li:first-child {
+    color: var(--baby-pink);
+}
+.qna-table .qnaCategoryName li a {
+	color: var(--soft-black);
+}
 .qna {
     padding: 0 40px;
     margin: 15px 0;
@@ -113,10 +119,13 @@ body {
  	display: none;
 }
 .qna .qnaContent-wrap.active {
-	display: block;
+	display: flex;
+ 	align-items: flex-start;
 }
 .qna .qnaTitle-wrap .qnaTitle,
 .qna .qnaContent-wrap .qnaContent {
+	white-space: break-spaces;
+    line-height: 2.2em;
     padding-left: 20px;
 }
 .qna .qnaTitle-wrap .qnaTitle {
@@ -160,9 +169,9 @@ body {
 	
 	<div class="qna-table">
 		<ul class="qnaCategoryName">
-			<li>전체</li>
+			<li><a href="/cs/qna">전체</a></li>
 			<c:forEach items="${qnaCategoryList }" var="category">
-				<li>${category.qnaCategoryName }</li>
+				<li onclick="viewDetail(${category.qnaCategoryNo })" id="linkColor">${category.qnaCategoryName }</li>
 			</c:forEach>		
 		</ul>
 		
@@ -171,9 +180,9 @@ body {
 			<ul class="qna">
 				<li class="qnaTitle-wrap">
 					<p class="qMark">Q.</p>
-					<p class="qnaTitle">${qna.qnaTitle }</p>
+					<p class="qnaTitle" onclick="toggle(${qna.qnaNo })">${qna.qnaTitle }</p>
 				</li>
-				<li class="qnaContent-wrap">
+				<li class="qnaContent-wrap" id="${qna.qnaNo }">
 					<p class="aMark">A.</p>
 					<p class="qnaContent">${qna.qnaContent }</p>
 				</li>
@@ -191,13 +200,32 @@ body {
 
 <script defer type="text/javascript">
 
-const qnaTitleEl = document.querySelector('.qnaTitle');
-const qnaContentEl = document.querySelector('.qnaContent-wrap');
+function toggle(qnaNo) {
+	
+	const qnaContentEl = document.getElementById(qnaNo);
+	
+	qnaContentEl.classList.toggle('active')
+}
 
-qnaTitleEl.addEventListener('click', function () {
-	qnaContentEl.classList.add('active')
-});
+function viewDetail(qnaCategoryNo) {
+	location.href = "/cs/qnaDetail?qnaCategoryNo=" + qnaCategoryNo;
+}
 
+/* function colorChange() {
+	
+	let linkColorEl = document.getElementById(linkColor);
+	
+	for( var i=1; i<=8; i++) {
+	   	if( window.location.href.indexOf(i) > -1) {
+	   		
+	   		linkColorEl.classList.add("colorChange");
+	   	}
+	}
+};
+
+window.onload =  function() {
+	colorChange();
+} */
 
 </script>
 
