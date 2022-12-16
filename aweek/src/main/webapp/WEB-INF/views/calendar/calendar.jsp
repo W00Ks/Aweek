@@ -1,7 +1,5 @@
-
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="calendar.dto.CalDto"%>
-
 <%@page import="java.util.List"%>
 <%@page import="calendar.util.Util"%>
 <%@page import="java.util.Calendar"%>
@@ -22,14 +20,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <!-- Noto Fonts End -->
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+
 <script type="text/javascript">
 $(document).ready(function(){
 	
-		function titleClick(){
-			console.log(123);
-		}
+		$(function(){
+			$("#startDateInput").datepicker({
+				dateFormat: 'yy-mm-dd'
+			})
+		})
+	
 		
+		//일정 작성 유효성 검사
 		$("#calTitleInput").blur(function(){
 			if($("input[name=calTitle]").val() ==""){
 				console.log("제목을 입력해주세요");
@@ -41,39 +47,55 @@ $(document).ready(function(){
 			}
 		})
 		
+		$("#calTitleInput").focus(function(){
+			$(".title_warn_message").remove();
+		})
+		
+		
 		$("#startDateInput").blur(function(){
 			if($("input[name=startDate]").val() ==""){
 				console.log("제목을 입력해주세요");
 				
 				$(".startDate").append("<p class='warn_message date_warn_message'>날짜를 입력해주세요!</p>");
-				
+				return false;
 			}else{
 				$(".date_warn_message").remove();
 			}
 		})
+		
+		$("#startDateInput").focus(function(){
+			$(".date_warn_message").remove();
+		})
 	
-		//일정 작성 유효성 검사
+		
 		$("#write_form").submit(function(){
 			console.log("유효성검사")
 			
 			var calTitle_val = $("input[name=calTitle]").val();
 			
 			var startDate_val = $("input[name=startDate]").val();
-			
-			if(calTitle_val ==""){
-				console.log("제목을 입력해주세요");
-				
+			if(calTitle_val =="" && startDate_val ==""){
 				$(".calTitle").append("<p class='warn_message title_warn_message'>제목을 입력해주세요!</p>");
+				$(".startDate").append("<p class='warn_message date_warn_message'>날짜를 입력해주세요!</p>")
 				
 				return false;
+			
 			} else if(startDate_val ==""){
 				console.log("날짜를 입력해주세요");
 				
 				$(".startDate").append("<p class='warn_message date_warn_message'>날짜를 입력해주세요!</p>")
 				return false;
-			}
+			} else if(calTitle_val ==""){
+				console.log("제목을 입력해주세요");
+				
+				$(".calTitle").append("<p class='warn_message title_warn_message'>제목을 입력해주세요!</p>");
+				
+				return false;
+			} else{
 			return true;
+			}
 		})
+		//일정작성 유효성 검사 END
 		
 		//일정쓰기 모달창 생성
 		function createModal() {
@@ -113,9 +135,11 @@ $(document).ready(function(){
 			
 			
 		})
+		//일정쓰기 모달창 생성 END
 		
 		//일정상세보기 클릭 함수
 		$(".schedule_detail_req").click(function(e){
+			
 			
 			
 			console.log("일정 상세보기");
@@ -145,15 +169,47 @@ $(document).ready(function(){
 
 			console.log(windowHeight);
 			console.log(windowWidth);
-
+			
+			
 			$(".schedule_detail_modal").css({
 				'width' : windowWidth,
 				'height' : windowHeight
 			});
 			
 			$(".schedule_detail_modal").fadeTo("fast", 0);
+			var divTop = e.clientY;
+			var divLeft = e.clientX;
 			
-			$(".schedule_detail_wrap").show();
+			console.log(divTop,divLeft);
+			
+			//마우스 좌표에 따라 창 위치 조정
+			if(divTop>750 && divLeft>1445){
+				$(".schedule_detail_wrap").css({
+					"top": divTop -315,
+					"left" : divLeft-470
+					
+				}).show();
+			
+				
+			}else if(divLeft>1445){
+				$(".schedule_detail_wrap").css({
+					"top": divTop,
+					"left" : divLeft-470
+					
+				}).show();
+			}else if(divTop>750){
+				$(".schedule_detail_wrap").css({
+					"top": divTop -315,
+					"left" : divLeft
+					
+				}).show();
+			}else{
+				$(".schedule_detail_wrap").css({
+					"top": divTop +7 ,
+					"left" : divLeft
+					
+				}).show();
+			}
 			
 
 			
@@ -166,6 +222,7 @@ $(document).ready(function(){
 			$(".schedule_detail_wrap").hide();
 			$(location).attr("href", "");
 		})
+		//일정 상세보기 클릭 함수 END
 		
 	})
 </script>
@@ -187,6 +244,8 @@ $(document).ready(function(){
 	width: 100%;
 	border: 1px solid white;
 	border-collapse: collapse;
+	table-layout: fixed;
+	
 	
 }
 .calendar_body a:link{
@@ -278,7 +337,10 @@ $(document).ready(function(){
 .write_form td{
 	padding: 0px 20px 25px 10px;
 }
-
+#startTimeInput{
+	width: 100%;
+	text-align: center;
+}
 
 .write_form textarea{
 	width: 380px;
@@ -345,8 +407,8 @@ $(document).ready(function(){
 	position: fixed;
     z-index: 10000;
     background-color: white;
-    left: 35%;
-    top: 16%;
+/*     left: 35%; */
+/*     top: 16%; */
     width: 460px;
     height: 308px;
 	border-radius: 2px;
@@ -418,7 +480,7 @@ $(document).ready(function(){
 		<a href="/calendar/myCal?year=<%=year %>&month=<%=month+1 %>">&gt;</a>
 		<a href="/calendar/myCal?year=<%=year+1 %>&month=<%=month %>">&gt;&gt;</a>
 </div>
-<table border="1" class="calendar_body">
+<table border="1" class="calendar_body" >
 	<!-- <caption>
 	
 		<a href="/calendar/myCal?year=<%=year-1 %>&month=<%=month %>">◁</a>
@@ -454,7 +516,7 @@ $(document).ready(function(){
 					<%// 해당 날짜에 일정 존재하면 일정 제목 출력 %>
 					<%for(CalDto calDto : clist){ %>
 					<% if(Integer.parseInt(calDto.getStartDate().substring(8, 10))==i&&Integer.parseInt(calDto.getStartDate().substring(5, 7))==month){ %>
-					<p><a href="" onclick="return false" class="schedule_detail_req" id="<%=calDto.getCalNo() %>" value="<%= calDto.getCalNo()%>"><%= calDto.getCalTitle() %></a></p>
+					<p><a href="" onclick="return false" class="schedule_detail_req" id="<%=calDto.getCalNo() %>" value="<%= calDto.getCalNo()%>"><%=calDto.getStartTime() %>&nbsp;<%= calDto.getCalTitle() %></a></p>
 					<%} %>
 					<% } %>
 				</td>			
@@ -491,17 +553,33 @@ $(document).ready(function(){
 				<table>
 					<tr>
 					<td>제목</td>
-					<td class="calTitle"><input type="text" name="calTitle" id="calTitleInput"></td>
+					<td class="calTitle"><input type="text" name="calTitle" id="calTitleInput" placeholder="제목을 입력하세요."></td>
 					</tr>
 					
 					<tr>
 					<td>날짜</td>
-					<td class="startDate"><input type="text" name="startDate" id="startDateInput"></td>
+					<td class="startDate"><input type="text" name="startDate" id="startDateInput" readonly="readonly" placeholder="날짜를 선택해주세요."></td>
+					</tr>
+					<tr>
+					
+					<td>시간</td>
+					<td class="startTime">
+					<select name="startTime" id="startTimeInput">
+					<option>오전 12시</option>
+					<c:forEach begin="1" end="11" var="i">
+					<option>오전 ${i }시</option>
+					</c:forEach>
+					<option>오후 12시</option>
+					<c:forEach begin="1" end="11" var="j">
+					<option>오후 ${j }시</option>
+					</c:forEach>
+					</select>
+					</td>
 					</tr>
 					
 					<tr>
 					<td>장소</td>
-					<td><input type="text" name="calPlace"></td>
+					<td><input type="text" name="calPlace" placeholder="장소를 입력하세요."></td>
 					</tr>
 					
 					<tr>
@@ -509,13 +587,10 @@ $(document).ready(function(){
 					<td><textarea rows="" cols="" name="calMemo"></textarea></td>
 					</tr>
 					
-					<tr>
-					
-					<td><button>작성</button></td>
-					<td><button class="cancel">취소</button></td>
-					</tr>
+				
 				</table>
-			
+				
+				<button style="width:388px; margin-left:140px;">작성</button>
 			
 			</form>
 		
