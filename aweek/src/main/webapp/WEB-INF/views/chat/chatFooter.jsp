@@ -139,7 +139,7 @@
     	    
     	    // + Receiver 메시지 처리 +
     	    if(uid[1] == 'id') { //Repeated Message Processing
-        		$("#MessageArea").append("<div style='text-align: left;'>" 
+        		$("#MessageArea").append("<div style='text-align: left;'>"
         									+ "<div class='chatReceiveMsg'>" + uid[2] + "</div>" 
         									+ "<div class='timeDiv'>" 
         										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 

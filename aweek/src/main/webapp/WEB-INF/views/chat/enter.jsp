@@ -9,6 +9,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
 <!-- jQeury 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -22,14 +26,23 @@
 		<!-- 채팅방 헤더 -->
 		<div id="chatRoomHeader">
 			<div id="left_profile">
-				<span id="proflieImg" class="material-symbols-outlined">account_circle</span>
+				<c:choose>
+					<c:when test="${chatProfile.chatProfileStoredName eq null || chatProfile.chatProfileStoredName == null}">
+						<span id="profileImg" class="material-symbols-outlined">account_circle</span>
+					</c:when>
+					<c:otherwise>
+						<img id="setProflieImg" alt="prof" src="${pageContext.request.contextPath}/upload/${chatProfile.chatProfileStoredName }">
+					</c:otherwise>
+				</c:choose>
 				<div id="userinfo">
 					<span style="font-weight: bold; font-size: 22px;">${member.userId }</span><br>
 					<span style="font-size: 15px;">${member.userEmail }</span>
 				</div>
 			</div>
 			<div id="chatMenu" style="display: none;">
-				<button id='btnExit' value="">채팅방 나가기</button>
+				<button id="btnExit" class='btnCM' value="">채팅방 나가기</button>
+				<button id="btnProU" class='btnCM' value="">프로필 바꾸기</button>
+				<input type="file" name="file" id="btnProfUp" onchange="profileUp()" style="display: none;">
 			</div>
 			<span class="material-symbols-outlined chatDot">more_horiz</span>
 		</div>
@@ -91,7 +104,7 @@
 					</a>
 					<div class='timeDiv'>
 	       				<p class='chatTime'>${ch.chatTime }</p>
-	       			</div>
+	       			</div> 
 					<img class="sendImg imgs" alt="none" src="${pageContext.request.contextPath}/upload/${ch.chatContent }">
 					<div style="margin: 35px;"></div>
 				</div>
@@ -157,9 +170,9 @@
 	<div id="textbarDiv">
 		<!-- 메시지 하단 기능 -->
 		<div id="message-menu">
-			<!-- 파일 전송 form -->
 			<textarea id="message" autofocus placeholder="메시지를 입력해주세요. (Enter: 전송 / Shift + Enter: 줄바꿈)"></textarea>
 			<div id="emoSave" style="display: none;"></div>
+			<!-- 파일 전송 form -->
 			<form id="btnAddFile" enctype="multipart/form-data">
 				<label for="file">
 					<span class="material-symbols-outlined" style="transform: rotate(45deg);" title="파일전송">attach_file</span>
@@ -416,6 +429,54 @@ let option = {
 
 // 대상 노드에 감시자 전달
 observer.observe(target, option)
+
+//Profile Upload Method
+$('#btnProU').click(function() {
+	$('#btnProfUp').click()
+})
+
+function profileUp() {
+	//파일 형식 검사
+	var fileType = $('#btnProfUp').val().split('.')
+	console.log("fileType: " + fileType[1])
+	
+	if(fileType[1] == 'jpg' || fileType[1] == 'png') {
+		
+		var file = $("#btnProfUp")[0];
+		
+		var formData = new FormData();
+		formData.append("file", file.files[0]);
+		
+		$.ajax({
+			
+			type: "post"					
+			, url: "/chat/profileUpload"
+			, processData: false
+			, contentType: false
+			, data: formData
+			, success: function( res ) {
+				console.log("AJAX 성공")
+				
+				console.log(res)
+				
+				$('#setProflieImg').attr('src', '${pageContext.request.contextPath}/upload/' + res.chatProfileStoredName)
+				
+				//메뉴 닫기
+				$("#chatMenu").attr("style", "display: none;");
+			}
+			, error: function( res ) {
+				console.log("AJAX 실패")
+			}
+			
+		})
+		
+	} else {
+		swal.fire('잘못된 형식의 파일입니다.', '.jpg 또는 .png 형식만 가능합니다.', 'error');
+	}
+	
+	
+	
+}
 
 //File Upload Method
 function fileUpload() {

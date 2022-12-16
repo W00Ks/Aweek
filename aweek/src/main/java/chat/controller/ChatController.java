@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import chat.dto.Chat;
 import chat.dto.ChatCreatRoomInfo;
 import chat.dto.ChatFile;
+import chat.dto.ChatProfile;
 import chat.dto.ChatRoom;
 import chat.service.face.ChatService;
 import member.dto.Member;
@@ -84,20 +85,26 @@ public class ChatController {
 	public void chatEnter(int chatRoomNo, HttpSession session, Model model) {
 		logger.info("+ + + Enter Chat Room - chatRoomNo : {} + + +", chatRoomNo);
 		
+		//회원 번호
 		session.setAttribute("chatRoomNo", chatRoomNo);
 		int userNo = (int)session.getAttribute("userNo");
 		
+		//회원 정보 조회
 		Member member = chatService.getUserInfo(userNo);
 		logger.info("member == {}", member);
 		
+		//채팅 내역 조회
 		List<Chat> chatHistory = chatService.getChatHistory(chatRoomNo, userNo);  
-		
 		logger.info("채팅 내역 조회 : {}", chatHistory);
 		logger.info("asdasdaschatRoomNo : {}", chatRoomNo);
 		
+		//회원의 프로필 사진 조회
+		ChatProfile chatProfile = chatService.getProfileInfo(userNo);
+		logger.info("chatProfile : {}", chatProfile);
+		
 		model.addAttribute("member", member);
 		model.addAttribute("chatHistory", chatHistory);
-		
+		model.addAttribute("chatProfile", chatProfile);
 	}
 	
 	@PostMapping("/insert")
@@ -139,6 +146,15 @@ public class ChatController {
 		model.addAttribute("downFile", chatFile);
 		
 		return "chatDown";
+	}
+	
+	@PostMapping("/profileUpload")
+	@ResponseBody
+	public ChatProfile profileUpload(HttpSession session, MultipartFile file) {
+		logger.info("{}", file);
+		ChatProfile chatProfile = chatService.profileUpload(file, session);
+		
+		return chatProfile;
 	}
 	
 }
