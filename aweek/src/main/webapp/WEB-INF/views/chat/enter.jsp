@@ -28,10 +28,14 @@
 			<div id="left_profile">
 				<c:choose>
 					<c:when test="${chatProfile.chatProfileStoredName eq null || chatProfile.chatProfileStoredName == null}">
-						<img id="setProflieImg" class="${chatProfile.chatProfileStoredName } defaultProfImg" alt="prof" src="/resources/chat/account_circle.png">
+						<img id="setProflieImg" class="${chatProfile.chatProfileStoredName }defaultProfImg" alt="prof" src="/resources/chat/account_circle.png">
+						<!-- ws 전달용 프로필 정보 -->
+						<input type="hidden" id="profileStoredName" class="${chatProfile.chatProfileStoredName } defaultProfImg">
 					</c:when>
 					<c:otherwise>
-						<img id="setProflieImg" class="${chatProfile.chatProfileStoredName }" alt="prof" src="${pageContext.request.contextPath}/upload/${chatProfile.chatProfileStoredName }">
+						<img id="setProflieImg" class="${chatProfile.chatProfileStoredName } imgs" alt="prof" src="${pageContext.request.contextPath}/upload/${chatProfile.chatProfileStoredName }">
+						<!-- ws 전달용 프로필 정보 -->
+						<input type="hidden" id="profileStoredName" class="${chatProfile.chatProfileStoredName }">
 					</c:otherwise>
 				</c:choose>
 				<div id="userinfo">
@@ -39,7 +43,7 @@
 					<span style="font-size: 15px;">${member.userEmail }</span>
 				</div>
 			</div>
-			<div id="chatMenu" style="display: none;">
+			<div id="chatMenu" style="display: none;" class="area">
 				<button id="btnExit" class='btnCM' value="">채팅방 나가기</button>
 				<button id="btnProU" class='btnCM' value="">프로필 바꾸기</button>
 				<input type="file" name="file" id="btnProfUp" onchange="profileUp()" style="display: none;">
@@ -84,7 +88,7 @@
 							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
 						</c:when>
 						<c:otherwise>
-							<img class='setProflieImgWS' alt='prof' src='${pageContext.request.contextPath}/upload/${ch.chatProfileStoredName }'>
+							<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/${ch.chatProfileStoredName }'>
 						</c:otherwise>
 					</c:choose>
 	       			<div class='chatUserName'>${ch.userId }</div>
@@ -103,7 +107,7 @@
 							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
 						</c:when>
 						<c:otherwise>
-							<img class='setProflieImgWS' alt='prof' src='${pageContext.request.contextPath}/upload/${ch.chatProfileStoredName }'>
+							<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/${ch.chatProfileStoredName }'>
 						</c:otherwise>
 					</c:choose>
 	       			<div class='chatReceiveMsg'>${ch.chatContent }</div>
@@ -127,7 +131,15 @@
 				<c:set var="cnt" value="0"/>
 	       	</c:when>
 	       	<c:when test="${ch.chatKind eq '3' and ch.chatContent ne '나가셨습니다.' and member.userNo ne ch.userNo}"><!-- Img File -->
-				<div class='rMsg' style='text-align: left;'> 
+				<div class='rMsg' style='text-align: left;'>
+					<c:choose>
+						<c:when test="${ch.chatProfileStoredName eq null}">
+							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
+						</c:when>
+						<c:otherwise>
+							<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/${ch.chatProfileStoredName }'>
+						</c:otherwise>
+					</c:choose>
 	       			<div class='chatUserName'>${ch.userId }</div>
 	       			<img class="rImg imgs" alt="none" src="${pageContext.request.contextPath}/upload/${ch.chatContent }">
 	       			<div class='rtimeDiv'>
@@ -152,6 +164,14 @@
 	       	</c:when>
 	       	<c:when test="${ch.chatKind eq '5' and ch.chatContent ne '나가셨습니다.' and member.userNo ne ch.userNo }"><!-- Not Img File -->
 				<div class='rMsg' style='text-align: left;'>
+					<c:choose>
+						<c:when test="${ch.chatProfileStoredName eq null}">
+							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
+						</c:when>
+						<c:otherwise>
+							<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/${ch.chatProfileStoredName }'>
+						</c:otherwise>
+					</c:choose>
 					<div class='chatUserName'>${ch.userId }</div>
 					<div class='chatReceiveMsg'>
 						<a class='notImgFile-r' href='/chat/fileDownload?chatFileNo=${ch.chatFileNo }'>${ch.chatOriginName }</a> 
@@ -171,7 +191,15 @@
 				</div>
 	       	</c:when>
 	       	<c:when test="${ch.chatKind eq '4' and ch.chatContent ne '나가셨습니다.' and member.userNo ne ch.userNo }"><!-- emoticon -->
-				<div class='rMsg' style='text-align: left;'> 
+				<div class='rMsg' style='text-align: left;'>
+					<c:choose>
+						<c:when test="${ch.chatProfileStoredName eq null}">
+							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
+						</c:when>
+						<c:otherwise>
+							<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/${ch.chatProfileStoredName }'>
+						</c:otherwise>
+					</c:choose>
 	       			<div class='chatUserName'>${ch.userId }</div>
 	       			<img class="remoticonMsg" src="${ch.chatContent }">
 	       			<div class='timeDiv'>
@@ -201,6 +229,17 @@
 				<div id="emoticon" class="area btn_style">이모티콘</div>
 				<div id="emo-content" class="area">
 					<div id="sticker-box" style="display: none;" class="area">
+						<img class='sticker area' src='/resources/chat/minions01.png'>
+						<img class='sticker area' src='/resources/chat/minions02.png'>
+						<img class='sticker area' src='/resources/chat/minions03.png'>
+						<img class='sticker area' src='/resources/chat/minions04.png'>
+						<img class='sticker area' src='/resources/chat/rabbit01.png'>
+						<img class='sticker area' src='/resources/chat/rabbit02.png'>
+						<img class='sticker area' src='/resources/chat/rabbit03.png'>
+						<img class='sticker area' src='/resources/chat/rabbit04.png'>
+						<img class='sticker area' src='/resources/chat/rabbit05.png'>
+						<img class='sticker area' src='/resources/chat/rabbit06.png'>
+						<img class='sticker area' src='/resources/chat/rabbit07.png'>
 						<img class='sticker area' src='/resources/chat/grinning-face_1f600.png'>
 						<img class="sticker area" src="/resources/chat/grinning-face-with-big-eyes_1f603.png">
 						<img class="sticker area" src="/resources/chat/grinning-face-with-smiling-eyes_1f604.png">
@@ -208,34 +247,12 @@
 						<img class="sticker area" src="/resources/chat/grinning-squinting-face_1f606.png">
 						<img class="sticker area" src="/resources/chat/grinning-face-with-sweat_1f605.png">
 						<img class="sticker area" src="/resources/chat/rolling-on-the-floor-laughing_1f923.png">
-						<img class="sticker area" src="/resources/chat/face-with-tears-of-joy_1f602.png">
 						<img class="sticker area" src="/resources/chat/slightly-smiling-face_1f642.png">
 						<img class="sticker area" src="/resources/chat/upside-down-face_1f643.png">
-						<img class="sticker area" src="/resources/chat/melting-face_1fae0.png">
-						<img class="sticker area" src="/resources/chat/winking-face_1f609.png">
-						<img class="sticker area" src="/resources/chat/smiling-face-with-smiling-eyes_1f60a.png">
-						<img class="sticker area" src="/resources/chat/smiling-face-with-halo_1f607.png">
-						<img class="sticker area" src="/resources/chat/smiling-face-with-hearts_1f970.png">
-						<img class="sticker area" src="/resources/chat/smiling-face-with-heart-eyes_1f60d.png">
 						<img class="sticker area" src="/resources/chat/star-struck_1f929.png">
-						<img class="sticker area" src="/resources/chat/face-blowing-a-kiss_1f618.png">
-						<img class="sticker area" src="/resources/chat/kissing-face_1f617.png">
-						<img class="sticker area" src="/resources/chat/smiling-face_263a-fe0f.png">
-						<img class="sticker area" src="/resources/chat/kissing-face-with-closed-eyes_1f61a.png">
-						<img class="sticker area" src="/resources/chat/kissing-face-with-smiling-eyes_1f619.png">
-						<img class="sticker area" src="/resources/chat/smiling-face-with-tear_1f972.png">
-						<img class="sticker area" src="/resources/chat/face-savoring-food_1f60b.png">
-						<img class="sticker area" src="/resources/chat/face-with-tongue_1f61b.png">
-						<img class="sticker area" src="/resources/chat/winking-face-with-tongue_1f61c.png">
-						<img class="sticker area" src="/resources/chat/zany-face_1f92a.png">
 						<img class="sticker area" src="/resources/chat/squinting-face-with-tongue_1f61d.png">
 						<img class="sticker area" src="/resources/chat/money-mouth-face_1f911.png">
 						<img class="sticker area" src="/resources/chat/hugging-face_1f917.png">
-						<img class="sticker area" src="/resources/chat/face-with-hand-over-mouth_1f92d.png">
-						<img class="sticker area" src="/resources/chat/face-with-open-eyes-and-hand-over-mouth_1fae2.png">
-						<img class="sticker area" src="/resources/chat/face-with-peeking-eye_1fae3.png">
-						<img class="sticker area" src="/resources/chat/face-vomiting_1f92e.png">
-						<img class="sticker area" src="/resources/chat/face-with-symbols-on-mouth_1f92c.png">
 						<img class="sticker area" src="/resources/chat/ghost_1f47b.png">
 						<img class="sticker area" src="/resources/chat/alien_1f47d.png">
 						<img class="sticker area" src="/resources/chat/angry-face-with-horns_1f47f.png">
@@ -323,6 +340,7 @@
 
 <script type="text/javascript">
 
+//채팅방 입장 시 메시지 입력창에 자동 포커스
 $("#message").focus();
 
 //메시지 입력 시 전송버튼 활성화
@@ -347,7 +365,8 @@ $('#message').keyup(function(key) {
         $('#sendBtn').attr('disabled', 'disabled');
         $('#sendBtn').css("background-color", "#dfdfdf");
         $('#sendBtn').css("color", "#898888b8");
-    	
+    
+    //입력한 내용이 있을 경우
     } else if(key.keyCode == 13) {
     	
     	//SHIFT + ENTER 가 아닐 경우
@@ -360,6 +379,8 @@ $('#message').keyup(function(key) {
 	        $('#sendBtn').attr('disabled', 'disabled');
 	        $('#sendBtn').css("background-color", "#dfdfdf");
 	        $('#sendBtn').css("color", "#898888b8");
+	        
+	    //SHIFT + ENTER 일 경우
 		} else {
     		var content = $("#message").val();
 			$("#message").val(content);
@@ -382,31 +403,52 @@ $("#sendBtn").click(function() {
 
 //채팅방 나가기 버튼 클릭 이벤트
 $("#btnExit").click(function() {
-   sendMessage(3);
-   $('.chatRoomName2').removeAttr("disabled");
-   $('.chatRoomName2').removeClass("disable");
-   
-   $.ajax({
-		
-		type: "get"					
-		, url: "/chat/mainRight"			
-		, data: {}
-		, dataType: "html"				
-		, success: function( res ) {
-			console.log("AJAX 성공")
-			
-			//메인 배경색 변경
-			$("#content-right").css("background-color", "#f4b0b042")
-			
-			//응답 데이터 반영
-			$("#content-right").html( res )
-			
-		}
-		, error: function() {
-			console.log("AJAX 실패")
-		}
-		
-	})
+	
+	Swal.fire({
+	   title: '채팅방을 나가시겠습니까?',
+	   text: '채팅방에서 나가기를 하면 대화 내용이 모두 삭제됩니다.',
+	   icon: 'question',
+	   
+	   showCancelButton: true,
+	   confirmButtonColor: '#3085d6',
+	   cancelButtonColor: '#d33',
+	   confirmButtonText: '나가기',
+	   cancelButtonText: '취소',
+	   
+// 	   reverseButtons: true, //버튼 반대로 설정
+	   
+	}).then(result => {
+	   if (result.isConfirmed) { 
+		   console.log('채팅방 나가기 선택함')
+		   
+		   sendMessage(3);
+		   $('.chatRoomName2').removeAttr("disabled");
+		   $('.chatRoomName2').removeClass("disable");
+		   
+		   $.ajax({
+				
+				type: "get"					
+				, url: "/chat/mainRight"			
+				, data: {}
+				, dataType: "html"				
+				, success: function( res ) {
+					console.log("AJAX 성공")
+					
+					//메인 배경색 변경
+					$("#content-right").css("background-color", "#f4b0b042")
+					
+					//응답 데이터 반영
+					$("#content-right").html( res )
+					
+				}
+				, error: function() {
+					console.log("AJAX 실패")
+				}
+				
+			})
+		   
+	   }
+	});
    
 }); // End of $("#btnExit").click()
 
@@ -494,7 +536,7 @@ function profileUp() {
 	
 	
 	
-}
+} //End of profileUp()
 
 //File Upload Method
 function fileUpload() {
@@ -546,7 +588,7 @@ function fileUpload() {
 		
 	})
 	
-}
+} //End of fileUpload()
 	
 //이모티콘 보내기
 $(".btnEmoticon").click(function() {
@@ -561,7 +603,7 @@ $(".btnEmoticon").click(function() {
 })
 
 $(".sticker").click(function() {
-	sendMessage(5, $(this).attr("src"));
+	sendMessage(5, $(this).attr("src") + ".emo");
 })
 
 //이모티콘 추가 부분
@@ -602,6 +644,7 @@ $('html').click(function(e) {
 //사진 상세보기
 $(document).on("click",".imgs",function(){
 	var path = $(this).attr('src');
+	console.log('path - ' + path)
 	showImage(path);
 });
 
@@ -613,7 +656,7 @@ function showImage(fileCallPath){
   
 $(".bigPictureWrap").on("click", function(e){
 	$('.bigPictureWrap').hide();
-});
+}); //End of showImage()
 
 </script>
 
