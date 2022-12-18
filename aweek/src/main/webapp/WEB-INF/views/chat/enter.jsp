@@ -30,7 +30,7 @@
 					<c:when test="${chatProfile.chatProfileStoredName eq null || chatProfile.chatProfileStoredName == null}">
 						<img id="setProflieImg" class="${chatProfile.chatProfileStoredName }defaultProfImg" alt="prof" src="/resources/chat/account_circle.png">
 						<!-- ws 전달용 프로필 정보 -->
-						<input type="hidden" id="profileStoredName" class="${chatProfile.chatProfileStoredName } defaultProfImg">
+						<input type="hidden" id="profileStoredName" class="${chatProfile.chatProfileStoredName }defaultProfImg">
 					</c:when>
 					<c:otherwise>
 						<img id="setProflieImg" class="${chatProfile.chatProfileStoredName } imgs" alt="prof" src="${pageContext.request.contextPath}/upload/${chatProfile.chatProfileStoredName }">
@@ -520,7 +520,7 @@ function profileUp() {
 				console.log($('#setProflieImg').attr('src'))
 				
 				$('#setProflieImg').attr('src', '${pageContext.request.contextPath}/upload/' + res.chatProfileStoredName);
-				$('#setProflieImg').attr('class', res.chatProfileStoredName);$
+				$('#profileStoredName').attr('class', res.chatProfileStoredName);$
 				//메뉴 닫기
 				$("#chatMenu").attr("style", "display: none;");
 			}
@@ -590,7 +590,7 @@ function fileUpload() {
 	
 } //End of fileUpload()
 	
-//이모티콘 보내기
+//이모티콘, 스티커 보내기
 $(".btnEmoticon").click(function() {
 
 	var state = $('#emoticonContainer').attr("style");
@@ -615,8 +615,9 @@ $(".emoticon").click(function() {
         $('#sendBtn').css("color", "#fff");
     }
 	
-	$('#emoSave').append($(this).attr('id'));
-	$("#message").val($('#emoSave').html());
+	$("#message").val($("#message").val() + $(this).attr('id'));
+// 	$('#emoSave').append($(this).attr('id'));
+// 	$("#message").val($("#message").val() + $('#emoSave').html());
 })
 
 $("#emoticon").click(function() {

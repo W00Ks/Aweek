@@ -200,7 +200,7 @@
       		console.log("roomMsg[5] : " + roomMsg[5]);
       		
       		//단체 채팅방인 경우 처리
-      		if(roomMsg[4] == 'defaultProfImg') {
+      		if(roomMsg[4] == 'undefined') {
       			
 	      		//Apply Room Creation
 	   	   		$('.chatRoomList[id=' + roomMsg[2] + ']').children('.hover2').append("<button class='chatRoomName2' value='" + roomMsg[3] + "' onclick='enter(" + roomMsg[3] + ")'>" + roomMsg[1] + "</button><br>");
