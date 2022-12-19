@@ -489,11 +489,12 @@ let option = {
 // 대상 노드에 감시자 전달
 observer.observe(target, option)
 
-//Profile Upload Method
+//프로필 바꾸기 클릭 이벤트
 $('#btnProU').click(function() {
 	$('#btnProfUp').click()
 })
 
+//Profile Upload Method
 function profileUp() {
 	//파일 형식 검사
 	var fileType = $('#btnProfUp').val().split('.')
@@ -520,7 +521,7 @@ function profileUp() {
 				console.log($('#setProflieImg').attr('src'))
 				
 				$('#setProflieImg').attr('src', '${pageContext.request.contextPath}/upload/' + res.chatProfileStoredName);
-				$('#profileStoredName').attr('class', res.chatProfileStoredName);$
+				$('#profileStoredName').attr('class', res.chatProfileStoredName);
 				//메뉴 닫기
 				$("#chatMenu").attr("style", "display: none;");
 			}
@@ -616,8 +617,6 @@ $(".emoticon").click(function() {
     }
 	
 	$("#message").val($("#message").val() + $(this).attr('id'));
-// 	$('#emoSave').append($(this).attr('id'));
-// 	$("#message").val($("#message").val() + $('#emoSave').html());
 })
 
 $("#emoticon").click(function() {
@@ -636,7 +635,7 @@ $("#sticker").click(function() {
 	$('#emoticon').removeClass('btn_style');
 })
 
-$('html').click(function(e) {   
+$('html').click(function(e) {
 	if(!$(e.target).hasClass("area")) {
 		$('#emoticonContainer').attr("style", "display: none;");
 	}

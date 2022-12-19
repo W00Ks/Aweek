@@ -161,7 +161,9 @@
         										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
         									+ "</div>" 
         								+ "</div>");
-    	    
+    	    	
+        		$('.setProflieImgWS').attr('src', '${pageContext.request.contextPath}/upload/' + prof[1]);
+			   	
     	    } else { //First Message Processing
     	    	
     	    	//storedName 추출
