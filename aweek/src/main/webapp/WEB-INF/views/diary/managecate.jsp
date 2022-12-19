@@ -10,7 +10,7 @@
 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 
-<% List<DiaryCategory> categoryList = (List) request.getAttribute("categoryList"); %>  
+<%-- <% List<DiaryCategory> categoryList = (List) request.getAttribute("categoryList"); %> --%>  
 
 <script type="text/javascript">
 $(document).ready(function() {

@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import diary.dao.face.DiaryDao;
 import diary.dto.Diary;
+import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
 import diary.dto.DiaryFavorite;
 import diary.dto.DiaryHot;
+import diary.dto.DiaryRoomList;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -59,7 +61,7 @@ public class DiaryServiceImpl implements DiaryService {
 			list.add(new DiaryFavorite(Integer.parseInt(roomnos[i]), userNo, ""));
 		}
 		
-		for( DiaryFavorite i : list ) logger.trace("##### list : {}", i);
+		for( DiaryFavorite i : list ) logger.trace("##### DiaryFavorite list : {}", i);
 		
 		diaryDao.insertFavorite(list);
 	}
@@ -134,6 +136,33 @@ public class DiaryServiceImpl implements DiaryService {
 	public void delcate(String delcate, int roomNo) {
 		DiaryCategory diaryCategory = new DiaryCategory(0, roomNo, delcate);
 		diaryDao.deleteDiaryCategory(diaryCategory);
+	}
+
+	@Override
+	public List<DiaryRoomList> roomUserList(int roomNo) {
+		return diaryDao.selectRoomUserList(roomNo);
+	}
+
+	@Override
+	public List<DiaryAdmin> roomAdminList(int roomNo) {
+		return diaryDao.selectDiaryAdmin(roomNo);
+	}
+
+	@Override
+	public void manageadmin(String[] checkAdmin, int roomNo) {
+		
+		List<DiaryAdmin> list = new ArrayList<>();
+		
+		for(int i=0; i<checkAdmin.length; i++) {
+			list.add(new DiaryAdmin(roomNo, Integer.parseInt(checkAdmin[i]), ""));
+		}
+		
+		for( DiaryAdmin i : list ) logger.trace("##### DiaryAdmin list : {}", i);
+		
+		diaryDao.deleteDiaryAdmin(roomNo);
+		
+		diaryDao.insertDiaryAdmin(list);
+		
 	}
 
 }

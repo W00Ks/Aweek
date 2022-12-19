@@ -64,6 +64,7 @@ $(document).ready(function(){
 	
  	<%	for(int i=0; i<adminList.size(); i++) { %>
 	$(".manageadmin<%=i %>").click(function(){
+		
 		$.ajax({
 			type: "get"
 			, url: "./manageadmin"
@@ -74,11 +75,14 @@ $(document).ready(function(){
 			, success: function( res ) {
 				console.log("AJAX 성공")
 				$(".rightbox").html( res )
+				
 			}
 			, error: function() {
 				console.log("AJAX 실패")
 			}
 		})
+		
+		
 	})
 	<% } %> 
 	
@@ -92,14 +96,22 @@ a {
 .leftbox {
 	display: inline-block;
 	overflow: scroll;
-	width : 350px;
+	overflow-x: hidden;
+	position: fixed;
+	width : 250px;
 	height: 100%;
 	border-right: 1px solid #C7D1CA;
+	background-color: white;
+}
+.leftboxback {
+	display: inline-block;
+	width : 350px;
+	height: 100%;
 }
 .rightbox {
 	width: 100%;
 	height: 100%;
-	padding-left: 15px;
+	padding-left: 25px;
 }
 html, body {
 	height: 100%;
@@ -140,6 +152,7 @@ ul {
 <body>
 <%int cnt = 0; %>
 <div style="display: flex; width: 100%; height: 100%;">
+	<div class="leftboxback"></div>
 	<div class="leftbox">
 	<ul>
 		<c:forEach items="${adminList }" var="data">

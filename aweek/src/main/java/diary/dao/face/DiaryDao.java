@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import diary.dto.Diary;
+import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
 import diary.dto.DiaryFavorite;
 import diary.dto.DiaryHot;
+import diary.dto.DiaryRoomList;
 import member.dto.Member;
 import room.dto.Room;
 import room.dto.RoomList;
@@ -156,5 +158,35 @@ public interface DiaryDao {
 	 * @param diaryCategory - 모임 번호, 카테고리 이름이 포함된 DTO
 	 */
 	public void deleteDiaryCategory(DiaryCategory diaryCategory);
+
+	/**
+	 * 모임 내 가입사용자 리스트 조회
+	 * 
+	 * @param roomNo - 모임 번호
+	 * @return 해당 모임에 가입된 사용자 리스트
+	 */
+	public List<DiaryRoomList> selectRoomUserList(int roomNo);
+
+	/**
+	 * 모임 내 관리자 조회
+	 * 
+	 * @param roomNo - 모임 번호
+	 * @return 모임 내 관리자 데이터가 포함된 DiaryAdmin DTO 리스트
+	 */
+	public List<DiaryAdmin> selectDiaryAdmin(int roomNo);
+	
+	/**
+	 * 관리자 설정 이전 diary_admin 테이블 데이터 사전 제거
+	 * 
+	 * @param roomNo
+	 */
+	public void deleteDiaryAdmin(int roomNo);
+	
+	/**
+	 * 관리자로 설정된 사용자 diary_admin 테이블에 insert
+	 * 
+	 * @param list - 모임번호, 사용자번호가 포함된 DiaryAdmin DTO List
+	 */
+	public void insertDiaryAdmin(List<DiaryAdmin> list);
 
 }

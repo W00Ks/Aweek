@@ -1,10 +1,15 @@
 package diary.controller;
 
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -18,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import diary.dto.Diary;
+import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
 import diary.dto.DiaryFavorite;
 import diary.dto.DiaryHot;
+import diary.dto.DiaryRoomList;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -34,8 +41,11 @@ public class DiaryController {
 	
 	@Autowired DiaryService diaryService;
 	
-	@GetMapping("/test")
-	public void test() {}
+	@GetMapping("/test1")
+	public void test1() {}
+	
+	@GetMapping("/test2")
+	public void test2() {}
 	
 	@GetMapping("/login")
 	public void diaryLogin() {}
@@ -68,8 +78,24 @@ public class DiaryController {
 	}
 	
 	@GetMapping("/fail")
-	public void diaryFail(HttpSession session) {
+	public void diaryFail(HttpSession session, HttpServletRequest req, HttpServletResponse resp) {
+		
+		Cookie[] cookies = req.getCookies(); // 모든 쿠키의 정보를 cookies에 저장
+		if(cookies != null) { // 쿠키가 한개라도 있으면 실행
+	    	for(int h=0; h< cookies.length; h++) {
+	        	cookies[h].setMaxAge(0); // 유효시간을 0으로 설정
+	            	resp.addCookie(cookies[h]); // 응답 헤더에 추가
+	        }
+		}
+		
 		session.invalidate();
+		
+		try {
+			req.getRequestDispatcher("/WEB-INF/views/diary/fail.jsp").forward(req, resp);
+		} catch (ServletException | IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@GetMapping("/main")
@@ -111,6 +137,9 @@ public class DiaryController {
 		for( DiaryFavorite i : diaryFavorite ) logger.trace("##### diaryFavorite : {}", i);
 		
 		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		// 전체 공지사항 읽음카운트
+		
 		
 		// 메인 공지사항
 		List<Diary> diaryNotice = diaryService.selectDiaryNotice(userRoom);
@@ -159,7 +188,9 @@ public class DiaryController {
 	}
 	
 	@PostMapping("/favorite")
-	public String diaryFavorite(@RequestParam(required = false) String[] roomnos, HttpSession session) {
+	public void diaryFavorite(@RequestParam(required = false) String[] roomnos, HttpSession session
+			, HttpServletRequest req, HttpServletResponse resp
+			) {
 		
 		logger.trace("##### roomnos required : {}", Arrays.toString(roomnos));
 		// @RequestParam(required = false) 설정하면 파라미터가 없을때 null값을 저장한다고?
@@ -175,7 +206,27 @@ public class DiaryController {
 			diaryService.userFavoriteClear(userNo);
 		}
 		
-		return "redirect:/diary/main";
+		Cookie[] cookies = req.getCookies(); // 모든 쿠키의 정보를 cookies에 저장
+		
+		for(int h=0; h<cookies.length; h++) {
+			Cookie kc = new Cookie("favcount"+h, null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
+			kc.setMaxAge(0); // 유효시간을 0으로 설정
+			resp.addCookie(kc); // 응답 헤더에 추가해서 없어지도록 함
+		}
+		
+		try {
+			req.getRequestDispatcher("/WEB-INF/views/diary/refresh.jsp").forward(req, resp);
+		} catch (ServletException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		/*
+		try {
+			resp.sendRedirect("/diary/main");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		*/
 		
 	}
 	
@@ -219,6 +270,57 @@ public class DiaryController {
 		
 	}
 	
+	@PostMapping("/crecate")
+	public void diaryCreCateProc(@RequestParam int roomNo, @RequestParam(value="crecate") String crecate) {
+		
+		logger.trace("##### crecate : {}", crecate);
+		logger.trace("##### crecate roomNo : {}", roomNo);
+		
+		diaryService.crecate(crecate, roomNo);
+		
+	}
+	
+	@PostMapping("/delcate")
+	public void diaryDelCateProc(@RequestParam int roomNo, @RequestParam(value="delcate") String delcate) {
+		
+		logger.trace("##### delcate : {}", delcate);
+		logger.trace("##### delcate roomNo : {}", roomNo);
+		
+		diaryService.delcate(delcate, roomNo);
+		
+	}
+	
+	@GetMapping("/manageadmin")
+	public void diaryAdmin(Model model, @RequestParam("n1") int roomNo) {
+		
+		logger.trace("##### diaryAdmin roomNo : {}", roomNo);
+		
+		Room roomInfo = diaryService.roomInfo(roomNo);
+		logger.trace("##### hot roomInfo : {}", roomInfo);
+		model.addAttribute("roomInfo", roomInfo);
+		
+		List<DiaryRoomList> roomUserList = diaryService.roomUserList(roomNo);
+		for( DiaryRoomList i : roomUserList ) logger.trace("##### roomUserList : {}", i);
+		model.addAttribute("roomUserList", roomUserList);
+		
+		List<DiaryAdmin> roomAdminList = diaryService.roomAdminList(roomNo);
+		for( DiaryAdmin i : roomAdminList ) logger.trace("##### roomAdminList : {}", i);
+		model.addAttribute("roomAdminList", roomAdminList);
+		
+	}
+	
+	@PostMapping("/manageadmin")
+	public String diaryAdminProc(@RequestParam(required = false) String[] checkAdmin, @RequestParam int roomNo) {
+		
+		logger.trace("##### checkAdmin POST : {}", Arrays.toString(checkAdmin));
+		logger.trace("##### roomNo : {}", roomNo);
+		
+		diaryService.manageadmin(checkAdmin, roomNo);
+		
+		return "f"; // 임의의 값
+		
+	}
+	
 	@GetMapping("/hot")
 	public void diaryHot(Model model, @RequestParam("n1") int roomNo) {
 		
@@ -251,36 +353,131 @@ public class DiaryController {
 		
 	}
 	
-	@PostMapping("/crecate")
-	public void diaryCreCateProc(@RequestParam int roomNo, @RequestParam(value="crecate") String crecate) {
+	@GetMapping("/write")
+	public String diaryWrite(Model model, HttpSession session) {
 		
-		logger.trace("##### crecate : {}", crecate);
-		logger.trace("##### crecate roomNo : {}", roomNo);
+		// 가입된 모임 리스트
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
 		
-		diaryService.crecate(crecate, roomNo);
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
+		
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		return "/diary/write";
 		
 	}
 	
-	@PostMapping("/delcate")
-	public void diaryDelCateProc(@RequestParam int roomNo, @RequestParam(value="delcate") String delcate) {
+	@GetMapping("/mydiary")
+	public String diaryMyDiary(Model model, HttpSession session) {
 		
-		logger.trace("##### delcate : {}", delcate);
-		logger.trace("##### delcate roomNo : {}", roomNo);
+		// 가입된 모임 리스트
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
 		
-		diaryService.delcate(delcate, roomNo);
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
+		
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		return "/diary/mydiary";
 		
 	}
 	
-	@GetMapping("/manageadmin")
-	public void diaryAdmin(Model model, @RequestParam("n1") int roomNo) {
+	@GetMapping("/best")
+	public String diaryBest(Model model, HttpSession session) {
 		
-		logger.trace("##### diaryAdmin roomNo : {}", roomNo);
+		// 가입된 모임 리스트
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
 		
-		Room roomInfo = diaryService.roomInfo(roomNo);
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
 		
-		logger.trace("##### hot roomInfo : {}", roomInfo);
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
 		
-		model.addAttribute("roomInfo", roomInfo);
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		return "/diary/best";
+		
+	}
+	
+	@GetMapping("/notice")
+	public String diaryNotice(Model model, HttpSession session) {
+		
+		// 가입된 모임 리스트
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
+		
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
+		
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		return "/diary/notice";
 		
 	}
 

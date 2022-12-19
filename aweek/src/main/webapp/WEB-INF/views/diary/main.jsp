@@ -1,8 +1,16 @@
+<%@page import="diary.dto.DiaryFavorite"%>
+<%@page import="room.dto.Room"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="../layout/roomHeader.jsp" flush="true" />
 
+<% List<DiaryFavorite> diaryFavorite = (List) request.getAttribute("diaryFavorite"); %>
+<% List<Room> userRoom = (List) request.getAttribute("userRoom"); %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <style type="text/css">
 html, body {
@@ -46,7 +54,8 @@ html, body {
 .writeDiary {
 	display: flex;
 	font-weight:600;
-	background-color: #f4b0b0;
+	/* background-color: #f4b0b0; */
+	background-color: black;
 	color: white;
 	height: 45px;
 	width: 220px;
@@ -56,14 +65,11 @@ html, body {
 	align-items: center; /* 수직 정렬*/
 }
 .writeDiary:hover {
-	background-color: #DB9E9E;
+	/* background-color: #DB9E9E; */
+	background-color: black;
 }
 .hide {
 	display: none;
-}
-.menublock1 {
-	font-weight: 600;
-	margin: 20px;
 }
 .menublock2 {
 	margin: 10px 20px 10px 20px;
@@ -138,26 +144,79 @@ $(document).ready(function(){
 function viewsetting() {
 	
 	const width = 800;
-	const height = 650;
+	const height = 550;
 	let left = (document.body.offsetWidth / 2) - (width / 2);
 	let tops = (document.body.offsetHeight / 2) - (height / 2);
 	left += window.screenLeft;
 	const popup = window.open('<%=request.getContextPath() %>/diary/setting', 'viewsetting', 'width='+ width +',height='+ height +',left='+ left +',top='+ tops);
-	 
+	
 }
+
+window.addEventListener('load', function() {
+	
+	// 배열 생성
+	const arr = new Array(<%=diaryFavorite.size() %> + <%=userRoom.size() %>);
+	
+	// 쿠키값이 없을 경우
+	if(document.cookie == "") {
+		
+		// 배열 0으로 초기화, 쿠키 생성
+		for(let k=1; k<=arr.length; k++) {
+			arr[k-1] = 0;
+			document.cookie = "favcount" + k + "=" + arr[k-1]
+		}
+		
+	} else {
+		
+		// 쿠키값이 있을 경우
+		let cookies = document.cookie.split(";");
+		
+		console.log(cookies) // 쿠키는 순서가 계속 뒤죽박죽으로 바뀌어서 배열에 담는 코드가 필요함..
+		
+		// 뒤죽박죽인 쿠키를 배열에 순서대로 집어넣는 코드 
+ 		for(let j=1; j<=arr.length; j++) {
+			for(let l=1; l<=arr.length; l++) {
+				if(cookies[l-1].search("favcount"+j) != -1) {
+					arr[j-1] = cookies[l-1].substring(cookies[l-1].indexOf("=")+1)
+				}
+			}
+		}
+		
+	}
+	
+	// 모임 클릭 시 마다 쿠키 카운트 증가(배열에서 기존값 가져옴)
+	<% for(int i=1; i<=diaryFavorite.size() + userRoom.size(); i++) { %>
+  	
+		document.querySelector('.favcount<%=i %>').addEventListener("click", function() {
+			document.cookie = "favcount<%=i %>=" + ++arr[<%=i-1 %>];
+		})
+
+	<% } %>
+	
+	console.log(arr)
+	
+	for(let m=1; m<=arr.length; m++) {
+		if(arr[m-1] % 2 != 0) {
+			document.getElementsByClassName('favcount'+m)[0].nextElementSibling.classList.remove('hide');
+		}
+	}
+	
+})
 </script>
+
+<%int favcount = 0; %>
 
 <div class="fullmenu">
 	<div class="leftmenu">
 		<div class="leftbox1">
-				<a href="#">
+				<a href="./write">
 				<span class="writeDiary">
 				글쓰기
 				</span>
 				</a>
 		</div>
 		<div class="leftbox2">
-			<a href="#">
+			<a href="./notice">
 			<span style="color: black; font-size: 0.8em; width: 70px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
 				<span style="font-size: 1.5em; color: #029EE4;">
 				0
@@ -167,17 +226,17 @@ function viewsetting() {
 				</span>
 			</span>
 			</a>
-			<a href="#">
+			<a href="./best">
 			<span style="color: black; font-size: 0.8em; width: 70px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
 				<span style="font-size: 1.5em; color: #029EE4;">
-				0
+				<img alt="" src="/resources/diary/star_FILL0_wght400_GRAD0_opsz48.png" style="width: 22px; margin-bottom: -1px;">
 				</span><br>
 				<span>
-				전체글
+				추천글
 				</span>
 			</span>
 			</a>
-			<a href="#">
+			<a href="./mydiary">
 			<span style="color: black; font-size: 0.8em; width: 70px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
 				<span style="font-size: 1.5em; color: #029EE4;">
 				<img alt="" src="/resources/diary/mydiary.PNG" style="margin-bottom: -4px;">
@@ -197,8 +256,8 @@ function viewsetting() {
 				<ul>
 					<c:forEach items="${diaryFavorite }" var="data">
 						<li class="menu">
-							<div class="menublock1">${data.roomName }<img alt="" src="/resources/diary/menu.PNG" style="display: inline; float: right;"></div>
-							<ul id="menublock2" class="hide">
+							<div class="favcount<%=++favcount %>" style="font-weight: 600; margin: 20px;">${data.roomName }<img alt="" src="/resources/diary/menu.PNG" style="display: inline; float: right;"></div>
+							<ul class="hide">
 								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">공지사항</div></a></div></li>
 								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">추천글</div></a></div></li>
 								<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">전체글</div></a></div></li>
@@ -215,8 +274,8 @@ function viewsetting() {
 			<ul>
 				<c:forEach items="${userRoom }" var="data">
 					<li class="menu">
-						<div class="menublock1">${data.roomName }<img alt="" src="/resources/diary/menu.PNG" style="display: inline; float: right;"></div>
-						<ul id="menublock2" class="hide">
+						<div class="favcount<%=++favcount %>" style="font-weight: 600; margin: 20px;">${data.roomName }<img alt="" src="/resources/diary/menu.PNG" style="display: inline; float: right;"></div>
+						<ul class="hide">
 							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">공지사항</div></a></div></li>
 							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">추천글</div></a></div></li>
 							<li><div class="menublock2"><a href="#"><img class="submenu1" alt="" src="/resources/diary/submenu1.PNG" style="float: left; margin-top: 3px;"><img class="submenu2" alt="" src="/resources/diary/submenu2.PNG" style="float: left; margin-top: 3px;"><div style="padding-left: 20px; font-size: 0.9em; color: black; line-height: 19px;">전체글</div></a></div></li>
