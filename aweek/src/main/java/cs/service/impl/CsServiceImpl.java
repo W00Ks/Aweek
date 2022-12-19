@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import common.Paging;
 import cs.dao.face.CsDao;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
@@ -22,9 +23,20 @@ public class CsServiceImpl implements CsService {
 	@Autowired CsDao csDao;
 	
 	@Override
-	public List<Notice> getNoticeList() {
+	public Paging getPaging(int curPage) {
+		//총 게시글 수 조회
+		int totalCount = csDao.selectCntAll();
+		
+		//페이징 계산
+		Paging paging = new Paging(totalCount, curPage);
+		
+		return paging;
+	}
+	
+	@Override
+	public List<Notice> getNoticeList(Paging paging) {
 
-		List<Notice> noticeList = csDao.selectNoticeAll();
+		List<Notice> noticeList = csDao.selectNoticeAll(paging);
 		
 		return noticeList;
 	}

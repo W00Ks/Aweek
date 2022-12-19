@@ -78,7 +78,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 }
 
 .container__right .list-wrap .table-menu {
-	margin: 40px 0;
+	margin: 40px 0 10px;
 	width: 100%;
 	border-bottom: 1px solid var(--accent-color);
     padding: 15px 0;

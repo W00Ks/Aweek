@@ -23,6 +23,7 @@ body {
 	font-family: 'NanumSquareNeo-Variable';
 }
 
+/* 나의 1:1 문의 상세 텍스트 */
 .myInquiryTxt {
     text-align: center;
     color: #555555;
@@ -32,6 +33,7 @@ body {
     cursor: default;
 }
 
+/* 테이블 전체 */
 .myInquiry_table {
 	text-align: center;
     width: 400px;
@@ -40,44 +42,54 @@ body {
     border-collapse: collapse;
 }
 
+/* 각 항목 타이틀 영역 */
 .myInquiry_table tr > th {
 	font-size: 16px;
     line-height: 45px;
+    color: #594B4B;
 }
 
+/* 행 하단 border */
 .myInquiry_table tr:nth-child(1) th, .myInquiry_table tr:nth-child(1) td {
 	border-bottom : 2px solid black;
 }
 
+/* 행 하단 border */
 .myInquiry_table tr:nth-child(3) th, .myInquiry_table tr:nth-child(3) td {
 	border-bottom : 2px solid black;
 }
 
+/* 행 하단 border */
 .myInquiry_table tr:nth-child(5) th, .myInquiry_table tr:nth-child(5) td {
 	border-bottom : 2px solid black;
 }
 
+/* 행 하단 border */
 .myInquiry_table tr:nth-child(7) th, .myInquiry_table tr:nth-child(7) td {
 	border-bottom : 2px solid black;
 }
 
+/* 테이블 중간 여백 */
 .middle {
 	height: 15px;
 }
 
+/* 내용 타이틀 영역 */
 .myInquiry_table tr:nth-last-child(3) {
     display: inline;
-    line-height: 0px;
+    line-height: 15px;
 }
 
+/* 내용 컨텐츠 영역 */
 #contentSpan {
 	border: 2px solid #ccc;
-	border-radius: 10px;
+	border-radius: 30px;
     padding: 15px;
     height: 200px;
-	
+    background-color: #fffbf6;
 }
 
+/* 테이블 끝 여백 */
 .bottom {
 	height: 10px;
 }
@@ -97,8 +109,8 @@ body {
     border-radius: 20px;
     font-size: 15px;
     font-weight: 600;
-    background-color: #f4b0b0;
-    border: 1px solid #f4b0b0;
+    background-color: #594B4B;
+    border: 1px solid #594B4B;
     color: #ffffff;
     cursor: pointer;
     font-family: 'NanumSquareNeo-Variable';
