@@ -44,12 +44,13 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 	flex: 1;
 }
 .container__right .main-wrap {
-	margin: 35px;
+	margin: 35px 10%;
 }
 .container__right .main-wrap .main-title {
 	padding: 40px 20px;
-    margin: 0 10%;
+    width: 100%;
     border-bottom: 2px solid var(--border-color);
+	box-sizing: border-box;
 }
 .container__right .main-wrap .main-title h1 {
 	text-align: center;
@@ -57,14 +58,37 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 }
 
 
+
+.container__right .main-wrap .room-nonexistent {
+	margin: 50px;
+}
+.container__right .main-wrap .room-nonexistent h3 {
+	font-size: 25px;
+}
+.container__right .main-wrap .room-nonexistent .open-room-wrap {
+	display: flex;
+	margin: 20px 0;
+}
+.container__right .main-wrap .room-nonexistent .open-room-wrap span {
+	display: inline-block;
+    /* width: 40px; */
+    font-size: 50px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+.container__right .main-wrap .room-nonexistent .open-room-wrap p {
+	display: flex;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+}
+
 .container__right .main-wrap .roomBox-wrap {
-	margin: 50px 10%;
+	margin: 50px 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 30px 2%;
-    justify-content: space-between;
-    
-
+    gap: 30px 5%;
+    justify-content: flex-start;
 }
 .container .roomBox-wrap .roomBox {
 	width: 30%;
@@ -136,11 +160,12 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 	}
 	
 	.container__right .main-wrap .roomBox-wrap {
-    margin: 50px 0%;
+    	gap: 30px 3%;
 	}
 	.container .roomBox-wrap .roomBox {
 	    width: 48%;
 	}
+	
 }
 
 
@@ -247,11 +272,24 @@ function dropOut(roomName,roomNo){
     <div class="resizer" id="dragMe"></div>
     <div class="container__right">
     	<div class="main-wrap">
+    		
     		<div class="main-title">
 				<h1>내 모임 목록</h1>
 			</div>
+			
+    		<c:if test="${empty myRoomList }">
+				<div class="room-nonexistent">
+					<h3>가입중인 모임이 없습니다</h3>
+					<div class="open-room-wrap">
+						<span class="material-symbols-outlined" onclick="roomOpen()">add_circle</span>
+						<p onclick="roomOpen()">모임 개설하기</p>			
+					</div>
+				</div>
+    		</c:if>
+			
 			<div class="roomBox-wrap">
 		    	<input type="hidden" name="userNo" class="userNo" value="${userno }">
+					
 				<c:forEach items="${myRoomList  }" var="room">
 					<div class="roomBox" onclick="moveSetting(${room.roomNo })">
 				    	<input type="hidden" name="userNo" class="roomNo" value="${room.roomNo }">
@@ -272,10 +310,10 @@ function dropOut(roomName,roomNo){
 							<c:if test ="${room.userNo ne userno}">
 								<p class="dropOut" onclick="dropOut('${room.roomName }',${room.roomNo })">탈퇴</p>
 							</c:if>
-						</div>
-					</div>
+						</div><!-- .bottom-wrap end -->
+					</div><!-- .roomBox end -->
 				</c:forEach>
-			</div>
+			</div><!-- .roomBox-wrap end -->
 		</div>
     </div>
 

@@ -2,6 +2,7 @@ package cs.service.face;
 
 import java.util.List;
 
+import common.Paging;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
@@ -10,11 +11,19 @@ import cs.dto.QnACategory;
 public interface CsService {
 
 	/**
+	 * 페이징
+	 * 
+	 * @param curPage
+	 * @return
+	 */
+	public Paging getPaging(int curPage);
+	/**
 	 * 공지사항 리스트 불러오기
+	 * @param paging 
 	 * 
 	 * @return List<Notice> - 공지사항 리스트
 	 */
-	public List<Notice> getNoticeList();
+	public List<Notice> getNoticeList(Paging paging);
 
 	/**
 	 * 공지사항 상세보기
@@ -51,6 +60,7 @@ public interface CsService {
 	 * @param inquiry - 1대1 질문 객체
 	 */
 	public void createInquiry(Inquiry inquiry);
+
 
 
 

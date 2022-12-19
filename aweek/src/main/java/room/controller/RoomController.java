@@ -34,17 +34,15 @@ public class RoomController {
 		//로그인 후 userNo저장
 		session.getAttribute("userNo");
 		
-		//모임 전체 목록 조회
-		List<Room> roomList = roomService.roomList();
-		logger.info("roomList : {}", roomList);
-		model.addAttribute("roomList", roomList);
+//		//모임 전체 목록 조회
+//		List<Room> roomList = roomService.roomList();
+//		logger.info("roomList : {}", roomList);
+//		model.addAttribute("roomList", roomList);
 	}
 	
 	//세션 테스트 용 로그인
 	@RequestMapping("/room/login")
-	public void login() {
-		
-	}
+	public void login() {}
 	
 	//모임 메인
 	@RequestMapping("/room/main")
@@ -56,17 +54,18 @@ public class RoomController {
 		session.getAttribute("userNo");
 		int userno = (int) session.getAttribute("userNo");
 		model.addAttribute("userno", userno);
-		logger.info("userno : {}", userno);
+//		logger.info("userno : {}", userno);
 		
 		//userNo로 모임 list 조회(내가 가입한 모임)
 		List<Room> myRoomList = roomService.myRoomList(userno);
-//		logger.info("myRoomList : {}", myRoomList);
+//		logger.info("myRoomList나와라 얍!뿅 : {}", myRoomList);
 		model.addAttribute("myRoomList", myRoomList);
 	}
 	
 	//모임 전체 목록 조회 (내가 가입한 모임 x)
 	@RequestMapping("/room/roomList")
 	public void roomList( HttpSession session, Model model, Member member ) {
+		
 		//로그인 후 userNo저장
 		session.getAttribute("userNo");
 		
@@ -110,6 +109,26 @@ public class RoomController {
 		return "redirect:/room/main";
 	}
 	
+	//모임 개설시 모임 이름 중복 검사
+	@ResponseBody
+	@RequestMapping("/room/openRoomNameChk")
+	public int openRoomNameChk(HttpSession session, int roomNo) {
+		int userno = (int) session.getAttribute("userNo");
+		logger.info("이거이거userno : {}", userno);
+		
+		logger.info("roomNo : {}", roomNo);
+		//RoomList에 UserNo있는지 조회(가입되어 있는지 확인)
+		boolean joinUserNoChkResult = roomService.joinUserNoChk(userno,roomNo);
+		
+		if ( joinUserNoChkResult ) {
+			//가입 중
+			return 1; 
+		} else {
+			//가입 하지 않음
+			return 0;
+		}
+	}
+	
 	//모임 정보
 	@GetMapping("/room/roomInfo")
 	public void roomInfoPage( HttpSession session, Member member, Room room, Model model ) {
@@ -130,7 +149,6 @@ public class RoomController {
 		List<RoomList> userNoList = roomService.getUerNoListByRoomNo(room.getRoomNo());
 		logger.info("userNoList : {}", userNoList);
 		model.addAttribute("userNoList",userNoList );
-		
 		
 	}
 	
@@ -160,6 +178,10 @@ public class RoomController {
 		
 		logger.info("roomInfo : {}", room);
 		
+		String roomCaName = roomService.getRoomCategoryName(room.getRoomCategoryNo());
+		logger.info("roomCaName : {}", roomCaName);
+		model.addAttribute("roomCaName", roomCaName);
+		
 		//roomNo RoomList dto에서 userNo List 불러오기
 		List<RoomList> userNoList = roomService.getUerNoListByRoomNo(room.getRoomNo());
 		logger.info("userNoList : {}", userNoList);
@@ -176,8 +198,6 @@ public class RoomController {
 		//모임 가입
 		roomService.joinRoom(roomList, userno);
 		
-		logger.info("roomList :{}" ,roomList);
-		
 		return "redirect:/room/main";
 	}
 	
@@ -188,6 +208,7 @@ public class RoomController {
 		int userno = (int) session.getAttribute("userNo");
 		logger.info("이거이거userno : {}", userno);
 		
+		logger.info("roomNo : {}", roomNo);
 		//RoomList에 UserNo있는지 조회(가입되어 있는지 확인)
 		boolean joinUserNoChkResult = roomService.joinUserNoChk(userno,roomNo);
 		

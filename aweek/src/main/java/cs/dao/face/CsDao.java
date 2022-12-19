@@ -2,6 +2,7 @@ package cs.dao.face;
 
 import java.util.List;
 
+import common.Paging;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
@@ -10,11 +11,18 @@ import cs.dto.QnACategory;
 public interface CsDao {
 
 	/**
+	 * 페이징
+	 * 
+	 * @return
+	 */
+	public int selectCntAll();
+	/**
 	 * 공지사항 리스트 조회하기
+	 * @param paging 
 	 * 
 	 * @return List<Notice> - 공지사항 리스트
 	 */
-	public List<Notice> selectNoticeAll();
+	public List<Notice> selectNoticeAll(Paging paging);
 
 	/**
 	 * 공지사항 조회수 증가
@@ -58,6 +66,7 @@ public interface CsDao {
 	 * @param inquiry - 1대1 질문 객체
 	 */
 	public void insertInquiry(Inquiry inquiry);
+
 
 
 
