@@ -57,6 +57,7 @@ body {
 }
 .inquiry-content .object p {
 	width: 35%;
+	padding-top: 2px;
 }
 .inquiry-content .object p::after {
 	content: "*";
@@ -81,6 +82,7 @@ body {
 	border: 1px solid var(--soft-black);
     padding: 10px;
     border-radius: 4px;
+    resize: none;
 }
 .inquiry-content .object .roomPublic-section {
 	width: 65%;
@@ -88,6 +90,13 @@ body {
 }
 .inquiry-content .object .roomPublic-section .agree {
 
+}
+
+.inquiry-content .error-msg {
+	display: none;
+    margin: -6px 0 6px 34%;
+    font-size: 12px;
+    color: var(--deepPink-color);
 }
 
 .btnsection {
@@ -109,7 +118,6 @@ body {
     margin: 10px 0;
     box-sizing: border-box;
 }
-
 .btn:hover {
     box-sizing: border-box;
     background-color: var(--text-color);
@@ -120,6 +128,100 @@ body {
 </style>
 
 <script defer type="text/javascript">
+
+
+window.addEventListener('load', function(){
+	openCheck()
+});
+
+//전달 폼 입력시 빈칸 체크
+function openCheck() {
+	
+	let inquiryTitle = document.getElementById("inquiryTitle"); 
+	let inquiryEmail = document.getElementById("inquiryEmail"); 
+	let inquiryContent = document.getElementById("inquiryContent"); 
+	let agree = document.getElementById("agree"); 
+	
+	
+	inquiryTitle.addEventListener('blur', function() {
+		let eMsg = document.getElementById("inquiryTitle-error"); 
+		if( inquiryTitle.value == "" ) {
+			eMsg.style.display = "block"
+			return false;
+		} else {
+			eMsg.style.display = "none"
+			return true;
+		}
+	})
+	inquiryEmail.addEventListener('blur', function() {
+		let eMsg = document.getElementById("inquiryEmail-error"); 
+		if( inquiryEmail.value == "" ) {
+			eMsg.style.display = "block"
+			return false;
+		} else {
+			eMsg.style.display = "none"
+			return true;
+		}
+	})
+  	inquiryContent.addEventListener('blur', function() {
+		let eMsg = document.getElementById("inquiryContent-error");
+		if( inquiryContent.value == ""  ) {
+			eMsg.style.display = "block"
+			return false;
+		} else {
+			eMsg.style.display = "none"
+			return true;
+		}
+	})
+	
+	let eMsg = document.getElementById("agree-error");
+	if( agree.checked == false ) {
+		eMsg.style.display = "block"
+		return false;
+	} else {
+		eMsg.style.display = "none"
+		return true;
+	}
+	
+}
+
+//전달 버튼 클릭시 빈칸 검사 후 alert창 띄우기
+function submit() {
+	
+	let inquiryTitle = document.getElementById("inquiryTitle"); 
+	let inquiryEmail = document.getElementById("inquiryEmail"); 
+	let inquiryContent = document.getElementById("inquiryContent"); 
+	let agree = document.getElementById("agree");
+	
+	if( inquiryTitle.value == "" ) {
+		swal("문의사항 제목을 입력해주세요","", "warning").then(function(){
+        	$("input").eq(1).focus();
+       	});
+		return;
+	}
+	if( inquiryEmail.value == "" ) {
+		swal("문의에 대한 답변을 받을 이메일을 입력해주세요","", "warning").then(function(){
+        	$("input").eq(2).focus();
+       	});
+		return;
+	}
+	if( inquiryContent.value == "" ) {
+		swal("문의 사항을 입력해주세요","", "warning").then(function(){
+        	$("input").eq(3).focus();
+       	});
+		return;
+	}
+	if( agree.checked == false  ) {
+		swal("개인정보 열람 동의에 체크해야 문의사항을 전달할 수 있습니다","", "warning").then(function(){
+        	$("input").eq(3).focus();
+       	});
+		return;
+	}
+	
+		
+	document.getElementById('form').submit()
+	
+}
 
 </script>
 
@@ -141,15 +243,18 @@ body {
 		    	<p>제목</p>
 		    	<input type="text" id="inquiryTitle" name="inquiryTitle" placeholder="문의 제목을 적어주세요!" maxlength='40'>
 		    </div>
+		    <span class="error-msg" id="inquiryTitle-error">필수 입력 사항입니다</span>
 			<div class="object">
 		    	<p>이메일</p>
 		    	<input type="text" id="inquiryEmail" name="inquiryEmail" placeholder="답변을 받을 이메일을 적어주세요!" maxlength='40'>
 		    </div>
+		    <span class="error-msg" id="inquiryEmail-error">필수 입력 사항입니다</span>
 		    <div class="object">
 		    	<p>문의사항</p>
 		    	<textarea cols="30" rows="1" id="inquiryContent" name="inquiryContent" 
 		     	placeholder="문의사항을 적어주세요!" maxlength='200'></textarea>
 		    </div>
+		    <span class="error-msg" id="inquiryContent-error">필수 입력 사항입니다</span>
 			<div class="object"> 
 		    	<p>개인정보 동의</p>
 		    	<div class="roomPublic-section">
@@ -157,9 +262,10 @@ body {
 			    	<span>동의</span>
 		    	</div>
 		    </div>
+		    <span class="error-msg" id="agree-error" style="display: block;">동의 후 문의사항을 전달할 수 있습니다</span>
 		    
 		    <div class="btnsection">
-		    	<a href="#" class="btn btn--brown wide" onclick="document.getElementById('form').submit();">전달</a>
+		    	<a href="#" class="btn btn--brown wide" onclick="submit()">전달</a>
 		    	<a href="#" class="btn btn--brown wide">취소</a>
 		    </div>
 		</div>

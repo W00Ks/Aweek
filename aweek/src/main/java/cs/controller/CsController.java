@@ -12,13 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import common.Paging;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
 import cs.dto.QnACategory;
 import cs.service.face.CsService;
-import member.dto.Member;
 
 @Controller
 @RequestMapping("/cs")
@@ -29,13 +30,21 @@ public class CsController {
 	@Autowired CsService csService;
 	
 	@RequestMapping("/notice")
-	public void notice(HttpSession session, Model model) {
+	public void notice(
+			
+			@RequestParam(defaultValue = "0") int curPage
+			, HttpSession session
+			, Model model ) {
 		
 		//로그인 후 userNo저장
 		session.getAttribute("userNo");
 		
+		Paging paging = csService.getPaging(curPage);
+		logger.debug("{}", paging);
+		model.addAttribute("paging", paging);
+		
 		//공지사항 리스트 불러오기
-		List<Notice> noticeList = csService.getNoticeList();
+		List<Notice> noticeList = csService.getNoticeList(paging);
 //		logger.info("noticeList : {}", noticeList);
 		model.addAttribute("noticeList", noticeList);
 		
@@ -96,7 +105,7 @@ public class CsController {
 		session.getAttribute("userNo");
 		
 		csService.createInquiry(inquiry);
-		return "redirect:/cs/inquiry";
+		return "redirect:/cs/notice";
 		
 	}
 	

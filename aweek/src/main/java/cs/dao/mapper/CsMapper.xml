@@ -7,10 +7,25 @@
     
 <mapper namespace="cs.dao.face.CsDao">
 
-	<select id="selectNoticeAll" resultType="Notice">
+
+	<select resultType="int" id="selectCntAll">
+		SELECT count(*) FROM notice
+	</select>
+	
+	<select resultType="Notice" id="selectNoticeAll" parameterType="common.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT notice_no, notice_title, notice_content, notice_date, notice_hit FROM notice
+					ORDER BY notice_no DESC)
+				B) notice
+			WHERE rnum 
+		BETWEEN #{startNo } AND #{endNo } 
+	</select>
+
+	<!-- <select id="selectNoticeAll" resultType="Notice">
 		select * from notice
 		order by notice_no DESC
-	</select>
+	</select> -->
 	
 	<update id="updateNoticeHit" parameterType="Notice">
 		UPDATE notice

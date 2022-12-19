@@ -5,15 +5,15 @@
 
 <style type="text/css">
 
+
 html {
 	height: 100vh;	
 }
-html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, blockquote, form, fieldset, legend, menu, nav, section, hgroup, article, header, aside, footer, input, select, textarea, button {
+body {
 	font-family: 'NanumSquareNeo-Variable';
 }
 .container {
 	display: flex;
-	min-height: 100%;
 }
 .container__left {
 	width: 300px;
@@ -34,58 +34,87 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
   width: 2px;
 }
 .container__right {
-	width: 80%;
-	min-height: calc(100% - 52px);
+	width: calc(100% - 300px);
+	height: calc(100% - 52px);
 	background-color: var(--text-color);
-	flex: 1;
 }
-.container__right .main-wrap {
-	margin: 35px;
-}
-.container__right h1 {
-	margin: 0 auto;
-	padding: 30px;
-	border-bottom: 1px solid var(--border-color);
-	background-color: var(--text-color);
-	box-sizing: border-box;
-	font-size: 13px;
-}
-.container__right .open-content {
+.container__right .info-wrap {
 	margin: 50px auto;
 	width: 70%;
 	display: flex;
 	flex-direction: column;
+    padding: 30px 50px;
+    box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 5%);
 }
-.container__right .open-content .object {
+.container__right .info-wrap h2 {
+    margin: 15px 40%;
+    padding: 30px 0;
+    background-color: var(--text-color);
+    box-sizing: border-box;
+    font-size: 33px;
+    text-align: center;
+    border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+.container__right .info-wrap .object {
 	display: flex;
+	margin-top: 30px;
+	flex-direction: column;
+}
+.container__right .info-wrap .object p {
+/* 	white-space: break-spaces; */
 	margin: 10px 0;
 }
-.container__right .open-content .object p {
-	width: 130px;
+.container__right .info-wrap .object .roomName {
+	font-weight: 600;
+    font-size: 24px;
+    text-align: center;    
 }
-.container__right .open-content .object input {
-	width: 80%;
-	border-style: none;
-	border-bottom: 2px solid var(--accent-color);
-	background-color: transparent;
+.container__right .info-wrap .object .roomIntroduce {
+    line-height: 2.2em;
+    font-size: 18px;
+	margin: 20px 0 80px 0;
+    text-align: center;
+    white-space: break-spaces;
 }
-.container__right .open-content .object:nth-child(2) input {
-	line-height: 200px;
-	border: 2px solid var(--accent-color);
-	border-radius: 5px;
-	background-color: transparent;
+.container__right .info-wrap .object .info-box {
+	display: flex;
+	justify-content: space-between;
 }
-.container__right .open-content .object:nth-child(5) input {
-	width: 5%;
-}
+.container__right .info-wrap .object .info-box .info-box__title {
+	padding: 50px;
+	width: 18%;
+    border: 1px solid var(--border-color);
+    text-align: center;
 
-.container__right .open-content .btnsection {
+}
+.container__right .info-wrap .object .info-box .info-box__title span {
+	border-bottom: 3px solid var(--border-color);
+    display: inline-block;
+    padding: 10px 0;
+	font-size: 15px;
+	font-weight: 400;
+
+}
+.container__right .info-wrap .object .info-box .info-box__title p {
+	color: var(--background-color);
+	padding: 15px 10px;
+	font-size: 20px;
+}
+.container__right .info-wrap .object .userList {
+	margin: 20px 0;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: flex-start;    
+}
+.container__right .info-wrap .object .userList span {
+	font-size: 180px;
+	width: 180px;
+
+.container__right .info-wrap .btnsection {
 	margin: 20px 10%;
 }
 
-.container__right .open-content .cont {
-	width: 130px;
-}
 
 @media screen and (max-width: 768px) {
 	.container__left {
@@ -112,67 +141,53 @@ function roomList(){
 
 
 <section class="container">
-   <div class="container__left">
-      <div class="btn-menu">
-		<div class="btn" onclick="roomOpen()">모임개설</div>
-		<div class="btn" onclick="roomList()">모임목록</div>
-     </div>
-    </div>
-
-    <div class="resizer" id="dragMe"></div>
-    <div class="container__right">
-   
-		<form action="./join" method="post" id="form">
-	     <div class="open-content">
-	     	<div class="object">
-	     	
-	     	<input type="hidden" name="roomNo" value="${roomInfo.roomNo }">
-		     <p>모임 이름 * </p>
-		     <input type="text" id="roomName" name="roomName" placeholder="모임 이름를 적어주세요!" value="${roomInfo.roomName }">
-		    </div>
-		    <div class="object">
-		     <p>모임 소개 * </p>
-		     <input type="text" id="roomIntroduce" name="roomIntroduce" placeholder="모임 소개를 적어주세요!" value="${roomInfo.roomIntroduce }">
-		    </div>
-		    <div class="object">
-		     <p>인원 수 * </p>
-		     	<select name="roomMember" id="roomMember">
-			     	<option disabled selected>인원 수</option>
-			     	<option value="10">10</option>
-			     	<option value="100">100</option>
-			     </select>
+	<div class="container__left">
+	   <div class="btn-menu">
+			<div class="btn" onclick="roomOpen()">모임개설</div>
+			<div class="btn" onclick="roomList()">모임목록</div>
+	  </div>
+	</div>
+	
+	<div class="resizer" id="dragMe"></div>
+	
+	<div class="container__right">
+     	<form action="./join" method="post" id="form">
+			<input type="hidden" name="roomNo" class="roomNo" value="${roomInfo.roomNo }">
+			<div class="info-wrap">
+				<div class="info-title">
+					<h2>모임 정보</h2>
+				</div>
+				<div class="object">
+					<p class="roomName">${roomInfo.roomName }</p>
+					<p class="roomIntroduce">${roomInfo.roomIntroduce }</p>
+					<div class="info-box">
+						<div class="info-box__title">
+							<span>최대 인원수</span>
+							<p class="roomMember">${roomInfo.roomMember } 명</p>
+						</div>
+						<div class="info-box__title">
+							<span>카테고리</span>
+							<p class="roomCategoryName">${roomCaName }</p>
+						</div>
+						
+						<div class="info-box__title">
+							<span>공개여부</span>
+							<c:if test="${roomInfo.roomPublic eq '1' }"> 
+								<p class="roomPublic" id="1">공개</p>
+					   		</c:if>
+							<c:if test="${roomInfo.roomPublic eq '0' }"> 
+								<p class="roomPublic" id="2">비공개</p>
+					    	</c:if>
+						</div>
+					</div>
+			    	
+				</div>
+	
+				<div class="btnsection">
+			    	<a class="btn wide" onclick="document.getElementById('form').submit();">가입</a>
+			    	<a class="btn wide" onclick="back()" >취소</a>
+			    </div>
 			</div>
-		    <div class="object">
-		     <p>카테고리 * </p>
-			     <div class="cont">
-			     	<c:if test="${roomInfo.roomCategoryNo eq '1' }"> 
-			     		<p id="categoryNo1">회사</p>
-			     	</c:if>
-			     	<c:if test="${roomInfo.roomCategoryNo eq '2' }"> 
-			     		<p id="categoryNo2">취미</p>
-			     	</c:if>
-			     	<c:if test="${roomInfo.roomCategoryNo eq '3' }"> 
-			     		<p id="categoryNo3">동아리</p>
-			     	</c:if>
-		     	</div>
-			</div>
-			<div class="object"> 
-				<p>공개설정 * </p>
-				<div class="cont">
-			     	<c:if test="${roomInfo.roomPublic eq '1' }"> 
-						<p id="roomPublicY">공개</p>
-		        	</c:if>
-		        	<c:if test="${roomInfo.roomPublic eq '0' }"> 
-						<p id="roomPublicN">비공개</p>
-		        	</c:if>
-	        	</div>
-		    </div>
-		    
-		    <div class="btnsection">
-		    	<a href="#" class="btn wide" onclick="document.getElementById('form').submit();">가입</a>
-		    	<a href="#" class="btn wide">취소</a>
-		    </div>
-	     </div>
 		</form>
 	</div>
 </section>

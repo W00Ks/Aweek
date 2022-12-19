@@ -215,6 +215,7 @@ nav > .inner {
 	border: 1px solid var(--soft-black);
 	transition: width .4s;
 	cursor: text;
+	opacity: 100%;
 }
 .nav__search .material-symbols-outlined {
 	position: absolute;
