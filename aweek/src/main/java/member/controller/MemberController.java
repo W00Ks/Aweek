@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import common.Mypaging;
+import common.Paging;
 import cs.dto.Inquiry;
 import member.dto.Member;
 import member.service.face.MemberService;
@@ -333,7 +333,7 @@ public class MemberController {
 		member.setUserId(userId);  
 		member = memberService.getLoginInfo(member);
 		
-		Mypaging paging = memberService.getPaging(curPage, member);
+		Paging paging = memberService.getPaging(curPage, member);
 		logger.debug("- - - {}", paging);
 		
 		List<Inquiry> list = memberService.myInquiryList(paging, member);

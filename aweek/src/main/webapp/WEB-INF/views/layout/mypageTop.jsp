@@ -34,12 +34,12 @@ $(document).ready(function () {
 		l2.classList.add("choose");
 	}
 	
-	if( window.location.href.indexOf("info") > -1 ) {
+	if( window.location.href.indexOf("room") > -1 ) {
 		t3.classList.add("choose");
 		l3.classList.add("choose");
 	}
 	
-	if( window.location.href.indexOf("room") > -1 ) {
+	if( window.location.href.indexOf("info") > -1 ) {
 		t4.classList.add("choose");
 		l4.classList.add("choose");
 	}
@@ -156,19 +156,19 @@ a {
 		<span class="tooltipText">나의 다이어리</span>
 	</li>
 	<li class="l_3">
-		<a href="<%=request.getContextPath() %>/member/info" class="top_3" id="top_info">
-		<span class="material-icons">person</span></a>
-		<span class="tooltipText">회원정보 수정</span>
-	</li>
-	<li class="l_4">
-		<a href="<%=request.getContextPath() %>/room/main" class="top_4" id="top_room">
+		<a href="<%=request.getContextPath() %>/room/main" class="top_3" id="top_room">
 		<span class="material-icons">info</span></a>
 		<span class="tooltipText">나의 모임</span>
+	</li>
+	<li class="l_4">
+		<a href="<%=request.getContextPath() %>/member/info" class="top_4" id="top_info">
+		<span class="material-icons">person</span></a>
+		<span class="tooltipText">회원정보 수정</span>
 	</li>
 	<li class="l_5">
 		<a href="<%=request.getContextPath() %>/member/mySubscription" class="top_5" id="top_mySubscription">
 		<span class="material-icons">paid</span></a>
-		<span class="tooltipText">나의 구독 상태</span>
+		<span class="tooltipText">나의 구독</span>
 	</li>
 	<li class="l_6">
 		<a href="<%=request.getContextPath() %>/member/myInquiryList" class="top_6" id="top_myInquiryList">

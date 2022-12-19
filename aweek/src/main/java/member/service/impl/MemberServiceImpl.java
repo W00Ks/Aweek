@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
-import common.Mypaging;
+import common.Paging;
 import cs.dto.Inquiry;
 import member.dao.face.MemberDao;
 import member.dto.Member;
@@ -219,17 +219,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public Mypaging getPaging(int curPage, Member member) {
+	public Paging getPaging(int curPage, Member member) {
 		//총 게시글 수 조회
 		int totalCount = memberDao.selectPagingCntAll(member);
 		
 		//페이징 계산
-		Mypaging paging = new Mypaging(totalCount, curPage);
+		Paging paging = new Paging(totalCount, curPage);
 		return paging;
 	}
 	
 	@Override
-	public List<Inquiry> myInquiryList(Mypaging paging, Member member) {
+	public List<Inquiry> myInquiryList(Paging paging, Member member) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("paging", paging);
 		map.put("member", member);

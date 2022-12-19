@@ -4,15 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<!-- jQuery 2.2.4 -->
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
 <style type="text/css">
 
 body {
 	font-family: 'NanumSquareNeo-Variable';
 }
 
+/* 나의 1:1 문의 텍스트 */
 .myInquiryTxt {
     text-align: center;
     color: #555555;
@@ -22,6 +20,7 @@ body {
     cursor: default;
 }
 
+/* 테이블 전체 */
 .myInquiry_table {
 	text-align: center;
     width: 1000px;
@@ -29,6 +28,7 @@ body {
     line-height: 30px;
 }
 
+/* 테이블 thead 영역 */
 .myInquiry_thead {
 	height: 40px;
     font-size: 18px;
@@ -37,10 +37,12 @@ body {
     cursor: default;
 }
 
-.middle {
+/* 테이블 중간 여백 */
+.tableMiddle {
 	height: 10px;
 }
 
+/* 테이블 td 텍스트 */
 .myInquiry_tbody, .myInquiry_tbody a {
 	font-size: 16px;
 	color: #555555;
@@ -48,27 +50,90 @@ body {
     cursor: default;
 }
 
+/* 테이블 td 상단 margin */
 .myInquiry_tbody tr:first-child {
 	margin-top: 10px;
 }
 
+/* 테이블 하단 밑줄 */
 .myInquiry_tbody tr:last-child {
 	border-bottom: 1px solid #ccc;
 }
 
+/* 테이블 td hover */
 .myInquiry_tbody tr:hover, .myInquiry_tbody tr:hover a {
 	font-size: 19px;
     background-color: #594B4B;
     color: white;
 }
 
+/* 테이블 td content hover */
 .myInquiry_tbody tr:hover a {
 	color: #ffd877;
 	cursor: pointer;
 }
 
-.bottom {
+/* 테이블 하단 여백 */
+.tableBottom {
 	height: 10px;
+}
+
+/* 1:1 문의 작성하기 버튼 영역 */
+.inquiryWriteDiv {
+    width: 1000px;
+    position: relative;
+    margin: 10px auto;
+}
+
+/* 1:1 문의 작성하기 버튼 */
+.inquiryWriteBtn {
+	width: 115px;
+    height: 35px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #594B4B;
+    border: 1px solid #594B4B;
+    color: #ffffff;
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
+	text-align: center;
+	line-height: 35px;
+    font-family: 'NanumSquareNeo-Variable';
+}
+
+/* 작성글 없음 - 안내 텍스트 */
+.notInquiryDiv {
+    margin: 100px auto 20px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 25px;
+    color: #555555;
+    padding: 30px 20px;
+    font-family: 'NanumSquareNeo-Variable';
+}
+
+/* 작성글 없음 - 1:1 문의하기 버튼 영역 */
+.inquiryWriteDiv2 {
+	text-align: center;
+}
+
+/* 작성글 없음 - 1:1 문의하기 버튼 */
+.inquiryWriteBtn2 {
+    width: 250px;
+    height: 60px;
+    border-radius: 30px;
+    font-size: 30px;
+    font-weight: 600;
+    background-color: #594B4B;
+    border: 1px solid #594B4B;
+    color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    line-height: 60px;
+    font-family: 'NanumSquareNeo-Variable';
+    display: inline-block;
 }
 
 </style>
@@ -81,49 +146,66 @@ body {
 	<span>나의 1:1 문의</span>
 </div>
 
-<table class="myInquiry_table">
-<thead class="myInquiry_thead">
-<tr>
-	<th style="width: 10%;">글번호</th>
-	<th style="width: 20%;">제목</th>
-	<th style="width: 40%;">내용</th>
-	<th style="width: 15%;">작성일</th>
-</tr>
-</thead>
-
-<tr class="middle"></tr>
-
-<tbody class="myInquiry_tbody">
-<c:forEach items="${list }" var="myInquiry">
-<tr>
-	<td>${myInquiry.inquiryNo }</td>
-	<c:choose>
-		<c:when test="${fn:length(myInquiry.inquiryTitle) > 11 }">
-			<td>${fn:substring(myInquiry.inquiryTitle, 0, 10)}...</td>
-		</c:when>
-		<c:otherwise>
-			<td>${myInquiry.inquiryTitle }</td>
-		</c:otherwise>
-	</c:choose>
-	<c:choose>
-		<c:when test="${fn:length(myInquiry.inquiryContent) > 21 }">
-			<td><a onclick="window.open('./myInquiryView?inquiryNo=${myInquiry.inquiryNo}', 'window_name', 'width=600, height=700, top=200, left=1000, location=no, status=no, scrollbars=yes');">
-					${fn:substring(myInquiry.inquiryContent, 0, 20) }...</a></td>
-		</c:when>
-		<c:otherwise>
-			<td><a onclick="window.open('./myInquiryView?inquiryNo=${myInquiry.inquiryNo}', 'window_name', 'width=700, height=700, top=200, left=1000, location=no, status=no, scrollbars=yes');">
-					${myInquiry.inquiryContent }</a></td>
-		</c:otherwise>
-	</c:choose>
-	<td><fmt:formatDate value="${myInquiry.inquiryDate }" pattern="yyyy-MM-dd"/></td>
-</tr>
-</c:forEach>
-<tr class="bottom"></tr>
-</tbody>
-</table>
-
-<c:import url="../layout/myInquiryPaging.jsp" />
-
+<c:choose>
+	<c:when test="${not empty list }">
+	<table class="myInquiry_table">
+		<thead class="myInquiry_thead">
+		<tr>
+			<th style="width: 10%;">글번호</th>
+			<th style="width: 20%;">제목</th>
+			<th style="width: 40%;">내용</th>
+			<th style="width: 15%;">작성일</th>
+		</tr>
+		</thead>
+	
+		<tr class="tableMiddle"></tr>
+		
+		<tbody class="myInquiry_tbody">
+		<c:forEach items="${list }" var="myInquiry">
+		<tr>
+			<td>${myInquiry.inquiryNo }</td>
+			<c:choose>
+				<c:when test="${fn:length(myInquiry.inquiryTitle) > 11 }">
+					<td>${fn:substring(myInquiry.inquiryTitle, 0, 10)}...</td>
+				</c:when>
+				<c:otherwise>
+					<td>${myInquiry.inquiryTitle }</td>
+				</c:otherwise>
+			</c:choose>
+			<c:choose>
+				<c:when test="${fn:length(myInquiry.inquiryContent) > 21 }">
+					<td><a onclick="window.open('./myInquiryView?inquiryNo=${myInquiry.inquiryNo}', 'window_name', 'width=600, height=700, top=200, left=1000, location=no, status=no, scrollbars=yes');">
+							${fn:substring(myInquiry.inquiryContent, 0, 20) }...</a></td>
+				</c:when>
+				<c:otherwise>
+					<td><a onclick="window.open('./myInquiryView?inquiryNo=${myInquiry.inquiryNo}', 'window_name', 'width=700, height=700, top=200, left=1000, location=no, status=no, scrollbars=yes');">
+							${myInquiry.inquiryContent }</a></td>
+				</c:otherwise>
+			</c:choose>
+			<td><fmt:formatDate value="${myInquiry.inquiryDate }" pattern="yyyy-MM-dd"/></td>
+		</tr>
+		</c:forEach>
+		<tr class="tableBottom"></tr>
+		</tbody>
+	</table>
+	
+	<div class="inquiryWriteDiv">
+		<a class="inquiryWriteBtn" href="/cs/inquiry">1:1 문의 작성</a>
+	</div>
+	
+	<c:import url="../layout/myInquiryPaging.jsp" />
+	</c:when>
+	<c:otherwise>
+		<div class="notInquiryDiv">
+			<p>1:1 문의 내역이 존재하지 않습니다.</p>
+			<p>궁금하신 내용이 있다면 아래의 1:1 문의 작성 버튼을 눌러 문의해주세요!</p>
+		</div>
+		<div class="inquiryWriteDiv2">
+			<a class="inquiryWriteBtn2" href="/cs/inquiry">1:1 문의 작성</a>
+		</div>
+		
+	</c:otherwise>
+</c:choose>
 
 </body>
 </html>
