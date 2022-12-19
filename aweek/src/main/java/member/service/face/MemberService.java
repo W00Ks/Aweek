@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
-import common.Mypaging;
+import common.Paging;
 import cs.dto.Inquiry;
 import member.dto.Member;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -149,7 +149,7 @@ public interface MemberService {
 	 * @param member - 회원정보
 	 * @return 계산이 완료된 Paging객체
 	 */
-	public Mypaging getPaging(int curPage, Member member);
+	public Paging getPaging(int curPage, Member member);
 	
 	/**
 	 * 페이징이 적용된 나의 1:1 문의 목록 조회
@@ -158,7 +158,7 @@ public interface MemberService {
 	 * @param member - 회원 정보
 	 * @return 페이징이 적용된 나의 1:1 문의 목록
 	 */
-	public List<Inquiry> myInquiryList(Mypaging paging, Member member);
+	public List<Inquiry> myInquiryList(Paging paging, Member member);
 
 	/**
 	 * 나의 1:1 문의글 상세보기
