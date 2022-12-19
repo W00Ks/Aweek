@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import diary.dto.Diary;
+import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
 import diary.dto.DiaryFavorite;
 import diary.dto.DiaryHot;
+import diary.dto.DiaryRoomList;
 import member.dto.Member;
 import room.dto.Room;
 import room.dto.RoomList;
@@ -147,5 +149,29 @@ public interface DiaryService {
 	 * @param roomNo - 카테고리를 삭제할 모임 번호
 	 */
 	public void delcate(String delcate, int roomNo);
+
+	/**
+	 * 모임 내 가입된 사용자 리스트 조회
+	 * 
+	 * @param roomNo - 모임 번호
+	 * @return 모임 가입된 사용자 리스트 DTO
+	 */
+	public List<DiaryRoomList> roomUserList(int roomNo);
+
+	/**
+	 * 모임 내 관리자 조회
+	 * 
+	 * @param roomNo - 모임 번호
+	 * @return 관리자 리스트
+	 */
+	public List<DiaryAdmin> roomAdminList(int roomNo);
+
+	/**
+	 * 입력받은 사용자 관리자로 설정
+	 * 
+	 * @param checkAdmin - 관리자로 지정한 사용자 명단
+	 * @param roomNo - 모임 번호
+	 */
+	public void manageadmin(String[] checkAdmin, int roomNo);
 
 }

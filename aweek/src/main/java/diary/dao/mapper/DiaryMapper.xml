@@ -28,7 +28,7 @@
 			<foreach collection="roomNoArr" item="roomNo" open="WHERE" separator="OR">
 				room_no = #{roomNo}
 			</foreach>
-		ORDER BY room_no
+		ORDER BY room_name
 	</select>
 	
 	<update id="deleteFavorite" parameterType="int">
@@ -47,6 +47,7 @@
 	<select id="selectFavorite" resultType="diary.dto.DiaryFavorite" parameterType="int">
 		SELECT * FROM diary_favorite
 		WHERE user_no = #{userNo}
+		ORDER BY room_name
 	</select>
 	
 	<select id="selectDiaryNotice" resultType="diary.dto.Diary" parameterType="room.dto.Room">
@@ -121,7 +122,13 @@
 	
 	<select id="selectDiaryCategory" resultType="diary.dto.DiaryCategory" parameterType="int">
 		SELECT * FROM diary_category
-		WHERE room_no = #{roomNo}
+		WHERE room_no = #{roomNo} AND diary_cate_name = '공지사항'
+		UNION ALL
+		SELECT * FROM (
+			SELECT * FROM diary_category
+			WHERE room_no = #{roomNo} AND diary_cate_name != '공지사항'
+			ORDER BY diary_cate_name
+		) b
 	</select>
 	
 	<insert id="insertDiaryCategory" parameterType="diary.dto.DiaryCategory">
@@ -133,5 +140,37 @@
 		DELETE FROM diary_category
 		WHERE (room_no = #{roomNo} AND diary_cate_name = #{diaryCateName}) 
 	</delete>
+	
+	<select id="selectRoomUserList" resultType="diary.dto.DiaryRoomList" parameterType="int">
+		SELECT l.room_list_no, r.room_no, r.user_no, m.user_id FROM room r
+		LEFT OUTER JOIN member m ON r.user_no = m.user_no
+		LEFT OUTER JOIN room_list l ON r.room_no = l.room_no AND r.user_no = l.user_no
+		WHERE r.room_no = #{roomNo}
+		UNION ALL
+		SELECT * FROM (
+			SELECT l.*, m.user_id FROM room_list l
+			LEFT OUTER JOIN member m ON l.user_no = m.user_no
+			WHERE l.room_no = #{roomNo} AND l.user_no != (SELECT user_no FROM room WHERE room_no = #{roomNo})
+			ORDER BY m.user_id
+		) b
+	</select>
+	
+	<select id="selectDiaryAdmin" resultType="diary.dto.DiaryAdmin" parameterType="int">
+		SELECT * FROM diary_admin
+		WHERE room_no = #{roomNo}
+	</select>	
+	
+	<delete id="deleteDiaryAdmin" parameterType="int">
+		DELETE FROM diary_admin
+		WHERE room_no = #{roomNo}
+	</delete>
+	
+	<insert id="insertDiaryAdmin" parameterType="diary.dto.DiaryAdmin">
+		INSERT ALL
+			<foreach collection="list" item="item">
+				INTO diary_admin VALUES (#{item.roomNo}, #{item.userNo}, (SELECT user_name FROM member WHERE user_no = #{item.userNo}))
+			</foreach>
+		SELECT * FROM dual
+	</insert>
 
 </mapper>
