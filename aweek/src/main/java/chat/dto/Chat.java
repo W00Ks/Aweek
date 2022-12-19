@@ -12,11 +12,12 @@ public class Chat {
 	private String userId;
 	private int chatFileNo;
 	private String chatOriginName;
+	private String chatProfileStoredName;
 	
 	public Chat() {}
 
 	public Chat(int chatNo, String chatKind, String chatContent, String chatTime, int chatReadCnt, int userNo,
-			int chatRoomNo, String userId, int chatFileNo, String chatOriginName) {
+			int chatRoomNo, String userId, int chatFileNo, String chatOriginName, String chatProfileStoredName) {
 		super();
 		this.chatNo = chatNo;
 		this.chatKind = chatKind;
@@ -28,13 +29,15 @@ public class Chat {
 		this.userId = userId;
 		this.chatFileNo = chatFileNo;
 		this.chatOriginName = chatOriginName;
+		this.chatProfileStoredName = chatProfileStoredName;
 	}
 
 	@Override
 	public String toString() {
 		return "Chat [chatNo=" + chatNo + ", chatKind=" + chatKind + ", chatContent=" + chatContent + ", chatTime="
 				+ chatTime + ", chatReadCnt=" + chatReadCnt + ", userNo=" + userNo + ", chatRoomNo=" + chatRoomNo
-				+ ", userId=" + userId + ", chatFileNo=" + chatFileNo + ", chatOriginName=" + chatOriginName + "]";
+				+ ", userId=" + userId + ", chatFileNo=" + chatFileNo + ", chatOriginName=" + chatOriginName
+				+ ", chatProfileStoredName=" + chatProfileStoredName + "]";
 	}
 
 	public int getChatNo() {
@@ -115,6 +118,14 @@ public class Chat {
 
 	public void setChatOriginName(String chatOriginName) {
 		this.chatOriginName = chatOriginName;
+	}
+
+	public String getChatProfileStoredName() {
+		return chatProfileStoredName;
+	}
+
+	public void setChatProfileStoredName(String chatProfileStoredName) {
+		this.chatProfileStoredName = chatProfileStoredName;
 	}
 
 }

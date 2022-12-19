@@ -132,7 +132,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			for(String key : idSessions.keySet()) {
 				if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
 					//일반 메시지일 때 처리
-					if(!message.getPayload().contains(".png")) {
+					if(!message.getPayload().contains(".png.emo")) {
 						
 						if(stack.size() > 1) {
 							//전에 메시지 보낸 사람과 동일한지 검사 후 처리
@@ -148,8 +148,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 					
 					//이미지 파일일 때 처리	
 					} else {
+						
+						//.emo 제거하기
+						String emoMsg = message.getPayload().replaceAll(".emo", "");
+						
 						//이모티콘 메시지
-						idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":" + message.getPayload() + ":emoticon:" + chatRoomNo));
+						idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + ":" + emoMsg + ":emoticon:" + chatRoomNo));
 					}
 				}
 			}

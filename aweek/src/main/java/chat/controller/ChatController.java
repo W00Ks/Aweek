@@ -38,24 +38,26 @@ public class ChatController {
 	
 	@RequestMapping("/main") 
 	public void chatMain(HttpSession session, Model model) {
-//		session.setAttribute("userNo", userno); //테스트용 세션 설정
+		//세션에 저장하고 사용하던 채팅방 번호 초기화
 		session.removeAttribute("chatRoomNo");
-		//회원 번호 가져오기
+		
+		//세션의 회원 번호
 		int userNo = (int) session.getAttribute("userNo");
-		logger.info("userNo - {}", userNo);
+		logger.info("+ userNo : {}", userNo);
 		
 		//회원의 전체 채팅방 목록 조회
 		List<ChatRoom> chatRoomList = chatService.getChatRoomList(userNo);
-		logger.info("chatRoomList - {}", chatRoomList);
+		logger.info("+ chatRoomList : {}", chatRoomList);
 		
 		//회원이 가입한 모임 목록 조회
 		List<ChatCreatRoomInfo> roomList = chatService.getRoomList(userNo);
-		logger.info("roomList - {}", roomList);
+		logger.info("+ roomList : {}", roomList);
 		
-		//모임별로 가입한 유저 전체목록 조회
+		//모임별 가입한 유저 전체목록 조회
 		List<ChatCreatRoomInfo> roomJoinMemberList = chatService.getRoomJoinList(userNo);
-		logger.info("roomJoinMemberList - {}", roomJoinMemberList);
+		logger.info("+ roomJoinMemberList : {}", roomJoinMemberList);
 		
+		//모델 값 전달
 		model.addAttribute("chatList", chatRoomList);
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("roomJoinMemberList", roomJoinMemberList);
@@ -65,21 +67,21 @@ public class ChatController {
 	@PostMapping("/create")
 	@ResponseBody
 	public int chatCreate(ChatRoom chatRoom, int inviteUserNo, HttpSession session, Model model) {
-		logger.info("+ + + Create Chat Room - Info : {} + + +", chatRoom);
-		logger.info("+ + + inviteUserNo - Info : {} + + +", inviteUserNo);
+		logger.info("+ Create Chat Room : {}", chatRoom);
+		logger.info("+ inviteUserNo : {}", inviteUserNo);
 		
+		//회원 번호
 		int userNo = (int) session.getAttribute("userNo");
 		
 		//채팅방 생성
 		int result = chatService.createChatRoom(chatRoom, userNo, inviteUserNo);
 		
+		//AJAX 결과 반환
 		return result;
 	}
 	
 	@RequestMapping("/delete")
-	public void chatDelete() {
-		
-	}
+	public void chatDelete() {}
 	
 	@RequestMapping("/enter")
 	public void chatEnter(int chatRoomNo, HttpSession session, Model model) {
@@ -154,6 +156,7 @@ public class ChatController {
 		logger.info("{}", file);
 		ChatProfile chatProfile = chatService.profileUpload(file, session);
 		
+		logger.info("chatProfile {}", chatProfile);
 		return chatProfile;
 	}
 	

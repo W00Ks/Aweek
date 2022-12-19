@@ -20,19 +20,20 @@ body.swal2-height-auto {
     border-radius: 7px;
     text-align: left;
     word-break: break-all;
+    line-height: 23px;
 }
 
 .chatSendMsg {
     background-color: #b4c7ef;
     border-color: #a8bce7;
-    margin: 7px 22px 7px 4px;
+    margin: 7px 30px 7px 4px;
     box-shadow: 3px 3px 2px 0px rgb(0 0 0 / 10%);
 }
 
 .chatReceiveMsg {
     background-color: #eee;
     border-color: #c3c3c3;
-    margin: 7px 4px 7px 22px;
+    margin: 7px 4px 7px 11px;
     box-shadow: -3px 3px 2px 0px rgb(0 0 0 / 10%);
 }
 
@@ -100,7 +101,7 @@ body.swal2-height-auto {
 }
 
 .chatUserName {
-	margin: 7px 27px 0px;
+	margin: 7px 77px 0px;
     font-size: 14px;
 }
 
@@ -164,10 +165,24 @@ body.swal2-height-auto {
 #setProflieImg {
 	width: 50px;
     height: 50px;
-    border: 1px solid #eee;
+    border: 1px solid #c5c5c5;
     border-radius: 35px;
     float: left;
     margin: 5px 0 0 5px;
+}
+
+.setProflieImgWS {
+	width: 40px;
+    height: 40px;
+    border: 1px solid #c5c5c5;
+    border-radius: 35px;
+    float: left;
+    margin: -3px 0 0 23px;
+}
+
+.defaultProf {
+	width: 42px;
+	height: 42px;
 }
 
 #profileImg {
@@ -176,6 +191,8 @@ body.swal2-height-auto {
     color: #777;
     font-size: 63px;
 }
+
+.imgs { cursor: pointer; }
 
 .enterMsgDiv {
 	display: inline-block;
@@ -198,7 +215,7 @@ body.swal2-height-auto {
 
 .rImg {
 	display: inline-block;
-    margin: 10px 7px -17px 22px;
+    margin: 10px 7px -17px 11px;
     border-radius: 10px;
     max-width: 400px;
     border: 1px solid #ccc;
@@ -210,12 +227,11 @@ body.swal2-height-auto {
 #emoticonContainer {
 	display: inline-block;
     border: 1px solid #ccc;
-    border-radius: 5px;
     width: 370px;
-    height: 171px;
+    height: 264px;
     position: absolute;
     left: -1px;
-    bottom: 98px;
+    bottom: 100px;
     background-color: #fff;
 }
 
@@ -237,6 +253,11 @@ body.swal2-height-auto {
 	background-color: #f3bfbf5e;
 }
 
+.sticker:hover, .emoticon:hover {
+	background: #cccccc61;
+	border-radius: 6px;
+}
+
 .btn_style {
 	background-color: #f573735e;
 	border-bottom: #fff !important;
@@ -245,30 +266,34 @@ body.swal2-height-auto {
 #emo-content {
 	overflow: auto;
 	width: 370px;
-    height: 125px;
+    height: 218px;
     margin-top: 45px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .sticker {
-	width: 36px;
+	width: 88px;
 	display: inline-block;
 	cursor: pointer;
 }
 
 .emoticonMsg {
 	display: inline-block;
-	width: 100px;
-	margin: 20px 23px -13px 0;
+	width: 174px;
+	margin: 20px 30px -13px 0;
 }
 
 .remoticonMsg {
 	display: inline-block;
-	width: 100px;
-	margin: 20px 0 -13px 23px;
+	width: 174px;
+	margin: 20px 0 -13px -1px;
 }
 
 .emoticon {
-	margin: 5px;
+	padding: 10px;
     display: inline-block;
     cursor: pointer;
 } 
