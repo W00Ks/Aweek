@@ -21,18 +21,6 @@ $(document).ready(function() {
 	$("#btnDelete").click(function() {
 		location.href = "/admin/noticedelete?noticeNo=${ viewNotice.noticeNo }"
 	})
-	
-	$("#btnOld").click(function() {
-	
-	})
-
-	$("#btnNew").click(function() {
-
-	})
-	
-	$("#btnTitle").click(function() {
-	
-	})
 })
 
 </script>
@@ -45,6 +33,10 @@ table {
 
 table, th {
 	text-align: center;
+}
+
+th, td {
+	padding: 5px;
 }
 
 th {
@@ -68,36 +60,47 @@ th {
 }
 
 .noticeWrite {
-    width: 500px;
     margin: 0 auto;
     float: right;
+    margin-left: 650px;
+}
+
+.pull-right {
+    margin: 0 auto;
+   	float: left;
+}
+
+.maincontent {
+	width: 800px;
+	margin: 0 auto;
 }
 
 </style>
 
 <c:if test="${ not empty adminLogin }">
 
+<div class="maincontent">
+
 <div class="list">
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">공지사항</h1>
 </div>
 
-<div>
-	<a class="btnOld" class="totallist">오래된 순</a>
-	<a class="btnNew" class="totallist">최신 순</a>
-	<a class="btnTitle" class="totallist">제목 순</a>
+<div id="orderlist" style="text-align: right;">
+	<button id="oldestList" class="totallist">오래된 순</button>
+	<button id="newestList" class="totallist">최신 순</button>
+	<button id="titleList" class="totallist">제목 순</button>
 </div>
 
-<table style="margin: 0 auto;">
+<table id="noticetable" style="margin: 0 auto;">
 	<thead>
-		<tr>
+		<tr id="title">
 			<th style="width: 50px;">번호</th>
 			<th style="width: 200px;">제목</th>
 			<th style="width: 100px;">아이디</th>
 			<th style="width: 100px;">닉네임</th>
-			<th style="width: 200px;">날짜</th>
-			<th style="width: 100px;">내용</th>
-			<th style="width: 150px;">조회수</th>
-			<!-- <th style="width: 150px;">수정 및 삭제</th> -->
+			<th style="width: 150px;">날짜</th>
+			<th style="width: 150px;">내용</th>
+			<th style="width: 100px;">조회수</th>
 		</tr>
 	</thead>
 	
@@ -111,13 +114,6 @@ th {
 			<td><fmt:formatDate value="${ notice.noticeDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 			<td>${ notice.noticeContent }</td>
 			<td>${ notice.noticeHit }</td>
-			
-			<!--
-			<td>
-				<button id="btnUpdate" class="btnUpdate">수정</button>
-				<button id="btnDelete" class="btnDelete">삭제</button>
-			</td>
-			-->
 		</tr>
 	</c:forEach>
 	</tbody>
@@ -125,8 +121,16 @@ th {
 
 <hr>
 
-<div class="noticeWrite">
-	<button id="btnWrite" class="">글쓰기</button>
+<div class="bottomlist">
+	<div class="noticeWrite">
+		<button id="btnWrite">글쓰기</button>
+	</div>
+	
+	<div class="pull-right">
+		<span>공지사항 : ${ paging.totalCount }</span>
+	</div>
+</div>
+
 </div>
 
 <c:import url="/WEB-INF/views/admin/layout/noticepaging.jsp" />

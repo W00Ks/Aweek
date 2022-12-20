@@ -3,11 +3,11 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<div class="text-center"  style="margin-top: 100px;">
+<div class="text-center" style="margin-top: 100px;">
 	<ul class="pagination">
 		<%-- 첫 페이지로 이동 --%>
 		<c:if test="${ paging.curPage ne 1 }">
-			<li><a href="/admin/noticelist">&larr; 처음</a></li>	
+			<li><a href="/admin/noticelist">처음</a></li>	
 		</c:if>
 	
 		<%-- 이전 페이징 리스트로 이동 --%>
@@ -52,7 +52,7 @@
 	
 		<%-- 끝 페이지로 이동 --%>
 		<c:if test="${ paging.curPage ne paging.totalPage }">
-			<li><a href="/admin/noticelist?curPage=${ paging.totalPage }">끝 &rarr;</a></li>	
+			<li><a href="/admin/noticelist?curPage=${ paging.totalPage }">끝</a></li>	
 		</c:if>
 	</ul>
 </div>

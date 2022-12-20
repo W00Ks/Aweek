@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:import url="./layout/adminheader.jsp" />
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -13,25 +12,52 @@
 $(document).ready(function() {
 	
 	$("#btnUpdate").click(function() {
-		
-		var upd_list = confirm ("수정하시겠습니까?")
+		var upd_list = confirm ("공지사항을 수정하시겠습니까?")
 		
 		if( upd_list == true ) {
-			alert("수정하셨습니다")
+			alert("수정하셨습니다.")
 			$("form").submit();
 		} else if( upd_list == false ) {
 			return false;
 		}
 	})
 	
+	$("#deleteFile").click(function() {
+		$("#newFile").toggle()
+		$("#originFile").toggleClass("through")
+	})
+	
 	$("#btnCancel").click(function() {
-		location.href = "/admin/noticelist"
+		var can_list = confirm("공지사항 수정을 취소하시겠습니까?")
+		
+		if( can_list == true) {
+			alert("취소하셨습니다.")
+			location.href = "/admin/noticelist"
+		} else if( can_list == false ) {
+			return false;
+		}
 	})
 })
 
 </script>
 
 <style type="text/css">
+
+table {
+	margin: 0 auto;
+}
+
+th, td {
+	padding: 10px;
+}
+
+th {
+	text-align: center;
+}
+
+textarea {
+	resize: none;
+}
 
 </style>
 
@@ -44,32 +70,55 @@ $(document).ready(function() {
 <div class="container">
 
 <form action="./noticemodify" method="post" enctype="multipart/form-data">
-	<%-- <input type="hidden" id="noticeNo" name="noticeNo" value="${ Notice.noticeNo }"> --%>
-	
 	<input type="hidden" name="noticeNo" value="${ notice.noticeNo }">
 	
-	<label for="writerId">작성자</label>
-	<div class="form-group">
-		<input type="text" id="writerId" name="writerId" class="form-control" value="${ writerId }">
-	</div>
+<table>
+	<tr>
+		<th>아이디</th>
+		<td>
+			<input type="text" id="writerId" name="writerId" class="form-control" value="${ modifyNotice.writerId }">
+		</td>
+	</tr>
 	
-	<label for="noticeTitle">제목</label>
-	<div class="form-group">
-		<input type="text" id="noticeTitle" name="noticeTitle" class="form-control" value="${ modifyNotice.noticeTitle }">
-	</div>
+	<tr>
+		<th>제목</th>
+		<td>
+			<input type="text" id="noticeTitle" name="noticeTitle" class="form-control" value="${ modifyNotice.noticeTitle }">
+		</td>
+	</tr>
+
+	<tr>
+		<th>본문</th>
+		<td>
+			<textarea rows="10" style="width: 500px;" id="noticeContent" name="noticeContent" class="form-control">${ modifyNotice.noticeContent }</textarea>
+		</td>
+	</tr>
 	
-	<label for="noticeContent">본문</label>
-	<div class="form-group">
-		<textarea rows="10" style="width: 40%;" id="noticeContent" name="noticeContent" class="form-control">${ modifyNotice.noticeContent }</textarea>
-	</div>
+	<tr>
+		<th>첨부파일</th>
+		<td style="text-align: left;">
+			<a href="/admin/download?fileNo=${ csFile.fileNo }">${ csFile.originName }</a>
+			<span id="deleteFile">X</span>
+		</td>
+	</tr>
+
+	<tr>
+		<th>새로운 첨부파일</th>
+		<td>
+			<input type="file" id="file" name="file">
+		</td>
+	</tr>
+
+</table>
 
 	<div class="text-center">
 		<button id="btnUpdate" class="btnUpdate">수정</button>
 		<input type="reset" id="btnCancel" class="btnCancel" value="취소">
 	</div>
+
 </form>
 
-</div><!-- .container end -->
+</div>
 
 </body>
 </html>

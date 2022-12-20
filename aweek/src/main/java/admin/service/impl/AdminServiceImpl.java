@@ -15,8 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import admin.dao.face.AdminDao;
 import admin.dto.Admin;
+import admin.dto.Search;
 import admin.service.face.AdminService;
 import common.Paging;
+import cs.dto.CsFile;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
@@ -213,12 +215,15 @@ public class AdminServiceImpl implements AdminService {
 	public void noticeWrite(Notice notice, MultipartFile file) {
 		
 		logger.info("NoticeWrite Impl 1 - {}", notice);
+		logger.info("NoticeWrite Impl 1 - {}", file);
 		
 		// 공지사항 처리
 		if( "".equals( notice.getNoticeTitle() ) ) {
 			notice.setNoticeTitle("(제목없음)");
 		}
+		
 		logger.info("NoticeWrite Impl 2 - {}", notice);
+		logger.info("NoticeWrite Impl 2 - {}", file);
 
 		adminDao.insertNotice(notice);
 		
@@ -250,6 +255,14 @@ public class AdminServiceImpl implements AdminService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		// 첨부파일 정보 DB 기록
+		CsFile csFile = new CsFile();
+		csFile.setNoticeNo( notice.getNoticeNo() );
+		csFile.setOriginName(originName);
+		csFile.setStoredName(storedName);
+		
+		adminDao.insertNoticeFile(csFile);
 	}
 	
 	// 관리자 공지사항 수정
@@ -262,7 +275,9 @@ public class AdminServiceImpl implements AdminService {
 		if( "".equals( notice.getNoticeTitle() ) ) {
 			notice.setNoticeTitle("(제목없음)");
 		}
+		
 		logger.info("NoticeModify Impl 2 - {}", notice);
+		logger.info("NoticeModify Impl 2 - {}", file);
 
 		adminDao.updateNotice(notice);
 		
@@ -294,6 +309,17 @@ public class AdminServiceImpl implements AdminService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		// 첨부파일 정보 DB 기록
+		CsFile csFile = new CsFile();
+		csFile.setNoticeNo( notice.getNoticeNo());
+		csFile.setOriginName(originName);
+		csFile.setStoredName(storedName);
+		
+		// 공지사항에 연결된 첨부파일 삭제
+		adminDao.deleteNoticeFile(notice);
+		
+		adminDao.insertNoticeFile(csFile);
 	}
 	
 	// 관리자 공지사항 삭제
@@ -306,32 +332,115 @@ public class AdminServiceImpl implements AdminService {
 
 	// 관리자 Q&A 작성
 	@Override
-	public void qnaWrite(QnA qna) {
+	public void qnaWrite(QnA qna, MultipartFile file) {
 		
 		logger.info("QnaWrite Impl 1 - {}", qna);
+		logger.info("QnaWrite Impl 1 - {}", file);
 		
 		// Q&A 처리
 		if( "".equals( qna.getQnaTitle() ) ) {
 			qna.setQnaTitle("(제목없음)");
 		}
+		
 		logger.info("QnaWrite Impl 2 - {}", qna);
+		logger.info("QnaWrite Impl 2 - {}", file);
 
 		adminDao.insertQna(qna);
+		
+		// 첨부파일 처리
+		
+		// 빈파일
+		if( file.getSize() <= 0 ) {
+			return;
+		}
+
+		// 파일이 저장될 경로
+		String storedPath = context.getRealPath("upload");
+		File storedFolder = new File( storedPath );
+		if( !storedFolder.exists() ) {
+			storedFolder.mkdir();
+		}
+		
+		// 파일이 저장될 이름
+		String originName = file.getOriginalFilename();
+		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+		
+		// 저장할 파일의 정보 객체
+		File dest = new File( storedFolder, storedName );
+		
+		try {
+			file.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// 첨부파일 정보 DB 기록
+		CsFile csFile = new CsFile();
+		csFile.setQnaNo( qna.getQnaNo() );
+		csFile.setOriginName(originName);
+		csFile.setStoredName(storedName);
+		
+//		adminDao.insertQnaFile(csFile);
 	}
 	
 	// 관리자 Q&A 수정
 	@Override
-	public void qnaModify(QnA qna) {
+	public void qnaModify(QnA qna, MultipartFile file) {
 		
 		logger.info("QnaModify Impl 1 - {}", qna);
+		logger.info("QnaModify Impl 1 - {}", file);
 		
 		// Q&A 처리
 		if( "".equals( qna.getQnaTitle() ) ) {
 			qna.setQnaTitle("(제목없음)");
 		}
+		
 		logger.info("QnaModify Impl 2 - {}", qna);
+		logger.info("QnaModify Impl 2 - {}", file);
 
 		adminDao.updateQna(qna);
+		
+		// 첨부파일 처리
+		
+		// 빈 파일
+		if( file.getSize() <= 0 ) {
+			return;
+		}
+		
+		// 파일이 저장될 경로
+		String storedPath = context.getRealPath("upload");
+		File storedFolder = new File( storedPath );
+		if( !storedFolder.exists() ) {
+			storedFolder.mkdir();
+		}
+		
+		// 파일이 저장될 이름
+		String originName = file.getOriginalFilename();
+		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+		
+		// 저장할 파일의 정보 객체
+		File dest = new File( storedFolder, storedName );
+		
+		try {
+			file.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// 첨부파일 정보 DB 기록
+		CsFile csFile = new CsFile();
+		csFile.setQnaNo( qna.getQnaNo());
+		csFile.setOriginName(originName);
+		csFile.setStoredName(storedName);
+		
+		// 공지사항에 연결된 첨부파일 삭제
+//		adminDao.deleteQnaFile(qna);
+		
+//		adminDao.insertQnaFile(csFile);
 	}
 
 	// 관리자 Q&A 삭제
@@ -342,22 +451,31 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.deleteQna(qna);
 	}
 
-	// 회원 검색 기능
 	@Override
-	public List<Member> memberSearch(Member member) {
+	public CsFile getFile(CsFile csFile) {
 		
-		return adminDao.memberSearch(member);
+		return adminDao.selectCsFileByCsFileNo(csFile);
 	}
 
 	@Override
-	public cs.dto.File getFile(cs.dto.File file) {
+	public Object getSearchPaging(Search search) {
 		
-		return adminDao.selectCsFileByCsFileNo(file);
+		return adminDao.getSearchPaging(search);
 	}
 
 	@Override
-	public cs.dto.File getNoticeFile(Notice viewNotice) {
+	public int getTotal(Search search) {
 		
-		return adminDao.selelctNoticeFileByNoticeNo(viewNotice);
+		return adminDao.getTotal(search);
+	}
+
+	@Override
+	public CsFile getNoticeFile(Notice viewNotice) {
+		return adminDao.selelctCsFileByNoticeNo(viewNotice);
+	}
+
+	@Override
+	public CsFile getQnaFile(QnA viewQna) {
+		return adminDao.selelctCsFileByQnaNo(viewQna);
 	}
 }
