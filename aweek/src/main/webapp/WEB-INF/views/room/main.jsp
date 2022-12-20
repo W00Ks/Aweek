@@ -17,7 +17,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
 }
 .container {
 	display: flex;
-	min-height: 100%;
+	min-height: calc(100vh - 53px);
 }
 .container__left {
 	width: 300px;

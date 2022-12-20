@@ -128,7 +128,9 @@ body {
 </style>
 
 <script defer type="text/javascript">
-
+function back() {
+	window.history.back();
+}
 
 window.addEventListener('load', function(){
 	openCheck()
@@ -265,8 +267,8 @@ function submit() {
 		    <span class="error-msg" id="agree-error" style="display: block;">동의 후 문의사항을 전달할 수 있습니다</span>
 		    
 		    <div class="btnsection">
-		    	<a href="#" class="btn btn--brown wide" onclick="submit()">전달</a>
-		    	<a href="#" class="btn btn--brown wide">취소</a>
+		    	<a class="btn btn--brown wide" onclick="submit()">전달</a>
+		    	<a class="btn btn--brown wide" onclick="back()">취소</a>
 		    </div>
 		</div>
 	</form>

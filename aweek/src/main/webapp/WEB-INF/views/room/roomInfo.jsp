@@ -15,6 +15,7 @@ body {
 }
 .container {
 	display: flex;
+	min-height: calc(100vh - 53px);
 }
 .container__left {
 	width: 300px;

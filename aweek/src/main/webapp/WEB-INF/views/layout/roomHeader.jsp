@@ -7,6 +7,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- favicon -->
+<link rel="icon" href="/resources/favicon.ico" type="image/x-icon"/>
 <meta charset="UTF-8">
 <title>Aweek</title>
 
@@ -27,9 +29,6 @@
 	<meta property="twitter:description" content="직장, 동호회, 친구와 스케줄을 공유하세요!" />
 	<meta property="twitter:image" content="<%=request.getContextPath() %>/resources/img/aweekLogo.png" />
 	<meta property="twitter:url" content="https://localhost:8888/aweek/room/main" />
-	
-	<!-- favicon -->
-	<link rel="favicon" href="<%=request.getContextPath() %>/favicon.ico">
 	
 	<!--브라우저 스타일 초기화-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" />
