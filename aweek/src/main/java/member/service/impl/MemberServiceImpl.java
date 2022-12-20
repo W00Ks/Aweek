@@ -19,6 +19,7 @@ import member.dto.Member;
 import member.service.face.MemberService;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import payment.dto.Subscription;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -240,6 +241,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Inquiry myInquiryView(Inquiry viewInquiry) {
 		return memberDao.selectMyInquiryView(viewInquiry);
+	}
+	
+	@Override
+	public Subscription getSubInfo(Member member) {
+		return memberDao.selectSubInfo(member);
 	}
 	
 }

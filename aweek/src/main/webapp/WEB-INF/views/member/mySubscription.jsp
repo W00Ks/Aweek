@@ -28,27 +28,21 @@ body {
 	color: #555555;
 }
 
-/*  */
+/* subscription별 영역 전체 */
 .ssc_div {
 	width: 350px;
     margin: 0 7px;
-    height: 600px;
+    height: 550px;
     border: 1px solid #ccc;
+	cursor: default;
 }
 
-/* FREE div 영역 */
-.ssc_free_container {
-	
+/* subscription 상태 */
+.subInfo_on {
+	border: 5px solid var(--background-color);
 }
-
-/* PREMIUM_month div 영역 */
-.ssc_month_container {
-
-}
-
-/* PREMIUM_month year 영역 */
-.ssc_year_container {
-
+.subInfo_on_middle {
+	border-bottom: 5px solid var(--background-color);
 }
 
 /* subscription 구분 텍스트 */
@@ -60,16 +54,18 @@ body {
     border-bottom: 1px solid #ccc;
 }
 
+/* subscription 구분 텍스트 첫번째 p태그 */
 .ssc_top_guideTxt p:first-child {
 	font-weight: 600;
 	line-height: 55px;
 }
 
+/* subscription 구분 텍스트 두번째 p태그 */
 .ssc_top_guideTxt p:nth-child(2) {
 	font-size: 20px;
 }
 
-/* 가격 div */
+/* 금액 div */
 .ssc_price_div {
     height: 70px;
     width: 350px;
@@ -79,31 +75,47 @@ body {
     border-bottom: 1px solid #ccc;
 }
 
+/* 금액 div 첫번째 p태그 */
 .ssc_price_div p:first-child {
-	height: 35px;
+	height: 30px;
     line-height: 70px;
     font-size: 20px;
     font-weight: 600;
 }
 
-.ssc_year_container .ssc_price_div p:first-child {
+/* 월간, 연간 구독 금액 div 첫번째 p태그 */
+#sscMonthContainer .ssc_price_div p:first-child, #sscYearContainer .ssc_price_div p:first-child {
 	color: #575cff;
 }
 
-.ssc_price_div p:nth-child(2), .ssc_price_div p:nth-child(3) {
+/* 금액 div 2번째 p태그 */
+.ssc_price_div p:nth-child(2){
     font-size: 12px;
     font-weight: 600;
-    line-height: 45px;
+    line-height: 55px;
 }
 
 /* FREE 이용 서비스 영역 div */
 .ssc_free_content_div {
-    line-height: 35px;
+    line-height: 40px;
     padding-top: 10px;
-    font-size: 20px;
+    font-size: 21px;
 }
 
-/* 아이콘 */
+/* FREE 서비스 영역 기본 기능 텍스트 */
+.ssc_free_content_div p:nth-child(4) {
+	font-weight: 600;
+}
+
+/* FREE 서비스 영역 타이틀 */
+.ssc_free_content_div p:nth-child(5), .ssc_free_content_div p:nth-child(6), .ssc_free_content_div p:nth-child(7) {
+    font-size: 22px;
+    position: relative;
+    margin-right: 40px;
+    line-height: 50px;
+}
+
+/* FREE 서비스 영역 아이콘 */
 .my_sub_icon {
     font-size: 32px !important;
     position: absolute;
@@ -112,24 +124,17 @@ body {
     color: #594B4B;
 }
 
-.ssc_free_content_div p:nth-child(4) {
-	font-weight: 600;
-}
-
-.ssc_free_content_div p:nth-child(5), .ssc_free_content_div p:nth-child(6), .ssc_free_content_div p:nth-child(7) {
-    font-size: 22px;
-    position: relative;
-    margin-right: 40px;
-    line-height: 50px;
-}
-
 /* 유료 이용 서비스 영역 div */
 .ssc_content_div {
-    line-height: 45px;
+    line-height: 42px;
     padding-top: 10px;
-    color: #575cff;
     font-weight: 600;
-    font-size: 25px;
+    font-size: 22px;
+}
+
+/* 유료 이용 서비스 영역 첫번째, 두번째 p태그 */
+.ssc_content_div p:nth-child(1), .ssc_content_div p:nth-child(2) {
+	color: #575cff;
 }
 
 /* 월간구독 버튼 div */
@@ -149,6 +154,7 @@ body {
     font-size: 16px;
     border: 1px solid var(--background-color);
     border-radius: 10px;
+    cursor: pointer;
 }
 
 /* 월간구독 구독취소 버튼 */
@@ -162,8 +168,53 @@ body {
     font-size: 16px;
     border: 1px solid var(--background-color);
     border-radius: 10px;
+    cursor: pointer;
 }
 
+/* 연간구독 버튼 div */
+.ssc_year_btn_div {
+	display: inline-grid;
+	margin: 10px 0;
+}
+
+/* 연간구독 구독하기 버튼 */
+.ssc_year_sub_btn {
+    margin: 5px 0;
+    width: 130px;
+    height: 40px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 16px;
+    border: 1px solid var(--background-color);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* 연간구독 구독취소 버튼 */
+.ssc_year_cancel_btn {
+    margin: 5px 0;
+    width: 130px;
+    height: 40px;
+    background-color: var(--text-color);
+    color: var(--background-color);
+    font-weight: 600;
+    font-size: 16px;
+    border: 1px solid var(--background-color);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* 남은 구독일, 만료일 div */
+.remainingPeriod {
+	line-height: 20px;
+}
+
+/* 남은 구독일, 만료일 */
+.remainingPeriod em {
+	font-weight: 600;
+	color: #fd5b5b;
+}
 
 </style>
 
@@ -176,12 +227,12 @@ body {
 </div>
 
 <div class="ssc_container">
-	<div class="ssc_div ssc_free_container">
-		<div class="ssc_top_guideTxt">
+	<div class="ssc_div" id="sscFreeContainer">
+		<div class="ssc_top_guideTxt" id="sscFreeTopGuideTxt">
 			<p>FREE</p>
 			<p>개인/소모임에 특화</p>
 		</div>
-		<div class="ssc_price_div">
+		<div class="ssc_price_div" id="sscFreePriceDiv">
 			<p>무료</p>
 		</div>
 		<div class="ssc_free_content_div">
@@ -194,12 +245,12 @@ body {
 			<p>채팅 <span class="material-icons my_sub_icon" id="my_subscription_chat">forum</span></p>
 		</div>
 	</div>
-	<div class="ssc_div ssc_month_container">
-		<div class="ssc_top_guideTxt">
+	<div class="ssc_div" id="sscMonthContainer">
+		<div class="ssc_top_guideTxt" id="sscMonthTopGuideTxt">
 			<p>PREMIUM (월간 구독)</p>
 			<p>단체 모임에 특화</p>
 		</div>
-		<div class="ssc_price_div">
+		<div class="ssc_price_div" id="sscMonthPriceDiv">
 			<p>3,000원</p>
 			<p>(매월 정기 결제)</p>
 		</div>
@@ -207,38 +258,82 @@ body {
 			<p>공용 용량 : 100GB</p>
 			<p>최대 이용자 수 : 100명</p>
 			<br>
-			<p>FREE 기본 기능 포함</p>
+			<p>+++ FREE 기본 기능 포함 +++</p>
 			<p>① 공용 용량(100GB) up</p>
 			<p>② 최대 이용자 수(100명) up</p>
 		</div>
 		<div class="ssc_month_btn_div">
-			<button class="ssc_month_sub_btn">구독하기</button>
-			<button class="ssc_month_cancel_btn">구독 취소</button>
+			<c:choose>
+				<c:when test="${subInfo.productNo eq 2}">
+					<button class="ssc_month_cancel_btn" onclick="">구독 취소</button>
+				</c:when>
+				<c:otherwise>
+					<button class="ssc_month_sub_btn" onclick="">구독하기</button>
+				</c:otherwise>
+			</c:choose>
 		</div>
+		<c:if test="${subInfo.productNo eq 2}">
+		<div class="remainingPeriod">
+			<p>남은 구독 기간 : <em>${subDDay}</em>일</p>
+			<p>(만료일 : <em>${subMonthEd}</em>)</p>
+		</div>
+		</c:if>
 	</div>
-	<div class="ssc_div ssc_year_container">
-		<div class="ssc_top_guideTxt">
+	<div class="ssc_div" id="sscYearContainer">
+		<div class="ssc_top_guideTxt" id="sscYearTopGuideTxt">
 			<p>PREMIUM (연간 구독)</p>
 			<p>단체 모임에 특화</p>
 		</div>
-		<div class="ssc_price_div">
+		<div class="ssc_price_div" id="sscYearPriceDiv">
 			<p>25,200원</p>
-			<p>12개월(36,000원) > 30% 할인 → 25,200원</p>
+			<p>12개월(36,000원) → 25,200원(30% 할인)</p>
 		</div>
 		<div class="ssc_content_div">
 			<p>공용 용량 : 100GB</p>
 			<p>최대 이용자 수 : 100명</p>
 			<br>
-			<p>FREE 기본 기능 포함</p>
+			<p>+++ FREE 기본 기능 포함 +++</p>
 			<p>① 공용 용량(100GB) up</p>
 			<p>② 최대 이용자 수(100명) up</p>
 		</div>
 		<div class="ssc_year_btn_div">
-			<button class="ssc_year_sub_btn">구독하기</button>
-			<button class="ssc_year_cancel_btn">구독 취소</button>
+			<c:choose>
+				<c:when test="${subInfo.productNo eq 3}">
+					<button class="ssc_year_cancel_btn" onclick="">구독 취소</button>
+				</c:when>
+				<c:otherwise>
+					<button class="ssc_year_sub_btn" onclick="">구독하기</button>
+				</c:otherwise>
+			</c:choose>
 		</div>
+		<c:if test="${subInfo.productNo eq 3}">
+		<div class="remainingPeriod">
+			<p>남은 구독 기간 : <em>${subDDay}</em>일</p>
+			<p>(만료일 : <em>${subYearEd}</em>)</p>
+		</div>
+		</c:if>
 	</div>
 </div>
 
 </body>
 </html>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	if('${subInfo.productNo}' == 1) {
+		$("#sscFreeContainer").addClass('subInfo_on');
+// 		$("#sscFreeTopGuideTxt").css('border-bottom', '5px solid var(--background-color)');
+// 		$("#sscFreePriceDiv").css('border-bottom', '5px solid var(--background-color)');
+	} else if ('${subInfo.productNo}' == 2) {
+		$("#sscMonthContainer").addClass('subInfo_on');
+// 		$("#sscMonthTopGuideTxt").css('border-bottom', '5px solid var(--background-color)');
+// 		$("#sscMonthPriceDiv").css('border-bottom', '5px solid var(--background-color)');
+	} else if ('${subInfo.productNo}' == 3) {
+		$("#sscYearContainer").addClass('subInfo_on');
+// 		$("#sscYearTopGuideTxt").css('border-bottom', '5px solid var(--background-color)');
+// 		$("#sscYearPriceDiv").css('border-bottom', '5px solid var(--background-color)');
+	}
+	
+})
+</script>
