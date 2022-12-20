@@ -8,10 +8,11 @@
 <mapper namespace="calendar.dao.face.CalendarDao">
 	<insert id="insertMyCal" parameterType="calendar.dto.CalDto">
 		INSERT INTO my_calender (cal_no, user_no, cal_title, start_date, start_time ,  cal_place, cal_memo)
-		VALUES(seq_my_calender.nextval, 1, #{calTitle}, #{startDate}, #{startTime} ,  #{calPlace}, #{calMemo})
+		VALUES(seq_my_calender.nextval, #{userNo}, #{calTitle}, #{startDate}, #{startTime} ,  #{calPlace}, #{calMemo})
 	</insert>
-	<select id="selectMyCal" resultType="calendar.dto.CalDto">
-		SELECT * FROM my_calender ORDER BY start_time
+	
+	<select id="selectMyCal" parameterType="int" resultType="calendar.dto.CalDto">
+		SELECT * FROM my_calender WHERE user_no = #{userNo} ORDER BY start_date
 	</select>
 	
 	<select id="selectMyCalByCalNo" parameterType="calendar.dto.CalDto" resultType="calendar.dto.CalDto">

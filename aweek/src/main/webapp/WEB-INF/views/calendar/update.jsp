@@ -5,6 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="https://code.java.com/jquery-2.2.4.min.js">
+$(document).ready(function(){
+	
+	
+})
+</script>
 </head>
 <body>
 <h1>일정 수정하기</h1>
