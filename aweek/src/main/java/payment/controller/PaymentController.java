@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import member.dto.Member;
 import payment.dto.Payment;
 import payment.service.face.PaymentService;
 
@@ -24,19 +22,30 @@ public class PaymentController {
 	// 서비스 객체
 	@Autowired private PaymentService paymentService;
 	
-
-	@RequestMapping("/payment/payment")
-	public void paymentMain(HttpSession session, Model model) {
-		logger.info("/payment/payment");
+	@RequestMapping("/payment/paymentlist")
+	public void paymetList(HttpSession session, Model model) {
+		logger.info("/payment/paymentList");
 		
-		String userid = (String) session.getAttribute("userid");
-		logger.info("userid : {}", userid);
+		String loginid = (String) session.getAttribute("loginid");
+		logger.info("loginid {} : ", loginid);
 		
-		Member paymentInfo = paymentService.paymentInfo(userid);
-		logger.info("userid result : {}", paymentInfo);
+		Payment info = paymentService.info(loginid);
+		logger.info("PaymnetInfo {} : ", info);
 		
-		model.addAttribute("paymentInfo", paymentInfo);
+		model.addAttribute("info", info);
 	}
+	
+	@RequestMapping("/payment/payment")
+	public void paymentSelect() {
+//		logger.info("/payment/point : {}", amount);
+//		
+//		String id = paymentService.getIdFromAuth();
+//		
+//		paymentService.chargePoint(new Payment(amount), id);
+	}
+	
+
+
 	
 //	@RequestMapping("/payment/point")
 //	public @ResponseBody void chargePoint(Long amount) {

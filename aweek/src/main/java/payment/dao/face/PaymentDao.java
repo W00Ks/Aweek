@@ -8,12 +8,16 @@ import payment.dto.Payment;
 public interface PaymentDao {
 
 	/**
-	 * 전달된 id의 사용자 정보를 조회
+	 * 전달된 id의 결제 정보 조회
 	 * 
-	 * @param userid - 조회할 id
-	 * @return 조회된 회원 정보
+	 * @param loginid -= 조회할 대상 id
+	 * @return 조회된 회원 결제 정보
 	 */
-	Member selectPaymentInfoById(String userid);
+	Payment selectLoginByid(String loginid);
+
+
+
+
 
 
 

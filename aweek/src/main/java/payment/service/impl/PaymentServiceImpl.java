@@ -22,27 +22,14 @@ public class PaymentServiceImpl implements PaymentService{
 	@Autowired PaymentDao paymentDao;
 
 	@Override
-	public Member paymentInfo(String userid) {
-		logger.info("paymentInfo : {}", userid);
-		
-		return paymentDao.selectPaymentInfoById(userid);
+	public Payment info(String loginid) {
+		logger.info("info( - {}", loginid);
+		return paymentDao.selectLoginByid(loginid);
 	}
 
-	@Override
-	public void chargePoint(Payment payment, String id) {
-		// TODO Auto-generated method stub
-		
-	}
 
-//	@Override
-//	public void chargePoint(Payment payment, String id) {
-//		Member member = paymentDao.findUserById(id);
-//		
-//		member.setUserId(id);
-//		
-//		return paymentDao.save(PaymentMapper.map(Payment, Payment.class));
-//		
-//	}
+
+
 
 
 	

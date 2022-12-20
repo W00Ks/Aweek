@@ -8,14 +8,16 @@ import payment.dto.Payment;
 public interface PaymentService {
 
 	/**
-	 * 전달될 userid를 이용해 사용자 정보 조회
+	 * 전달된 id를 이용해서 결제 정보 조회
 	 * 
-	 * @param userid - 정보를 조회할 userid
-	 * @return 조회된 사용자 정보
+	 * @param loginid - 결제 정보를 조회할 사용자 id
+	 * @return 조회된 사용자 결제 정보
 	 */
-	public Member paymentInfo(String userid);
+	Payment info(String loginid);
 
-	public void chargePoint(Payment payment, String id);
+
+
+
 
 
 
