@@ -14,12 +14,19 @@ public interface CalendarDao {
 	 */
 	public void insertMyCal(CalDto calendar);
 
-	public List<CalDto> selectMyCal();
+	
 
 	public CalDto selectMyCalByCalNo(CalDto viewCal);
 
 	public void updateCal(CalDto calDto);
 
 	public void deleteMyCal(CalDto calDto);
+
+
+
+	public List<CalDto> selectMyCal(int userNo);
+
+
+
 
 }

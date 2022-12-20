@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class CalendarController {
 	@Autowired CalendarService calendarService;
 	
 	@RequestMapping(value = "/calendar/myCal", method = RequestMethod.GET)
-	public String calendar(Model model, HttpServletRequest request, String year, String month){
+	public String calendar(Model model, HttpServletRequest request, String year, String month, HttpSession session){
 		
 
 		
@@ -97,12 +98,14 @@ public class CalendarController {
 //			System.out.println(scheduleYear);
 //		
 //		}
-//		
+		
+		int userNo = (int)session.getAttribute("userNo");
+		logger.info("userNo : {} ", userNo);
 		
 		logger.info("/calendar/myCal");
 		
 		//캘린더 테이블 조회
-		List<CalDto> list = calendarService.selectMyCal();
+		List<CalDto> list = calendarService.selectMyCal(userNo);
 		
 		logger.info("{}", list);
 		
@@ -122,11 +125,11 @@ public class CalendarController {
 	
 	//일정 작성 처리
 	@PostMapping("/calendar/writeForm")
-	public String writeFormProc(calendar.dto.CalDto calendar
+	public String writeFormProc(calendar.dto.CalDto calendar,HttpSession session
 				) {
 		logger.info("/calendar/writeForm [POST]");
 		
-		
+		int userNo = (int) session.getAttribute("userNo");
 		
 		
 	
@@ -136,7 +139,7 @@ public class CalendarController {
 	
 		
 		
-		calendarService.insertMyCal(calendar);
+		calendarService.insertMyCal(calendar, userNo);
 		
 		return "redirect:/calendar/myCal";
 	}

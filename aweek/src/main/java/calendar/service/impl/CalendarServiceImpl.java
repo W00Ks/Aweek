@@ -15,17 +15,15 @@ public class CalendarServiceImpl implements CalendarService {
 	@Autowired CalendarDao calendarDao;
 	
 	@Override
-	public void insertMyCal(CalDto calendar) {
+	public void insertMyCal(CalDto calendar, int userNo) {
+		
+		calendar.setUserNo(userNo);
 		
 		calendarDao.insertMyCal(calendar);
 		
 	}
 
-	@Override
-	public List<CalDto> selectMyCal() {
-		
-		return calendarDao.selectMyCal();
-	}
+	
 
 	@Override
 	public CalDto view(CalDto viewCal) {
@@ -44,5 +42,17 @@ public class CalendarServiceImpl implements CalendarService {
 		
 		calendarDao.deleteMyCal(calDto);
 	}
+
+
+
+	@Override
+	public List<CalDto> selectMyCal(int userNo) {
+		
+		return calendarDao.selectMyCal(userNo);
+	}
+
+
+
+	
 
 }

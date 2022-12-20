@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="calendar.dto.CalDto"%>
 <%@page import="java.util.List"%>
@@ -11,6 +13,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+<%	
+	//달력의 날짜를 바꾸기 위해 전달된 year와 month 파라미터를 받는다.
+	String paramYear = request.getParameter("year");
+	String paramMonth = request.getParameter("month");
+	
+
+	Calendar cal = Calendar.getInstance();
+	int year = cal.get(Calendar.YEAR); //현재 년도
+//	int month = cal.get(Calendar.MONTH); //현재 월 (0부터 시작) 0월 -> 1월
+	int month = cal.get(Calendar.MONTH)+1;
+
+	if(paramYear!=null){
+		year = Integer.parseInt(paramYear);
+	}
+	
+	if(paramMonth!=null){
+		month = Integer.parseInt(paramMonth);
+	}
+	
+	if(month>12){
+		month=1;
+		year++;
+	}
+	
+	if(month<1){
+		month=12;
+		year--;
+	}
+	//현재 월의 1일에 대한 요일: 1~7 반환  1:일요일, 2:월요일 ....
+	cal.set(year, month-1, 1);
+	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+	
+	//현재 월의 마지막 날 
+	int lastDay= cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+	
+%>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
@@ -143,9 +181,10 @@ $(document).ready(function(){
 			
 			
 			console.log("일정 상세보기");
-			
+			console.log(e);
 			//ajax로 상세정보 가져오기
 			var calNo = e.target.id;
+			
 			console.log(calNo);
 			$.ajax({
 				url : '/calendar/view?calNo=' + calNo,
@@ -176,7 +215,7 @@ $(document).ready(function(){
 				'height' : windowHeight
 			});
 			
-			$(".schedule_detail_modal").fadeTo("fast", 0);
+			$(".schedule_detail_modal").fadeTo("fast", 0.1);
 			var divTop = e.clientY;
 			var divLeft = e.clientX;
 			
@@ -224,7 +263,31 @@ $(document).ready(function(){
 		})
 		//일정 상세보기 클릭 함수 END
 		
-	})
+		//날짜 클릭 시 해당 날짝 입력된 상태로 작성 폼 띄우기
+		$(".day").click(function(e){
+		console.log(e);
+		
+		var day =e.target.childNodes[1].innerText;
+		//day 한 자릿수면 0추가 (ex 1 -> 01)
+		if(day.length<2){
+			day="0"+day;
+		}
+		console.log(day);
+		
+		var year = String(<%=year %>);
+		console.log("year : " + year);
+		
+		//month 한 자릿수면 0추가
+		var month = String(<%= month %>);
+		if(month.length<2){
+			month = "0"+month;
+		}
+		createModal();
+		
+		$("#startDateInput").val(year+"-"+month+"-"+day);
+		
+		}) 
+})
 </script>
 <!-- Noto Fonts -->
 <style> @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap'); </style>
@@ -236,6 +299,7 @@ $(document).ready(function(){
 }
 
 .calendar{
+	background-color:#f8f1f1;
 	width: 100%;
 	position: relative;
 	
@@ -252,42 +316,49 @@ $(document).ready(function(){
 	color:#000000;
 }
 .calendar_body th{
-	background-color:#f4b0b0;
+	background-color:#edc7c7;
 	width:80px;
-	border: 1px solid white;
+	border: 2px solid #d3c3c3;
 	font-weight: bold;
-	font-family: 'Noto Sans KR', sans-serif; 
+/* 	font-family: 'Noto Sans KR', sans-serif;  */
+	font-family: 'NanumSquareNeo-Variable';
 }
 .calendar_body td{
-	background-color:#EFEFEF;
+	background-color:white;
 	width: 80px;
 	height: 120px;
-	border: 1px solid white;
+	border: 2px solid #d3c3c3;
 	text-align: left;
 	vertical-align: top;
 	font-weight: bold;	
+	border-left: none;
+}
+.day:hover{
+	background-color : #ccc;
 }
 .side-bar{
 	display: flex;
     flex: 0 0 auto;
     flex-direction: column;
     height: 917px;
-    border-right: 1px solid #c5c5c7
+    border-right: 2px solid #d3c3c3;
 }
 .write-button{
 	display: inline-block;
-    padding: 55px 12px 55px;
-    border-bottom: 1px solid #c5c5c7;
+    padding: 55px 12px 49px;
+    border-bottom: 2px solid #d3c3c3;
+
 }
 
 .write-button a{
 	display: block;
 	font-weight:bold;
-    background-color: #f4b0b0;
+    background-color: #fde6e7;
+    border: 2px solid #d3c3c3;
     height: 75px;
     text-align: center;
     width: 244px;
-    line-height: 4;
+    line-height: 4.4;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     border-top-right-radius: 3px;
@@ -357,7 +428,7 @@ $(document).ready(function(){
 .cal_nav{
 	text-align: center;
     margin-top: 83px;
-    margin-bottom: 75px;
+    margin-bottom: 57px;
 }
 .cal_nav a{
 	padding: 10px;
@@ -380,7 +451,7 @@ $(document).ready(function(){
 
 .group-list{
 	height: 100%;
-    border-bottom: 1px solid #c5c5c7;
+    border-bottom: 2px solid #d3c3c3;
     padding-top: 7px;
     font-size: 22px;
 }
@@ -388,7 +459,7 @@ $(document).ready(function(){
 	font-family: 'Noto Sans KR', sans-serif;
 }
 .Dday-list{
-	height: 100%;
+	height: 920px;
 	padding-top: 7px;
     font-size: 22px;
 }
@@ -414,45 +485,57 @@ $(document).ready(function(){
 	border-radius: 2px;
 	border: 1px solid #989898;
 }
+
+.next_month_day{
+	color: #ccc;
+}
+.day p {
+	font-family: 'NanumSquareNeo-Variable';
+	padding-bottom: 3px;
+}
+.day a:hover{
+	color: red;
+}
 </style>
 </head>
 
 <%	
-	//달력의 날짜를 바꾸기 위해 전달된 year와 month 파라미터를 받는다.
-	String paramYear = request.getParameter("year");
-	String paramMonth = request.getParameter("month");
+// 	//달력의 날짜를 바꾸기 위해 전달된 year와 month 파라미터를 받는다.
+// 	String paramYear = request.getParameter("year");
+// 	String paramMonth = request.getParameter("month");
 	
 
-	Calendar cal = Calendar.getInstance();
-	int year = cal.get(Calendar.YEAR); //현재 년도
-//	int month = cal.get(Calendar.MONTH); //현재 월 (0부터 시작) 0월 -> 1월
-	int month = cal.get(Calendar.MONTH)+1;
+// 	Calendar cal = Calendar.getInstance();
+// 	int year = cal.get(Calendar.YEAR); //현재 년도
+// //	int month = cal.get(Calendar.MONTH); //현재 월 (0부터 시작) 0월 -> 1월
+// 	int month = cal.get(Calendar.MONTH)+1;
 
-	if(paramYear!=null){
-		year = Integer.parseInt(paramYear);
-	}
+// 	if(paramYear!=null){
+// 		year = Integer.parseInt(paramYear);
+// 	}
 	
-	if(paramMonth!=null){
-		month = Integer.parseInt(paramMonth);
-	}
+// 	if(paramMonth!=null){
+// 		month = Integer.parseInt(paramMonth);
+// 	}
 	
-	if(month>12){
-		month=1;
-		year++;
-	}
+// 	if(month>12){
+// 		month=1;
+// 		year++;
+// 	}
 	
-	if(month<1){
-		month=12;
-		year--;
-	}
-	//현재 월의 1일에 대한 요일: 1~7 반환  1:일요일, 2:월요일 ....
-	cal.set(year, month-1, 1);
-	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+// 	if(month<1){
+// 		month=12;
+// 		year--;
+// 	}
+// 	//현재 월의 1일에 대한 요일: 1~7 반환  1:일요일, 2:월요일 ....
+// 	cal.set(year, month-1, 1);
+// 	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 	
-	//현재 월의 마지막 날 
-	int lastDay= cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+// 	//현재 월의 마지막 날 
+// 	int lastDay= cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 	
 %>
+
 <body>
 <jsp:include page="../layout/roomHeader.jsp"></jsp:include> 
 <div class="container">
@@ -467,7 +550,43 @@ $(document).ready(function(){
 	</div>
 	
 	<div class="Dday-list">
-		<span>D-day</span>
+		<span>D-day</span><br>
+		
+<%-- 		<%Date date = new Date(); %> --%>
+<%-- 		<% int curYear=date.getYear()+1900; %> --%>
+<%-- 		<% int curMonth = date.getMonth()+1; %> --%>
+<%-- 		<% int curDay = date.getDate(); %> --%>
+<%-- 		<% int curTotal = curYear+curMonth+curDay; %> --%>
+		
+<%-- 		<% for(CalDto calDto :  clist){ %> --%>
+<%-- 		<% int scheduleYear = Integer.parseInt(calDto.getStartDate().substring(0, 4)); %> --%>
+<%-- 		<% int scheduleMonth = Integer.parseInt(calDto.getStartDate().substring(5, 7)); %> --%>
+<%-- 		<% int scheduleDay = Integer.parseInt(calDto.getStartDate().substring(8, 10)); %> --%>
+<%-- 		<% int scheduleTotal = scheduleYear+scheduleMonth+scheduleDay; %> --%>
+<%-- 		<% if(scheduleYear ==year&& scheduleMonth==month){ %> --%>
+<%-- 		d<%=  curTotal-scheduleTotal %> --%>
+<%-- 		<%= calDto.getCalTitle() %><br> --%>
+<%-- 		<% } %> --%>
+<%-- 		<% } %> --%>
+		<% SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyyMMdd"); %>
+		<% for(CalDto calDto :  clist){ %>
+		<%  String scheduleYear = calDto.getStartDate().substring(0, 4); %>
+		<%  String scheduleMonth = calDto.getStartDate().substring(5, 7); %>
+		<%  String scheduleDay = calDto.getStartDate().substring(8, 10); %>
+		<% String scheduleTotal = scheduleYear + scheduleMonth + scheduleDay; %>
+		
+		<% Date scheduleDate = yyyyMMdd.parse(scheduleTotal); %>
+		<% Date todayDate = new Date(); %>
+		<% String todayDay = yyyyMMdd.format(todayDate); %>
+		<% long gap = todayDate.getTime()-scheduleDate.getTime()  ; %>
+		<% if(Integer.parseInt(scheduleYear)==year&&Integer.parseInt(scheduleMonth)==month
+			&&Integer.parseInt(scheduleTotal)>=Integer.parseInt(todayDay)){ %>
+		D<%= gap/(24*60*60*1000)-1 %>
+		<%= calDto.getCalTitle() %><br>
+		<% } %>
+		<% } %>
+		
+		
 	</div>
 </div>
 
@@ -510,7 +629,7 @@ $(document).ready(function(){
 			//날짜 출력하는 for문
 			for(int i=1; i<=lastDay; i++){
 				%>
-				<td>
+				<td class="day">
 					<span style="color:<%=Util.fontColor(dayOfWeek, i)%>;"><%=i %></span>
 					
 					<%// 해당 날짜에 일정 존재하면 일정 제목 출력 %>
@@ -518,6 +637,9 @@ $(document).ready(function(){
 					<% if(Integer.parseInt(calDto.getStartDate().substring(8, 10))==i&&Integer.parseInt(calDto.getStartDate().substring(5, 7))==month){ %>
 					<p><a href="" onclick="return false" class="schedule_detail_req" id="<%=calDto.getCalNo() %>" value="<%= calDto.getCalNo()%>"><%=calDto.getStartTime() %>&nbsp;<%= calDto.getCalTitle() %></a></p>
 					<%} %>
+					<% } %>
+					<%if(month==12&&i==25){ %>
+					<span>성탄절</span>
 					<% } %>
 				</td>			
 				
@@ -532,7 +654,7 @@ $(document).ready(function(){
 			<%-- //나머지 공백 출력하는 for문--%>
 			<% int countNbsp =(7-(dayOfWeek-1 + lastDay)%7);
 			for(int i=0; i<countNbsp; i++){%>
-				<td><%= i+1 %></td>
+				<td class="next_month_day"><%= i+1 %></td>
 			<% }%>
 		
 	</tr>
