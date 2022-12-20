@@ -7,9 +7,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- favicon -->
+<link rel="icon" href="/resources/favicon.ico" type="image/x-icon"/>
 <meta charset="UTF-8">
 <title>Aweek</title>
 
+	
+	
 	<!--Open Graph-->
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Aweek" />
@@ -25,9 +29,6 @@
 	<meta property="twitter:description" content="직장, 동호회, 친구와 스케줄을 공유하세요!" />
 	<meta property="twitter:image" content="<%=request.getContextPath() %>/resources/img/aweekLogo.png" />
 	<meta property="twitter:url" content="https://localhost:8888/aweek/room/main" />
-	
-	<!-- favicon -->
-	<link rel="icon" href="favicon.ico">
 	
 	<!--브라우저 스타일 초기화-->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" />
@@ -139,7 +140,7 @@
 						<div class="sub-menu">
 							<ul class="inner my">
 								<li class="sub-title"><p>마이페이지</p>
-									<a href="javascript:void(0)"><span>마이페이지</span></a>
+									<a href="/member/mySubscription"><span>마이페이지</span></a>
 									<a href="/room/main"><span>내 모임</span></a>
 									<a href="/member/myInquiry"><span>내 활동</span></a>
 								</li>
