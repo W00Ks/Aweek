@@ -1,5 +1,8 @@
 package member.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -21,6 +24,7 @@ import cs.dto.Inquiry;
 import member.dto.Member;
 import member.service.face.MemberService;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import payment.dto.Subscription;
 
 @Controller
 @RequestMapping("/member")
@@ -365,13 +369,59 @@ public class MemberController {
 	//------------------------------ 마이페이지 나의 구독 ------------------------------
 	@RequestMapping("/mySubscription")
 	public void mySubscription(HttpSession session, Model model) {
+		//세션에 저장된 ID를 통해 회원정보 조회 
 		Member member = new Member();
 		String userId = (String) session.getAttribute("userId");
 		member.setUserId(userId);  
 		member = memberService.getLoginInfo(member);
 		
 		model.addAttribute("member", member);
+
+		//회원 정보를 통해 구독 정보 조회
+		Subscription subInfo = memberService.getSubInfo(member);
 		
+		if( subInfo == null ) {
+			subInfo = new Subscription();
+			subInfo.setProductNo(1);
+			subInfo.setCreateAtTime(null);
+			model.addAttribute("subInfo", subInfo);
+			
+		} else if (subInfo.getProductNo() == 2) {
+			//만료일(expiration date) 계산(30일 구독)
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(subInfo.getCreateAtTime());
+			cal.add(cal.DATE, +30);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String subMonthEd = sdf.format(cal.getTime());
+			
+			//남은 날(remaining period) 수 계산
+			long dDay = cal.getTimeInMillis();
+			long now = System.currentTimeMillis();
+			long result = dDay - now;
+			int subDDay = (int) (result / 1000 / 60 / 60 / 24);
+			
+			model.addAttribute("subMonthEd", subMonthEd);
+			model.addAttribute("subDDay", subDDay);
+			model.addAttribute("subInfo", subInfo);
+			
+		} else if (subInfo.getProductNo() == 3) {
+			//만료일(expiration date) 계산(1년 구독)
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(subInfo.getCreateAtTime());
+			cal.add(cal.DATE, +364);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String subYearEd = sdf.format(cal.getTime());
+			
+			//남은 날(remaining period) 수 계산
+			long dDay = cal.getTimeInMillis();	//1000분의 1초 
+			long now = System.currentTimeMillis();
+			long result = dDay - now;
+			int subDDay = (int) (result / 1000 / 60 / 60 / 24);
+			
+			model.addAttribute("subYearEd", subYearEd);
+			model.addAttribute("subDDay", subDDay);
+			model.addAttribute("subInfo", subInfo);
+		}
 	}
 	
 }

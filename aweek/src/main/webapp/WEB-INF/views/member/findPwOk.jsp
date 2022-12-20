@@ -78,7 +78,7 @@ $(document).ready(function() {
 		//비밀번호 체크(공백인 경우)
 		if($("#userPw").val() == ""){
 			swal("비밀번호를 입력해주세요","", "warning").then(function(){
-				$("input").eq(0).focus()
+				$("input").eq(1).focus()
         	});
 			return;
 		} 
@@ -87,7 +87,7 @@ $(document).ready(function() {
 		var isPW = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,15}$/;
 		if($("#userPw").val() != isPW){
 			swal("","비밀번호는 8 ~ 16자의 영문자 + 숫자 + 특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)", "warning").then(function(){
-				$("input").eq(0).focus()
+				$("input").eq(1).focus()
         	});
 			return;
 		} 
@@ -95,7 +95,7 @@ $(document).ready(function() {
 		//비밀번호 확인 체크 (비밀번호와 같지 않거나 공백인 경우)
 		if($("#userPwChk").val() != $("#userPw").val() || $("#userPwChk").val() == ""){
 			swal("비밀번호 확인을 비밀번호와 동일하게 입력해주세요","", "warning").then(function(){
-				$("input").eq(1).focus()
+				$("input").eq(2).focus()
         	});
 			return;
 		}

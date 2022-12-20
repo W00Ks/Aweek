@@ -5,6 +5,7 @@ import java.util.List;
 
 import cs.dto.Inquiry;
 import member.dto.Member;
+import payment.dto.Subscription;
 
 public interface MemberDao {
 
@@ -138,6 +139,14 @@ public interface MemberDao {
 	 * @return 조회된 나의 1:1 문의글 정보
 	 */
 	public Inquiry selectMyInquiryView(Inquiry viewInquiry);
+	
+	/**
+	 * 나의 구독 정보 조회
+	 * 
+	 * @param member - 회원 정보 파라미터
+	 * @return Subscription - 구독 정보 객체 
+	 */
+	public Subscription selectSubInfo(Member member);
 
 	
 }

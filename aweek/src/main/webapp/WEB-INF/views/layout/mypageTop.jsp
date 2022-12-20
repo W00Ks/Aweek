@@ -24,32 +24,32 @@ $(document).ready(function () {
 	const l5 = document.querySelector('.l_5');
 	const l6 = document.querySelector('.l_6');
 	
-	if( window.location.href.indexOf("calendar") > -1 ) {
+	if( window.location.href.indexOf("mySubscription") > -1 ) {
 		t1.classList.add("choose");
 		l1.classList.add("choose");
 	}
 	
-	if( window.location.href.indexOf("diary") > -1 ) {
+	if( window.location.href.indexOf("info") > -1 ) {
 		t2.classList.add("choose");
 		l2.classList.add("choose");
 	}
 	
-	if( window.location.href.indexOf("room") > -1 ) {
+	if( window.location.href.indexOf("myInquiryList") > -1 ) {
 		t3.classList.add("choose");
 		l3.classList.add("choose");
 	}
 	
-	if( window.location.href.indexOf("info") > -1 ) {
+	if( window.location.href.indexOf("calendar") > -1 ) {
 		t4.classList.add("choose");
 		l4.classList.add("choose");
 	}
 	
-	if( window.location.href.indexOf("mySubscription") > -1 ) {
+	if( window.location.href.indexOf("diary") > -1 ) {
 		t5.classList.add("choose");
 		l5.classList.add("choose");
 	}
 	
-	if( window.location.href.indexOf("myInquiryList") > -1 ) {
+	if( window.location.href.indexOf("room") > -1 ) {
 		t6.classList.add("choose");
 		l6.classList.add("choose");
 	}
@@ -146,33 +146,33 @@ a {
 
 <ul class="top_menu">
 	<li class="l_1">
-		<a href="<%=request.getContextPath() %>/calender/main" class="top_1" id="top_calendar">
-		<span class="material-icons">calendar_month</span></a>
-		<span class="tooltipText">나의 캘린더</span>
-	</li>
-	<li class="l_2">
-		<a href="<%=request.getContextPath() %>/diary/main" class="top_2" id="top_diary">
-		<span class="material-icons">note_alt</span></a>
-		<span class="tooltipText">나의 다이어리</span>
-	</li>
-	<li class="l_3">
-		<a href="<%=request.getContextPath() %>/room/main" class="top_3" id="top_room">
-		<span class="material-icons">info</span></a>
-		<span class="tooltipText">나의 모임</span>
-	</li>
-	<li class="l_4">
-		<a href="<%=request.getContextPath() %>/member/info" class="top_4" id="top_info">
-		<span class="material-icons">person</span></a>
-		<span class="tooltipText">회원정보 수정</span>
-	</li>
-	<li class="l_5">
-		<a href="<%=request.getContextPath() %>/member/mySubscription" class="top_5" id="top_mySubscription">
+		<a href="<%=request.getContextPath() %>/member/mySubscription" class="top_1" id="top_mySubscription">
 		<span class="material-icons">paid</span></a>
 		<span class="tooltipText">나의 구독</span>
 	</li>
-	<li class="l_6">
-		<a href="<%=request.getContextPath() %>/member/myInquiryList" class="top_6" id="top_myInquiryList">
+	<li class="l_2">
+		<a href="<%=request.getContextPath() %>/member/info" class="top_2" id="top_info">
+		<span class="material-icons">person</span></a>
+		<span class="tooltipText">회원정보 수정</span>
+	</li>
+	<li class="l_3">
+		<a href="<%=request.getContextPath() %>/member/myInquiryList" class="top_3" id="top_myInquiryList">
 		<span class="material-icons">email</span></a>
 		<span class="tooltipText">나의 1:1 문의</span>
+	</li>
+	<li class="l_4">
+		<a href="<%=request.getContextPath() %>/calendar/myCal" class="top_4" id="top_calendar">
+		<span class="material-icons">calendar_month</span></a>
+		<span class="tooltipText">나의 캘린더</span>
+	</li>
+	<li class="l_5">
+		<a href="<%=request.getContextPath() %>/diary/mydiary" class="top_5" id="top_diary">
+		<span class="material-icons">note_alt</span></a>
+		<span class="tooltipText">나의 다이어리</span>
+	</li>
+	<li class="l_6">
+		<a href="<%=request.getContextPath() %>/room/main" class="top_6" id="top_room">
+		<span class="material-icons">info</span></a>
+		<span class="tooltipText">나의 모임</span>
 	</li>
 </ul>
