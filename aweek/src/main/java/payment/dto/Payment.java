@@ -161,6 +161,8 @@ public class Payment {
 	public void setResultstatus(String resultstatus) {
 		this.resultstatus = resultstatus;
 	}
+
+
 	
 	
 
