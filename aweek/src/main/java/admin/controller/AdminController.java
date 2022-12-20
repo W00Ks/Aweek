@@ -1,8 +1,6 @@
 package admin.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,12 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import admin.dto.Admin;
+import admin.dto.PageMaker;
+import admin.dto.Search;
 import admin.service.face.AdminService;
 import common.Paging;
-import cs.dto.File;
+import cs.dto.CsFile;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
@@ -117,7 +116,7 @@ public class AdminController {
 	
 	// 관리자 회원 목록
 	@RequestMapping("/memberlist")
-	public void memberList(@RequestParam(defaultValue = "0") int curPage, Model model) {
+	public void memberList(@RequestParam(defaultValue = "0") int curPage, Search search, Model model) {
 		
 		logger.info("admin/memberlist");
 		
@@ -132,6 +131,13 @@ public class AdminController {
 		for( Member m : memberlist ) logger.info("Member List - {}", m);
 		
 		model.addAttribute("memberlist", memberlist);
+		
+		model.addAttribute("search", adminService.getSearchPaging(search));
+		
+		int total = adminService.getTotal(search);
+		
+		PageMaker pageMaker = new PageMaker(search, total);
+		model.addAttribute("pageMaker", pageMaker);
 	}
 	
 	// 관리자 결제 목록
@@ -280,8 +286,8 @@ public class AdminController {
 		model.addAttribute("viewNotice", viewNotice);
 		
 		// 첨부파일 모델값 전달
-		File file = adminService.getNoticeFile(viewNotice);
-		model.addAttribute("file", file);
+		CsFile csFile = adminService.getNoticeFile(viewNotice);
+		model.addAttribute("csFile", csFile);
 		
 		return "admin/noticedetail";
 	}
@@ -306,6 +312,10 @@ public class AdminController {
 		
 		// 모델값 전달
 		model.addAttribute("viewQna", viewQna);
+		
+		// 첨부파일 모델값 전달
+		CsFile csFile = adminService.getQnaFile(viewQna);
+		model.addAttribute("csFile", csFile);
 		
 		return "admin/qnadetail";
 	}
@@ -361,8 +371,8 @@ public class AdminController {
 		model.addAttribute("modifyNotice", notice);
 		
 		// 첨부파일 모델값 전달
-		File file = adminService.getNoticeFile(notice);
-		model.addAttribute("file", file);
+		CsFile csFile = adminService.getNoticeFile(notice);
+		model.addAttribute("csFile", csFile);
 		
 		return "admin/noticemodify";
 	}
@@ -398,20 +408,22 @@ public class AdminController {
 
 	// 관리자 Q&A 작성 POST
 	@PostMapping("/qnawrite")
-	public String qnaWriteProc(QnA qna, HttpSession session) {
+	public String qnaWriteProc(QnA qna, MultipartFile file , HttpSession session) {
 		
 		logger.info("/admin/qnawrite [POST]");
 		
 		logger.info("qna Write 1 - {}", qna);
+		logger.info("qna Write 1 - {}", file);
 		
 		// 작성자 정보 추가
 		qna.setWriterId( (String) session.getAttribute("adminId") );
 		qna.setWriterNick( (String) session.getAttribute("adminNick") );
 		
 		logger.info("qna Write 2 - {}", qna);
+		logger.info("qna Write 2 - {}", file);
 
 		// Q&A 처리
-		adminService.qnaWrite(qna);
+		adminService.qnaWrite(qna, file);
 		
 		return "redirect:/admin/qnalist";
 	}
@@ -437,16 +449,20 @@ public class AdminController {
 		// 모델값 전달
 		model.addAttribute("modifyQnA", qna);
 		
+		// 첨부파일 모델값 전달
+		CsFile csFile = adminService.getQnaFile(qna);
+		model.addAttribute("csFile", csFile);
+		
 		return "admin/qnamodify";
 	}
 
 	// 관리자 Q&A 수정 POST
 	@PostMapping("/qnamodify")
-	public String qnaModifyProc(QnA qna) {
+	public String qnaModifyProc(QnA qna, MultipartFile file) {
 		
 		logger.info("/admin/qnamodify [POST]");
 		
-		adminService.qnaModify(qna);
+		adminService.qnaModify(qna, file);
 		
 		return "redirect:/admin/qnadetail?qnaNo=" + qna.getQnaNo();
 	}
@@ -462,30 +478,17 @@ public class AdminController {
 		return "redirect:/admin/qnalist";
 	}
 
-	// 관리자 회원 검색
-	@PostMapping("/membersearch")
-	public void MemberSearch(Member member, Model model) {
-			
-		logger.info("admin/membesearch");
-		
-		List<Member> memberlist = adminService.memberSearch(member);
-		
-		for( Member m : memberlist ) logger.info("Member List - {}", m);
-		
-		model.addAttribute("memberlist", memberlist);
-	}
-	
 	// 파일 다운로드
 	@RequestMapping("/download")
-	public String download(File file, Model model) {
+	public String download(CsFile csFile, Model model) {
 
 		// 첨부파일 정보 객체
-		file = adminService.getFile(file);
+		csFile = adminService.getFile(csFile);
 		
-		logger.info("download - {}", file);
+		logger.info("download - {}", csFile);
 		
 		// 모델값 전달
-		model.addAttribute("downFile", file);
+		model.addAttribute("downFile", csFile);
 		
 		return "down";
 	}

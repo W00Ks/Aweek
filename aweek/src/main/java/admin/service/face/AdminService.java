@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import admin.dto.Admin;
+import admin.dto.Search;
 import common.Paging;
-import cs.dto.File;
+import cs.dto.CsFile;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
@@ -212,14 +213,14 @@ public interface AdminService {
 	 * 
 	 * @param qna - Q&A 정보 객체
 	 */
-	public void qnaWrite(QnA qna);
+	public void qnaWrite(QnA qna, MultipartFile file);
 	
 	/**
 	 * Q&A 정보, 첨부파일을 함께 처리
 	 * 
 	 * @param qna - Q&A 정보 객체
 	 */
-	public void qnaModify(QnA qna);
+	public void qnaModify(QnA qna, MultipartFile file);
 
 	/**
 	 * Q&A 삭제 + 첨부파일 삭제
@@ -229,27 +230,18 @@ public interface AdminService {
 	public void qnaDelete(QnA qna);
 
 	/**
-	 * 회원 검색 기능
-	 * 
-	 * @param memberSelect
-	 * @param keyword
-	 * @return
-	 */
-	public List<Member> memberSearch(Member member);
-
-	/**
 	 * 파일 번호를 이용하여 업로드된 파일 정보를 조회
 	 * 
-	 * @param file - 조회할 파일 번호 객체
-	 * @return - 첨부파일 객체
-	 */
-	public File getFile(File file);
-
-	/**
-	 * 공지사항 번호를 이용하여 업로드된 파일 정보를 조회
-	 * 
-	 * @param notice - 조회할 공지사항 번호 객체
+	 * @param csFile - 조회할 파일 번호 객체
 	 * @return - 첨부파일 정보
 	 */
-	public File getNoticeFile(Notice viewNotice);
+	public CsFile getFile(CsFile csFile);
+
+	public Object getSearchPaging(Search search);
+
+	public int getTotal(Search search);
+
+	public CsFile getNoticeFile(Notice viewNotice);
+
+	public CsFile getQnaFile(QnA viewQna);
 }

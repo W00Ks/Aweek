@@ -6,27 +6,45 @@
 
 <c:import url="./layout/adminheader.jsp" />
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
 <script type="text/javascript">
 
-$(document).ready(() => {
-
-	$("#btnClick").click(() => {
-		
-		console.log("#btnClick")
-	})
-})
-
-function search() {
-	let searchForm = document.searchForm;
-	let memberSearch = document.getElementById('memberSearch').value;
+$(document).ready(function() {
 	
-	if(memberSearch == "") {
-		alert("검색어를 입력해주세요.");
-		return;
-	}
-}
+	let moveForm = $("#moveForm");
+	$(".move")
+		.on(
+			"click",
+			function(e) {
+				e.preventDefault();
+				moveForm.empty();
+				moveForm
+						.append("<input type='hidden' name='userNo' value='"
+								+ $(this).attr("href") + "'>");
+				moveForm.attr("action", "/admin/memberlist");
+				moveForm.submit();
+			});
+	
+	$(".pageInfo a").on("click", function(e) {
+		e.preventDefault();
+		moveForm.find("input[name='pageNum']").val($(this).attr("href"));
+		moveForm.attr("action", "/admin/memberlist");
+		moveForm.submit();
+	});
+	
+	$(".search_area button").on("click", function(e) {
+		e.preventDefault();
+		let type = $(".search_area select").val();
+		let keyword = $(".search_area input[name='keyword']").val();
+		if (!keyword) {
+			alert("키워드를 입력하세요.");
+			return false;
+		}
+		moveForm.find("input[name='type']").val(type);
+		moveForm.find("input[name='keyword']").val(keyword);
+		moveForm.find("input[name='pageNum']").val(1);
+		moveForm.submit();
+	});
+})
 
 </script>
 
@@ -38,6 +56,10 @@ table {
 
 table, th {
 	text-align: center;
+}
+
+th, td {
+	padding: 5px;
 }
 
 th {
@@ -68,40 +90,45 @@ th {
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">회원 목록</h1>
 </div>
 
-<form action="/admin/membersearch" method="post" name="searchForm">
-	<div>
-		<h2>회원 검색</h2>
-		<select name="memberSelect">
-			<option value="userNo"<c:if test="${ memberSelect eq 'userNo' }">selected</c:if>>
-			번호</option>
-			<option value="userId">아이디</option>
-			<option value="userName">이름</option>
-		</select>
-		<input type="text" name="memberSearch" id="memberSearch" class="search-input" placeholder="search ~.~" value="${ map.keyword }">
-		<!-- <input type="submit" name="" class="into-btn"> -->
-			<button class="" id="btnClick" onclick="search()" type="submit">
-				<i class="glyphicon glyphicon-search" aria-hidden="true"></i>
-			</button>
+<div class="search_wrap">
+	<div class="search_area">
+		<select name="type" id="type">
+			<option value="userName" <c:out value="${ pageMaker.search.type eq 'userName'?'selected':'' }"/>>이름</option>
+			<option value="userId" <c:out value="${ pageMaker.search.type eq 'userId'?'selected':'' }"/>>아이디</option>
+		</select> 
+				
+			<input id="searchText" type="text" name="keyword" value="${ pageMaker.search.keyword }" placeholder="search...">
+		<button id="searchIcon"><i class="fas fa-search">검색</i></button>
 	</div>
+</div>
+
+<div class="pageInfo_wrap">
+	<div class="pageInfo_area">
+		<ul id="pageInfo" class="pageInfo">
+			<c:if test="${ pageMaker.prev }">
+				<li class="pageInfo_btn previous"><a href="${ pageMaker.startPage - 1 }">Previous</a></li>
+			</c:if>
+			<c:forEach var="num" begin="${ pageMaker.startPage }" end="${ pageMaker.endPage }">
+				<li class="pageInfo_btn ${ pageMaker.search.pageNum == num ? "active":"" }"></li>
+			</c:forEach>
+			<c:if test="${ pageMaker.next }">
+				<li class="pageInfo_btn next"><a href="${ pageMaker.endPage + 1 }">Next</a></li>
+			</c:if>
+		</ul>
+	</div>
+</div>
+
+<form id="moveForm" method="get">
+	<input type="hidden" id="userNo" name="userNo" value='<c:out value="${ pageInfo.userNo }"/>'>
+	<input type="hidden" name="pageNum" value="${ pageMaker.search.pageNum }">
+	<input type="hidden" name="amount" value="${ pageMaker.search.amount }">
+	<input type="hidden" name="keyword" value="${ pageMaker.search.keyword }">
+	<input type="hidden" name="type" value="${ pageMaker.search.type }">
 </form>
 
-<!-- <script>
-$(document).ready(function() {
-	$("#btnClick").click(function() {
-		$.ajax({
-			url: "/admin/memberlist"
-			, type: "get"
-			, data: $("#searchForm").serialize()
-			, success: function(res) {
-				console.log(res);
-			}
-			, error: function(e) {
-				console.log(e);
-			}
-		})
-	})
-})
-</script> -->
+
+
+
 
 <table style="margin: 0 auto;">
 	<thead>
@@ -113,6 +140,13 @@ $(document).ready(function() {
 	</thead>
 	
 	<tbody>
+<%-- 	<c:forEach items="${ search }" var="search">
+		<tr id="searchResult">
+			<td>${ search.userNo }</td>
+			<td><a href="${ path }/admin/memberdetail?userNo=${ search.userNo }">${ search.userId }</a></td>
+			<td>${ search.userName }</td>
+		</tr>
+	</c:forEach> --%>
 	<c:forEach items="${ memberlist }" var="member">
 		<tr>
 			<td>${ member.userNo }</td>
@@ -122,6 +156,21 @@ $(document).ready(function() {
 	</c:forEach>
 	</tbody>
 </table>
+
+<%-- <form action="/admin/memberlist" method="get">
+
+<select name="search">
+	<option value="userId" <c:out value="${ member.userId eq userId }" />>아이디</option>
+	<option value="userName">이름</option>
+</select>
+
+<input type="text" name="keyword" placeholder="검색어를 입력해주세요.">
+
+<button type="submit">검색</button>
+
+</form> --%>
+
+
 
 <c:import url="/WEB-INF/views/admin/layout/memberpaging.jsp" />
 

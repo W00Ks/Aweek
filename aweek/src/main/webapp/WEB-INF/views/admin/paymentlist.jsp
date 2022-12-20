@@ -48,11 +48,8 @@ th {
 	<thead>
 		<tr>
 			<th style="width: 50px;">번호</th>
-			<th style="width: 100px;">아이디</th>
-			<th style="width: 150px;">결제 금액</th>
-			<th style="width: 150px;">결제 수단</th>
-			<th style="width: 150px;">날짜</th>
-			<th style="width: 100px;">내용</th>
+			<th style="width: 275px;">아이디</th>
+			<th style="width: 275px;">이름</th>
 		</tr>
 	</thead>
 	
@@ -60,11 +57,8 @@ th {
 	<c:forEach items="${ paymentlist }" var="payment">
 		<tr>
 			<td>${ payment.payNo }</td>
-			<td><a href="">${ member.userId }</a></td>
-			<td>${ payment.paymentAmount }</td>
-			<td>${ payment.paymentMethod }</td>
-			<td>${ payment.paymnetDate }</td>
-			<td>${ payment.reslutstatus }</td>
+			<td><a href="/admin/paymentdetail?payNo=?"${ payment.payNo }>${ member.userId }</a></td>
+			<td>${ member.userName }</td>
 		</tr>
 	</c:forEach>
 	</tbody>

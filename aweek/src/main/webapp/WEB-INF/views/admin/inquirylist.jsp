@@ -8,13 +8,6 @@
 
 <script type="text/javascript">
 
-$(document).ready(function() {
-	
-	$("#btnWrite").click(function() {
-		location.href = "/admin/inquirywrite"
-	})
-})
-
 </script>
 
 <style type="text/css">
@@ -61,12 +54,19 @@ th {
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">1:1 문의</h1>
 </div>
 
+<div>
+	<a class="btnOld" class="totallist">오래된 순</a>
+	<a class="btnNew" class="totallist">최신 순</a>
+	<a class="btnTitle" class="totallist">제목 순</a>
+</div>
+
 <table style="margin: 0 auto;">
 	<thead>
 		<tr>
 			<th style="width: 50px;">번호</th>
+			<th style="width: 200px;">제목</th>
 			<th style="width: 100px;">아이디</th>
-			<th style="width: 150px;">제목</th>
+			<th style="width: 100px;">이름</th>
 			<th style="width: 150px;">문의날짜</th>
 			<th style="width: 150px;">답변 날짜</th>
 			<th style="width: 100px;">처리 상태</th>
@@ -86,8 +86,6 @@ th {
 	</c:forEach>
 	</tbody>
 </table>
-
-<hr>
 
 <c:import url="/WEB-INF/views/admin/layout/inquirypaging.jsp" />
 

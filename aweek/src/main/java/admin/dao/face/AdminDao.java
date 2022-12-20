@@ -3,8 +3,9 @@ package admin.dao.face;
 import java.util.List;
 
 import admin.dto.Admin;
+import admin.dto.Search;
 import common.Paging;
-import cs.dto.File;
+import cs.dto.CsFile;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
@@ -204,27 +205,23 @@ public interface AdminDao {
 	public void deleteQna(QnA qna);
 
 	/**
-	 * 회원 검색 기능
-	 * 
-	 * @param memberSelect
-	 * @param keyword
-	 * @return
-	 */
-	public List<Member> memberSearch(Member member);
-
-	/**
 	 * 파일 번호를 이용하여 첨부파일 정보를 조회
 	 * 
-	 * @param file - 조회할 첨부파일 객체
+	 * @param csFile - 조회할 첨부파일 객체
 	 * @return - 조회된 첨부파일 정보
 	 */
-	public File selectCsFileByCsFileNo(File file);
-	
-	/**
-	 * 공지사항 번호를 이용하여 첨부파일 정보를 조회
-	 * 
-	 * @param viewNotice - 조회된 공지사항 번호
-	 * @return - 조회된 첨부파일 정보
-	 */
-	public File selelctNoticeFileByNoticeNo(Notice viewNotice);
+	public CsFile selectCsFileByCsFileNo(CsFile csFile);
+
+	public List<Member> getSearchPaging(Search search);
+
+	public int getTotal(Search search);
+
+	public CsFile selelctCsFileByNoticeNo(Notice viewNotice);
+
+	public CsFile selelctCsFileByQnaNo(QnA viewQna);
+
+	public void insertNoticeFile(CsFile csFile);
+
+	public void deleteNoticeFile(Notice notice);
+
 }

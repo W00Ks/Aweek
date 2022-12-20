@@ -47,7 +47,7 @@
 		SELECT room_no FROM room
 		ORDER BY room_no
 	</select>
-	
+
 	<select id="selectMemberList" resultType="member.dto.Member" parameterType="common.Paging">
 		SELECT * FROM (
 			SELECT rownum rnum, M.* FROM (
@@ -61,6 +61,83 @@
 		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
 	</select>
 
+	<sql id="search">
+		<trim prefix="AND (" suffix=")" prefixOverrides="OR">
+			<foreach collection="typeArr" item="type">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'name'.toString()">
+							user_name LIKE '%' || #{ keyword } || '%'
+						</when>
+						
+						<when test="type == 'id'.toString()">
+							user_id LIKE '%' || #{ keyword } || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<select id="getSearchPaging" resultType="member.dto.Member">
+		<![CDATA[
+			SELECT user_no, user_name, user_id FROM (
+				SELECT rownum as rn, user_no, user_name, user_id
+				FROM member WHERE rownum <= #{ pageNum } * #{ amount }
+		]]>
+			<if test="keyword != null">
+				<include refid="search"></include>
+			</if>
+		<![CDATA[
+			) WHERE rn > (#{ pageNum } -1) * #{ amount }
+		]]>
+	</select>
+
+	<select id="getTotal" resultType="int">
+		SELECT count(*) FROM member
+		
+		<if test="keyword != null">
+			WHERE user_no > 0 <include refid="search"></include>
+		</if>
+	</select>
+
+<!--
+<select id="selectMemberList" resultType="member.dto.Member" parameterType="common.Paging">
+		
+		<include refid="paging_header" />
+			SELECT user_no, user_id, user_name FROM member
+			
+		<include refid="search" />
+			ORDER BY user_no DESC
+			
+		<include refid="paging_footer" />
+	</select>
+	
+		<sql id="paging_header">
+			SELECT * FROM (
+				SELCT rownum as rn, A.*
+				FROM (
+		</sql>
+		
+		<sql id="paging_footer">
+				) A
+			) WHERE rn BETWEEN #{ startNo } AND #{ endNo }
+		</sql>
+		
+		<sql id="search">
+			<choose>
+	
+				<when test="search_option == 'all'">
+					WHERE
+						userId like '%' || #{ keyword } || '%'
+						or userName LIKE '%' || #{ keyword } || '%'
+				</when>
+				<otherwise>
+					WHERE ${ search_option } LIKE '%' || #{ keyword } || '%'
+				</otherwise>
+			</choose>
+		</sql>
+-->
 	<select id="selectPaymentList" resultType="payment.dto.Payment" parameterType="common.Paging">
 		SELECT pay_no, pay_type FROM payment
 		ORDER BY pay_no
@@ -113,7 +190,7 @@
 	
 	<select id="selelctNoticeView" resultType="cs.dto.Notice" parameterType="cs.dto.Notice">
 		SELECT
-			notice_no, file_no, writer_id, writer_nick, notice_title, notice_content, notice_date
+			notice_no, file_no, writer_id, writer_nick, notice_title, notice_content, notice_date, notice_hit
 		FROM notice
 		WHERE notice_no = #{ noticeNo }
 	</select>
@@ -124,61 +201,21 @@
 		FROM qna
 		WHERE qna_no = #{ qnaNo }
 	</select>
-<!-- 	
-	<select id="memberSearch" resultType="member.dto.Member">
-		SELECT user_no, user_id, user_name FROM member
-		<include refid="search"></include>
-		ORDER BY user_no DESC
+	
+	<select id="selectCsFileByCsFileNo" resultType="cs.dto.CsFile" parameterType="cs.dto.CsFile">
+		SELECT
+			file_no, notice_no, qna_no, origin_name, stored_name
+		FROM cs_file
+		WHERE file_no = #{ fileNo }
 	</select>
 	
-	<sql id="search">
-		<choose>
-			<when test="memberSelect == 'all'">
-				WHERE user_no LIKE '%' || #{ userNo } || '%'
-				AND user_id LIKE '%' || #{ userId } || '%'
-				AND user_name LIKE '%' || #{ userName } || '%'
-			</when>
-			<otherwise>
-				WHERE ${ memberSelect } LIKE '%' || #{ keyword } || '%'
-			</otherwise>
-		</choose>
-	</sql>
-		(
-				SELECT user_no, user_id, user_name FROM member
-  					WHERE user_no LIKE '%' || '${ userNo }' || '%'
-					AND user_id LIKE '%' || '${ userId }' || '%'
-					AND user_name LIKE '%' || '${ userName }' || '%'
- 			) member
-		ORDER BY user_no DESC;
- -->	
-<!--  
- 	<select id="memberSearch" parameterType="member.dto.Member">
-		SELECT user_no, user_id, user_name
-			FROM (
-				SELECT user_no, user_id, user_name FROM member
-					WHERE user_no LIKE '%' || '${ userNo }' || '%'
-					AND user_id LIKE '%' || '${ userId }' || '%'
-					AND user_name LIKE '%' || '${ userName }' || '%'
-			) member
-		ORDER BY user_no DESC;
- 	</select>
- --> 	
-
-	<select id="selectCsFileByCsFileNo" resultType="cs.dto.File" parameterType="cs.dto.File">
+	<select id="selelctCsFileByNoticeNo" resultType="cs.dto.CsFile" parameterType="cs.dto.Notice">
 		SELECT
-			file_no, origin_name, stored_name
+			file_no, notice_no, origin_name, stored_name
 		FROM cs_file
-		WHERE file_no = #{ fileNo }
+		WHERE notice_no = #{ noticeNo }
 	</select>
-
-	<select id="selelctNoticeFileByNoticeNo" resultType="cs.dto.File" parameterType="cs.dto.File">
-		SELECT
-			file_no, origin_name, stored_name
-		FROM cs_file
-		WHERE file_no = #{ fileNo }
-	</select>
-
-
+	
 <!-- - - - - - - - - - - INSERT - - - - - - - - - - -->
 
 	<insert id="insertNotice" parameterType="cs.dto.Notice">
@@ -198,13 +235,19 @@
 		INSERT INTO qna ( qna_no, writer_id, writer_nick, qna_title, qna_content, qna_date )
 		VALUES ( #{ qnaNo }, #{ writerId }, #{ writerNick }, #{ qnaTitle }, #{ qnaContent }, SYSDATE )
 	</insert>
-
+	
+	<insert id="insertNoticeFile" parameterType="cs.dto.CsFile">
+		INSERT INTO cs_file ( file_no, notice_no, qna_no, origin_name, stored_name )
+		VALUES ( cs_file_seq.nextval, #{ noticeNo }, #{ qnaNo}, #{ originName }, #{ storedName } )
+	</insert>
+	
 <!-- - - - - - - - - - - UPDATE - - - - - - - - - - -->
 
 	<update id="updateNotice" parameterType="cs.dto.Notice">
 		UPDATE notice
 		SET notice_title = #{ noticeTitle }
 			, notice_content = #{ noticeContent }
+			, notice_date = SYSDATE
 		WHERE notice_no = #{ noticeNo }
 	</update>
 
@@ -231,6 +274,11 @@
 	<delete id="deleteQna" parameterType="cs.dto.QnA">
 		DELETE qna
 		WHERE qna_no = #{ qnaNo }
+	</delete>
+	
+	<delete id="deleteNoticeFile" parameterType="cs.dto.Notice">
+		DELETE cs_file
+		WHERE notice_no = #{ noticeNo }
 	</delete>
 
 </mapper>

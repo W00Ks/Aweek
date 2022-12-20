@@ -149,9 +149,9 @@ ul.nav > li > ul > li > a:hover {
 	<li>
 		<span>회원 정보</span>
 		<ul>
-			<li><a href="/admin/memberlist">회원 목록</a>
-			<li><a href="/admin/roomlist">방 목록</a>
+			<li><a href="/admin/memberlist">회원 목록</a></li>
 			<li><a href="/admin/paymentlist">결제 목록</a></li>
+			<li><a href="/admin/roomlist">방 목록</a></li>
 		</ul>
 	</li>
 	

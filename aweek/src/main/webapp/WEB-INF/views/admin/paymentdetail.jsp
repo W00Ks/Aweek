@@ -6,10 +6,6 @@
 
 <c:import url="./layout/adminheader.jsp" />
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,200" />
-
 <style type="text/css">
 
 table {
@@ -46,14 +42,6 @@ td {
     margin-top: 30px;
     border-radius: 2.1em;
     margin-bottom: 50px;
-}
-
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 200,
-  'GRAD' 200,
-  'opsz' 24
 }
 
 </style>
