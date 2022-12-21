@@ -30,7 +30,8 @@ public class ChatController {
 
 	//로그객체
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+	
+	//서비스 객체
 	@Autowired private ChatService chatService;
 	
 	@RequestMapping("/login")
@@ -64,8 +65,8 @@ public class ChatController {
 		
 	}
 	
-	@PostMapping("/create")
 	@ResponseBody
+	@PostMapping("/create")
 	public int chatCreate(ChatRoom chatRoom, int inviteUserNo, HttpSession session, Model model) {
 		logger.info("+ Create Chat Room : {}", chatRoom);
 		logger.info("+ inviteUserNo : {}", inviteUserNo);
@@ -85,55 +86,68 @@ public class ChatController {
 	
 	@RequestMapping("/enter")
 	public void chatEnter(int chatRoomNo, HttpSession session, Model model) {
-		logger.info("+ + + Enter Chat Room - chatRoomNo : {} + + +", chatRoomNo);
+		logger.info("+ Enter Chat Room >> chatRoomNo : {}", chatRoomNo);
+		
+		//채팅방 번호 session에 저장
+		session.setAttribute("chatRoomNo", chatRoomNo);
 		
 		//회원 번호
-		session.setAttribute("chatRoomNo", chatRoomNo);
 		int userNo = (int)session.getAttribute("userNo");
 		
 		//회원 정보 조회
 		Member member = chatService.getUserInfo(userNo);
-		logger.info("member == {}", member);
+		logger.info("+ Member DTO : {}", member);
 		
 		//채팅 내역 조회
 		List<Chat> chatHistory = chatService.getChatHistory(chatRoomNo, userNo);  
-		logger.info("채팅 내역 조회 : {}", chatHistory);
-		logger.info("asdasdaschatRoomNo : {}", chatRoomNo);
+		logger.info("+ chatRoomNo : {}", chatRoomNo);
+		logger.info("+ chatHistory : {}", chatHistory);
 		
 		//회원의 프로필 사진 조회
 		ChatProfile chatProfile = chatService.getProfileInfo(userNo);
-		logger.info("chatProfile : {}", chatProfile);
+		logger.info("+ chatProfile : {}", chatProfile);
 		
+		//모델 값 전달
 		model.addAttribute("member", member);
 		model.addAttribute("chatHistory", chatHistory);
 		model.addAttribute("chatProfile", chatProfile);
 	}
 	
-	@PostMapping("/insert")
 	@ResponseBody
+	@PostMapping("/insert")
 	public int chatInsert(Chat chat, HttpSession session) {
-		logger.info("+ + + Insert chat message : {} + + +", chat);
+		logger.info("+ Insert chat message : {}", chat);
+		
+		//회원 번호
 		int userNo = (int)session.getAttribute("userNo");
+		
+		//전송된 채팅을 DB에 저장
 		int result = chatService.saveMessage(chat, userNo);
 		
+		//INSERT 결과 전달
 		return result;
 	}
 	
 	@RequestMapping("/mainRight")
 	public void chatMainRight() {
-		logger.info("+ + + Leave Chat Room + + +");
+		logger.info("+ Leave Chat Room...");
 	}
 	
-	@PostMapping("/fileUpload")
 	@ResponseBody
+	@PostMapping("/fileUpload")
 	public ChatFile fileUpload(HttpSession session, MultipartFile file) {
-		int userNo = (int)session.getAttribute("userNo");
-		int chatRoomNo = (int)session.getAttribute("chatRoomNo");
-		logger.info("{}", file);
-		logger.info("chatRoomNo {}", chatRoomNo);
+		logger.info("+ file : {}", file);
 		
+		//회원 번호
+		int userNo = (int)session.getAttribute("userNo");
+		
+		//채팅방 번호
+		int chatRoomNo = (int)session.getAttribute("chatRoomNo");
+		
+		//파일 업로드 후 성공 시 정보 반환
 		ChatFile chatFile = chatService.chatFileUpload(file, chatRoomNo, userNo);
 		
+		//AJAX 결과 전달
 		return chatFile;
 	}
 	
@@ -142,7 +156,7 @@ public class ChatController {
 		
 		//첨부파일 정보 객체
 		chatFile = chatService.getFile(chatFile);
-		logger.debug("{}", chatFile);
+		logger.debug("+ chatFile : {}", chatFile);
 		
 		//모델값 전달
 		model.addAttribute("downFile", chatFile);
@@ -150,13 +164,16 @@ public class ChatController {
 		return "chatDown";
 	}
 	
-	@PostMapping("/profileUpload")
 	@ResponseBody
+	@PostMapping("/profileUpload")
 	public ChatProfile profileUpload(HttpSession session, MultipartFile file) {
-		logger.info("{}", file);
-		ChatProfile chatProfile = chatService.profileUpload(file, session);
+		logger.info("+ profile file : {}", file);
 		
+		//프로필 파일 DB에 저장
+		ChatProfile chatProfile = chatService.profileUpload(file, session);
 		logger.info("chatProfile {}", chatProfile);
+		
+		//AJAX 결과 반환
 		return chatProfile;
 	}
 	

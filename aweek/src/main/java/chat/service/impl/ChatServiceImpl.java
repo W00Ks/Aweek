@@ -27,6 +27,7 @@ import chat.dto.ChatList;
 import chat.dto.ChatProfile;
 import chat.dto.ChatRoom;
 import chat.service.face.ChatService;
+import edu.emory.mathcs.backport.java.util.Arrays;
 import member.dto.Member;
 import room.dto.RoomList;
 
@@ -36,8 +37,10 @@ public class ChatServiceImpl implements ChatService {
 	//로그객체
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+	//DAO 객체
 	@Autowired private ChatDao chatDao;
 	
+	//객체 주소값 추출 객체
 	@Autowired private ServletContext context;
 	
 	@Override
@@ -86,7 +89,7 @@ public class ChatServiceImpl implements ChatService {
 		
 		//채팅방 INSERT
 		chatDao.insertChatRoom(chatRoom);
-		System.out.println("insert 후 dto 정보 : " + chatRoom);
+		System.out.println("INSERT 후 DTO 정보 : " + chatRoom);
 		
 		//INSERT한 데이터 ChatList DTO에 담기
 		ChatList chatList = new ChatList();
@@ -185,13 +188,24 @@ public class ChatServiceImpl implements ChatService {
 		//이미 프로필 등록한 적 있는지 확인
 		int res = chatDao.isAlreadyProf(userNo);
 		
+		if(res == 0) { //등록한 프로필이 없을 때
+			return profileUpload(file, userNo, "insert");
+		} else { //등록한 프로필이 이미 존재할 때
+			return profileUpload(file, userNo, "update");
+		}
+		
+	}
+	
+	//프로필 파일 등록 메소드
+	public ChatProfile profileUpload(MultipartFile file, int userNo, String type) {
+		
 		ChatProfile chatProfile;
 		
-		
-		if(res == 0) { //등록한 프로필이 없을 때
+		if(type.equals("insert")) {
 			
 			//첨부파일 처리
 			String[] names = getFileNames(file);
+			logger.info("names : {}", Arrays.toString(names));
 			logger.info("originName: {}, storedName: {}", names[0], names[1]);
 			
 			//파일 정보 INSERT
@@ -205,13 +219,14 @@ public class ChatServiceImpl implements ChatService {
 			
 			return chatProfile;
 			
-		} else { //등록한 프로필이 이미 존재할 때
+		} else if(type.equals("update")) { 
 			
 			//첨부파일 처리
 			String[] names = getFileNames(file);
+			logger.info("names : {}", Arrays.toString(names));
 			logger.info("originName: {}, storedName: {}", names[0], names[1]);
 			
-			//파일 정보 INSERT
+			//파일 정보 UPDATE
 			chatProfile = new ChatProfile();
 			chatProfile.setUserNo(userNo);
 			chatProfile.setChatProfileOriginName(names[0]);
@@ -223,6 +238,7 @@ public class ChatServiceImpl implements ChatService {
 			return chatProfile;
 		}
 		
+		return null;
 	}
 	
 	//파일 정보를 가져오는 메소드

@@ -58,8 +58,8 @@
        
        var enter = data.split(" "); 	//입장 메시지인지 확인
        var uid = data.split(":"); 		//유저 아이디 확인
-       var roomMsg = data.split(":");	//방 생성 메시지인지 확인
-       var emoMsg = data.split(":");
+       var roomMsg = data.split(":");	//방 생성 메시지 확인
+       var emoMsg = data.split(":");	//이모티콘 메시지 확인
        
        //--- 입장/퇴장 메시지 처리 ---
        if(enter[1] == "입장하셨습니다." && roomMsg[0] != "Create Room") {
@@ -151,6 +151,7 @@
 			   		var profileImg = "<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>"
 			   	} else {
 			   		var profileImg = "<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/" + prof[1] + "'>"
+	        		$('.setProflieImgWS').attr('src', '${pageContext.request.contextPath}/upload/' + prof[1]);
 			   	}
 			   	
 			   	//메시지 폼 추가
@@ -162,7 +163,6 @@
         									+ "</div>" 
         								+ "</div>");
     	    	
-        		$('.setProflieImgWS').attr('src', '${pageContext.request.contextPath}/upload/' + prof[1]);
 			   	
     	    } else { //First Message Processing
     	    	
@@ -175,6 +175,7 @@
 			   		var profileImg = "<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>"
 			   	} else {
 			   		var profileImg = "<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/" + prof[1] + "'>"
+	        		$('.setProflieImgWS').attr('src', '${pageContext.request.contextPath}/upload/' + prof[1]);
 			   	}
 			   	
 			  	//메시지 폼 추가
@@ -234,6 +235,7 @@
 		   		var profileImg = "<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>"
 		   	} else {
 		   		var profileImg = "<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/" + roomMsg[4] + "'>"
+		   		$('.setProflieImgWS').attr('src', '${pageContext.request.contextPath}/upload/' + roomMsg[4]);
 		   	}
       		
       		if(roomMsg[5] == "${member.userId }") {
@@ -278,6 +280,7 @@
 		   		var profileImg = "<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>"
 		   	} else {
 		   		var profileImg = "<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/" + roomMsg[4] + "'>"
+		   		$('.setProflieImgWS').attr('src', '${pageContext.request.contextPath}/upload/' + roomMsg[4]);
 		   	}
       		
 			if(roomMsg[5] == "${member.userId }") {
@@ -325,6 +328,7 @@
 		   		var profileImg = "<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>"
 		   	} else {
 		   		var profileImg = "<img class='setProflieImgWS imgs' alt='prof' src='${pageContext.request.contextPath}/upload/" + prof[1] + "'>"
+		   		$('.setProflieImgWS').attr('src', '${pageContext.request.contextPath}/upload/' + prof[1]);
 		   	}
         	
         	//내가 보낸 이모티콘
