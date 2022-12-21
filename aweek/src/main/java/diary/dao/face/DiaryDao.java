@@ -7,8 +7,10 @@ import diary.dto.Diary;
 import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
 import diary.dto.DiaryFavorite;
+import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
+import diary.dto.DiaryUserRecomm;
 import member.dto.Member;
 import room.dto.Room;
 import room.dto.RoomList;
@@ -188,5 +190,104 @@ public interface DiaryDao {
 	 * @param list - 모임번호, 사용자번호가 포함된 DiaryAdmin DTO List
 	 */
 	public void insertDiaryAdmin(List<DiaryAdmin> list);
+
+	/**
+	 * 로그인 사용자의 읽지 않은 공지 행 수 조회
+	 * 
+	 * @param userNo - 로그인 사용자 번호
+	 * @return 안읽은 공지 cnt(행) 수
+	 */
+	public int selectDiaryNoticeRead(int userNo);
+
+	/**
+	 * 선택된 카테고리 정보 조회
+	 * 
+	 * @param diaryCateNo - 선택된 카테고리 번호
+	 * @return 카테고리 정보가 포함된 DTO
+	 */
+	public DiaryCategory selectDiaryCategoryInfo(int diaryCateNo);
+
+	/**
+	 * 사용자 번호로 정보 조회
+	 * 
+	 * @param userNo - 사용자 번호
+	 * @return 사용자 정보
+	 */
+	public Member selectMemberName(int userNo);
+
+	/**
+	 * 모임 설정된 조회수 조회
+	 * 
+	 * @param writeroomNo - 모임 번호
+	 * @return 모임 조회수 설정값 반환
+	 */
+	public DiaryHot selectDiaryHot(int writeroomNo);
+
+	/**
+	 * 게시글 데이터 삽입
+	 * 
+	 * @param diary - 게시글 정보 DTO
+	 */
+	public void insertDiary(Diary diary);
+
+	/**
+	 * 게시글 번호 조회
+	 * 
+	 * @param diary - 게시글 정보 DTO
+	 * @return 게시글 번호 반환
+	 */
+	public int selectDiaryNo(Diary diary);
+
+	/**
+	 * 파일 데이터 DB 삽입
+	 * 
+	 * @param filetest - 파일 정보
+	 */
+	public void insertFile(DiaryFile filetest);
+
+	/**
+	 * 게시글 조회수 증가
+	 * 
+	 * @param diaryNo - 게시글 번호
+	 */
+	public void hit(int diaryNo);
+
+	/**
+	 * 게시글 정보 조회
+	 * 
+	 * @param diaryNo - 게시글 번호
+	 * @return 게시글 정보 DTO
+	 */
+	public Diary selectDiary(int diaryNo);
+
+	/**
+	 * 게시글 첨부파일 조회
+	 * 
+	 * @param diary - 게시글 정보
+	 * @return 게시글 첨부파일 DTO
+	 */
+	public DiaryFile selectFile(Diary diary);
+
+	/**
+	 * 사용자 당일 추천 여부 조회
+	 * 
+	 * @param userNo - 사용자 번호
+	 * @return 사용자 추천 여부값
+	 */
+	public DiaryUserRecomm selectDiaryUserRecomm(int userNo);
+
+	/**
+	 * 해당 게시글 추천수 1 증가
+	 * 
+	 * @param diaryNo - 해당 게시글
+	 */
+	public void updateRecomm(int diaryNo);
+
+	/**
+	 * 해당 사용자 일일추천값 0으로 변경
+	 * 
+	 * @param userNo - 사용자 번호
+	 */
+	public void updateUserRecomm(int userNo);
 
 }

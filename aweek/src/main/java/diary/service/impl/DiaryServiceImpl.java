@@ -1,21 +1,32 @@
 package diary.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import diary.dao.face.DiaryDao;
 import diary.dto.Diary;
 import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
 import diary.dto.DiaryFavorite;
+import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
+import diary.dto.DiaryUserRecomm;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -26,6 +37,9 @@ public class DiaryServiceImpl implements DiaryService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired DiaryDao diaryDao;
+	
+	// 서블릿 컨텍스트 객체
+	@Autowired ServletContext context;
 
 	@Override
 	public boolean login(Member member) {
@@ -163,6 +177,124 @@ public class DiaryServiceImpl implements DiaryService {
 		
 		diaryDao.insertDiaryAdmin(list);
 		
+	}
+
+	@Override
+	public int userNoticeCount(int userNo) {
+		return diaryDao.selectDiaryNoticeRead(userNo);
+	}
+
+	@Override
+	public DiaryCategory categoryInfo(int diaryCateNo) {
+		return diaryDao.selectDiaryCategoryInfo(diaryCateNo);
+	}
+
+	@Override
+	public int write(int diaryCateNo2, int userNo, int writeroomNo, String title, String content, int publicresult) {
+		
+		// 임의의 날짜를 지정하는 코드
+        String dateStr = "1995년 5월 5일 05시 05분 05초";
+        
+        // 포맷터
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초");
+ 
+        // 문자열 -> Date
+        Date date = null;
+		try {
+			date = formatter.parse(dateStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		// 사용자 이름 조회
+		Member member = diaryDao.selectMemberName(userNo);
+		String userName = member.getUserName();
+		
+		// 모임 이름 조회
+		Room room = diaryDao.selectRoomName(writeroomNo);
+		String roomName = room.getRoomName();
+		
+		// 모임 조회수 설정값 조회
+		DiaryHot diaryHot = diaryDao.selectDiaryHot(writeroomNo);
+		int roomHot = diaryHot.getDiaryHot();
+		
+		Diary diary = new Diary(0, diaryCateNo2, userNo, writeroomNo, title, content, date, 0, publicresult, 0, 0, userName, roomName, "", roomHot);
+		
+		diaryDao.insertDiary(diary);
+		
+		return diaryDao.selectDiaryNo(diary);
+	}
+
+	@Override
+	public void fileSave(MultipartFile file, int diaryNo) {
+		
+		// 파일의 크기가 0일 때 파일 업로드 처리 중단
+		if( file.getSize() <= 0 ) {
+			logger.trace("##### file size <= 0");
+					
+			return; // 메소드 끝내버리기
+		}
+		
+		// 파일이 저장될 경로 (RealPath)
+		String storedPath = context.getRealPath("upload");
+		logger.trace("##### storedPath : {}", storedPath);
+		
+		// upload폴더가 존재하지 않으면 생성한다
+		File storedFolder = new File(storedPath);
+		storedFolder.mkdir();
+		
+		// 저장될 파일 이름 생성하기
+		String storedName = file.getOriginalFilename(); // 원본파일명
+		storedName += UUID.randomUUID().toString().split("-")[0]; // 랜덤문자 삽입
+		logger.trace("##### storedName : {}", storedName);
+		
+		// 실제 저장될 파일 객체
+		File dest = new File(storedFolder, storedName);
+		
+		try {
+			// 업로드된 파일을 upload폴더에 저장하기
+			file.transferTo(dest);
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		// DB에 기록할 정보 객체 - DTO
+		DiaryFile filetest = new DiaryFile();
+		
+		filetest.setDiaryNo(diaryNo);
+		filetest.setDiaryOriginName(file.getOriginalFilename());
+		filetest.setDiaryStoredName(storedName);
+		filetest.setDiaryFileSize((int) file.getSize());
+		
+		diaryDao.insertFile( filetest );
+		
+	}
+
+	@Override
+	public Diary view(int diaryNo) {
+		diaryDao.hit(diaryNo);
+		
+		return diaryDao.selectDiary(diaryNo);
+	}
+
+	@Override
+	public DiaryFile viewFile(Diary diary) {
+		return diaryDao.selectFile(diary);
+	}
+
+	@Override
+	public DiaryUserRecomm userRecomm(int userNo) {
+		return diaryDao.selectDiaryUserRecomm(userNo);
+	}
+
+	@Override
+	public void diaryRecomm(int diaryNo) {
+		diaryDao.updateRecomm(diaryNo);
+	}
+
+	@Override
+	public void downUserRecomm(int userNo) {
+		diaryDao.updateUserRecomm(userNo);
 	}
 
 }

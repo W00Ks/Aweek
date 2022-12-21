@@ -60,7 +60,7 @@
 		<foreach collection="list" item="item" separator="OR">
 				d.room_no = #{item.roomNo}
 		</foreach>
-		) ORDER BY d.diary_date
+		) ORDER BY d.diary_date DESC
 	</select>
 	
 	<select id="selectDiaryRecomm" resultType="diary.dto.Diary" parameterType="room.dto.Room">
@@ -69,11 +69,11 @@
 		LEFT OUTER JOIN room r ON d.room_no = r.room_no
 		LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
 		LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
-		WHERE diary_cate_name != '공지사항' AND (
+		WHERE (
 		<foreach collection="list" item="item" separator="OR">
 				d.room_no = #{item.roomNo}
 		</foreach>
-		) AND d.diary_recommend >= h.diary_hot ORDER BY d.diary_date
+		) AND d.diary_recommend >= h.diary_hot ORDER BY d.diary_date DESC
 	</select>
 	
 	<select id="selectDiaryCurrent" resultType="diary.dto.Diary" parameterType="room.dto.Room">
@@ -86,7 +86,7 @@
 		<foreach collection="list" item="item" separator="OR">
 				d.room_no = #{item.roomNo}
 		</foreach>
-		) ORDER BY d.diary_date
+		) ORDER BY d.diary_date DESC
 	</select>
 	
 	<select id="selectAdminRoom" resultType="room.dto.Room" parameterType="int">
@@ -172,5 +172,80 @@
 			</foreach>
 		SELECT * FROM dual
 	</insert>
+	
+	<select id="selectDiaryNoticeRead" resultType="int" parameterType="int">
+		SELECT count(*) cnt FROM diary_notice_read
+		WHERE user_no = #{userNo}
+		AND notice_read = 1
+	</select>
+	
+	<select id="selectDiaryCategoryInfo" resultType="diary.dto.DiaryCategory" parameterType="int">
+		SELECT * FROM diary_category
+		WHERE diary_cate_no = #{diaryCateNo}
+	</select>	
+	
+	<select id="selectMemberName" resultType="member.dto.Member" parameterType="int">
+		SELECT * FROM member
+		WHERE user_no = #{userNo}
+	</select>	
+	
+	<select id="selectDiaryHot" resultType="diary.dto.DiaryHot" parameterType="int">
+		SELECT * FROM diary_hot
+		WHERE room_no = #{roomNo}
+	</select>
+	
+	<insert id="insertDiary" parameterType="diary.dto.Diary">
+		INSERT INTO diary ( diary_no, diary_cate_no, user_no, room_no, diary_title, diary_content, diary_Date, diary_hit, diary_public, diary_recommend, diary_best )
+		VALUES ( diary_seq.nextval, #{diaryCateNo}, #{userNo}, #{roomNo}, #{diaryTitle}, #{diaryContent}, sysdate, 0, #{diaryPublic}, 0, 0)
+	</insert>
+	
+	<select id="selectDiaryNo" resultType="int" parameterType="diary.dto.Diary">
+		SELECT diary_no FROM (
+    		SELECT rownum rnum, diary_no FROM (
+      			SELECT diary_no FROM diary
+      			WHERE user_no = #{userNo}
+        		ORDER BY diary_no DESC
+   			) b
+		) board WHERE rnum BETWEEN 1 and 1
+	</select>	
+	
+	<insert id="insertFile" parameterType="diary.dto.DiaryFile">
+		INSERT INTO diary_file ( diary_file_no, diary_no, diary_origin_name, diary_stored_name, diary_file_size, diary_file_date )
+		VALUES ( diary_file_seq.nextval, #{diaryNo}, #{diaryOriginName}, #{diaryStoredName}, #{diaryFileSize}, sysdate)
+	</insert>
+	
+	<update id="hit" parameterType="int">
+		UPDATE diary SET diary_hit = diary_hit + 1
+		where diary_no = #{diaryNo}
+	</update>
+	
+	<select id="selectDiary" resultType="diary.dto.Diary" parameterType="int">
+		SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+		FROM diary d left outer join member m ON d.user_no = m.user_no
+		LEFT OUTER JOIN room r ON d.room_no = r.room_no
+		LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+		LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+		WHERE diary_no = #{diaryNo}
+	</select>
+	
+	<select id="selectFile" resultType="diary.dto.DiaryFile" parameterType="diary.dto.Diary">
+		SELECT diary_file_no, diary_no, diary_origin_name, diary_stored_name
+		FROM diary_file WHERE diary_no = #{diaryNo}
+	</select>
+	
+	<select id="selectDiaryUserRecomm" resultType="diary.dto.DiaryUserRecomm" parameterType="int">
+		SELECT diary_recommend
+		FROM diary_user_recomm WHERE user_no = #{userNo}
+	</select>	
+	
+	<update id="updateRecomm" parameterType="int">
+		UPDATE diary SET diary_recommend = diary_recommend + 1
+		where diary_no = #{diaryNo}
+	</update>
+	
+	<update id="updateUserRecomm" parameterType="int">
+		UPDATE diary_user_recomm SET diary_recommend = 0
+		where user_no = #{userNo}
+	</update>
 
 </mapper>
