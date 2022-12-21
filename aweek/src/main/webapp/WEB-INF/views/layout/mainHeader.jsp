@@ -142,7 +142,7 @@
 								<li class="sub-title"><p>마이페이지</p>
 									<a href="/member/mySubscription"><span>마이페이지</span></a>
 									<a href="/room/main"><span>내 모임</span></a>
-									<a href="/member/myInquiry"><span>내 활동</span></a>
+									<a href="/member/myInquiryList"><span>내 활동</span></a>
 								</li>
 							</ul>
 						</div>

@@ -210,6 +210,7 @@ html, body, pre, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, li, ol, th, td, p, bloc
     margin-top: 50px;
 }
 
+
 </style>
 
 <script defer type="text/javascript">
@@ -316,10 +317,8 @@ window.addEventListener('load', function() {
 </section>
 
 
+<c:import url="./layout/mainFooter.jsp" />
 
-
-</body>
-</html>
 
 <script type="text/javascript">
 

@@ -22,11 +22,6 @@
 		BETWEEN #{startNo } AND #{endNo } 
 	</select>
 
-	<!-- <select id="selectNoticeAll" resultType="Notice">
-		select * from notice
-		order by notice_no DESC
-	</select> -->
-	
 	<update id="updateNoticeHit" parameterType="Notice">
 		UPDATE notice
 		SET notice_hit = notice_hit + 1
