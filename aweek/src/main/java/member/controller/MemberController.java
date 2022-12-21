@@ -398,7 +398,7 @@ public class MemberController {
 			long dDay = cal.getTimeInMillis();
 			long now = System.currentTimeMillis();
 			long result = dDay - now;
-			int subDDay = (int) (result / 1000 / 60 / 60 / 24);
+			long subDDay = result / 1000 / 60 / 60 / 24 + 1;
 			
 			model.addAttribute("subMonthEd", subMonthEd);
 			model.addAttribute("subDDay", subDDay);
@@ -416,7 +416,7 @@ public class MemberController {
 			long dDay = cal.getTimeInMillis();	//1000분의 1초 
 			long now = System.currentTimeMillis();
 			long result = dDay - now;
-			int subDDay = (int) (result / 1000 / 60 / 60 / 24);
+			long subDDay = result / 1000 / 60 / 60 / 24 + 1;
 			
 			model.addAttribute("subYearEd", subYearEd);
 			model.addAttribute("subDDay", subDDay);

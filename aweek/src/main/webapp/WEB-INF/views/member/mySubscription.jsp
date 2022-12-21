@@ -34,6 +34,7 @@ body {
     margin: 0 7px;
     height: 550px;
     border: 1px solid #ccc;
+    border-radius: 10px;
 	cursor: default;
 }
 
@@ -41,6 +42,8 @@ body {
 .subInfo_on {
 	border: 5px solid var(--background-color);
 }
+
+/* 미사용 */
 .subInfo_on_middle {
 	border-bottom: 5px solid var(--background-color);
 }
@@ -73,14 +76,15 @@ body {
     font-weight: 600;
     color: #555555;
     border-bottom: 1px solid #ccc;
+    position: relative;
 }
 
 /* 금액 div 첫번째 p태그 */
 .ssc_price_div p:first-child {
-	height: 30px;
-    line-height: 70px;
     font-size: 20px;
     font-weight: 600;
+    position: inherit;
+    top:25px;
 }
 
 /* 월간, 연간 구독 금액 div 첫번째 p태그 */
@@ -92,7 +96,8 @@ body {
 .ssc_price_div p:nth-child(2){
     font-size: 12px;
     font-weight: 600;
-    line-height: 55px;
+    position: inherit;
+    top: 32px;
 }
 
 /* FREE 이용 서비스 영역 div */
@@ -258,9 +263,9 @@ body {
 			<p>공용 용량 : 100GB</p>
 			<p>최대 이용자 수 : 100명</p>
 			<br>
-			<p>+++ FREE 기본 기능 포함 +++</p>
-			<p>① 공용 용량(100GB) up</p>
-			<p>② 최대 이용자 수(100명) up</p>
+			<p>+ FREE 기본 기능</p>
+			<p>공용 용량 up!</p>
+			<p>최대 이용자 수 up!</p>
 		</div>
 		<div class="ssc_month_btn_div">
 			<c:choose>
@@ -268,7 +273,7 @@ body {
 					<button class="ssc_month_cancel_btn" onclick="">구독 취소</button>
 				</c:when>
 				<c:otherwise>
-					<button class="ssc_month_sub_btn" onclick="">구독하기</button>
+					<button class="ssc_month_sub_btn" onclick="location.href='/payment/payment'">구독하기</button>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -292,9 +297,9 @@ body {
 			<p>공용 용량 : 100GB</p>
 			<p>최대 이용자 수 : 100명</p>
 			<br>
-			<p>+++ FREE 기본 기능 포함 +++</p>
-			<p>① 공용 용량(100GB) up</p>
-			<p>② 최대 이용자 수(100명) up</p>
+			<p>+ FREE 기본 기능</p>
+			<p>공용 용량 up!</p>
+			<p>최대 이용자 수 up!</p>
 		</div>
 		<div class="ssc_year_btn_div">
 			<c:choose>
@@ -302,7 +307,7 @@ body {
 					<button class="ssc_year_cancel_btn" onclick="">구독 취소</button>
 				</c:when>
 				<c:otherwise>
-					<button class="ssc_year_sub_btn" onclick="">구독하기</button>
+					<button class="ssc_year_sub_btn" onclick="location.href='/payment/payment'">구독하기</button>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -323,14 +328,17 @@ $(document).ready(function() {
 	
 	if('${subInfo.productNo}' == 1) {
 		$("#sscFreeContainer").addClass('subInfo_on');
+		$("#sscFreeTopGuideTxt").children().first().css('color', 'var(--background-color)');
 // 		$("#sscFreeTopGuideTxt").css('border-bottom', '5px solid var(--background-color)');
 // 		$("#sscFreePriceDiv").css('border-bottom', '5px solid var(--background-color)');
 	} else if ('${subInfo.productNo}' == 2) {
 		$("#sscMonthContainer").addClass('subInfo_on');
+		$("#sscMonthTopGuideTxt").children().first().css('color', 'var(--background-color)');
 // 		$("#sscMonthTopGuideTxt").css('border-bottom', '5px solid var(--background-color)');
 // 		$("#sscMonthPriceDiv").css('border-bottom', '5px solid var(--background-color)');
 	} else if ('${subInfo.productNo}' == 3) {
 		$("#sscYearContainer").addClass('subInfo_on');
+		$("#sscYearTopGuideTxt").children().first().css('color', 'var(--background-color)');
 // 		$("#sscYearTopGuideTxt").css('border-bottom', '5px solid var(--background-color)');
 // 		$("#sscYearPriceDiv").css('border-bottom', '5px solid var(--background-color)');
 	}
