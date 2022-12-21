@@ -37,6 +37,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	// Key : userId, Value : WebSocketSession
 	Map<String, WebSocketSession> idSessions = new HashMap<>();
 	
+	// Key : chatRoomNo+":"+userNo, Value : userId (중복 입장 처리용)
 	Map<String, String> roomId = new HashMap<>();
 	
 	//메시지 보낸사람 ID를 담을 Stack
@@ -51,8 +52,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		if(session.getAttributes().get("chatRoomNo") != null) {
 	
 			//HttpSesssion에서 저장된 정보 가져오기
-			int userNo = (int) session.getAttributes().get("userNo"); //유저 번호
-			int chatRoomNo = (int) session.getAttributes().get("chatRoomNo"); //방 번호
+			
+			//유저 번호
+			int userNo = (int) session.getAttributes().get("userNo");
+			
+			//방 번호
+			int chatRoomNo = (int) session.getAttributes().get("chatRoomNo");
 			logger.info("chatRoomNo : {}", chatRoomNo);
 			logger.info("채팅쪽 session, chatRoomNo : {}, {}", session, chatRoomNo);
 			
@@ -74,9 +79,15 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			//메시지 보내기
 			if(roomId.containsKey(chatRoomNo+":"+userNo)) {
 				for(String key : idSessions.keySet()) {
+					
+					//해당 채팅방에 들어와 있지 않은 사람일 때 (첫 입장일 때)
 					if(!member.getUserId().equals(roomId.get(chatRoomNo+":"+userNo))) {
+						
+						//같은 방 사람들에게만 보내기
 						if(chatRoomSessions.get(idSessions.get(key)) == chatRoomNo) {
 							idSessions.get(key).sendMessage(new TextMessage(member.getUserId() + "님이 입장하셨습니다. " + chatRoomNo));
+							
+							//입장한 사람 Map에 저장 (중복 입장 처리용)
 							roomId.put(chatRoomNo+":"+userNo, member.getUserId());
 						}
 					}

@@ -515,7 +515,7 @@ function profileUp() {
 			, contentType: false
 			, data: formData
 			, success: function( res ) {
-				console.log("AJAX 성공")
+				console.log("AJAX Profile Upload 성공")
 				
 				console.log(res)
 				console.log($('#setProflieImg').attr('src'))

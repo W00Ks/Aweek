@@ -18,20 +18,12 @@ import room.dto.RoomList;
 public interface ChatService {
 	
 	/**
-	 * 회원의 전체 채팅방을 가져온다
+	 * 회원이 속한 전체 채팅방을 가져온다
 	 * 
 	 * @param userNo - 회원 번호
-	 * @return 전체 채팅방 목록 리스트
+	 * @return 전체 채팅방 리스트
 	 */
 	public List<ChatRoom> getChatRoomList(int userNo);
-	
-	/**
-	 * 회원 정보를 조회한다
-	 * 
-	 * @param userNo - 회원 번호
-	 * @return 회원 정보가 담긴 DTO
-	 */
-	public Member getUserInfo(int userNo);
 	
 	/**
 	 * 회원이 가입한 모임 조회한다
@@ -40,7 +32,7 @@ public interface ChatService {
 	 * @return 가입한 모임 목록
 	 */
 	public List<ChatCreatRoomInfo> getRoomList(int userNo);
-	
+
 	/**
 	 * 회원이 가입한 모임에 속해있는 다른 유저의 목록을 가져온다
 	 * 
@@ -48,6 +40,14 @@ public interface ChatService {
 	 * @return 같은 모임 유저 목록
 	 */
 	public List<ChatCreatRoomInfo> getRoomJoinList(int userNo);
+
+	/**
+	 * 회원 정보를 조회한다
+	 * 
+	 * @param userNo - 회원 번호
+	 * @return 회원 정보가 담긴 DTO
+	 */
+	public Member getUserInfo(int userNo);
 	
 	/**
 	 * 회원의 프로필 사진 정보를 가져온다

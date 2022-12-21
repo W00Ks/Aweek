@@ -45,10 +45,10 @@ $(document).ready(function() {
 		}
 		
 		//열고 닫을 때 설정 초기화
-		$("input[name=roomNo]").prop('checked', false); 
-		$("input[name=userId]").prop('checked', false); 
-		$("#chatRoomName1").val(""); 
-		$("#chatRoomName2").val(""); 
+		$("input[name=roomNo]").prop('checked', false);
+		$("input[name=userId]").prop('checked', false);
+		$("#chatRoomName1").val("");
+		$("#chatRoomName2").val("");
 		$('.member-radio').attr('style', 'display: none;');
 		$('.room-n').attr('style', 'font-weight: normal;');
 	
