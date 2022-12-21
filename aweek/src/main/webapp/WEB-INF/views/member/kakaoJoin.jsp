@@ -136,19 +136,6 @@ $(document).ready(function() {
 	    }
     });
 	
-	//이메일 blur 시 공백여부 체크
-	$("#userEmail").blur(function() {
-		var email = $("#userEmail").val();
-		var oMsg = $("#userEmailMsg");
-		if ( email == "") {
-	        showErrorMsg(oMsg,"필수 정보입니다.");
-	        return false;
-	    } else {
-	    	hideMsg(oMsg);
-	    	return true;
-	    }
-    });
-	
 	//회원가입 버튼 클릭 시 공백 항목 체크
 	$("#btnJoin").click(function() {
 
@@ -159,7 +146,6 @@ $(document).ready(function() {
         	});
 			return;
 		} 
-
 
 		//휴대폰 번호 체크(공백인 경우)
 		if($("#userPhone").val() == ""){
@@ -193,14 +179,6 @@ $(document).ready(function() {
 			return;
 		} 
 
-		//이메일 체크(공백인 경우)
-		if($("#userEmail").val() == ""){
-			swal("이메일을 입력해주세요","", "warning").then(function(){
-				$("input").eq(11).focus()
-        	});
-			return;
-		} 
-		
 		const generateRandomString = (num) => {
 		  const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 		  let result = '';

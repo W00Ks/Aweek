@@ -38,7 +38,59 @@
 			<exclude-mapping path="/diary/fail"/>
 			
 			<!-- 인터셉터 클래스 지정 -->
-			<beans:bean class="diary.controller.DiaryInterceptor"/>
+			<beans:bean class="interceptor.DiaryInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<!-- 인터셉터가 적용될 URL -->
+			<mapping path="/member/my**"/>
+			
+			<!-- 인터셉터 클래스 지정 -->
+			<beans:bean class="interceptor.MypageInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<!-- 인터셉터가 적용될 URL -->
+			<mapping path="/room/**"/>
+			
+			<!-- 인터셉터 클래스 지정 -->
+			<beans:bean class="interceptor.RoomInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<!-- 인터셉터가 적용될 URL -->
+			<mapping path="/cs/inquiry"/>
+			
+			<!-- 인터셉터 클래스 지정 -->
+			<beans:bean class="interceptor.CsInquiryInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<!-- 인터셉터가 적용될 URL -->
+			<mapping path="/calendar/**"/>
+			
+			<!-- 인터셉터 클래스 지정 -->
+			<beans:bean class="interceptor.CalendarInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<!-- 인터셉터가 적용될 URL -->
+			<mapping path="/chat/**"/>
+			
+			<!-- 인터셉터 클래스 지정 -->
+			<beans:bean class="interceptor.ChatInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<!-- 인터셉터가 적용될 URL -->
+			<mapping path="/payment/**"/>
+			
+			<!-- 인터셉터 클래스 지정 -->
+			<beans:bean class="interceptor.PaymentInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<!-- 인터셉터가 적용될 URL -->
+			<mapping path="/admin/**"/>
+			
+			<!-- 인터셉터가 적용되지 않도록 제외할 URL -->
+			<exclude-mapping path="/admin/login"/>
+			
+			<!-- 인터셉터 클래스 지정 -->
+			<beans:bean class="interceptor.AdminInterceptor"/>
 		</interceptor>
 	</interceptors>
 

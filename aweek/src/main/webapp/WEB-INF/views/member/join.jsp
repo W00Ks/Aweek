@@ -176,14 +176,18 @@ $(document).ready(function() {
 	    }
     });
 	
-	//이메일 blur 시 공백여부 체크
+	//이메일 blur 시 공백여부 및 유효성 체크
 	$("#userEmail").blur(function() {
 		var email = $("#userEmail").val();
 		var oMsg = $("#userEmailMsg");
+		var emailForm = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 		if ( email == "") {
 	        showErrorMsg(oMsg,"필수 정보입니다.");
 	        return false;
-	    } else {
+	    } else if ( !emailForm.test(email) ) { 
+	    	showErrorMsg(oMsg,"이메일 형식이 올바르지 않습니다.");
+	        return false;
+		} else {
 	    	hideMsg(oMsg);
 	    	return true;
 	    }
@@ -257,9 +261,10 @@ $(document).ready(function() {
 			return;
 		} 
 
-		//이메일 체크(공백인 경우)
-		if($("#userEmail").val() == ""){
-			swal("이메일을 입력해주세요","", "warning").then(function(){
+		//이메일 체크(공백 또는 형식이 올바르지 않은 경우)
+		var emailForm = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		if( $("#userEmail").val() == "" || !emailForm.test($("#userEmail").val()) ){
+			swal("이메일을 올바르게 입력해주세요","", "warning").then(function(){
 				$("input").eq(12).focus()
         	});
 			return;
