@@ -7,29 +7,28 @@ public class Diary {
 	private int diaryNo;
 	private int diaryCateNo;
 	private int userNo;
-	private int diaryFileNo;
 	private int roomNo;
 	private String diaryTitle;
 	private String diaryContent;
 	private Date diaryDate;
-	private int diaryHit;
+	private int diaryHit; // 조회수
 	private int diaryPublic;
-	private int diaryRecommend;
-	private int diaryBest;
+	private int diaryRecommend; // 추천수
+	private int diaryBest; // 추천글 여부(1이면 추천글, 0이면 일반글)
 	private String userName;
 	private String roomName;
+	private String diaryCateName;
 	private int diaryHot;
 	
 	public Diary() {}
 
-	public Diary(int diaryNo, int diaryCateNo, int userNo, int diaryFileNo, int roomNo, String diaryTitle,
-			String diaryContent, Date diaryDate, int diaryHit, int diaryPublic, int diaryRecommend, int diaryBest,
-			String userName, String roomName, int diaryHot) {
+	public Diary(int diaryNo, int diaryCateNo, int userNo, int roomNo, String diaryTitle, String diaryContent,
+			Date diaryDate, int diaryHit, int diaryPublic, int diaryRecommend, int diaryBest, String userName,
+			String roomName, String diaryCateName, int diaryHot) {
 		super();
 		this.diaryNo = diaryNo;
 		this.diaryCateNo = diaryCateNo;
 		this.userNo = userNo;
-		this.diaryFileNo = diaryFileNo;
 		this.roomNo = roomNo;
 		this.diaryTitle = diaryTitle;
 		this.diaryContent = diaryContent;
@@ -40,16 +39,17 @@ public class Diary {
 		this.diaryBest = diaryBest;
 		this.userName = userName;
 		this.roomName = roomName;
+		this.diaryCateName = diaryCateName;
 		this.diaryHot = diaryHot;
 	}
 
 	@Override
 	public String toString() {
-		return "Diary [diaryNo=" + diaryNo + ", diaryCateNo=" + diaryCateNo + ", userNo=" + userNo + ", diaryFileNo="
-				+ diaryFileNo + ", roomNo=" + roomNo + ", diaryTitle=" + diaryTitle + ", diaryContent=" + diaryContent
-				+ ", diaryDate=" + diaryDate + ", diaryHit=" + diaryHit + ", diaryPublic=" + diaryPublic
-				+ ", diaryRecommend=" + diaryRecommend + ", diaryBest=" + diaryBest + ", userName=" + userName
-				+ ", roomName=" + roomName + ", diaryHot=" + diaryHot + "]";
+		return "Diary [diaryNo=" + diaryNo + ", diaryCateNo=" + diaryCateNo + ", userNo=" + userNo + ", roomNo="
+				+ roomNo + ", diaryTitle=" + diaryTitle + ", diaryContent=" + diaryContent + ", diaryDate=" + diaryDate
+				+ ", diaryHit=" + diaryHit + ", diaryPublic=" + diaryPublic + ", diaryRecommend=" + diaryRecommend
+				+ ", diaryBest=" + diaryBest + ", userName=" + userName + ", roomName=" + roomName + ", diaryCateName="
+				+ diaryCateName + ", diaryHot=" + diaryHot + "]";
 	}
 
 	public int getDiaryNo() {
@@ -74,14 +74,6 @@ public class Diary {
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
-	}
-
-	public int getDiaryFileNo() {
-		return diaryFileNo;
-	}
-
-	public void setDiaryFileNo(int diaryFileNo) {
-		this.diaryFileNo = diaryFileNo;
 	}
 
 	public int getRoomNo() {
@@ -170,6 +162,14 @@ public class Diary {
 
 	public void setDiaryHot(int diaryHot) {
 		this.diaryHot = diaryHot;
+	}
+
+	public String getDiaryCateName() {
+		return diaryCateName;
+	}
+
+	public void setDiaryCateName(String diaryCateName) {
+		this.diaryCateName = diaryCateName;
 	}
 	
 }

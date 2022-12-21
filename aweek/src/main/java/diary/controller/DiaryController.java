@@ -21,13 +21,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import diary.dto.Diary;
 import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
 import diary.dto.DiaryFavorite;
+import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
+import diary.dto.DiaryUserRecomm;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -112,6 +115,7 @@ public class DiaryController {
 		
 		for( RoomList i : userRoomList ) logger.trace("##### userRoomList : {}", i);
 		
+		// 가입된 모임 이름 조회
 		String[] roomNos = new String[userRoomList.size()];
 		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
 		
@@ -139,7 +143,13 @@ public class DiaryController {
 		model.addAttribute("diaryFavorite", diaryFavorite);
 		
 		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
 		
+		logger.trace("##### noticeCount : {}", noticeCount);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
 		
 		// 메인 공지사항
 		List<Diary> diaryNotice = diaryService.selectDiaryNotice(userRoom);
@@ -151,7 +161,7 @@ public class DiaryController {
 		for( Diary i : diaryRecomm ) logger.trace("##### diaryRecomm : {}", i);
 		model.addAttribute("diaryRecomm", diaryRecomm);
 				
-		// 메인 최신글
+		// 메인 전체글
 		List<Diary> diaryCurrent = diaryService.selectDiaryCurrent(userRoom);
 		for( Diary i : diaryCurrent ) logger.trace("##### diaryCurrent : {}", i);
 		model.addAttribute("diaryCurrent", diaryCurrent);
@@ -353,8 +363,10 @@ public class DiaryController {
 		
 	}
 	
+	// --- --- ---
+	
 	@GetMapping("/write")
-	public String diaryWrite(Model model, HttpSession session) {
+	public String diaryWrite(Model model, HttpSession session, @RequestParam int roomNo) {
 		
 		// 가입된 모임 리스트
 		int userNo = (int) session.getAttribute("userNo");
@@ -381,7 +393,109 @@ public class DiaryController {
 		
 		model.addAttribute("diaryFavorite", diaryFavorite);
 		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
+		
+		// 선택한 모임 정보
+		Room roomInfo = diaryService.roomInfo(roomNo);
+		
+		model.addAttribute("roomInfo", roomInfo);
+		
+		// 선택한 모임의 카테고리
+		List<DiaryCategory> categoryList = diaryService.roomCategory(roomNo);
+		
+		model.addAttribute("categoryList", categoryList);
+		
 		return "/diary/write";
+		
+	}
+	
+	@PostMapping("/write")
+	public String diaryWriteProc(Model model, HttpSession session
+			, @RequestParam("diaryCateNo2") int diaryCateNo2
+			, @RequestParam("writeroomNo") int writeroomNo
+			, @RequestParam("publicresult") int publicresult
+			, @RequestParam("title") String title
+			, @RequestParam("content") String content
+			, @RequestParam("file") MultipartFile file
+			) {
+		
+		// 가입된 모임 리스트
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
+		
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
+		
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
+		
+		logger.trace("##### diaryWriteProc : {}", diaryCateNo2);
+		logger.trace("##### diaryWriteProc : {}", writeroomNo);
+		logger.trace("##### diaryWriteProc : {}", publicresult);
+		logger.trace("##### diaryWriteProc : {}", title);
+		logger.trace("##### diaryWriteProc : {}", content);
+		logger.trace("##### diaryWriteProc : {}", file);
+		
+		int diaryNo = diaryService.write(diaryCateNo2, userNo, writeroomNo, title, content, publicresult);
+		
+		logger.trace("##### diaryWriteProc diaryNo : {}", diaryNo);
+		
+		diaryService.fileSave(file, diaryNo);
+		
+		return "redirect:/diary/entire?roomNo="+writeroomNo;
+				
+	}
+	
+	@GetMapping("/selectcate")
+	public void diarySelectCate(Model model, @RequestParam("n1") int diaryCateNo) {
+		
+		logger.trace("##### selectcate diaryCateNo : {}", diaryCateNo);
+		
+		DiaryCategory categoryInfo = diaryService.categoryInfo(diaryCateNo);
+		
+		logger.trace("##### selectcate categoryInfo : {}", categoryInfo);
+		
+		model.addAttribute("categoryInfo", categoryInfo);
+		
+	}
+	
+	@GetMapping("/selectcate2")
+	public void diarySelectCate2(Model model, @RequestParam("n1") int diaryCateNo) {
+		
+		logger.trace("##### selectcate diaryCateNo : {}", diaryCateNo);
+		
+		DiaryCategory categoryInfo = diaryService.categoryInfo(diaryCateNo);
+		
+		logger.trace("##### selectcate categoryInfo : {}", categoryInfo);
+		
+		model.addAttribute("categoryInfo", categoryInfo);
 		
 	}
 	
@@ -412,6 +526,15 @@ public class DiaryController {
 		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
 		
 		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
+		
+		
 		
 		return "/diary/mydiary";
 		
@@ -445,6 +568,15 @@ public class DiaryController {
 		
 		model.addAttribute("diaryFavorite", diaryFavorite);
 		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
+		
+		
+		
 		return "/diary/best";
 		
 	}
@@ -477,7 +609,146 @@ public class DiaryController {
 		
 		model.addAttribute("diaryFavorite", diaryFavorite);
 		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
+		
+		
+		
 		return "/diary/notice";
+		
+	}
+	
+	@GetMapping("/entire")
+	public String diaryEntire(Model model, HttpSession session) {
+		
+		// 가입된 모임 리스트
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
+		
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
+		
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
+		
+		
+		
+		return "/diary/entire";
+		
+	}
+	
+	@GetMapping("/view")
+	public String diaryView(Model model, HttpSession session, @RequestParam int diaryNo) {
+		
+		// 가입된 모임 리스트
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
+		
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
+		
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
+		
+		logger.trace("##### diaryView diaryNo : {}", diaryNo);
+		
+		Diary diary = diaryService.view(diaryNo);
+		
+		logger.trace("##### diaryView diary : {}", diary);
+		
+		DiaryFile diaryFile = diaryService.viewFile(diary);
+		
+		logger.trace("##### diaryView diaryFile : {}", diaryFile);
+		
+		model.addAttribute("diary", diary);
+		model.addAttribute("diaryFile", diaryFile);
+		
+		return "/diary/view";
+		
+	}
+	
+	@GetMapping("/delete")
+	public String diaryDelete() {
+		
+		return "/diary/delete";
+		
+	}
+	
+	@GetMapping("/recomm")
+	public String diaryRecomm(Model model, HttpSession session, @RequestParam("n1") int diaryNo) {
+		
+		int userNo = (int) session.getAttribute("userNo");
+		
+		// 해당 사용자의 오늘 추천 사용여부 체크
+		DiaryUserRecomm recomm = diaryService.userRecomm(userNo);
+		
+		if(recomm.getDiaryRecommend() == 1) {
+			// 게시글 추천
+			diaryService.diaryRecomm(diaryNo);
+			
+			// 해당 사용자 추천여부 0으로 변경
+			diaryService.downUserRecomm(userNo);
+			
+			Diary diary = diaryService.view(diaryNo);
+			
+			model.addAttribute("diary", diary);
+		} else {
+			Diary diary = diaryService.view(diaryNo);
+			
+			model.addAttribute("diary", diary);
+			
+			return "/diary/recommfail";
+		}
+		
+		return "/diary/recommsucc";
 		
 	}
 
