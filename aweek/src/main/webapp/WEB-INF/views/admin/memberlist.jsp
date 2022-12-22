@@ -125,28 +125,31 @@ th {
 	<input type="hidden" name="keyword" value="${ pageMaker.search.keyword }">
 	<input type="hidden" name="type" value="${ pageMaker.search.type }">
 </form>
-
-
-
-
-
+ 
 <table style="margin: 0 auto;">
 	<thead>
 		<tr>
 			<th style="width: 50px;">번호</th>
-			<th style="width: 275px;">아이디</th>
-			<th style="width: 275px;">이름</th>
+			<th style="width: 250px;">아이디</th>
+			<th style="width: 250px;">이름</th>
+			<th style="width: 100px;">회원 정보</th>
+			<th style="width: 100px;">결제 정보</th>
 		</tr>
 	</thead>
 	
 	<tbody>
-<%-- 	<c:forEach items="${ search }" var="search">
+
+	<c:forEach items="${ memberlist }" var="member">
 		<tr id="searchResult">
-			<td>${ search.userNo }</td>
-			<td><a href="${ path }/admin/memberdetail?userNo=${ search.userNo }">${ search.userId }</a></td>
-			<td>${ search.userName }</td>
+			<td>${ member.userNo }</td>
+			<td>${ member.userId }</td>
+			<td>${ member.userName }</td>
+			<td><a href="${ path }/admin/memberdetail?userNo=${ member.userNo }">회원 정보</a></td>
+			<td><a href="${ path }/admin/memberdetail?userNo=${ member.userNo }">결제 정보</a></td>
 		</tr>
-	</c:forEach> --%>
+	</c:forEach>
+
+<%--  
 	<c:forEach items="${ memberlist }" var="member">
 		<tr>
 			<td>${ member.userNo }</td>
@@ -154,6 +157,8 @@ th {
 			<td>${ member.userName }</td>
 		</tr>
 	</c:forEach>
+	 --%>
+	
 	</tbody>
 </table>
 
@@ -170,7 +175,9 @@ th {
 
 </form> --%>
 
-
+<div class="pull-right" style="margin-top: 50px; margin-right: 690px;">
+	<span>현재 Aweek의 회원수는 ${ paging.totalCount }명 입니다.</span>
+</div>
 
 <c:import url="/WEB-INF/views/admin/layout/memberpaging.jsp" />
 

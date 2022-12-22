@@ -68,6 +68,10 @@ th {
 	</tbody>
 </table>
 
+<div class="pull-right">
+	<span>현재 개설된 방은 ${ paging.totalCount } 입니다.</span>
+</div>
+
 <c:import url="/WEB-INF/views/admin/layout/roompaging.jsp" />
 
 </c:if>

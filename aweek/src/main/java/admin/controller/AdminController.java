@@ -77,7 +77,7 @@ public class AdminController {
 			
 			session.setAttribute("adminNick", admin.getAdminNick());
 			
-			return "redirect:/admin/main";
+			return "redirect:/admin/memberlist";
 		} else {
 			session.invalidate();
 		}
@@ -495,8 +495,14 @@ public class AdminController {
 	
 	// 관리자 통계 보기
 	@GetMapping("/staties")
-	public void staties() {
+	public String staties(Member member, Model model) {
+		
+		int memberCount = adminService.getMemberCount();
+		
+		model.addAttribute("memberCount", memberCount);
 		
 		logger.info("/admin/staties");
+		
+		return "/admin/staties";
 	}
 }

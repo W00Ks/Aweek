@@ -66,11 +66,11 @@
 			<foreach collection="typeArr" item="type">
 				<trim prefix="OR">
 					<choose>
-						<when test="type == 'name'.toString()">
+						<when test="type == 'userName'.toString()">
 							user_name LIKE '%' || #{ keyword } || '%'
 						</when>
 						
-						<when test="type == 'id'.toString()">
+						<when test="type == 'userId'.toString()">
 							user_id LIKE '%' || #{ keyword } || '%'
 						</when>
 					</choose>
@@ -169,8 +169,15 @@
 	</select>
 	
 	<select id="selectInquiryList" resultType="cs.dto.Inquiry" parameterType="common.Paging">
-		SELECT inquiry_no FROM inquiry
-		ORDER BY inquiry_no
+		SELECT * FROM (
+			SELECT rownum rnum, I.* FROM (
+				SELECT
+					inquiry_no, inquiry_tilte, inquiry_content, inquiry_email, inquiry_date
+				FROM inquiry
+				ORDER BY inquiry_no DESC
+			) I
+		) INQUIRY
+		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
 	</select>
 	
 	<select id="selectMemberDetail" resultType="member.dto.Member" parameterType="member.dto.Member">
@@ -215,7 +222,11 @@
 		FROM cs_file
 		WHERE notice_no = #{ noticeNo }
 	</select>
-	
+
+	<select id="getMemberCount" resultType="int">
+		SELECT COUNT(*) FROM member
+	</select>	
+
 <!-- - - - - - - - - - - INSERT - - - - - - - - - - -->
 
 	<insert id="insertNotice" parameterType="cs.dto.Notice">

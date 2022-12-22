@@ -78,7 +78,7 @@
 <nav>
 	<div class="inner">
 		<div class="nav__logo">
-      		<a href="<%=request.getContextPath() %>/aweekHome" class="logo">
+      		<a href="<%=request.getContextPath() %>/aweekHome" class="logo" id="aweekhome">
 	        	<img src="<%=request.getContextPath() %>/resources/img/aweekLogo_black.png" alt="aweekLogo">
 	    	</a>
     	</div>
