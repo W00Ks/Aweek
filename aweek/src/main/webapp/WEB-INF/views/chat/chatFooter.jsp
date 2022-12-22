@@ -110,10 +110,11 @@
     	    // + Sender Message Process + 
    	    	if(uid[1] == 'id') {
    	    		var prof = uid[2].split('/');
-	   	    	$("#MessageArea").append("<div style='text-align: right;'>" 
+	   	    	$("#MessageArea").append("<div style='text-align: right;' class='msgDiv'>" 
 	   	    								+ "<div class='timeDiv'>" 
 	   	    									+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
 	   	    								+ "</div>"
+	   	    								+ "<div class='vertex_right'></div>"
 	   	    								+ "<div class='chatSendMsg'>" + prof[0] + "</div>"
 	   	    							+ "</div>");
 	   	    	//Insert Chat to DB
@@ -121,10 +122,11 @@
 	   	    	
     	    } else {
    	    		var prof = uid[1].split('/');
-	   	    	$("#MessageArea").append("<div style='text-align: right;'>"
+	   	    	$("#MessageArea").append("<div style='text-align: right;' class='msgDiv'>"
 	   	    								+ "<div class='timeDiv'>" 
 	   	    									+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
-	   	    								+ "</div>" 
+	   	    								+ "</div>"
+	   	    								+ "<div class='vertex_right'></div>"
 	   	    								+ "<div class='chatSendMsg'>" + prof[0] + "</div>" 
 	   	    							+ "</div>");
 	   	   		//Insert Chat to DB
@@ -155,12 +157,13 @@
 			   	}
 			   	
 			   	//메시지 폼 추가
-        		$("#MessageArea").append("<div style='text-align: left;'>"
+        		$("#MessageArea").append("<div style='text-align: left;' class='msgDiv'>"
         									+ profileImg
         									+ "<div class='chatReceiveMsg'>" + prof[0] + "</div>" 
         									+ "<div class='timeDiv'>" 
         										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
         									+ "</div>" 
+        									+ "<div class='vertex_left'></div>"
         								+ "</div>");
     	    	
 			   	
@@ -179,13 +182,14 @@
 			   	}
 			   	
 			  	//메시지 폼 추가
-        		$("#MessageArea").append("<div style='text-align: left;'>" 
+        		$("#MessageArea").append("<div style='text-align: left;' class='msgDiv'>" 
         									+ profileImg
         									+ "<div class='chatUserName'>" + uid[0] + "</div>" 
         									+ "<div class='chatReceiveMsg'>" + prof[0] + "</div>" 
         									+ "<div class='timeDiv'>" 
         										+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
         									+ "</div>"
+        									+ "<div class='vertex_left vl_id'></div>"
         								+ "</div>");
     	    	
     	    }
@@ -285,10 +289,11 @@
       		
 			if(roomMsg[5] == "${member.userId }") {
       			
-	      		$("#MessageArea").append("<div style='text-align: right;'>"
+	      		$("#MessageArea").append("<div style='text-align: right;' class='msgDiv'>"
 											+ "<div class='timeDiv'>"
 												+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
-											+ "</div>" 
+											+ "</div>"
+											+ "<div class='vertex_right'></div>"
 											+ "<div class='chatSendMsg'>"
 												+ "<a class='notImgFile' href='/chat/fileDownload?chatFileNo=" + roomMsg[1] + "'>" + roomMsg[2] + "</a>" 
 											+ "</div>"
@@ -298,7 +303,7 @@
 	      		
       		} else {
       			
-      			$("#MessageArea").append("<div class='rMsg' style='text-align: left;'>"
+      			$("#MessageArea").append("<div class='rMsg' style='text-align: left;' class='msgDiv'>"
       										+ profileImg
 											+ "<div class='chatUserName'>" + roomMsg[5] + "</div>"
 											+ "<div class='chatReceiveMsg'>"
@@ -307,6 +312,7 @@
 											+ "<div class='rtimeDiv'>"
 												+ "<p class='chatTime'>" + dateFormat('time') + "</p>" 
 											+ "</div>" 
+      										+ "<div class='vertex_left vl_id'></div>"
 										+ "</div>");
       			
       			$("#MessageArea").scrollTop($("#MessageArea")[0].scrollHeight);

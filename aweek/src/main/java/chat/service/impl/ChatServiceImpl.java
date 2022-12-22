@@ -170,6 +170,7 @@ public class ChatServiceImpl implements ChatService {
 		//파일 정보 INSERT
 		chatDao.insertFile(chatFile);								
 		
+		//파일 정보 SELECT
 		chatFile = chatDao.getChatFile(chatNo);
 		logger.info("chatFile - {}", chatFile);
 		
