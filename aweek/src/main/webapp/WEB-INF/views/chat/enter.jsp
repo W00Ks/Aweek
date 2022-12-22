@@ -72,17 +72,18 @@
 				<c:set var="cnt" value="0"/>
 			</c:when>
 			<c:when test="${member.userNo eq ch.userNo and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}"> <!-- 본인, 나가기X, 사진X -->	  
-				<div style='text-align: right;'>
+				<div style='text-align: right;' class="msgDiv">
 		   	    	<div class='timeDiv'>
 		   	    		<p class='chatTime'>${ch.chatTime }</p>
 		   	    	</div>
+		   	    	<div class="vertex_right"></div>
 		   	    	<div class='chatSendMsg'>${ch.chatContent }</div>
 		   	    </div>
 		   	    <c:set var="cnt" value="0"/>
 		   	    <c:set var="u_id" value="${ch.userId }"/>
 			</c:when>
 			<c:when test="${u_id ne ch.userId and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}"> <!-- 본인, 나가기X, 사진X -->	
-				<div class='rMsg' style='text-align: left;'>
+				<div class='rMsg msgDiv' style='text-align: left;'>
 					<c:choose>
 						<c:when test="${ch.chatProfileStoredName eq null}">
 							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
@@ -96,12 +97,13 @@
 	       			<div class='timeDiv'>
 	       				<p class='chatTime'>${ch.chatTime }</p>
 	       			</div>
+					<div class="vertex_left vl_id"></div>
 	       		</div>
 	       		<c:set var="cnt" value="1"/>
 	       		<c:set var="u_id" value="${ch.userId }"/>
 			</c:when>
 	       	<c:when test="${u_id eq ch.userId and ch.chatContent ne '나가셨습니다.' and ch.chatKind ne '3' and ch.chatKind ne '4' and ch.chatKind ne '5'}">
-				<div class='rMsg' style='text-align: left;'>
+				<div class='rMsg msgDiv' style='text-align: left;'>
 					<c:choose>
 						<c:when test="${ch.chatProfileStoredName eq null}">
 							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
@@ -114,6 +116,7 @@
 	       			<div class='timeDiv'>
 	       				<p class='chatTime'>${ch.chatTime }</p>
 	       			</div>
+	       			<div class="vertex_left"></div>
 	       		</div>
 	       		<c:set var="cnt" value="0"/>
 	       	</c:when>
@@ -153,17 +156,18 @@
 	       		<c:set var="cnt" value="0"/>
 	       	</c:when>
 	       	<c:when test="${ch.chatKind eq '5' and ch.chatContent ne '나가셨습니다.' and member.userNo eq ch.userNo }"><!-- Not Img File -->
-	       		<div style='text-align: right;'>
+	       		<div style='text-align: right;' class="msgDiv">
 				<div class='timeDiv'>
 					<p class='chatTime'>${ch.chatTime }</p> 
 				</div>
+				<div class="vertex_right"></div>
 				<div class='chatSendMsg'>
 					<a class='notImgFile' href='/chat/fileDownload?chatFileNo=${ch.chatFileNo }'>${ch.chatOriginName }</a> 
 				</div>
 				</div>
 	       	</c:when>
 	       	<c:when test="${ch.chatKind eq '5' and ch.chatContent ne '나가셨습니다.' and member.userNo ne ch.userNo }"><!-- Not Img File -->
-				<div class='rMsg' style='text-align: left;'>
+				<div class='rMsg msgDiv' style='text-align: left;'>
 					<c:choose>
 						<c:when test="${ch.chatProfileStoredName eq null}">
 							<img class='setProflieImgWS defaultProf' alt='prof' src='/resources/chat/account_circle.png'>
@@ -177,8 +181,9 @@
 						<a class='notImgFile-r' href='/chat/fileDownload?chatFileNo=${ch.chatFileNo }'>${ch.chatOriginName }</a> 
 					</div>
 					<div class='rtimeDiv'>
-					<p class='chatTime'>${ch.chatTime }</p> 
+						<p class='chatTime'>${ch.chatTime }</p> 
 					</div> 
+					<div class="vertex_left vl_id"></div>
 				</div>
 	       	</c:when>
 	       	<c:when test="${ch.chatKind eq '4' and ch.chatContent ne '나가셨습니다.' and member.userNo eq ch.userNo }"><!-- emoticon -->
