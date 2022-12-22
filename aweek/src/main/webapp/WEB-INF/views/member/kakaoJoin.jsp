@@ -316,7 +316,7 @@ input:focus{
 /* 버튼 div 영역 */
 .btn_area {
 	margin-top: 30px;
-	margin-bottom: 50px;
+	margin-bottom: 30px;
 	width: 411px;
 	height: 90px;
 }
@@ -374,6 +374,11 @@ input:focus{
 #userId, #userPw, #userName, #userEmail {
 	background-color: #e9e9e9;
 	border: none;
+}
+
+.member_footer {
+	position: absolute;
+    width: 100%;
 }
 
 </style>
@@ -443,5 +448,6 @@ input:focus{
 </div>
 </form>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>

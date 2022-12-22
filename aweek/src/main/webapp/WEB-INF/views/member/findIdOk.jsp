@@ -130,6 +130,12 @@ body {
 	font-family: 'NanumSquareNeo-Variable';
 }
 
+.member_footer {
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 </style>
 
 <c:import url="../layout/mainHeader.jsp" />
@@ -151,5 +157,6 @@ body {
 	
 </div>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>

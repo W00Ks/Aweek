@@ -289,6 +289,7 @@ body {
 	margin: 0 auto;
 	width: 411px;
 	font-family: 'NanumSquareNeo-Variable';
+	margin-bottom: 50px;
 }
 
 /* input box */
@@ -448,6 +449,11 @@ input:focus{
 	left: 22px;
 }
 
+.member_footer {
+	position: absolute;
+    width: 100%;
+}
+
 </style>
 
 <c:import url="../layout/mainHeader.jsp" />
@@ -498,5 +504,6 @@ input:focus{
 
 </div>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>

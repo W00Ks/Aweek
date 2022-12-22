@@ -1,11 +1,13 @@
 package member.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -74,15 +76,36 @@ public class MemberController {
 	@GetMapping("/login")
 	public String login(HttpSession session) {
 		if ( session.getAttribute("loginResult") != null ) {
-			//로그인 세션이 있는 상태에서 로그인 페이지를 접속한 경우 로그인 에러 페이지 리다이렉트
+			//로그인 세션이 있는 상태에서 로그인 페이지를 접속한 경우 알럿 페이지 리다이렉트
 			return "redirect:/member/loginError"; 
 		}
 		return "/member/login";
 	}
 	
-	//로그인 세션이 있는 상태에서 로그인 페이지를 접속한 경우 로그인 에러 페이지
+	//로그인 세션이 있는 상태에서 로그인 페이지를 접속한 경우 알럿 메시지 출력
 	@RequestMapping("/loginError")
-	public void loginError() {}
+	public void loginError(HttpServletResponse response) {
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			//SweetAlert
+			out.println("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css'>"
+					+ "<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js'></script>"
+					+ "<script type='text/javascript' src='https://code.jquery.com/jquery-2.2.4.min.js'></script>");
+			out.println("<script>$(document).ready(function(){swal('이미 로그인 상태입니다.', '이전 페이지로 돌아갑니다.', 'warning').then(function(){"
+					+ "		history.go(-1);"
+					+ "     })"
+					+ "});"
+					+ "</script>");
+			
+			//기본 Alert
+//			out.println("<script>$(document).ready(function(){alert('로그인이 필요합니다!'); window.location='/member/login';})</script>");
+			out.flush(); 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@PostMapping("/login")
 	@ResponseBody

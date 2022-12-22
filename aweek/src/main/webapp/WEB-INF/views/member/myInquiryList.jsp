@@ -136,6 +136,12 @@ body {
     display: inline-block;
 }
 
+.member_footer {
+	position: absolute;
+	bottom: -80;
+    width: 100%;
+}
+
 </style>
 
 <c:import url="../layout/mainHeader.jsp" />
@@ -207,5 +213,6 @@ body {
 	</c:otherwise>
 </c:choose>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>

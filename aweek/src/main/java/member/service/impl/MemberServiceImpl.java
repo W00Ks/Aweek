@@ -36,8 +36,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public boolean join(Member member) {
 		
-		//중복된 id인지 확인
-		if( memberDao.selectIdChk(member) > 0 ) {
+		//중복된 id인지 확인(회원 DB & 탈퇴회원 DB)
+		if( memberDao.selectIdChk(member) > 0 || memberDao.selectIdChkWd(member) > 0 ) {
 			return false;
 		}
 		
@@ -53,9 +53,12 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public boolean joinIdChk(Member member) {
-		int result = memberDao.selectIdChk(member);
+		//회원 DB 조회
+		int resultId = memberDao.selectIdChk(member);
+		//탈퇴회원 DB 조회
+		int resultWdId = memberDao.selectIdChkWd(member);
 		
-		if(result > 0) return true;
+		if(resultId > 0 || resultWdId > 0) return true;
 		
 		return false;
 	}

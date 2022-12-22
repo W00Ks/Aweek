@@ -21,6 +21,13 @@ $(document).ready(function() {
 			$("#btnSendEmail").click();
 		}
 	})
+	
+	//인증번호 입력창에 엔터키 입력 시 $("#btnAuthOk").click() 호출
+	$("input").eq(3).keypress(function(e) {
+		if( e.keyCode == 13 ) {
+			$("#btnAuthOk").click();
+		}
+	})
 
 	//아이디 찾기 버튼 클릭
 	$("#btnSendEmail").click(function() {
@@ -217,6 +224,12 @@ input:focus{
     font-family: 'NanumSquareNeo-Variable';
 }
 
+.member_footer {
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 </style>
 
 <c:import url="../layout/mainHeader.jsp" />
@@ -246,5 +259,6 @@ input:focus{
 
 </div>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>
