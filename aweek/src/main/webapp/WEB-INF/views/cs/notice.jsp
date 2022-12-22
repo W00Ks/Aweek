@@ -162,5 +162,4 @@ body {
 	
 </section>
 
-</body>
-</html>
+<c:import url="../layout/mainFooter.jsp" />
