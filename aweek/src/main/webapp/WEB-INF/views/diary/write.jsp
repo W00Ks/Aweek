@@ -263,10 +263,10 @@ function updateContents() {
     <div id="modal2" class="modal2-overlay">
         <div class="modal2-window">
             <div class="title">
-                <h2>카테고리 선택</h2>
+            <h2>카테고리 선택</h2>
             </div>
-             <div class="close-area" style="display: none;">X</div>
-				<div class="content">
+            <div class="close-area" style="display: none;">X</div>
+			<div class="content">
 				<ul>
 					<c:forEach items="${categoryList }" var="data">
 						<label for='select${data.diaryCateNo }'><div style="width: 100%; cursor: pointer; margin-top: 5px; margin-bottom: 5px;" class="selectdiaryCateNo"><input type='radio' name='diaryCateNo' id='select${data.diaryCateNo }' value='${data.diaryCateNo }' />&nbsp;${data.diaryCateName }</div></label>

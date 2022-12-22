@@ -162,7 +162,7 @@ function viewsetting() {
 } --%>
 
 var deleteCookie = function(name) { // 쿠키 삭제
-    document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=localhost;path=/;';
 }
 
 window.addEventListener('load', function() {

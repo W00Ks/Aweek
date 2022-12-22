@@ -13,6 +13,7 @@ import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
 import diary.dto.DiaryUserRecomm;
+import diary.dto.DiaryPaging;
 import member.dto.Member;
 import room.dto.Room;
 import room.dto.RoomList;
@@ -251,5 +252,80 @@ public interface DiaryService {
 	 * @param userNo - 사용자 번호
 	 */
 	public void downUserRecomm(int userNo);
+
+	/**
+	 * 매 12시 사용자 추천 횟수 초기화
+	 */
+	public void AutoRecomm();
+
+	/**
+	 * 로그인 사용자가 해당 모임의 admin인지 판별
+	 * 
+	 * @param roomNo - 모임 번호
+	 * @param userNo - 사용자 번호
+	 * @return cnt행수
+	 */
+	public int adminresult(int roomNo, int userNo);
+
+	/**
+	 * 모임 카테고리 리스트 조회(공지사항 제외)
+	 * 
+	 * @param roomNo - 모임 번호
+	 * @return 모임 카테고리 리스트
+	 */
+	public List<DiaryCategory> roomCategory2(int roomNo);
+
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param diaryNo - 게시글 번호
+	 */
+	public void deleteDiary(int diaryNo);
+
+	/**
+	 * 게시글 정보 조회
+	 * 
+	 * @param diaryNo - 게시글 번호
+	 * @return 조회된 게시글 정보값
+	 */
+	public Diary diarySelect(int diaryNo);
+
+	/**
+	 * 게시글 첨부파일 조회
+	 * 
+	 * @param diaryInfo - 게시글 정보
+	 * @return 조회된 게시글의 첨부파일 정보값
+	 */
+	public DiaryFile diaryFileSelect(Diary diaryInfo);
+
+	/**
+	 * 게시글 수정
+	 * 
+	 * @param title - 제목
+	 * @param content - 본문
+	 * @param diaryNo - 게시글 번호
+	 * @param publicresult - 공개 설정
+	 * @param change - 첨부파일 수정 여부
+	 * @param file - 첨부파일 정보
+	 */
+	public void update(String title, String content, int diaryNo, int publicresult, String change, MultipartFile file);
+	
+	/**
+	 * 나의 게시글 페이징 객체 생성
+	 * 
+	 * @param curPage - 요청 정보 객체
+	 * @param userNo 
+	 * @return 페이징 계산이 완료된 객체
+	 */
+	public DiaryPaging getPaging(int curPage, int userNo);
+
+	/**
+	 * 나의 게시글 목록 조회
+	 * 
+	 * @param paging - 페이징 정보 객체
+	 * @param userNo - 로그인 사용자 번호
+	 * @return - 나의 게시글 전체 조회 목록
+	 */
+	public List<Diary> getMyList(DiaryPaging paging, int userNo);
 
 }
