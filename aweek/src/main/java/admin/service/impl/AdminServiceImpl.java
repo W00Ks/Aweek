@@ -478,4 +478,10 @@ public class AdminServiceImpl implements AdminService {
 	public CsFile getQnaFile(QnA viewQna) {
 		return adminDao.selelctCsFileByQnaNo(viewQna);
 	}
+
+	@Override
+	public int getMemberCount() {
+		
+		return adminDao.getMemberCount();
+	}
 }

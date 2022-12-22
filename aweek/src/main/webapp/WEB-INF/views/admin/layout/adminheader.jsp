@@ -6,8 +6,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="/resources/favicon.ico" type="image/x-icon"/>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Aweek 관리자 페이지</title>
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -17,7 +18,34 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>
+
+$(document).ready(function() {
+
+	$("#aweekhome").click(function() {
+		var aweekhome = confirm("홈페이지 메인으로 이동하시겠습니까?")
+
+		if( aweekhome == true ) {
+			alert("홈페이지 메인으로 이동합니다.")
+			location.href = "/aweekHome"
+		} else if( aweekhome == false ) {
+			return false;
+		}
+	})
+})
+
+</script>
+
 <style type="text/css">
+
+.adminlogin {
+	max-width:1100px;
+	margin: 0 auto;
+}
 
 .wrap {
 	margin: 0 auto;
@@ -26,7 +54,7 @@
 
 .header {
 	text-align: center;
-	background: #43C446;
+	background: white;
 }
 
 .footer {
@@ -36,6 +64,18 @@
 
 .container {
 	min-height: 400px;
+}
+
+.wrapheader {
+	background: pink;
+}
+
+.logo {
+	color: white;
+}
+
+header {
+	width: 100%;
 }
 
 body {
@@ -59,7 +99,7 @@ ul.nav {
 
 ul.nav > li {
 
-	width: 250px;
+	width: 155px;
 	border-radius: 1.1em;
 	float: left;
 	line-height: 40px;
@@ -70,10 +110,14 @@ ul.nav > li {
 ul.nav > li > span {
 	color: #000;
 	text-decoration: none;
-	font-size: 20px;
+	font-size: 12px;
 	font-family: 굴림 gulim 돋움 dotum;
 	padding: 10px 15px;
 	margin: 0 5px;
+}
+
+ul.nav > li > span > a {
+	color: black;
 }
 
 ul.nav > li > a:hover {
@@ -120,65 +164,60 @@ ul.nav > li > ul > li > a:hover {
 </head>
 <body>
 
-<div class="wrap">
-
 <header class="header">
-	<div>
-		<ul style="margin: 0 auto; background: #fff; display: flex; justify-content: flex-end;">
+	<div class="adminlogin">
+		<ul style="margin: 0 auto; display: flex; justify-content: flex-end;">
 			<li>
 				<c:if test="${ empty adminLogin }">
 					<a href="/admin/login" style="color: black;">로그인</a>
+					<a href="/aweekHome" id="aweekhome">aweek</a>
 				</c:if>
 
 				<c:if test="${ not empty adminLogin }">
-					<span>${ adminNick } 로그인 중...</span>
+					<span style="color: black;">${ adminNick } 로그인 중... </span>
 					<a href="/admin/logout" style="color: black;">로그아웃</a>
+					<a href="<%=request.getContextPath() %>/aweekHome" class="logo" id="aweekhome">
+						<img src="<%=request.getContextPath() %>/resources/img/aweekLogo_black.png" alt="aweekLogo" width="50px;">
+					</a>
 				</c:if>
 			</li>
 		</ul>
 	</div>
-	
-	<div style="margin: 0 auto;">
-		<h1 style="height: 70px;">
+</header>
+
+<div class="wrap">
+	<div class="wrapheader" style="margin: 0 auto;">
+		<h1 style="margin: 0 auto;">
 			<a href="/admin/main" style="color: white;">ADMIN</a>
 		</h1>
 	</div>
-</header>
 
 <ul class="nav">
 	<li>
-		<span>회원 정보</span>
-		<ul>
-			<li><a href="/admin/memberlist">회원 목록</a></li>
-			<li><a href="/admin/paymentlist">결제 목록</a></li>
-			<li><a href="/admin/roomlist">방 목록</a></li>
-		</ul>
+		<span><a href="/admin/memberlist">회원 목록</a></span>
+	</li>
+
+	<li>
+		<span><a href="/admin/paymentlist">결제 목록</a></span>
+	</li>
+
+	<li>
+		<span><a href="/admin/roomlist">방 목록</a></span>
 	</li>
 	
 	<li>
-		<span>검색</span>
-		<ul>
-			<li><a href="/admin/membersearch">회원 정보</a></li>
-			<li><a href="/admin/paymentseacrh">결제 정보</a></li>
-		</ul>
+		<span><a href="/admin/noticelist">공지사항</a></span>
 	</li>
 	
 	<li>
-		<span>고객센터</span>
-		<ul>
-			<li><a href="/admin/noticelist">공지사항</a></li>
-			<li><a href="/admin/inquirylist">1:1 문의</a></li>
-			<li><a href="/admin/qnalist">자주 묻는 질문</a></li>
-		</ul>	
+		<span><a href="/admin/inquirylist">1:1 문의</a></span>
 	</li>
-	
+
 	<li>
-		<span>통계</span>
-		<ul>
-			<li><a href="/admin/staties">회원가입</a></li>
-			<li><a href="/admin/staties">방문자</a></li>
-			<li><a href="/admin/staties">결제</a></li>
-			<li><a href="/admin/staties">개설된 방</a></li>
-		</ul>
+		<span><a href="/admin/qnalist">자주 묻는 질문</a></span>
+	</li>
+
+	<li>
+		<span><a href="/admin/staties">통계 관리</a></span>
 	</li>
 </ul>

@@ -42,7 +42,6 @@ table {
 	margin: 0 auto;
 }
 
-
 td {
 	padding: 5px;
 }

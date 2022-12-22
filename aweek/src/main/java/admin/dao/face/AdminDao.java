@@ -224,4 +224,6 @@ public interface AdminDao {
 
 	public void deleteNoticeFile(Notice notice);
 
+	public int getMemberCount();
+
 }

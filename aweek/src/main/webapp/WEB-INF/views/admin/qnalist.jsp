@@ -86,9 +86,9 @@ th {
 </div>
 
 <div id="orderlist" style="text-align: right;">
-	<a class="btnOld" class="totallist">오래된 순</a>
-	<a class="btnNew" class="totallist">최신 순</a>
-	<a class="btnTitle" class="totallist">제목 순</a>
+	<button id="oldestList" class="totallist">오래된 순</button>
+	<button id="newestList" class="totallist">최신 순</button>
+	<button id="titleList" class="totallist">제목 순</button>
 </div>
 
 <table id="qnatable" style="margin: 0 auto;">

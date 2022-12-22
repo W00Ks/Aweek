@@ -244,4 +244,6 @@ public interface AdminService {
 	public CsFile getNoticeFile(Notice viewNotice);
 
 	public CsFile getQnaFile(QnA viewQna);
+
+	public int getMemberCount();
 }

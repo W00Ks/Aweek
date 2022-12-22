@@ -54,10 +54,10 @@ th {
 	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">1:1 문의</h1>
 </div>
 
-<div>
-	<a class="btnOld" class="totallist">오래된 순</a>
-	<a class="btnNew" class="totallist">최신 순</a>
-	<a class="btnTitle" class="totallist">제목 순</a>
+<div id="orderlist" style="text-align: right; width: 870px;">
+	<button id="oldestList" class="totallist">오래된 순</button>
+	<button id="newestList" class="totallist">최신 순</button>
+	<button id="titleList" class="totallist">제목 순</button>
 </div>
 
 <table style="margin: 0 auto;">
@@ -68,8 +68,8 @@ th {
 			<th style="width: 100px;">아이디</th>
 			<th style="width: 100px;">이름</th>
 			<th style="width: 150px;">문의날짜</th>
-			<th style="width: 150px;">답변 날짜</th>
-			<th style="width: 100px;">처리 상태</th>
+			<!-- <th style="width: 150px;">답변 날짜</th>
+			<th style="width: 100px;">처리 상태</th> -->
 		</tr>
 	</thead>
 	
@@ -77,15 +77,18 @@ th {
 	<c:forEach items="${ inquirylist }" var="inquiry">
 		<tr>
 			<td>${ inquiry.inquiryNo }</td>
-			<td><a href="">${ member.userId }</a></td>
 			<td>${ inquiry.inquiryTitle }</td>
-			<td>${ inquiry.inquiryDate }</td>
 			<td>${ inquiry.inquiryEmail }</td>
-			<td>${ inquiry.inquiryEmail }</td>
+			<td>${ inquiry.inquiryContent }</td>
+			<td><fmt:formatDate value="${ inquiry.inquiryDate }" pattern="yyyy-MM-dd"/></td>
 		</tr>
 	</c:forEach>
 	</tbody>
 </table>
+
+<div class="" style="margin-top: 50px; margin-left: 230px; float:left;">
+	<span>1:1 문의 : ${ paging.totalCount }</span>
+</div>
 
 <c:import url="/WEB-INF/views/admin/layout/inquirypaging.jsp" />
 
