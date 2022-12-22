@@ -27,6 +27,7 @@ import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
 import diary.dto.DiaryUserRecomm;
+import diary.dto.DiaryPaging;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -295,6 +296,206 @@ public class DiaryServiceImpl implements DiaryService {
 	@Override
 	public void downUserRecomm(int userNo) {
 		diaryDao.updateUserRecomm(userNo);
+	}
+
+	@Override
+	public void AutoRecomm() {
+		diaryDao.updateAllRecomm();
+	}
+
+	@Override
+	public int adminresult(int roomNo, int userNo) {
+		
+		DiaryAdmin diaryAdmin = new DiaryAdmin(roomNo, userNo, "");
+		
+		return diaryDao.selectDiaryAdminCheck(diaryAdmin);
+	}
+
+	@Override
+	public List<DiaryCategory> roomCategory2(int roomNo) {
+		return diaryDao.selectDiaryCategory2(roomNo);
+	}
+
+	@Override
+	public void deleteDiary(int diaryNo) {
+		
+		// 파일이 저장될 경로 (RealPath)
+		String storedPath = context.getRealPath("upload");
+		logger.trace("##### storedPath : {}", storedPath);
+		
+		String storedname = diaryDao.selectStoredname(diaryNo);
+		logger.trace("##### storedname : {}", storedname);
+		String result = "\\";
+		
+		
+		File file = new File( context.getRealPath("upload") + result + storedname );
+		
+		// 게시글에 첨부파일이 있을 경우 삭제
+		if( file.exists() ) {
+			file.delete();
+		}
+		
+		diaryDao.deleteFile(diaryNo);
+		
+		diaryDao.deleteDiary(diaryNo);
+		
+	}
+
+	@Override
+	public Diary diarySelect(int diaryNo) {
+		return diaryDao.selectDiary(diaryNo);
+	}
+
+	@Override
+	public DiaryFile diaryFileSelect(Diary diaryInfo) {
+		return diaryDao.selectFile(diaryInfo);
+	}
+
+	@Override
+	public void update(String title, String content, int diaryNo, int publicresult, String change, MultipartFile file) {
+		
+		Diary diary = diaryDao.selectDiary(diaryNo);
+		
+		diary.setDiaryTitle(title);
+		diary.setDiaryContent(content);
+		diary.setDiaryPublic(publicresult);
+				
+		logger.trace("##### diary : {}", diary);
+		
+		diaryDao.updateDiary(diary);
+		
+		if( change.equals("normal") ) {
+			
+			// 파일의 크기가 0일 때 파일 업로드 처리 중단
+			if( file.getSize() <= 0 ) {
+				logger.trace("##### file size <= 0");
+						
+				return; // 메소드 끝내버리기
+			}
+			
+			// 파일이 저장될 경로 (RealPath)
+			String storedPath = context.getRealPath("upload");
+			logger.trace("##### storedPath : {}", storedPath);
+			
+			// upload폴더가 존재하지 않으면 생성한다
+			File storedFolder = new File(storedPath);
+			storedFolder.mkdir();
+			
+			// 저장될 파일 이름 생성하기
+			String storedName = file.getOriginalFilename(); // 원본파일명
+			storedName += UUID.randomUUID().toString().split("-")[0]; // 랜덤문자 삽입
+			logger.trace("##### storedName : {}", storedName);
+			
+			// 실제 저장될 파일 객체
+			File dest = new File(storedFolder, storedName);
+			
+			try {
+				// 업로드된 파일을 upload폴더에 저장하기
+				file.transferTo(dest);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			
+			// DB에 기록할 정보 객체 - DTO
+			DiaryFile filetest = new DiaryFile();
+			
+			filetest.setDiaryNo(diaryNo);
+			filetest.setDiaryOriginName(file.getOriginalFilename());
+			filetest.setDiaryStoredName(storedName);
+			filetest.setDiaryFileSize((int) file.getSize());
+			
+			diaryDao.insertFile( filetest );
+			
+		}
+		
+		if( change.equals("change") ) {
+			
+			// 파일이 저장될 경로 (RealPath)
+			String storedPath1 = context.getRealPath("upload");
+			logger.trace("##### storedPath : {}", storedPath1);
+			
+			String storedname = diaryDao.selectStoredname(diaryNo);
+			logger.trace("##### storedname : {}", storedname);
+			String result = "\\";
+			
+			File file1 = new File( context.getRealPath("upload") + result + storedname );
+			
+			// 게시글에 첨부파일이 있을 경우 삭제
+			if( file1.exists() ) {
+				file1.delete();
+			}
+			
+			diaryDao.deleteFile(diaryNo);
+			
+			// 파일의 크기가 0일 때 파일 업로드 처리 중단
+			if( file.getSize() <= 0 ) {
+				logger.trace("##### file size <= 0");
+						
+				return; // 메소드 끝내버리기
+			}
+			
+			// 파일이 저장될 경로 (RealPath)
+			String storedPath = context.getRealPath("upload");
+			logger.trace("##### storedPath : {}", storedPath);
+			
+			// upload폴더가 존재하지 않으면 생성한다
+			File storedFolder = new File(storedPath);
+			storedFolder.mkdir();
+			
+			// 저장될 파일 이름 생성하기
+			String storedName = file.getOriginalFilename(); // 원본파일명
+			storedName += UUID.randomUUID().toString().split("-")[0]; // 랜덤문자 삽입
+			logger.trace("##### storedName : {}", storedName);
+			
+			// 실제 저장될 파일 객체
+			File dest = new File(storedFolder, storedName);
+			
+			try {
+				// 업로드된 파일을 upload폴더에 저장하기
+				file.transferTo(dest);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			
+			// DB에 기록할 정보 객체 - DTO
+			DiaryFile filetest = new DiaryFile();
+			
+			filetest.setDiaryNo(diaryNo);
+			filetest.setDiaryOriginName(file.getOriginalFilename());
+			filetest.setDiaryStoredName(storedName);
+			filetest.setDiaryFileSize((int) file.getSize());
+			
+			diaryDao.insertFile( filetest );
+			
+		}
+		
+	}
+
+	@Override
+	public DiaryPaging getPaging(int curPage, int userNo) {
+		
+		//총 게시글 수 조회하기
+		int totalCount = diaryDao.selectMyCntAll(userNo);
+		
+		//전달파라미터 curPage 추출하기
+		String param = Integer.toString(curPage);
+		int curPage1 = 0;
+		if( param != null && !"".equals(param) ) {
+			curPage1 = Integer.parseInt(param);
+		}
+		
+		//Paging객체 생성
+		DiaryPaging paging = new DiaryPaging(totalCount, curPage1);
+		
+		return paging;
+		
+	}
+
+	@Override
+	public List<Diary> getMyList(DiaryPaging paging, int userNo) {
+		paging.setUserNo(userNo);
+		
+		return diaryDao.selectMyAll(paging);
 	}
 
 }

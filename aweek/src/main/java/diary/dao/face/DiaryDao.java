@@ -11,6 +11,7 @@ import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
 import diary.dto.DiaryUserRecomm;
+import diary.dto.DiaryPaging;
 import member.dto.Member;
 import room.dto.Room;
 import room.dto.RoomList;
@@ -289,5 +290,70 @@ public interface DiaryDao {
 	 * @param userNo - 사용자 번호
 	 */
 	public void updateUserRecomm(int userNo);
+
+	/**
+	 * 매 12시 모든 사용자 추천횟수 초기화
+	 */
+	public void updateAllRecomm();
+
+	/**
+	 * 로그인 사용자가 해당 모임의 admin인지 체크
+	 * 
+	 * @param diaryAdmin - 모임번호, 사용자 번호가 포함된 DTO
+	 * @return cnt행수
+	 */
+	public int selectDiaryAdminCheck(DiaryAdmin diaryAdmin);
+
+	/**
+	 * 모임 카테고리 리스트 조회(공지사항 제외)
+	 * 
+	 * @param roomNo - 클릭한 모임 번호
+	 * @return 모임 카테고리 DTO 리스트
+	 */
+	public List<DiaryCategory> selectDiaryCategory2(int roomNo);
+
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param diaryNo - 게시글 번호
+	 */
+	public void deleteDiary(int diaryNo);
+
+	/**
+	 * 게시글 수정
+	 * 
+	 * @param diary - 게시글 정보
+	 */
+	public void updateDiary(Diary diary);
+
+	/**
+	 * 게시글 첨부파일의 저장이름 조회
+	 * 
+	 * @param diaryNo - 게시글 번호
+	 * @return 해당 게시글에 있는 첨부파일의 저장이름
+	 */
+	public String selectStoredname(int diaryNo);
+
+	/**
+	 * 게시글 첨부파일 삭제
+	 * 
+	 * @param diaryNo - 게시글 번호
+	 */
+	public void deleteFile(int diaryNo);
+
+	/**
+	 * 나의 총 게시글 수 조회
+	 * 
+	 * @return 테이블의 전체 행 수
+	 */
+	public int selectMyCntAll(int userNo);
+
+	/**
+	 * 나의 게시글 리스트 조회
+	 * @param paging - 페이징 정보 객체
+	 * @param userNo - 로그인 사용자 번호
+	 * @return 나의 게시글 리스트
+	 */
+	public List<Diary> selectMyAll(DiaryPaging paging);
 
 }

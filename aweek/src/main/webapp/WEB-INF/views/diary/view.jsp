@@ -25,11 +25,37 @@ $(document).ready(function() {
 	})
 	
 	$("#btnUpdate").click(function() {
-		$(location).attr("href", "./update?diaryNo=${diary.diaryNo }")
+		$(location).attr("href", "./update?diaryNo=${diary.diaryNo }&userNo=${diary.userNo }")
 	})
 
 	$("#btnDelete").click(function() {
-		$(location).attr("href", "./delete?diaryNo=${diary.diaryNo }")
+		$.ajax({
+			type: "get"
+			, url: "./delete"
+			, data: {
+				n1 : ${diary.diaryNo }
+				, n2 : ${diary.userNo }
+				, n3 : ${diary.roomNo }
+			}
+			, dataType: "html"
+			, success: function( res ) {
+				console.log("AJAX 성공")
+				
+				if(res == 1) {
+					var referrer = document.referrer;
+					alert("삭제가 완료되었습니다."); // alert와 reload는 같이 사용이 안되서 href로 이동시켜야 한다.
+					location.href = referrer; // 해당 url로 리다이렉트
+				} else if(res == 0) {
+					alert("권한이 없습니다.");
+				}
+				
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+			}
+		})		
+		
+		/* $(location).attr("href", "./delete?diaryNo=${diary.diaryNo }") */
 	})
 	
 	$(".recommbutton").click(function() {

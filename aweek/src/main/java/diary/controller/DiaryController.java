@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
 import diary.dto.DiaryUserRecomm;
+import diary.dto.DiaryPaging;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -405,10 +407,23 @@ public class DiaryController {
 		
 		model.addAttribute("roomInfo", roomInfo);
 		
-		// 선택한 모임의 카테고리
-		List<DiaryCategory> categoryList = diaryService.roomCategory(roomNo);
+		// 선택한 모임의 카테고리(공지사항 제외/미제외)
 		
-		model.addAttribute("categoryList", categoryList);
+		int adminresult = diaryService.adminresult(roomNo, userNo);
+		
+		if(adminresult == 1) { // 해당 모임의 관리자
+			
+			List<DiaryCategory> categoryList = diaryService.roomCategory(roomNo);
+			
+			model.addAttribute("categoryList", categoryList);
+			
+		} else { // 해당 모임의 관리자가 아님
+			
+			List<DiaryCategory> categoryList = diaryService.roomCategory2(roomNo);
+			
+			model.addAttribute("categoryList", categoryList);
+			
+		}
 		
 		return "/diary/write";
 		
@@ -500,7 +515,7 @@ public class DiaryController {
 	}
 	
 	@GetMapping("/mydiary")
-	public String diaryMyDiary(Model model, HttpSession session) {
+	public String diaryMyDiary(Model model, HttpSession session, @RequestParam(defaultValue="0") int curPage) {
 		
 		// 가입된 모임 리스트
 		int userNo = (int) session.getAttribute("userNo");
@@ -534,7 +549,15 @@ public class DiaryController {
 		
 		// --- --- ---
 		
+		// 나의 게시글 페이징 조회
+		DiaryPaging paging = diaryService.getPaging(curPage, userNo);
+		logger.trace("##### paging : {}", paging);
 		
+		List<Diary> diaryMyList = diaryService.getMyList(paging, userNo);
+		for(Diary i : diaryMyList) logger.trace("##### diaryMyList : {}", i);
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", diaryMyList);
 		
 		return "/diary/mydiary";
 		
@@ -716,9 +739,33 @@ public class DiaryController {
 	}
 	
 	@GetMapping("/delete")
-	public String diaryDelete() {
+	public String diaryDelete(HttpSession session
+			, @RequestParam("n1") int diaryNo
+			, @RequestParam("n2") int userNo
+			, @RequestParam("n3") int roomNo) {
 		
-		return "/diary/delete";
+		// 로그인 사용자의 사용자번호
+		int loginNo = (int) session.getAttribute("userNo");
+		
+		logger.trace("##### diaryDelete diaryNo : {}", diaryNo); // 글번호
+		logger.trace("##### diaryDelete userNo : {}", userNo); // 글쓴이 사용자번호
+		logger.trace("##### diaryDelete roomNo : {}", roomNo); // 모임 번호
+		
+		// 1. 글쓴이가 로그인 사용자와 동일하면 삭제 가능.
+		if(loginNo == userNo) {
+			diaryService.deleteDiary(diaryNo);
+			return "/diary/delete";
+		}
+		
+		int adminresult = diaryService.adminresult(roomNo, loginNo);
+		
+		// 2. 해당 모임의 관리자일 경우도 삭제 가능.
+		if(adminresult == 1) {
+			diaryService.deleteDiary(diaryNo);
+			return "/diary/delete";
+		}
+		
+		return "/diary/deletefail";
 		
 	}
 	
@@ -750,6 +797,124 @@ public class DiaryController {
 		
 		return "/diary/recommsucc";
 		
+	}
+	
+	@GetMapping("/update")
+	public String diaryUpdate(Model model, HttpSession session, @RequestParam int diaryNo, @RequestParam int userNo) {
+		
+		// 가입된 모임 리스트
+		int loginNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(loginNo);
+		
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
+		
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(loginNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(loginNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+
+		// --- --- ---
+
+		logger.trace("##### diaryUpdate diaryNo : {}", diaryNo); // 글번호
+		logger.trace("##### diaryUpdate userNo : {}", userNo); // 글쓴이 사용자번호
+		
+		if(loginNo != userNo) { // 글쓴이와 사용자가 동일인이 아닐 경우
+			return "/diary/updatefail";
+		}
+		
+		Diary diaryInfo = diaryService.diarySelect(diaryNo);
+		
+		DiaryFile diaryFileInfo = diaryService.diaryFileSelect(diaryInfo);
+		
+		logger.trace("##### diaryUpdate diaryInfo : {}", diaryInfo); // 게시글 정보
+		logger.trace("##### diaryUpdate diaryFileInfo : {}", diaryFileInfo); // 게시글 첨부파일 정보
+		
+		model.addAttribute("diary", diaryInfo);
+		model.addAttribute("diaryFileInfo", diaryFileInfo);
+		
+		return "/diary/update";
+		
+	}
+	
+	@PostMapping("/update")
+	public String diaryUpdateProc(Model model, HttpSession session
+			, @RequestParam String title
+			, @RequestParam String content
+			, @RequestParam int diaryNo
+			, @RequestParam int publicresult
+			, @RequestParam String change
+			, @RequestParam MultipartFile file
+			) {
+		
+		// 가입된 모임 리스트
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
+		
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
+		
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
+		
+		logger.trace("##### diaryUpdateProc : {}", title);
+		logger.trace("##### diaryUpdateProc : {}", content);
+		logger.trace("##### diaryUpdateProc : {}", diaryNo);
+		logger.trace("##### diaryUpdateProc : {}", publicresult);
+		logger.trace("##### diaryUpdateProc : {}", change);
+		logger.trace("##### diaryUpdateProc : {}", file);
+		
+		diaryService.update(title, content, diaryNo, publicresult, change, file);
+		
+		return "redirect:/diary/view?diaryNo=" + diaryNo;
+		
+	}
+	
+	@Scheduled(cron="0 0 0 * * *")
+	public void diaryAutoRecomm() { // 12시 정각에 diary_user_recomm 사용자 데이터 1로 초기화
+		logger.trace("##### diaryAutoRecomm test");
+		
+		diaryService.AutoRecomm();
 	}
 
 }
