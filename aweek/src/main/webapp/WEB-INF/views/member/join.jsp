@@ -212,6 +212,15 @@ $(document).ready(function() {
 			return;
 		} 
 
+		//비밀번호 체크(비밀번호 유효성 검사)
+		var isPW = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,15}$/;
+		if(!isPW.test($("#userPw").val())){
+			swal("","비밀번호는 8 ~ 16자의 영문자 + 숫자 + 특수문자 조합으로 사용 가능합니다. (사용가능 특수문자: !@#$%^*+=-)", "warning").then(function(){
+				$("input").eq(2).focus()
+        	});
+			return;
+		} 
+
 		//비밀번호 확인 체크 (비밀번호와 같지 않거나 공백인 경우)
 		if($("#userPwChk").val() != $("#userPw").val() || $("#userPwChk").val() == ""){
 			swal("비밀번호 확인을 비밀번호와 동일하게 입력해주세요","", "warning").then(function(){
@@ -411,6 +420,7 @@ body {
 	margin: 0 auto;
 	width: 400px;
 	font-family: 'NanumSquareNeo-Variable';
+	margin-bottom: 30px;
 }
 
 /* 회원가입 항목 이름 */
@@ -528,6 +538,11 @@ input:focus{
     font-family: 'NanumSquareNeo-Variable';
 }
 
+.member_footer {
+	position: absolute;
+    width: 100%;
+}
+
 </style>
 
 <c:import url="../layout/mainHeader.jsp" />
@@ -605,5 +620,6 @@ input:focus{
 </div>
 </form>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>

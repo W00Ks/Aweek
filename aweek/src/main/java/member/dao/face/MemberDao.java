@@ -18,6 +18,15 @@ public interface MemberDao {
 	 */
 	public int selectIdChk(Member member);
 	
+	//탈퇴 회원 조회
+	/**
+	 * 탈퇴 회원 조회
+	 * 
+	 * @param member - 조회할 ID 정보 객체
+	 * @return 조회된 행 수
+	 */
+	public int selectIdChkWd(Member member);
+	
 	//회원가입
 	/**
 	 * 신규 회원 정보 삽입하기
@@ -148,5 +157,4 @@ public interface MemberDao {
 	 */
 	public Subscription selectSubInfo(Member member);
 
-	
 }

@@ -76,18 +76,6 @@ $(document).ready(function() {
             .prev('#userPw').attr('type','password');
         }
     });
-    
-	//비밀번호 확인 보여주기
-    $('#pwView2').on('click',function(){
-        $('input').toggleClass('active');
-        if($('input').hasClass('active')){
-            $(this).text("visibility_off")
-            .prev('#userPwChk').attr('type',"text");
-        }else{
-            $(this).text("visibility")
-            .prev('#userPwChk').attr('type','password');
-        }
-    });
 	
 	//비밀번호 변경 버튼 클릭 시 팝업 열기
 	$("#modifyPwBtn").click(function(){
@@ -187,21 +175,15 @@ $(document).ready(function() {
 		
 		//비밀번호 체크(공백인 경우)
 		if($("#userPw").val() == ""){
-			swal("비밀번호를 입력해주세요","", "warning").then(function(){
-				$("input").eq(1).focus()
+			swal("비밀번호를 입력해주세요!","", "warning").then(function(){
+				$("input").eq(2).focus()
         	});
-			return;
-		} 
-
-		//비밀번호 확인 체크 (비밀번호와 같지 않거나 공백인 경우)
-		if($("#userPwChk").val() != $("#userPw").val() || $("#userPwChk").val() == ""){
-			
 			return;
 		} 
 
 		//이름 체크(공백인 경우)
 		if($("#userName").val() == ""){
-			swal("이름을 입력해주세요","", "warning").then(function(){
+			swal("이름을 입력해주세요!","", "warning").then(function(){
 				$("input").eq(3).focus()
         	});
 			return;
@@ -209,7 +191,7 @@ $(document).ready(function() {
 		
 		//주소 체크(공백인 경우)
 		if($("#userAddress1").val() == ""){
-			swal("주소를 입력해주세요","", "warning").then(function(){
+			swal("주소를 입력해주세요!","", "warning").then(function(){
 				$("input").eq(8).focus()
         	});
 			return;
@@ -217,7 +199,7 @@ $(document).ready(function() {
 
 		//상세주소 체크(공백인 경우)
 		if($("#userAddress2").val() == ""){
-			swal("상세주소를 입력해주세요","", "warning").then(function(){
+			swal("상세주소를 입력해주세요!","", "warning").then(function(){
 				$("input").eq(9).focus()
         	});
 			return;
@@ -225,7 +207,7 @@ $(document).ready(function() {
 
 		//생년월일 체크(공백인 경우)
 		if($("#userBirth").val() == ""){
-			swal("생년월일을 입력해주세요","", "warning").then(function(){
+			swal("생년월일을 입력해주세요!","", "warning").then(function(){
 				$("input").eq(11).focus()
         	});
 			return;
@@ -234,7 +216,7 @@ $(document).ready(function() {
 		//이메일 체크(공백 또는 형식이 올바르지 않은 경우)
 		var emailForm = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 		if( $("#userEmail").val() == "" || !emailForm.test($("#userEmail").val()) ){
-			swal("이메일을 올바르게 입력해주세요","", "warning").then(function(){
+			swal("이메일을 올바르게 입력해주세요!","", "warning").then(function(){
 				$("input").eq(12).focus()
         	});
 			return;
@@ -376,7 +358,7 @@ input:focus{
 }
 
 /* 비밀번호 보기 아이콘 */
-#pwView1, #pwView2 {
+#pwView1 {
 	width: 30px;
 	position: absolute;
 	right: 10px;
@@ -418,7 +400,7 @@ input:focus{
 /* 회원 정보 수정 버튼 div 영역 */
 .btn_area {
 	margin-top: 40px;
-	margin-bottom: 50px;
+	margin-bottom: 30px;
 	width: 500px;
 	text-align: center;
 	position: relative;
@@ -504,6 +486,11 @@ input:focus{
     font-family: 'NanumSquareNeo-Variable';
 }
 
+.member_footer {
+	position: absolute;
+    width: 100%;
+}
+
 </style>
 
 <c:import url="../layout/mainHeader.jsp" />
@@ -532,14 +519,6 @@ input:focus{
 	</div>
 	<span class="error_msg" id="userPwMsg" style="display:none;">비밀번호를 수정 하실 경우에만 입력해주세요.</span>
 
-	<div class="info_title">
-		<label class="i_label" for="userPwChk">비밀번호 확인</label>
-	<span class="pwBox"><input type="password" name="userPwChk" id="userPwChk" class="int" maxlength="16" autocomplete="off">
-		<span class="material-icons" id="pwView2" title="비밀번호 보기">visibility</span>
-	</span>
-	</div>
-	<span class="error_msg" id="userPwChkMsg" style="display:none;"></span>
-	
 	<div class="info_title">
 		<label class="i_label" for="userName">이름</label>
 	<span><input type="text" name="userName" id="userName" class="int" maxlength="10" value="${member.userName }" autocomplete="off"></span>
@@ -589,5 +568,6 @@ input:focus{
 </div>
 </form>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>

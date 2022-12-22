@@ -85,7 +85,7 @@ $(document).ready(function() {
 		
 		//비밀번호 유효성 검사
 		var isPW = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,15}$/;
-		if($("#userPw").val() != isPW){
+		if(!isPW.test($("#userPw").val())){
 			swal("","비밀번호는 8 ~ 16자의 영문자 + 숫자 + 특수문자 조합으로 사용 가능합니다.(사용가능 특수문자: !@#$%^*+=-)", "warning").then(function(){
 				$("input").eq(1).focus()
         	});
@@ -320,6 +320,12 @@ input:focus{
 	font-family: 'NanumSquareNeo-Variable';
 }
 
+.member_footer {
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 </style>
 
 <c:import url="../layout/mainHeader.jsp" />
@@ -357,5 +363,6 @@ input:focus{
 	
 </div>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>

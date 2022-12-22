@@ -26,6 +26,7 @@ body {
 	font-family: 'NanumSquareNeo-Variable';
 	display: flex;
 	color: #555555;
+	margin-bottom: 50px;
 }
 
 /* subscription별 영역 전체 */
@@ -221,6 +222,11 @@ body {
 	color: #fd5b5b;
 }
 
+.member_footer {
+	position: absolute;
+    width: 100%;
+}
+
 </style>
 
 <c:import url="../layout/mainHeader.jsp" />
@@ -320,8 +326,9 @@ body {
 	</div>
 </div>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>
 
 <script type="text/javascript">
 $(document).ready(function() {

@@ -54,6 +54,7 @@ $(document).ready(function() {
 .container {
 	margin: 0 auto;
 	width: 600px;
+	margin-bottom: 90px;
 }
 
 /* 아이디 div 영역 */
@@ -122,6 +123,11 @@ $(document).ready(function() {
     cursor: pointer;
 }
 
+.member_footer {
+	position: absolute;
+    width: 100%;
+}
+
 </style>
 
 <c:import url="../layout/mainHeader.jsp" />
@@ -143,5 +149,6 @@ $(document).ready(function() {
 	
 </div>
 
-</body>
-</html>
+<div class="member_footer">
+	<c:import url="../layout/mainFooter.jsp" />
+</div>

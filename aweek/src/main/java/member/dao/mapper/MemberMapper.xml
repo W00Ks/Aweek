@@ -12,6 +12,11 @@
 		WHERE user_id = #{userId }
 	</select>
 	
+	<select id="selectIdChkWd" resultType="int" parameterType="Member">
+		SELECT count(*) FROM wdmember
+		WHERE user_id = #{userId }
+	</select>
+	
 	<insert id="insert" parameterType="Member">
 		INSERT INTO member ( user_no, user_id, user_pw, user_email, user_phone, user_name, user_address, user_birth, user_join )
 		VALUES ( member_seq.nextval, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, #{userName}, #{userAddress}, #{userBirth}, SYSDATE )
