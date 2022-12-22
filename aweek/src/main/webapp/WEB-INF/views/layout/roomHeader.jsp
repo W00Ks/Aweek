@@ -77,7 +77,7 @@
 
     <div class="header__my">
       <ul>
-        <li><a href="<%=request.getContextPath() %>/">Mypage</a>
+        <li><a href="/member/mySubscription">Mypage</a>
         	</li>
       </ul>
     </div>

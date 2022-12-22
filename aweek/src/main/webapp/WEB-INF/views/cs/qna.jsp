@@ -356,5 +356,4 @@ $("#dataPerPage").change(function () {
 
 </script>
 
-</body>
-</html>
+<c:import url="../layout/mainFooter.jsp" />
