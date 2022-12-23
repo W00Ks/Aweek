@@ -225,6 +225,7 @@ function checkPwChk() {
 	font-weight: bold;
 	margin-top: 30px;
 	font-family: 'NanumSquareNeo-Variable';
+	cursor: default;
 }
 
 /* input Div 영역 */

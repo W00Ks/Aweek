@@ -157,6 +157,7 @@ $(document).ready(function() {
 	font-weight: bold;
 	margin: 110px auto 30px;
 	font-family: 'NanumSquareNeo-Variable';
+	cursor: default;
 }
 
 /* 컨테이너 전체 */

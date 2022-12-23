@@ -119,6 +119,7 @@ p {
 	margin: 0 auto;
 	width: 600px;
 	font-family: 'NanumSquareNeo-Variable';
+	cursor: default;
 }
 
 /* 비밀번호 변경 텍스트 */

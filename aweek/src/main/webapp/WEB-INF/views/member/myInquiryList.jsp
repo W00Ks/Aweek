@@ -112,6 +112,7 @@ body {
     color: #555555;
     padding: 30px 20px;
     font-family: 'NanumSquareNeo-Variable';
+    cursor: default;
 }
 
 /* 작성글 없음 - 1:1 문의하기 버튼 영역 */
