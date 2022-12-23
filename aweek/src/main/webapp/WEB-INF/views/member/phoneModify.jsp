@@ -219,7 +219,7 @@ function hideMsg(obj) {
 	font-family: 'NanumSquareNeo-Variable';
 }
 
-/* 비밀번호 변경 텍스트 */
+/* 휴대폰 번호 변경 텍스트 */
 .mainTxt {
 	text-align: center;
 	color: #f4b0b0;
@@ -227,6 +227,7 @@ function hideMsg(obj) {
 	font-weight: bold;
 	margin-top: 30px;
 	font-family: 'NanumSquareNeo-Variable';
+	cursor: default;
 }
 
 /* input Div 영역 */

@@ -413,6 +413,7 @@ body {
 	font-weight: bold;
 	margin: 40px auto;
 	font-family: 'NanumSquareNeo-Variable';
+	cursor: default;
 }
 
 /* 컨테이너 전체 */

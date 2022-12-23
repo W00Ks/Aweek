@@ -54,6 +54,7 @@ body {
 	font-weight: bold;
 	margin: 150px auto 50px;
 	font-family: 'NanumSquareNeo-Variable';
+	cursor: default;
 }
 
 /* 컨테이너 전체 */
@@ -71,6 +72,7 @@ body {
 	height: 150px;
 	position: relative;
     background-color: #fff4f4;
+    cursor: default;
 }
 
 /* 아이디 안내 텍스트 */

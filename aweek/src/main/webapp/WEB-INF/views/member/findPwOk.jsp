@@ -196,6 +196,7 @@ function checkPwChk() {
 	font-size: 40px;
 	font-weight: bold;
 	margin: 150px auto 30px;
+	cursor: default;
 }
 
 /* 안내 텍스트 영역 */
@@ -204,6 +205,7 @@ function checkPwChk() {
 	border: 1px solid #ccc;
 	padding: 20px 0;
 	background-color: #fff4f4;
+	cursor: default;
 }
 
 /* 비밀번호 변경 안내 텍스트 */

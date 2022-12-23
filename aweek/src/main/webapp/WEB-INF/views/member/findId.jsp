@@ -152,6 +152,7 @@ body {
 	font-size: 40px;
 	font-weight: bold;
 	margin: 150px auto 50px;
+	cursor: default;
 }
 
 /* 컨테이너 전체 */

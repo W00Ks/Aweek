@@ -59,15 +59,6 @@ function findAddress() {
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	//세션 확인 코드
-	console.log(sessionStorage.length);
-	console.log(sessionStorage.key(0));
-	console.log(sessionStorage.key(1));
-	console.log(sessionStorage.key(2));
-	console.log(sessionStorage.getItem("uId"));
-	console.log(sessionStorage.getItem("uName"));
-	console.log(sessionStorage.getItem("uEmail"));
-	
     //회원가입 페이지 접속 시 ID 포커스 주기
 	$("#userPhone").focus();
 	
@@ -258,6 +249,7 @@ body {
 	font-weight: bold;
 	margin: 40px auto;
 	font-family: 'NanumSquareNeo-Variable';
+	cursor: default;
 }
 
 /* 컨테이너 전체 */
@@ -371,11 +363,13 @@ input:focus{
 }
 
 /* 카카오 계정 파라미터 */
-#userId, #userPw, #userName, #userEmail {
+#userId, #userPw, #userEmail {
 	background-color: #e9e9e9;
 	border: none;
+	cursor: not-allowed;
 }
 
+/* 푸터 */
 .member_footer {
 	position: absolute;
     width: 100%;
@@ -407,7 +401,7 @@ input:focus{
 	<h3 class="join_title">
 		<label for="userName">이름</label>
 	</h3>
-	<span><input type="text" name="userName" id="userName" class="int" maxlength="10" autocomplete="off" value="${uName}" readonly="readonly"></span>
+	<span><input type="text" name="userName" id="userName" class="int" maxlength="10" autocomplete="off" value="${uName}" ></span>
 	<span class="error_msg" id="userNameMsg" style="display:none;"></span>
 	
 	<h3 class="join_title">

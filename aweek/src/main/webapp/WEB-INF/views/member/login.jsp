@@ -5,6 +5,7 @@
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
@@ -117,7 +118,7 @@ $(document).ready(function() {
 	//------------------------------------ 아이디 저장 기능 ------------------------------------
 	// 저장된 쿠키값을 가져와서 ID 칸에 넣어준다. 없으면 공백으로 들어감.
     var key = getCookie("key");
-    $("#userId").val(key); 
+    $("#userId").val(key);
      
     // 그 전에 ID를 저장해서 처음 페이지 로딩 시, 입력 칸에 저장된 ID가 표시된 상태라면,
     if($("#userId").val() != ""){ 
@@ -127,6 +128,7 @@ $(document).ready(function() {
     $("#checkId").change(function(){ // 체크박스에 변화가 있다면,
         if($("#checkId").is(":checked")){ // ID 저장하기 체크했을 때,
             setCookie("key", $("#userId").val(), 7); // 7일 동안 쿠키 보관
+            console.log(key)
         }else{ // ID 저장하기 체크 해제 시,
             deleteCookie("key");
         }
@@ -282,6 +284,7 @@ body {
 	font-size: 40px;
 	font-weight: bold;
 	margin: 150px auto 50px;
+	cursor: default;
 }
 
 /* 컨테이너 전체 */
@@ -323,12 +326,14 @@ input:focus{
 	margin-top: 10px;
 }
 
+/* 회원가입 버튼 */
 #join > a {
 	color: #666666;
 	font-size: 12px;
 	text-decoration: none;
 }
 
+/* 회원가입 버튼 hover */
 #join > a:hover {
 	color: #390;
 	font-size: 13px;
@@ -351,7 +356,7 @@ input:focus{
 	font-size: 13px;
 }
 
-/* 회원가입 버튼 */
+/* 회원가입 버튼 div */
 #join {
 	position: absolute;;
 	right: 3px;
@@ -378,6 +383,7 @@ input:focus{
     color: #707070;
     padding: 0 20px;
     word-break: keep-all;
+    cursor: default;
 }
 
 /* 로그인 버튼 */
@@ -474,7 +480,7 @@ input:focus{
 	<div class ="joinDiv">
 		<div id="find">
 			<a href="/member/findId" class="btnFindId" id="btnFindId">아이디 찾기</a>
-			<span style="color:#ccc; font-weight:bold;"> | </span> 
+			<span style="color:#ccc; font-weight:bold; cursor: default;"> | </span> 
 			<a href="/member/findPw" class="btnFindPw" id="btnFindPw">비밀번호 찾기</a>
 		</div>
 		<div id="join">

@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -187,10 +189,25 @@ public class MemberController {
 	//------------------------------ 로그아웃 ------------------------------
 	@RequestMapping("/logout")
 	@ResponseBody
-	public void logout(HttpSession session) {
+	public void logout(HttpSession session, HttpServletRequest req, HttpServletResponse resp) {
 		
 		//세션 정보 삭제 - 로그아웃
 		session.invalidate();
+		
+		/*
+		 * Cookie[] cookies = req.getCookies(); // 모든 쿠키의 정보를 cookies에 저장 if(cookies !=
+		 * null) { // 쿠키가 한개라도 있으면 실행 for(int h=0; h< cookies.length; h++) {
+		 * cookies[h].setMaxAge(0); // 유효시간을 0으로 설정 resp.addCookie(cookies[h]); // 응답
+		 * 헤더에 추가 } }
+		 */
+		
+		Cookie[] cookies = req.getCookies(); // 모든 쿠키의 정보를 cookies에 저장
+		
+		for(int h=0; h<cookies.length; h++) {
+			Cookie kc = new Cookie("favcount"+h, null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
+			kc.setMaxAge(0); // 유효시간을 0으로 설정
+			resp.addCookie(kc); // 응답 헤더에 추가해서 없어지도록 함
+		}
 	}
 	
 	//------------------------------ 아이디 찾기 ------------------------------

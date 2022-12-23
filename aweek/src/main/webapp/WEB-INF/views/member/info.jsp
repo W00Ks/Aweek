@@ -94,7 +94,7 @@ $(document).ready(function() {
 	//회원 탈퇴 버튼 클릭 시 팝업 열기
 	$("#btnWd").click(function() {
 		let openUrl = "/member/userWd";
-		let popOption = "width=800px, height=500px, top=200px, left=1000px, scrollbars=yes";
+		let popOption = "width=750px, height=500px, top=200px, left=1000px, scrollbars=yes";
 		window.open(openUrl, 'pop', popOption);
 	})
 	
@@ -306,6 +306,7 @@ body {
     font-weight: bold;
     margin: 20px auto 40px;
     font-family: 'NanumSquareNeo-Variable';
+    cursor: default;
 }
 
 /* 컨테이너 전체 */
@@ -463,6 +464,7 @@ input:focus{
 #userId, #userPhone {
 	background-color: #f3f3f3;
 	border: none;
+	cursor: not-allowed;
 }
 
 /* 휴대폰 번호 변경 span 영역 */
