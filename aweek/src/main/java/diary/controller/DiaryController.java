@@ -85,15 +85,22 @@ public class DiaryController {
 	@GetMapping("/fail")
 	public void diaryFail(HttpSession session, HttpServletRequest req, HttpServletResponse resp) {
 		
+		/*
+		 * Cookie[] cookies = req.getCookies(); // 모든 쿠키의 정보를 cookies에 저장 if(cookies !=
+		 * null) { // 쿠키가 한개라도 있으면 실행 for(int h=0; h< cookies.length; h++) {
+		 * cookies[h].setMaxAge(0); // 유효시간을 0으로 설정 resp.addCookie(cookies[h]); // 응답
+		 * 헤더에 추가 } }
+		 */
+		
 		Cookie[] cookies = req.getCookies(); // 모든 쿠키의 정보를 cookies에 저장
-		if(cookies != null) { // 쿠키가 한개라도 있으면 실행
-	    	for(int h=0; h< cookies.length; h++) {
-	        	cookies[h].setMaxAge(0); // 유효시간을 0으로 설정
-	            	resp.addCookie(cookies[h]); // 응답 헤더에 추가
-	        }
+		
+		for(int h=0; h<cookies.length; h++) {
+			Cookie kc = new Cookie("favcount"+h, null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
+			kc.setMaxAge(0); // 유효시간을 0으로 설정
+			resp.addCookie(kc); // 응답 헤더에 추가해서 없어지도록 함
 		}
 		
-		session.invalidate();
+		session.invalidate(); // 세션 초기화
 		
 		try {
 			req.getRequestDispatcher("/WEB-INF/views/diary/fail.jsp").forward(req, resp);
@@ -515,7 +522,12 @@ public class DiaryController {
 	}
 	
 	@GetMapping("/mydiary")
-	public String diaryMyDiary(Model model, HttpSession session, @RequestParam(defaultValue="0") int curPage) {
+	public String diaryMyDiary(Model model, HttpSession session
+			, @RequestParam(defaultValue="0") int curPage
+			, @RequestParam(defaultValue="0") int sort
+			, @RequestParam(defaultValue="0") int searchsort
+			, @RequestParam(defaultValue="") String searchtext
+			) {
 		
 		// 가입된 모임 리스트
 		int userNo = (int) session.getAttribute("userNo");
@@ -549,22 +561,35 @@ public class DiaryController {
 		
 		// --- --- ---
 		
-		// 나의 게시글 페이징 조회
-		DiaryPaging paging = diaryService.getPaging(curPage, userNo);
-		logger.trace("##### paging : {}", paging);
+		logger.trace("##### myDiary : {}", curPage);
+		logger.trace("##### myDiary : {}", userNo);
+		logger.trace("##### myDiary : {}", searchtext);
+		logger.trace("##### myDiary : {}", sort);
+		logger.trace("##### myDiary : {}", searchsort);
 		
-		List<Diary> diaryMyList = diaryService.getMyList(paging, userNo);
-		for(Diary i : diaryMyList) logger.trace("##### diaryMyList : {}", i);
+		DiaryPaging paging = diaryService.getMyPaging(curPage, userNo, searchtext, sort, searchsort);
+		logger.trace("##### myDiary getMyPaging : {}", paging);
 		
+		List<Diary> diaryMyList = diaryService.getMyList(paging, userNo, searchtext, sort, searchsort);
+		logger.trace("##### myDiary getMyList : {}", diaryMyList);
+		
+		model.addAttribute("sort", sort);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", diaryMyList);
-		
+		model.addAttribute("searchsort", searchsort);
+		model.addAttribute("searchtext", searchtext);
+
 		return "/diary/mydiary";
 		
 	}
 	
 	@GetMapping("/best")
-	public String diaryBest(Model model, HttpSession session) {
+	public String diaryBest(Model model, HttpSession session
+			, @RequestParam(defaultValue="0") int curPage
+			, @RequestParam(defaultValue="0") int sort
+			, @RequestParam(defaultValue="0") int searchsort
+			, @RequestParam(defaultValue="") String searchtext
+			) {
 		
 		// 가입된 모임 리스트
 		int userNo = (int) session.getAttribute("userNo");
@@ -598,8 +623,16 @@ public class DiaryController {
 		
 		// --- --- ---
 		
+		DiaryPaging paging = diaryService.getBestPaging(curPage, userNo, searchtext, sort, searchsort);
 		
+		List<Diary> diaryMyList = diaryService.getBestList(paging, userNo, searchtext, sort, searchsort);
 		
+		model.addAttribute("sort", sort);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", diaryMyList);
+		model.addAttribute("searchsort", searchsort);
+		model.addAttribute("searchtext", searchtext);
+
 		return "/diary/best";
 		
 	}
@@ -731,10 +764,27 @@ public class DiaryController {
 		
 		logger.trace("##### diaryView diaryFile : {}", diaryFile);
 		
-		model.addAttribute("diary", diary);
-		model.addAttribute("diaryFile", diaryFile);
+		RoomList roomList = new RoomList(0, diary.getRoomNo(), userNo);
 		
-		return "/diary/view";
+		if(diary.getDiaryPublic() == 1) { // 게시글이 공개 상태이면 허용
+			model.addAttribute("diary", diary);
+			model.addAttribute("diaryFile", diaryFile);
+			
+			return "/diary/view";
+		} else { // 게시글이 비공개 상태일 경우
+			
+			int authority = diaryService.authority(roomList); // 해당 게시글 모임의 가입자이면 허용
+			
+			if(authority == 1) {
+				model.addAttribute("diary", diary);
+				model.addAttribute("diaryFile", diaryFile);
+				
+				return "/diary/view";
+			}
+			
+		}
+		
+		return "/diary/viewfail";
 		
 	}
 	

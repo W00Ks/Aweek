@@ -315,17 +315,33 @@ public interface DiaryService {
 	 * 
 	 * @param curPage - 요청 정보 객체
 	 * @param userNo 
+	 * @param searchtext 
 	 * @return 페이징 계산이 완료된 객체
 	 */
-	public DiaryPaging getPaging(int curPage, int userNo);
+	public DiaryPaging getMyPaging(int curPage, int userNo, String searchtext, int sort, int searchsort);
 
 	/**
 	 * 나의 게시글 목록 조회
 	 * 
 	 * @param paging - 페이징 정보 객체
 	 * @param userNo - 로그인 사용자 번호
+	 * @param searchtext 
+	 * @param searchsort 
+	 * @param sort 
 	 * @return - 나의 게시글 전체 조회 목록
 	 */
-	public List<Diary> getMyList(DiaryPaging paging, int userNo);
+	public List<Diary> getMyList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort);
+
+	/**
+	 * 해당 게시글 모임의 가입자인지 확인
+	 * 
+	 * @param roomList - 게시글 및 사용자 정보
+	 * @return 가입 여부
+	 */
+	public int authority(RoomList roomList);
+
+	public DiaryPaging getBestPaging(int curPage, int userNo, String searchtext, int sort, int searchsort);
+
+	public List<Diary> getBestList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort);
 
 }

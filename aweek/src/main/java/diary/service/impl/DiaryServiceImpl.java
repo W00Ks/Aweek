@@ -472,10 +472,19 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 
 	@Override
-	public DiaryPaging getPaging(int curPage, int userNo) {
+	public DiaryPaging getMyPaging(int curPage, int userNo, String searchtext, int sort, int searchsort) {
+		
+		DiaryPaging temp = new DiaryPaging();
+		
+		temp.setUserNo(userNo);
+		temp.setSearchtext(searchtext);
+		temp.setSort(sort);
+		temp.setSearchsort(searchsort);
+		
+		
 		
 		//총 게시글 수 조회하기
-		int totalCount = diaryDao.selectMyCntAll(userNo);
+		int totalCount = diaryDao.selectMyCntAll(temp);
 		
 		//전달파라미터 curPage 추출하기
 		String param = Integer.toString(curPage);
@@ -492,10 +501,55 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 
 	@Override
-	public List<Diary> getMyList(DiaryPaging paging, int userNo) {
+	public List<Diary> getMyList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort) {
 		paging.setUserNo(userNo);
+		paging.setSearchtext(searchtext);
+		paging.setSort(sort);
+		paging.setSearchsort(searchsort);
 		
 		return diaryDao.selectMyAll(paging);
+	}
+
+	@Override
+	public int authority(RoomList roomList) {
+		return diaryDao.selectRoomListAuto(roomList);
+	}
+
+	@Override
+	public DiaryPaging getBestPaging(int curPage, int userNo, String searchtext, int sort, int searchsort) {
+		DiaryPaging temp = new DiaryPaging();
+		
+		temp.setUserNo(userNo);
+		temp.setSearchtext(searchtext);
+		temp.setSort(sort);
+		temp.setSearchsort(searchsort);
+		
+		
+		
+		//총 게시글 수 조회하기
+		int totalCount = diaryDao.selectBestCntAll(temp);
+		
+		//전달파라미터 curPage 추출하기
+		String param = Integer.toString(curPage);
+		int curPage1 = 0;
+		if( param != null && !"".equals(param) ) {
+			curPage1 = Integer.parseInt(param);
+		}
+		
+		//Paging객체 생성
+		DiaryPaging paging = new DiaryPaging(totalCount, curPage1);
+		
+		return paging;
+	}
+
+	@Override
+	public List<Diary> getBestList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort) {
+		paging.setUserNo(userNo);
+		paging.setSearchtext(searchtext);
+		paging.setSort(sort);
+		paging.setSearchsort(searchsort);
+		
+		return diaryDao.selectBestAll(paging);
 	}
 
 }

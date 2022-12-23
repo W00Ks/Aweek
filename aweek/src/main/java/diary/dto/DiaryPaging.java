@@ -16,6 +16,9 @@ public class DiaryPaging {
 	private int endNo; //화면에 보이는 게시글의 끝 번호
 	
 	private int userNo;
+	private String searchtext;
+	private int sort;
+	private int searchsort;
 
 	
 	//디폴트 생성자 - 페이징 로직이 처리되지 않는다
@@ -170,6 +173,36 @@ public class DiaryPaging {
 
 	public void setUserNo(int userNo) {
 		this.userNo = userNo;
+	}
+
+
+	public String getSearchtext() {
+		return searchtext;
+	}
+
+
+	public void setSearchtext(String searchtext) {
+		this.searchtext = searchtext;
+	}
+
+
+	public int getSort() {
+		return sort;
+	}
+
+
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
+
+
+	public int getSearchsort() {
+		return searchsort;
+	}
+
+
+	public void setSearchsort(int searchsort) {
+		this.searchsort = searchsort;
 	}
 	
 }
