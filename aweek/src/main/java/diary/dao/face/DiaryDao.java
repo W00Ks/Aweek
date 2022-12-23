@@ -346,7 +346,7 @@ public interface DiaryDao {
 	 * 
 	 * @return 테이블의 전체 행 수
 	 */
-	public int selectMyCntAll(int userNo);
+	public int selectMyCntAll(DiaryPaging temp);
 
 	/**
 	 * 나의 게시글 리스트 조회
@@ -355,5 +355,17 @@ public interface DiaryDao {
 	 * @return 나의 게시글 리스트
 	 */
 	public List<Diary> selectMyAll(DiaryPaging paging);
+
+	/**
+	 * 해당 게시글이 작성된 모임의 가입 여부 확인
+	 * 
+	 * @param roomList - 모임 번호, 사용자 번호
+	 * @return cnt 값
+	 */
+	public int selectRoomListAuto(RoomList roomList);
+
+	public int selectBestCntAll(DiaryPaging temp);
+
+	public List<Diary> selectBestAll(DiaryPaging paging);
 
 }

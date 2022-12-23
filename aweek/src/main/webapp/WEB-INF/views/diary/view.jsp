@@ -6,6 +6,8 @@
 
 <%	DiaryFile diaryFile = (DiaryFile) request.getAttribute("diaryFile"); %>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <style type="text/css">
 .info {
 	font-weight: 600;
@@ -90,7 +92,7 @@ $(document).ready(function() {
 	<tr><td class="info">글번호</td><td><span>${diary.diaryNo }</span></td><td class="info">글쓴이</td><td><span style="font-weight: 500;">${diary.userName }</span></td></tr>
 	<tr><td class="info">모임</td><td><span>${diary.roomName }</span></td><td class="info">카테고리</td><td><span style="font-weight: 500;">${diary.diaryCateName }</span></td></tr>
 	<tr><td class="info">조회수</td><td><span>${diary.diaryHit }</span></td><td class="info">작성일자</td><td><span style="font-weight: 500;">${diary.diaryDate }</span></td></tr>
-	<tr><td class="info">제목</td><td colspan="3">${diary.diaryTitle }</td></tr>
+	<tr><td class="info">제목</td><td>${diary.diaryTitle }</span></td><td class="info">공개여부</td><td><span style="font-weight: 500;"><c:if test="${diary.diaryPublic eq 1}">공개</c:if><c:if test="${diary.diaryPublic eq 0}">비공개</c:if></span></td></tr>
 	</table>
 	
 	<hr><br>

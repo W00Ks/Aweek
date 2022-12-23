@@ -282,9 +282,32 @@
 		where diary_no = #{diaryNo} 
 	</delete>
 	
-	<select id="selectMyCntAll" resultType="int">
-		SELECT count(*) cnt FROM diary
-		WHERE user_no = #{userNo}
+	<select id="selectMyCntAll" resultType="int" parameterType="diary.dto.DiaryPaging">
+	SELECT count(*) FROM (
+				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+				FROM diary d left outer join member m ON d.user_no = m.user_no
+				LEFT OUTER JOIN room r ON d.room_no = r.room_no
+				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+				WHERE d.user_no = #{userNo}
+				<choose>
+					<when test="searchsort == 0">
+					AND d.diary_title like '%'||#{searchtext}||'%'
+					</when>
+					
+					<when test="searchsort == 1">
+					AND c.diary_cate_name like '%'||#{searchtext}||'%'
+					</when>
+				
+					<when test="searchsort == 2">
+					AND r.room_name like '%'||#{searchtext}||'%'
+					</when>
+					
+					<when test="searchsort == 3">
+					AND m.user_name like '%'||#{searchtext}||'%'
+					</when>
+				</choose>
+		) CNT
 	</select>
 	
 	<select id="selectMyAll" resultType="diary.dto.Diary" parameterType="diary.dto.DiaryPaging">
@@ -295,8 +318,102 @@
 				LEFT OUTER JOIN room r ON d.room_no = r.room_no
 				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
 				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
-				WHERE d.user_no = #{userNo}
-		        ORDER BY d.diary_date DESC
+				WHERE d.user_no = #{userNo} 
+				<if test="searchsort == 0">
+				AND d.diary_title like '%' || #{searchtext} || '%'
+				</if>
+				<if test="searchsort == 1">
+				AND c.diary_cate_name like '%${searchtext}%'
+				</if>
+				<if test="searchsort == 2">
+				AND r.room_name like '%${searchtext}%'
+				</if>
+				<if test="searchsort == 3">
+				AND m.user_name like '%${searchtext}%'
+				</if>
+				<if test="sort == 0">
+				ORDER BY d.diary_date DESC
+				</if>
+				<if test="sort == 1">
+				ORDER BY c.diary_cate_name
+				</if>
+				<if test="sort == 2">
+				ORDER BY r.room_name
+				</if>
+				<if test="sort == 3">
+				ORDER BY m.user_name
+				</if>												
+		    ) B
+		) diary WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	<select id="selectRoomListAuto" resultType="int" parameterType="room.dto.RoomList">
+		SELECT count(*) FROM room_list
+		WHERE room_no = #{roomNo}
+		AND user_no = #{userNo}
+	</select>
+	
+	<select id="selectBestCntAll" resultType="int" parameterType="diary.dto.DiaryPaging">
+	SELECT count(*) FROM (
+				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+				FROM diary d left outer join member m ON d.user_no = m.user_no
+				LEFT OUTER JOIN room r ON d.room_no = r.room_no
+				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+				WHERE d.diary_recommend >= h.diary_hot
+				<choose>
+					<when test="searchsort == 0">
+					AND d.diary_title like '%'||#{searchtext}||'%'
+					</when>
+					
+					<when test="searchsort == 1">
+					AND c.diary_cate_name like '%'||#{searchtext}||'%'
+					</when>
+				
+					<when test="searchsort == 2">
+					AND r.room_name like '%'||#{searchtext}||'%'
+					</when>
+					
+					<when test="searchsort == 3">
+					AND m.user_name like '%'||#{searchtext}||'%'
+					</when>
+				</choose>
+		) CNT
+	</select>
+	
+	<select id="selectBestAll" resultType="diary.dto.Diary" parameterType="diary.dto.DiaryPaging">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+				FROM diary d left outer join member m ON d.user_no = m.user_no
+				LEFT OUTER JOIN room r ON d.room_no = r.room_no
+				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+				WHERE d.diary_recommend >= h.diary_hot
+				<if test="searchsort == 0">
+				AND d.diary_title like '%' || #{searchtext} || '%'
+				</if>
+				<if test="searchsort == 1">
+				AND c.diary_cate_name like '%${searchtext}%'
+				</if>
+				<if test="searchsort == 2">
+				AND r.room_name like '%${searchtext}%'
+				</if>
+				<if test="searchsort == 3">
+				AND m.user_name like '%${searchtext}%'
+				</if>
+				<if test="sort == 0">
+				ORDER BY d.diary_date DESC
+				</if>
+				<if test="sort == 1">
+				ORDER BY c.diary_cate_name
+				</if>
+				<if test="sort == 2">
+				ORDER BY r.room_name
+				</if>
+				<if test="sort == 3">
+				ORDER BY m.user_name
+				</if>												
 		    ) B
 		) diary WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
