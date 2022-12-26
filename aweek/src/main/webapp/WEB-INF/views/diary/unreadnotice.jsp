@@ -81,16 +81,16 @@ $(document).ready(function(){
 	});
 	
 	$(".sortresult").children().eq(0).click(function(){
-		location.href = "./entire?sort=0&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
+		location.href = "./unreadnotice?sort=0&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
 	});
 	$(".sortresult").children().eq(1).click(function(){
-		location.href = "./entire?sort=1&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
+		location.href = "./unreadnotice?sort=1&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
 	});
 	$(".sortresult").children().eq(2).click(function(){
-		location.href = "./entire?sort=2&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
+		location.href = "./unreadnotice?sort=2&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
 	});
 	$(".sortresult").children().eq(3).click(function(){
-		location.href = "./entire?sort=3&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
+		location.href = "./unreadnotice?sort=3&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
 	});
 	
 	$(".suchsortbutton").click(function(){
@@ -141,7 +141,7 @@ $(document).ready(function(){
 		<div style="cursor: pointer; padding-left: 5px; padding-top: 5px; padding-bottom: 5px; border: 1px solid #C7D1CA;">모임</div>
 		<div style="cursor: pointer; padding-left: 5px; padding-top: 5px; padding-bottom: 5px; border: 1px solid #C7D1CA;">작성자</div>
 	</div>
-	<form action="./entire" method="get">
+	<form action="./unreadnotice" method="get">
 	<input class="searchsort" name="searchsort" type="text" value="${searchsort }" style="display: none;">
 	<input class="sort" name="sort" type="text" value="${sort }" style="display: none;">
 	&nbsp;<input type="text" class="searchtext" name="searchtext" value="${searchtext }">
@@ -150,7 +150,7 @@ $(document).ready(function(){
 	</form>
 </div>
 <div class="rightbox2">
-	<div style="font-size: 1.2em; font-weight:600;">전체글</div>
+	<div style="font-size: 1.2em; font-weight:600;">공지사항</div>
 	<div class="sortbutton">
 		<div style="line-height: 25px; width: 80px; margin-left: 7px;">
 			<c:if test="${sort eq 0}">날짜순</c:if>
@@ -195,6 +195,6 @@ $(document).ready(function(){
 <div class="rightbox3">
 </div>
 
-<jsp:include page="./entirepaging.jsp" flush="true" />
+<jsp:include page="./unreadnoticepaging.jsp" flush="true" />
 
 <jsp:include page="./footer.jsp" flush="true" />

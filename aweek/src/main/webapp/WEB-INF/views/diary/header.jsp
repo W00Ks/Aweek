@@ -178,7 +178,7 @@ window.addEventListener('load', function() {
 		// 배열 0으로 초기화, 쿠키 생성
 		for(let k=1; k<=arr.length; k++) {
 			arr[k-1] = 0;
-			document.cookie = "favcount" + k + "=" + arr[k-1]
+			document.cookie = "favcount" + k + "=" + arr[k-1] + ";path=/;"
 		}
 		
 	} else {
@@ -205,7 +205,7 @@ window.addEventListener('load', function() {
 	<% for(int i=1; i<=diaryFavorite.size() + userRoom.size(); i++) { %>
   	
 		document.querySelector('.favcount<%=i %>').addEventListener("click", function() {
-			document.cookie = "favcount<%=i %>=" + ++arr[<%=i-1 %>];
+			document.cookie = "favcount<%=i %>=" + ++arr[<%=i-1 %>] + ";path=/;"
 		})
 
 	<% } %>
@@ -233,7 +233,7 @@ window.addEventListener('load', function() {
 			</a>
 		</div>
 		<div class="leftbox2">
-			<a href="./notice">
+			<a href="./unreadnotice">
 			<span style="color: black; font-size: 0.8em; width: 70px; height: 45px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
 				<span style="font-size: 1.5em; color: #029EE4;">
 				${noticeCount }

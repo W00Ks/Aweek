@@ -19,6 +19,7 @@ public class DiaryPaging {
 	private String searchtext;
 	private int sort;
 	private int searchsort;
+	private int roomNo;
 
 	
 	//디폴트 생성자 - 페이징 로직이 처리되지 않는다
@@ -203,6 +204,16 @@ public class DiaryPaging {
 
 	public void setSearchsort(int searchsort) {
 		this.searchsort = searchsort;
+	}
+
+
+	public int getRoomNo() {
+		return roomNo;
+	}
+
+
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
 	}
 	
 }

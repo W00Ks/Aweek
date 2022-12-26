@@ -6,12 +6,14 @@ import java.util.List;
 import diary.dto.Diary;
 import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
+import diary.dto.DiaryComment;
 import diary.dto.DiaryFavorite;
 import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
 import diary.dto.DiaryUserRecomm;
 import diary.dto.DiaryPaging;
+import diary.dto.DiaryPagingAndRoom;
 import member.dto.Member;
 import room.dto.Room;
 import room.dto.RoomList;
@@ -364,8 +366,80 @@ public interface DiaryDao {
 	 */
 	public int selectRoomListAuto(RoomList roomList);
 
-	public int selectBestCntAll(DiaryPaging temp);
+	public int selectBestCntAll(DiaryPagingAndRoom diaryVo);
 
-	public List<Diary> selectBestAll(DiaryPaging paging);
+	public List<Diary> selectBestAll(DiaryPagingAndRoom diaryVo);
+
+	public int selectNoticeCntAll(DiaryPagingAndRoom diaryVo);
+
+	public List<Diary> selectNoticeAll(DiaryPagingAndRoom diaryVo);
+
+	public int selectEntireCntAll(DiaryPagingAndRoom diaryVo);
+
+	public List<Diary> selectEntireAll(DiaryPagingAndRoom diaryVo);
+
+	/**
+	 * 댓글 테이블에 데이터 삽입
+	 * 
+	 * @param diaryComment - 댓글 DTO
+	 */
+	public void insertDiaryComment(DiaryComment diaryComment);
+
+	/**
+	 * 게시글의 댓글 조회
+	 * 
+	 * @param diaryNo - 게시글 번호
+	 * @return 댓글 DTO
+	 */
+	public List<DiaryComment> selectDiaryComment(int diaryNo);
+
+	/**
+	 * 게시글의 댓글 삭제
+	 * 
+	 * @param diaryCommNo - 댓글 번호
+	 */
+	public void deleteDiaryComment(int diaryCommNo);
+
+	/**
+	 * 해당 모임의 구독 여부 체크
+	 * 
+	 * @param writeroomNo - 모임 번호
+	 * @return 결과값
+	 */
+	public int selectPayment(int writeroomNo);
+
+	/**
+	 * 카테고리명 select
+	 * 
+	 * @param diaryCateNo2 - 카테고리 번호
+	 * @return 카테고리명
+	 */
+	public String selectCateName(int diaryCateNo2);
+
+	/**
+	 * 모임에 가입된 사용자 리스트 검색
+	 * 
+	 * @param writeroomNo - 모임 번호
+	 * @return RoomList DTO
+	 */
+	public List<DiaryRoomList> selectRoomNoList(int writeroomNo);
+
+	/**
+	 * 공지 안읽음 데이터 삽입
+	 * 
+	 * @param roomList - 해당 공지가 쓰여진 모임의 가입자 리스트
+	 */
+	public void insertDiaryNoticeRead(List<DiaryRoomList> roomList);
+
+	/**
+	 * 공지 읽음 시 카운트 변경
+	 * 
+	 * @param diaryRoomList - 사용자번호와 게시글번호
+	 */
+	public void updateDiaryNoticeRead(DiaryRoomList diaryRoomList);
+
+	public int selectUnreadNoticeCntAll(DiaryPagingAndRoom diaryVo);
+
+	public List<Diary> selectUnreadNoticeAll(DiaryPagingAndRoom diaryVo);
 
 }

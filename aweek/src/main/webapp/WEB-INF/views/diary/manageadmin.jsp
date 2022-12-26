@@ -53,7 +53,7 @@ $(document).ready(function(){
 <h1>${roomInfo.roomName } 관리자</h1>
 
 <hr>
-<h5 style="margin-bottom: 0px;">공지사항 작성 및 게시글 삭제 권한을 부여할 수 있습니다.</h5>
+<h5 style="margin-bottom: 0px;">공지사항 작성 및 게시글&댓글 삭제 권한을 부여할 수 있습니다.</h5>
 
 <form action="./manageadmin" method="post" target="iframe1" id="adminform">
 <input type="button" value="설정" id="adminbutton">

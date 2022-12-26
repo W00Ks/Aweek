@@ -150,7 +150,7 @@ $(document).ready(function(){
 	</form>
 </div>
 <div class="rightbox2">
-	<div style="font-size: 1.2em; font-weight:600;">나의글</div>
+	<div style="font-size: 1.2em; font-weight:600;">추천글</div>
 	<div class="sortbutton">
 		<div style="line-height: 25px; width: 80px; margin-left: 7px;">
 			<c:if test="${sort eq 0}">날짜순</c:if>

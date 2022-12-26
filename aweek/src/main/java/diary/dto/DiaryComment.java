@@ -9,6 +9,7 @@ public class DiaryComment {
 	private int userNo;
 	private String diaryCommContent;
 	private Date diaryCommDate;
+	private String userName;
 	
 	public DiaryComment() {}
 
@@ -65,6 +66,14 @@ public class DiaryComment {
 
 	public void setDiaryCommDate(Date diaryCommDate) {
 		this.diaryCommDate = diaryCommDate;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }
