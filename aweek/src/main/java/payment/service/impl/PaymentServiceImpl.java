@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import member.dto.Member;
 import payment.dao.face.PaymentDao;
 import payment.dto.Payment;
+import payment.dto.Product;
 import payment.service.face.PaymentService;
 
 @Service
@@ -22,10 +23,31 @@ public class PaymentServiceImpl implements PaymentService{
 	@Autowired PaymentDao paymentDao;
 
 	@Override
-	public Payment info(String loginid) {
-		logger.info("info( - {}", loginid);
-		return paymentDao.selectLoginByid(loginid);
+	public Member getLoginInfo(Member member) {
+		member = paymentDao.selectLoginInfo(member);
+		return member;
 	}
+
+	@Override
+	public void save(Payment payment) {
+		paymentDao.savePaymentInfo(payment);
+	}
+
+	@Override
+	public Product getProductInfo(int amount) {
+		return paymentDao.selectProductInfo(amount);
+	}
+
+	@Override
+	public Payment getPaymentInfo(Payment paymentInfo) {
+		return paymentDao.selectPaymentInfo(paymentInfo);
+	}
+
+
+
+
+
+
 
 
 
