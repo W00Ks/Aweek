@@ -10,10 +10,8 @@
 <meta charset="UTF-8">
 <title>Aweek 관리자 페이지</title>
 
-<!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
-<!-- 부트스트랩 3 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -67,7 +65,7 @@ $(document).ready(function() {
 }
 
 .wrapheader {
-	background: pink;
+	background: #43C446;
 }
 
 .logo {
@@ -93,7 +91,7 @@ ul, li {
 ul.nav {
 	list-style-type: none;
 	padding: 0;
-	margin: 0;
+	margin: 20px 0px;
 	display: inline-block;
 }
 
@@ -194,27 +192,27 @@ ul.nav > li > ul > li > a:hover {
 
 <ul class="nav">
 	<li>
-		<span><a href="/admin/memberlist">회원 목록</a></span>
+		<span><a href="/admin/memberlist">회원 관리</a></span>
 	</li>
 
 	<li>
-		<span><a href="/admin/paymentlist">결제 목록</a></span>
+		<span><a href="/admin/roomlist">방 관리</a></span>
 	</li>
 
 	<li>
-		<span><a href="/admin/roomlist">방 목록</a></span>
+		<span><a href="/admin/paymentlist">결제 관리</a></span>
+	</li>
+
+	<li>
+		<span><a href="/admin/noticelist">공지사항 관리</a></span>
+	</li>
+
+	<li>
+		<span><a href="/admin/qnalist">자주 묻는 질문 관리</a></span>
 	</li>
 	
 	<li>
-		<span><a href="/admin/noticelist">공지사항</a></span>
-	</li>
-	
-	<li>
-		<span><a href="/admin/inquirylist">1:1 문의</a></span>
-	</li>
-
-	<li>
-		<span><a href="/admin/qnalist">자주 묻는 질문</a></span>
+		<span><a href="/admin/inquirylist">1:1 문의 관리</a></span>
 	</li>
 
 	<li>

@@ -52,13 +52,13 @@ button {
 }
 
 #container {
-	width: 800px;
+	width: 600px;
 	heigth: auto;
 	margin: 0 auto;
 	margin-top: 120px;
 	margin-bottom: 80px;
 	text-align: center;
-	border: 1px solid #43ff00;
+	border: 3px solid #4F86C6;
 	border-radius: 1.1em;
 }
 
@@ -76,15 +76,15 @@ button {
 
 .btn-primary {
 	border-radius: 0.8em;
-	border-color: #43FE00;
+	border-color: #4F86C6;
     color: #fff;
-    background-color: #43FE00;
+    background-color: #4F86C6;
     width: 50%;
 }
 
 .form-control {
 	width: 50%;
-	border-color: #43FE00;
+	border-color: #4F86C6;
 	border-radius: 0.8em;
 }
 
@@ -110,7 +110,7 @@ button {
 <body>
 
 <div id="container">
-	<h1 style="color: green;">관리자 로그인</h1>	
+	<h1 style="color: #4F86C6;">관리자 로그인</h1>	
 	<div id="content">
 		<div class="login_wrap">
 			<form action="/admin/login" method="post" name="loginForm"class="form-horizontal">
@@ -119,12 +119,10 @@ button {
 						<div class="login_row">
 							<input type="text" id="adminId" name="adminId" class="form-control" placeholder="아이디" title="아이디">
 						</div>
-						
 						<div class="login_row">
 							<input type="password" id="adminPw" name="adminPw" class="form-control" placeholder="비밀번호" title="비밀번호">
 						</div>
 					</div>
-					
 					<div class="login_btn_wrap">
 						<p>
 							<button type="button" class="btn btn-primary" id="btnLogin" onclick="loginCheck()">

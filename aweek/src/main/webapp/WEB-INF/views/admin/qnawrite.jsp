@@ -12,11 +12,25 @@
 $(document).ready(function() {
 	
 	$("#btnWrite").click(function() {
-		$("form").submit();
+		var wri_list = confirm ("자주 묻는 질문을 등록하시겠습니까?")
+		
+		if( wri_list == true ) {
+			alert("등록하셨습니다.")
+			$("form").submit();
+		} else if( wri_list == false ) {
+			return false;
+		}
 	})
 	
 	$("#btnCancel").click(function() {
-		$(location).attr('href', '/admin/qnalist')
+		var can_list = confirm("자주 묻는 질문 작성을 취소하시겠습니까?")
+		
+		if( can_list == true ) {
+			alert("취소하셨습니다.")
+			$(location).attr('href', '/admin/qnalist')
+		} else if( can_list == false ) {
+			return;			
+		}
 	})
 })
 
@@ -28,7 +42,6 @@ table {
 	margin: 0 auto;
 }
 
-
 td {
 	padding: 5px;
 }
@@ -37,62 +50,41 @@ textarea {
 	resize: none;
 }
 
+.text-center {
+	margin-top: 50px;
+}
+
 </style>
 
 </head>
 <body>
 
-<h1>자주묻는질문 작성</h1>
+<h1>자주 묻는 질문 작성</h1>
 <hr>
 
 <div class="container">
-
-<form action="./qnawrite" method="post" enctype="multipart/form-data">
-
-<table>
-	<tr>
-		<td>아이디</td>
-		<td>
-			<input type="text" id="writerId" name="writerId" class="form-control" value="${ writerId }">
-		</td>
-	</tr>
+	<form action="./qnawrite" method="post" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td>제목</td>
+				<td class="form-group">
+					<input type="text" id="qnaTitle" name="qnaTitle" class="form-control" value="${ updateQna.qnaTitle }">
+				</td>
+			</tr>	
+		
+			<tr>	
+				<td>본문</td>
+				<td class="form-group">
+					<textarea rows="10" style="width: 500px;" id="qnaContent" name="qnaContent" class="form-control">${ updateQna.qnaContent }</textarea>
+				</td>
+			</tr>	
+		</table>
 	
-	<tr>
-		<td>닉네임</td>
-		<td>
-			<input type="text" id="writerNick" name="writerNick" class="form-control" value="${ writerNick }">
-		</td>
-	</tr>
-
-	<tr>
-		<td>제목</td>
-		<td>
-			<input type="text" id="qnaTitle" name="qnaTitle" class="form-control" value="${ updateQna.qnaTitle }">
-		</td>
-	</tr>	
-
-	<tr>	
-		<td>본문</td>
-		<td>
-			<textarea rows="10" style="width: 500px;" id="qnaContent" name="qnaContent" class="form-control">${ updateQna.qnaContent }</textarea>
-		</td>
-	</tr>	
-
-	<tr>
-		<td>첨부파일</td>
-		<td>
-			<input type="file" id="file" name="file">
-		</td>
-	</tr>
-</table>
-
-	<div class="text-center" style="padding: 50px;">
-		<button id="btnWrite" class="btnWrite">작성</button>
-		<input type="reset" id="btnCancel" class="btnCancel" value="취소">
-	</div>
-
-</form>
-
+		<div class="text-center">
+			<button id="btnWrite" class="btnWrite">작성</button>
+			<input type="reset" id="btnCancel" class="btnCancel" value="취소">
+		</div>
+	</form>
 </div>
 
 </body>

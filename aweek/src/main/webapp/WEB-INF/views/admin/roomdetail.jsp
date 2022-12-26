@@ -48,7 +48,7 @@ th, td {
     margin-bottom: 50px;
 }
 
-.memberlist {
+.roomlist {
 	border: 1px solid #ccc;
 	border-radius: 1.1em;
 	color: green;
@@ -61,46 +61,39 @@ th, td {
 
 <div class="container">
 	<div class="list">
-		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">회원 상세 정보</h1>
+		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">방 상세 정보</h1>
 	</div>
+	
 	<table>
 		<tr>
 			<th>번호</th>
-			<td>${ member.userNo }</td>
+			<td>${ room.roomNo }</td>
 		</tr>
 		<tr>
-			<th>아이디</th>
-			<td>${ member.userId }</td>
+			<th>카테고리</th>
+			<td>${ room.roomCategoryNo }</td>
 		</tr>
 		<tr>
 			<th>이름</th>
-			<td>${ member.userName }</td>
+			<td>${ room.roomName }</td>
 		</tr>
 		<tr>
 			<th>전화번호</th>
-			<td>${ member.userPhone }</td>
+			<td>${ room.roomIntroduce }</td>
 		</tr>
 		<tr>
-			<th>주소</th>
-			<td>${ member.userAddress }</td>
+			<th>인원</th>
+			<td>${ room.roomMember }</td>
 		</tr>
 		<tr>
-			<th>생년월일</th>
-			<td>${ member.userBirth }</td>
-		</tr>
-		<tr>
-			<th>이메일</th>
-			<td>${ member.userEmail }</td>
-		</tr>
-		<tr>
-			<th>가입정보</th>
-			<td><fmt:formatDate value="${ member.userJoin }" pattern="yy-MM-dd HH:mm:ss"/></td>
+			<th>공개여부</th>
+			<td>${ room.roomPublic }</td>
 		</tr>
 	</table>
 </div>
 
 <div style="margin-top: 50px; margin-bottom: 50px;">
-	<a href="/admin/memberlist"><button class="memberlist">회원 목록</button></a>
+	<a href="/admin/roomlist"><button class="roomlist">방 목록</button></a>
 </div>
 
 </c:if>

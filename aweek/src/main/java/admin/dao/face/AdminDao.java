@@ -3,12 +3,13 @@ package admin.dao.face;
 import java.util.List;
 
 import admin.dto.Admin;
-import admin.dto.Search;
+import admin.util.UserPaging;
 import common.Paging;
 import cs.dto.CsFile;
 import cs.dto.Inquiry;
 import cs.dto.Notice;
 import cs.dto.QnA;
+import cs.dto.QnACategory;
 import member.dto.Member;
 import payment.dto.Payment;
 import room.dto.Room;
@@ -33,6 +34,21 @@ public interface AdminDao {
 	public Admin selectAdminInfo(Admin admin);
 
 	/**
+	 * 전체 회원 목록을 조회함
+	 * 
+	 * @return - 전체 회원 목록 수
+	 */
+	public int selectMemberCntAll();
+	
+	/**
+	 * 검색된 회원 목록을 조회함
+	 * 
+	 * @param userPaging - 검색된 회원 목록 수
+	 * @return - 검색된 회원 목록 수
+	 */
+	public int selectSearchCntAll(UserPaging userPaging);
+
+	/**
 	 * 전체 방 목록을 조회함
 	 * 
 	 * @return - 전체 방 목록 수
@@ -40,25 +56,11 @@ public interface AdminDao {
 	public int selectCntRoom();
 	
 	/**
-	 * 전체 회원 목록을 조회함
-	 * 
-	 * @return - 전체 회원 목록 수
-	 */
-	public int selectCntMember();
-	
-	/**
 	 * 전체 결제 목록을 조회함
 	 * 
 	 * @return - 전체 결제 목록 수
 	 */
 	public int selectCntPayment();
-	
-	/**
-	 * 전체 1:1 문의 목록을 조회함
-	 * 
-	 * @return - 전체 1:1 문의 목록 수
-	 */
-	public int selectCntInquiry();
 	
 	/**
 	 * 전체 공지사항 목록을 조회함
@@ -73,14 +75,29 @@ public interface AdminDao {
 	 * @return - 전체 Q&A 목록 수
 	 */
 	public int selectCntQnA();
-
+	
 	/**
-	 * 페이징을 적용하여 회원 목록 조회
+	 * 전체 1:1 문의 목록을 조회함
 	 * 
-	 * @param paging - 페이징 정보 객체
+	 * @return - 전체 1:1 문의 목록 수
+	 */
+	public int selectCntInquiry();
+	
+	/**
+	 * 페이징을 이용하여 회원 목록을 조회
+	 * 
+	 * @param userPaging - 페이징 정보 객체
 	 * @return - 페이징이 적용된 회원 목록
 	 */
-	public List<Member> selectMemberList(Paging paging);
+	public List<Member> selectMember(UserPaging userPaging);
+	
+	/**
+	 * 페이징을 이용하여 검색된 회원 목록을 조회
+	 * 
+	 * @param userPaging - 페이징 정보 객체
+	 * @return - 페이징이 적용된 검색된 회원 목록
+	 */
+	public List<Member> selectSearch(UserPaging userPaging);
 
 	/**
 	 * 페이징을 적용하여 방 목록 조회
@@ -132,6 +149,14 @@ public interface AdminDao {
 	public Member selectMemberDetail(Member member);
 
 	/**
+	 * 방 번호를 이용하여 방 내역을 조회
+	 * 
+	 * @param room - 조회하려는 방 번호
+	 * @return - 조회된 방 정보
+	 */
+	public Room selelctRoomDetail(Room room);
+
+	/**
 	 * 결제 번호를 이용하여 결제 내역을 조회
 	 * 
 	 * @param payment - 조회하려는 결제 번호
@@ -150,11 +175,27 @@ public interface AdminDao {
 	/**
 	 * Q&A 번호를 이용하여 Q&A를 조회
 	 * 
-	 * @param qna - 조회하려는 Q&A 번호
+	 * @param viewQna - 조회하려는 Q&A 번호
 	 * @return - 조회된 Q&A 번호
 	 */
 	public QnA selelctdQnaView(QnA qna);
 	
+	/**
+	 * 1:1 문의 번호를 이용하여 1:1 문의를 조회
+	 * 
+	 * @param viewInquiry - 조회하려는 1:1 문의 번호
+	 * @return - 조회된 1:1 문의 번호
+	 */
+	public Inquiry selectInquiryView(Inquiry viewInquiry);
+	
+	/**
+	 * 파일 번호를 이용하여 첨부파일 정보를 조회
+	 * 
+	 * @param csFile - 조회할 첨부파일 객체
+	 * @return - 조회된 첨부파일 정보
+	 */
+	public CsFile selectCsFileByCsFileNo(CsFile csFile);
+
 	/**
 	 * 조회하려는 공지사항의 조회수를 1 증가시킴
 	 * 
@@ -168,6 +209,13 @@ public interface AdminDao {
 	 * @param notice - 삽입할 공지사항 정보
 	 */
 	public void insertNotice(Notice notice);
+	
+	/**
+	 * 공지사항 첨부파일 정보를 삽입
+	 * 
+	 * @param csFile
+	 */
+	public void insertNoticeFile(CsFile csFile);
 
 	/**
 	 * 공지사항 정보를 수정
@@ -175,13 +223,28 @@ public interface AdminDao {
 	 * @param notice - 수정할 공지사항 정보
 	 */
 	public void updateNotice(Notice notice);
-
+	
 	/**
 	 * 공지사항 삭제
 	 * 
 	 * @param notice - 삭제할 공지사항 정보
 	 */
 	public void deleteNotice(Notice notice);
+	
+	/**
+	 * 공지사항을 참조하고 있는 모든 첨부파일 삭제
+	 * 
+	 * @param notice - 첨부파일을 삭제할 공지사항 번호
+	 */
+	public void deleteNoticeFile(Notice notice);
+
+	/**
+	 * 공지사항 번호를 이용하여 첨부파일 정보를 조회
+	 * 
+	 * @param viewNotice - 조회할 공지사항 번호
+	 * @return - 조회된 첨부파일 정보
+	 */
+	public CsFile selelctCsFileByNoticeNo(Notice viewNotice);
 
 	/**
 	 * Q&A 정보를 삽입
@@ -205,25 +268,25 @@ public interface AdminDao {
 	public void deleteQna(QnA qna);
 
 	/**
-	 * 파일 번호를 이용하여 첨부파일 정보를 조회
+	 * Q&A 카테고리 리스트 불러오기
 	 * 
-	 * @param csFile - 조회할 첨부파일 객체
-	 * @return - 조회된 첨부파일 정보
+	 * @return List<QnACategory> - Q&A 카테고리 리스트
 	 */
-	public CsFile selectCsFileByCsFileNo(CsFile csFile);
+	public List<QnACategory> selectQnACategoryList();
 
-	public List<Member> getSearchPaging(Search search);
-
-	public int getTotal(Search search);
-
-	public CsFile selelctCsFileByNoticeNo(Notice viewNotice);
-
-	public CsFile selelctCsFileByQnaNo(QnA viewQna);
-
-	public void insertNoticeFile(CsFile csFile);
-
-	public void deleteNoticeFile(Notice notice);
-
-	public int getMemberCount();
-
+	
+//	/**
+//	 * 전체 회원 목록을 조회함
+//	 * 
+//	 * @return - 전체 회원 목록 수
+//	 */
+//	public int selectCntMember();
+	
+//	/**
+//	 * 페이징을 적용하여 회원 목록 조회
+//	 * 
+//	 * @param paging - 페이징 정보 객체
+//	 * @return - 페이징이 적용된 회원 목록
+//	 */
+//	public List<Member> selectMemberList(Paging paging);
 }
