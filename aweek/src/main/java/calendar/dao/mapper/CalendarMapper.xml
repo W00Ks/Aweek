@@ -7,8 +7,8 @@
 
 <mapper namespace="calendar.dao.face.CalendarDao">
 	<insert id="insertMyCal" parameterType="calendar.dto.CalDto">
-		INSERT INTO my_calender (cal_no, user_no, cal_title, start_date, start_time ,  cal_place, cal_memo)
-		VALUES(seq_my_calender.nextval, #{userNo}, #{calTitle}, #{startDate}, #{startTime} ,  #{calPlace}, #{calMemo})
+		INSERT INTO my_calender (cal_no, user_no, cal_title, start_date, start_time ,  cal_place, cal_memo, importance)
+		VALUES(seq_my_calender.nextval, #{userNo}, #{calTitle}, #{startDate}, #{startTime} ,  #{calPlace}, #{calMemo}, #{importance})
 	</insert>
 	
 	<select id="selectMyCal" parameterType="int" resultType="calendar.dto.CalDto">
@@ -16,7 +16,7 @@
 	</select>
 	
 	<select id="selectMyCalByCalNo" parameterType="calendar.dto.CalDto" resultType="calendar.dto.CalDto">
-		SELECT cal_no, user_no , cal_title, cal_place, cal_memo, start_date, start_time 
+		SELECT cal_no, user_no , cal_title, cal_place, cal_memo, start_date, start_time , importance
 		FROM my_calender
 		WHERE cal_no = #{calNo}
 	</select>
@@ -28,10 +28,56 @@
 			, start_time = #{startTime}
 			, cal_place = #{calPlace}
 			, cal_memo = #{calMemo}
+			, importance = #{importance}
 		WHERE cal_no = #{calNo}
 	</update>
 	
 	<delete id="deleteMyCal" parameterType="calendar.dto.CalDto">
 		DELETE my_calender WHERE cal_no = #{calNo}
+	</delete>
+	
+	<select id="selectRoomInfoByUserNo" resultType="calendar.dto.CalRoomList" parameterType="int">
+		SELECT l.room_no, r.room_name, l.user_no FROM(
+   			 SELECT * FROM room_list
+    		WHERE user_no = #{userNo}
+			)l
+			INNER JOIN room r
+			ON l.room_no = r.room_no
+	</select>
+	
+ 	<select id="selectRoomInfoByRoomNo" resultType="calendar.dto.CalRoomList" parameterType="calendar.dto.CalRoomList"> 
+		SELECT room_no, room_name FROM room WHERE room_no = #{roomNo} 
+	</select> 
+
+ 	
+	
+	<select id="selectGroupCal" resultType="calendar.dto.groupCalDto" parameterType="calendar.dto.CalRoomList">
+		SELECT * FROM group_calender WHERE room_no = ${roomNo}
+	</select>
+	
+	<insert id="insertGroupCal" parameterType="calendar.dto.groupCalDto">
+		INSERT INTO group_calender (gcal_no, room_no, user_no, gcal_title, gcal_start_date, gcal_start_time, gcal_place, gcal_memo, participator, importance)
+		VALUES (seq_group_calender.nextval, #{roomNo}, #{userNo}, #{gcalTitle}, #{gcalStartDate}, #{gcalStartTime}, #{gcalPlace}, #{gcalMemo}, #{participator},#{importance} )
+	</insert>
+	
+	<select id="selectGroupCalByGroupCalNo" parameterType="calendar.dto.groupCalDto" resultType="calendar.dto.groupCalDto">
+		SELECT room_no, gcal_no, user_no , gcal_title, gcal_place, gcal_memo, gcal_start_date, gcal_start_time , importance
+		FROM group_calender
+		WHERE gcal_no = ${gcalNo}
+	</select>
+	
+	<update id="updateGroupCal" parameterType="calendar.dto.groupCalDto">
+		UPDATE group_calender
+		SET gcal_title = #{gcalTitle}
+			, gcal_start_date = #{gcalStartDate}
+			, gcal_start_time = #{gcalStartTime}
+			, gcal_place = #{gcalPlace}
+			, gcal_memo = #{gcalMemo}
+			, importance = #{importance}
+		WHERE gcal_no = #{gcalNo}
+	</update>
+	
+	<delete id="deleteGroupCal" parameterType="calendar.dto.groupCalDto">
+		DELETE group_calender WHERE gcal_no = #{gcalNo}
 	</delete>
 </mapper>

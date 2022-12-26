@@ -1,9 +1,46 @@
+<%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
+<%	
+	//달력의 날짜를 바꾸기 위해 전달된 year와 month 파라미터를 받는다.
+	String paramYear = request.getParameter("year");
+	String paramMonth = request.getParameter("month");
+	
+
+	Calendar cal = Calendar.getInstance();
+	int year = cal.get(Calendar.YEAR); //현재 년도
+//	int month = cal.get(Calendar.MONTH); //현재 월 (0부터 시작) 0월 -> 1월
+	int month = cal.get(Calendar.MONTH)+1;
+
+	if(paramYear!=null){
+		year = Integer.parseInt(paramYear);
+	}
+	
+	if(paramMonth!=null){
+		month = Integer.parseInt(paramMonth);
+	}
+	
+	if(month>12){
+		month=1;
+		year++;
+	}
+	
+	if(month<1){
+		month=12;
+		year--;
+	}
+	//현재 월의 1일에 대한 요일: 1~7 반환  1:일요일, 2:월요일 ....
+	cal.set(year, month-1, 1);
+	int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+	
+	//현재 월의 마지막 날 
+	int lastDay= cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+	
+%>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
@@ -227,42 +264,42 @@ label{
 <body>
 <div class="schedule_detail_header">
 
-<h2 id="calTitle">${viewCal.calTitle }</h2>
+<h2 id="calTitle">${viewGroupCal.gcalTitle }</h2>
 </div>
 <div class="schedule_detail_content">
 <dl>
 <dt>일시</dt>
-<dd><span>${viewCal.startDate }</span></dd>
+<dd><span>${viewGroupCal.gcalStartDate }</span></dd>
 
 
 <dt>시간</dt>
 <c:choose>
-	<c:when test="${empty viewCal.startTime }">
+	<c:when test="${empty viewGroupCal.gcalStartTime }">
 	<dd><span>없음</span></dd>
 	</c:when>
 	
-	<c:when test="${not empty viewCal.startTime }">
-	<dd><span>${viewCal.startTime }</span></dd>
+	<c:when test="${not empty viewGroupCal.gcalStartTime }">
+	<dd><span>${viewGroupCal.gcalStartTime }</span></dd>
 	</c:when>
 </c:choose>
 <dt>장소</dt>
 <c:choose>
-	<c:when test="${empty viewCal.calPlace }">
+	<c:when test="${empty viewGroupCal.gcalPlace }">
 	<dd><span>없음</span></dd>
 	</c:when>
 	
-	<c:when test="${not empty viewCal.calPlace }">
-	<dd><span>${viewCal.calPlace }</span></dd>
+	<c:when test="${not empty viewGroupCal.gcalPlace }">
+	<dd><span>${viewGroupCal.gcalPlace }</span></dd>
 	</c:when>
 </c:choose>
 <dt>메모</dt>
 <c:choose>
-	<c:when test="${empty viewCal.calMemo }">
+	<c:when test="${empty viewGroupCal.gcalMemo }">
 	<dd><span>없음</span></dd>
 	</c:when>
 	
-	<c:when test="${not empty viewCal.calMemo }">
-	<dd><span>${viewCal.calMemo }</span></dd>
+	<c:when test="${not empty viewGroupCal.gcalMemo }">
+	<dd><span>${viewGroupCal.gcalMemo }</span></dd>
 	</c:when>
 </c:choose>
 </dl>
@@ -270,7 +307,7 @@ label{
 
 <div class="schedule_detail_footer">
 <button class= "updateDeleteBtn" id="update_button" style="cursor:pointer">수정</button>
-<button class= "updateDeleteBtn" onclick="location.href='/calendar/delete?calNo=${viewCal.calNo }'" style="cursor:pointer">삭제</button>
+<button class= "updateDeleteBtn" onclick="location.href='/calendar/gcalDelete?roomNo=${viewGroupCal.roomNo }&gcalNo=${viewGroupCal.gcalNo }&year=<%=year %>&month=<%=month %>'" style="cursor:pointer">삭제</button>
 </div>
 
 <div class="update_modal"></div>
@@ -282,23 +319,26 @@ label{
 			<span style="color: red; font-size: 12px"> *제목과 날짜는 필수입력사항입니다*</span>
 		</div>
 		<div class="update_write_form">
-			<form action="/calendar/update" method="post" id="update_form" >
-				<input type="hidden" name="calNo" value="${viewCal.calNo }">
+			<form action="/calendar/gcalUpdate" method="post" id="update_form" >
+				<input type="hidden" name="year" value="<%=year%>">
+				<input type="hidden" name="month" value="<%=month%>">
+				<input type="hidden" name="gcalNo" value="${viewGroupCal.gcalNo }">
+				<input type="hidden" name="roomNo" value="${viewGroupCal.roomNo }">
 				<table>
 					<tr>
 					<td style="padding-left: 0; padding-right: 0;">제목<span><label for="importance" id="upCheckboxImg" style="vertical-align: bottom; margin-left: 15px;"><input type="checkbox" name="importance" id="upimportance"></label></span></td>
-					<td class="calTitle updateInput" ><input type="text" name="calTitle" id="calTitleInput" value="${viewCal.calTitle }"></td>
+					<td class="calTitle updateInput" ><input type="text" name="gcalTitle" id="calTitleInput" value="${viewGroupCal.gcalTitle }"></td>
 					</tr>
 					
 					<tr>
 					<td>날짜</td>
-					<td class="startDate updateInput"><input type="text" name="startDate" id="updateStartDateInput" readonly="readonly" value="${viewCal.startDate }"></td>
+					<td class="startDate updateInput"><input type="text" name="gcalStartDate" id="updateStartDateInput" readonly="readonly" value="${viewGroupCal.gcalStartDate }"></td>
 					</tr>
 					<tr>
 					
 					<td>시간</td>
 					<td class="startTime updateInput">
-					<select name="startTime" id="startTimeInput">
+					<select name="gcalStartTime" id="startTimeInput">
 					<option>오전 12시</option>
 					<c:forEach begin="1" end="11" var="i">
 					<option>오전 ${i }시</option>
@@ -313,12 +353,12 @@ label{
 					
 					<tr>
 					<td>장소</td>
-					<td class="updateInput"><input type="text" name="calPlace" value="${viewCal.calPlace }"></td>
+					<td class="updateInput"><input type="text" name="gcalPlace" value="${viewGroupCal.gcalPlace }"></td>
 					</tr>
 					
 					<tr>
 					<td style="vertical-align: top">메모</td>
-					<td class="updateInput"><textarea rows="" cols="" name="calMemo" >${viewCal.calMemo }</textarea></td>
+					<td class="updateInput"><textarea rows="" cols="" name="gcalMemo" >${viewGroupCal.gcalMemo }</textarea></td>
 					</tr>
 					
 <!-- 					<tr> -->

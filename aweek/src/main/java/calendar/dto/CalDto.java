@@ -19,11 +19,12 @@ public class CalDto {
 	private String calPlace;
 	private String calMemo;
 	private String calAlarm;
+	private String importance;
 	
 	public CalDto() {}
 
 	public CalDto(int calNo, int userNo, String calTitle, String startDate, String startTime, String calPlace,
-			String calMemo, String calAlarm) {
+			String calMemo, String calAlarm, String importance) {
 		super();
 		this.calNo = calNo;
 		this.userNo = userNo;
@@ -33,13 +34,14 @@ public class CalDto {
 		this.calPlace = calPlace;
 		this.calMemo = calMemo;
 		this.calAlarm = calAlarm;
+		this.importance = importance;
 	}
 
 	@Override
 	public String toString() {
 		return "CalDto [calNo=" + calNo + ", userNo=" + userNo + ", calTitle=" + calTitle + ", startDate=" + startDate
 				+ ", startTime=" + startTime + ", calPlace=" + calPlace + ", calMemo=" + calMemo + ", calAlarm="
-				+ calAlarm + "]";
+				+ calAlarm + ", importance=" + importance + "]";
 	}
 
 	public int getCalNo() {
@@ -106,6 +108,15 @@ public class CalDto {
 		this.calAlarm = calAlarm;
 	}
 
+	public String getImportance() {
+		return importance;
+	}
+
+	public void setImportance(String importance) {
+		this.importance = importance;
+	}
+
+	
 	
 	
 

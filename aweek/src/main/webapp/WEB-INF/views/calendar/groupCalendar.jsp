@@ -1,15 +1,14 @@
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.Date"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="calendar.dto.CalDto"%>
-<%@page import="java.util.List"%>
-<%@page import="calendar.util.Util"%>
-<%@page import="java.util.Calendar"%>
 
+
+<%@page import="calendar.util.Util"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="calendar.dto.groupCalDto"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%List<CalDto> clist =(List) request.getAttribute("list"); %>
-<% CalDto viewCal = (CalDto) request.getAttribute("viewCal"); %>
+<% List<groupCalDto> gCalList = (List)request.getAttribute("gropCalList"); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -195,11 +194,11 @@ $(document).ready(function(){
 			console.log("일정 상세보기");
 			console.log(e);
 			//ajax로 상세정보 가져오기
-			var calNo = e.target.id;
+			var gcalNo = e.target.id;
 			
-			console.log(calNo);
+			console.log(gcalNo);
 			$.ajax({
-				url : '/calendar/view?calNo=' + calNo,
+				url : '/calendar/gcalView?gcalNo=' + gcalNo,
 				type : 'get',
 				dataType : 'text',
 				success : function(res){
@@ -266,7 +265,7 @@ $(document).ready(function(){
 			
 			
 				
-		})
+		}) 
 		
 		$(".schedule_detail_modal").click(function(){
 			$(this).hide();
@@ -308,7 +307,6 @@ $(document).ready(function(){
 				$("#checkboxImg").css({"background-image":"url(/resources/img/starIcon.png)"});
 			}
 		})
-		
 		var tr_length = $(".calendar_body tr").length
 		console.log(tr_length);
 		
@@ -458,7 +456,7 @@ $(document).ready(function(){
 }
 .cal_nav{
 	text-align: center;
-    margin-top: 83px;
+    margin-top: 22px;
     margin-bottom: 57px;
 }
 .cal_nav a{
@@ -537,10 +535,15 @@ label{
 #importance{
 	display:none;
 }
+.room_name{
+	text-align: center;
+	margin-top: 45px;
+	font-family: 'NanumSquareNeo-Variable';
+}
 .room-name{
 	font-size:18px;
 }
-.room-name:hover {
+.room-name:hover{
 	font-weight: bold;
 }
 </style>
@@ -596,7 +599,7 @@ label{
 		<span>모임목록</span><br>
 		<c:forEach items="${loginUserRoomsInfo }" var="loginUserRoomsInfo">
 		
-		<span class="room-name">>&nbsp;<a href="/calendar/gCal?roomNo=${loginUserRoomsInfo.roomNo }" style="color: black;">${loginUserRoomsInfo.roomName }</a></span><br>
+		<span class="room-name">>&nbsp;<a href="/calendar/gCal?roomNo=${loginUserRoomsInfo.roomNo }" style="color:black;">${loginUserRoomsInfo.roomName }</a></span><br>
 		
 		</c:forEach>
 	</div>
@@ -620,7 +623,7 @@ label{
 <%-- 		<%= calDto.getCalTitle() %><br> --%>
 <%-- 		<% } %> --%>
 <%-- 		<% } %> --%>
-		<% SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyyMMdd"); %>
+		<%-- <% SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyyMMdd"); %>
 		<% for(CalDto calDto :  clist){ %>
 		<%  String scheduleYear = calDto.getStartDate().substring(0, 4); %>
 		<%  String scheduleMonth = calDto.getStartDate().substring(5, 7); %>
@@ -635,7 +638,7 @@ label{
 			&&Integer.parseInt(scheduleTotal)>=Integer.parseInt(todayDay)){ %>
 		<span class="Dday-list">D<%= gap/(24*60*60*1000)-1 %>&nbsp;<%= calDto.getCalTitle() %></span><br>
 		<% } %>
-		<% } %>
+		<% } %> --%>
 		
 		
 	</div>
@@ -643,12 +646,16 @@ label{
 
 
 <div class="calendar">
+<div class="room_name" onclick="location.href='/room/roomInfo?roomNo=${calRoomList.roomNo}'" style="cursor: pointer;">
+${calRoomList.roomName }
+</div>
 <div class="cal_nav">
-<a href="/calendar/myCal?year=<%=year-1 %>&month=<%=month %>">&lt;&lt;</a>
-		<a href="/calendar/myCal?year=<%=year %>&month=<%=month-1 %>">&lt;</a>
+
+<a href="/calendar/gCal?roomNo=${calRoomList.roomNo }&year=<%=year-1 %>&month=<%=month %>">&lt;&lt;</a>
+		<a href="/calendar/gCal?roomNo=${calRoomList.roomNo }&year=<%=year %>&month=<%=month-1 %>">&lt;</a>
 		<span class="year_month"><%= year %>년 <%= month %>월</span>
-		<a href="/calendar/myCal?year=<%=year %>&month=<%=month+1 %>">&gt;</a>
-		<a href="/calendar/myCal?year=<%=year+1 %>&month=<%=month %>">&gt;&gt;</a>
+		<a href="/calendar/gCal?roomNo=${calRoomList.roomNo }&year=<%=year %>&month=<%=month+1 %>">&gt;</a>
+		<a href="/calendar/gCal?roomNo=${calRoomList.roomNo }&year=<%=year+1 %>&month=<%=month %>">&gt;&gt;</a>
 </div>
 <table border="1" class="calendar_body" >
 	<!-- <caption>
@@ -682,20 +689,28 @@ label{
 				%>
 				<td class="day">
 					<span style="color:<%=Util.fontColor(dayOfWeek, i)%>;"><%=i %></span>
-					
-					<%// 해당 날짜에 일정 존재하면 일정 제목 출력 %>
-					<%for(CalDto calDto : clist){ %>
-					<% if(Integer.parseInt(calDto.getStartDate().substring(8, 10))==i&&Integer.parseInt(calDto.getStartDate().substring(5, 7))==month){ %>
-					<p><a href="" onclick="return false" class="schedule_detail_req" id="<%=calDto.getCalNo() %>" value="<%= calDto.getCalNo()%>">
-					<% if(Integer.parseInt(calDto.getImportance())==1){ %>
+					<%  for(groupCalDto gCalDto : gCalList){ %>
+					<% if(Integer.parseInt(gCalDto.getGcalStartDate().substring(8, 10))==i&&Integer.parseInt(gCalDto.getGcalStartDate().substring(5, 7))==month){ %>
+					<p><a href="" onclick="return false" class="schedule_detail_req" id="<%=gCalDto.getGcalNo() %>" >
+					<% if(Integer.parseInt(gCalDto.getImportance())==1){ %>
+					★
+					<%} %>
+					<%=gCalDto.getGcalStartTime() %>&nbsp;<%= gCalDto.getGcalTitle() %></a><p>
+					<% } %>
+					<%} %>
+					<%-- <%// 해당 날짜에 일정 존재하면 일정 제목 출력 %>
+					for(groupCalDto gCalDto : gCalList){ 
+					<% if(Integer.parseInt(gCalDto.getGcalStartDate().substring(8, 10))==i&&Integer.parseInt(gCalDto.getGcalStartDate().substring(5, 7))==month){ %>
+					<p><a href="" onclick="return false" class="schedule_detail_req" id="<%=gCalDto.getGcalNo() %>" >
+					<% if(Integer.parseInt(gCalDto.getImportance())==1){ %>
 					★
 					<% } %>
-					<%=calDto.getStartTime() %>&nbsp;<%= calDto.getCalTitle() %></a><p>
+					<%=gCalDto.getGcalStartTime() %>&nbsp;<%= gCalDto.getGcalTitle() %></a><p>
 					<%} %>
 					<% } %>
 					<%if(month==12&&i==25){ %>
 					<span>성탄절</span>
-					<% } %>
+					<% } %> --%>
 					
 				</td>			
 				
@@ -709,8 +724,8 @@ label{
 			}%>
 			<%-- //나머지 공백 출력하는 for문--%>
 			<% int countNbsp =(7-(dayOfWeek-1 + lastDay)%7);
-			for(int i=1; i<=countNbsp; i++){%>
-				<td class="next_month_day"><%= i %></td>
+			for(int i=0; i<countNbsp; i++){%>
+				<td class="next_month_day"><%= i+1 %></td>
 			<% }%>
 		
 	</tr>
@@ -734,25 +749,25 @@ label{
 			<span style="color: red; font-size: 12px; font-family: 'NanumSquareNeo-Variable';"> *제목과 날짜는 필수입력사항입니다*</span>
 		</div>
 		<div class="write_form">
-			<form action="/calendar/writeForm" method="post" id="write_form" >
-				<input type="hidden" name="year" value="<%=year%>">
-				<input type="hidden" name="month" value="<%=month%>">
-				
+			<form action="/calendar/gCal" method="post" id="write_form" >
+			<input type="hidden" name="roomNo" value="${calRoomList.roomNo }">
+			<input type="hidden" name="year" value="<%=year%>">
+			<input type="hidden" name="month" value="<%=month%>">
 				<table>
 					<tr>
 					<td style="padding-left: 0; padding-right: 0;">제목<span><label for="importance" id="checkboxImg" style="vertical-align: bottom; margin-left: 15px;"><input type="checkbox" name="importance" id="importance"></label></span></td>
-					<td class="calTitle"><input type="text" name="calTitle" id="calTitleInput" placeholder="제목을 입력하세요."></td>
+					<td class="calTitle"><input type="text" name="gcalTitle" id="calTitleInput" placeholder="제목을 입력하세요."></td>
 					</tr>
 					
 					<tr>
 					<td style="padding-left: 0;">날짜</td>
-					<td class="startDate"><input type="text" name="startDate" id="startDateInput" readonly="readonly" placeholder="날짜를 선택해주세요."></td>
+					<td class="startDate"><input type="text" name="gcalStartDate" id="startDateInput" readonly="readonly" placeholder="날짜를 선택해주세요."></td>
 					</tr>
 					<tr>
 					
 					<td style="padding-left: 0;">시간</td>
 					<td class="startTime">
-					<select name="startTime" id="startTimeInput">
+					<select name="gcalStartTime" id="startTimeInput">
 					<option>오전 12시</option>
 					<c:forEach begin="1" end="11" var="i">
 					<option>오전 ${i }시</option>
@@ -767,12 +782,12 @@ label{
 					
 					<tr>
 					<td style="padding-left: 0;">장소</td>
-					<td><input type="text" name="calPlace" placeholder="장소를 입력하세요."></td>
+					<td><input type="text" name="gcalPlace" placeholder="장소를 입력하세요."></td>
 					</tr>
 					
 					<tr>
 					<td style="vertical-align: top; padding-left: 0;">메모</td>
-					<td><textarea rows="" cols="" name="calMemo"></textarea></td>
+					<td><textarea rows="" cols="" name="gcalMemo"></textarea></td>
 					</tr>
 					
 				
