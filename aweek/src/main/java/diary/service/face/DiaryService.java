@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import diary.dto.Diary;
 import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
+import diary.dto.DiaryComment;
 import diary.dto.DiaryFavorite;
 import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
@@ -340,8 +341,89 @@ public interface DiaryService {
 	 */
 	public int authority(RoomList roomList);
 
-	public DiaryPaging getBestPaging(int curPage, int userNo, String searchtext, int sort, int searchsort);
+	public DiaryPaging getBestPaging(int curPage, int userNo, String searchtext, int sort, int searchsort, int roomNo, List<Room> userRoom);
 
-	public List<Diary> getBestList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort);
+	public List<Diary> getBestList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort, int roomNo, List<Room> userRoom);
+
+	public DiaryPaging getNoticePaging(int curPage, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom);
+
+	public List<Diary> getNoticeList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom);
+
+	public DiaryPaging getEntirePaging(int curPage, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom);
+
+	public List<Diary> getEntireList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom);
+
+	/**
+	 * 게시글에 댓글 작성
+	 * 
+	 * @param comment - 댓글 내용
+	 * @param userNo - 댓글 작성자
+	 * @param diaryNo - 작성한 게시글 번호
+	 */
+	public void writeComment(String comment, int userNo, int diaryNo);
+
+	/**
+	 * 게시글의 댓글 조회
+	 * 
+	 * @param diaryNo - 해당 게시글 번호
+	 * @return 게시글의 댓글 DTO
+	 */
+	public List<DiaryComment> viewComment(int diaryNo);
+
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param diaryCommNo - 댓글 번호
+	 */
+	public void deleteDiaryComment(int diaryCommNo);
+
+	/**
+	 * 해당 모임의 구독 여부 체크
+	 * 
+	 * @param writeroomNo - 모임 번호
+	 * @return 결과값
+	 */
+	public int paycheck(int writeroomNo);
+
+	/**
+	 * 카테고리 번호로 카테고리명 검색
+	 * @param diaryCateNo2 - 카테고리 번호
+	 * @return 카테고리명 반환
+	 */
+	public String checkRoomName(int diaryCateNo2);
+
+	/**
+	 * 해당 모임의 가입자들 리스트 나열
+	 * 
+	 * @param writeroomNo - 모임 번호
+	 * @return 모임 가입자 리스트
+	 */
+	public List<DiaryRoomList> findroomList(int writeroomNo);
+
+	/**
+	 * 공지 안읽은 사람 집어넣기
+	 * 
+	 * @param roomList - 모임가입자 리스트
+	 * @param diaryNo - 해당 게시글 번호
+	 */
+	public void insertDiaryNoticeRead(List<DiaryRoomList> roomList, int diaryNo);
+
+	/**
+	 * 공지 조회 시 공지읽음 카운트 제거
+	 * 
+	 * @param userNo - 사용자 번호
+	 * @param diaryNo - 게시글 번호
+	 */
+	public void updateDiaryNoticeRead(int userNo, int diaryNo);
+
+	public DiaryPaging getUnreadNoticePaging(int curPage, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom);
+
+	public List<Diary> getUnreadNoticeList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom);
 
 }

@@ -8,6 +8,7 @@ public class DiaryRoomList {
 	private int roomNo;
 	private int userNo;
 	private String userId;
+	private int diaryNo;
 	
 	public DiaryRoomList() {}
 
@@ -55,6 +56,14 @@ public class DiaryRoomList {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public int getDiaryNo() {
+		return diaryNo;
+	}
+
+	public void setDiaryNo(int diaryNo) {
+		this.diaryNo = diaryNo;
 	}
 
 }

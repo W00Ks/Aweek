@@ -106,6 +106,7 @@ function updateContents() {
 
 	<form action="./update" method="post" enctype="multipart/form-data">
 	<input type="text" value="${diary.diaryNo }" name="diaryNo" style="display: none;">
+	<input type="text" value="${diary.roomNo }" name="roomNo" style="display: none;">
 	<table class="table table-bordered" style="width: 100%">
 	<br>
 	<tr><td class="info" style="font-weight: 600;">글번호</td><td style="width: 25%;"><span>${diary.diaryNo }</span></td><td class="info" style="font-weight: 600;">글쓴이</td><td><span style="font-weight: 500;">${diary.userName }</span></td></tr>

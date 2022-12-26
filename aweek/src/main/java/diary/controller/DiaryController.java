@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import diary.dto.Diary;
 import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
+import diary.dto.DiaryComment;
 import diary.dto.DiaryFavorite;
 import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
@@ -94,8 +95,10 @@ public class DiaryController {
 		
 		Cookie[] cookies = req.getCookies(); // 모든 쿠키의 정보를 cookies에 저장
 		
+		
 		for(int h=0; h<cookies.length; h++) {
 			Cookie kc = new Cookie("favcount"+h, null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
+			kc.setPath("/");
 			kc.setMaxAge(0); // 유효시간을 0으로 설정
 			resp.addCookie(kc); // 응답 헤더에 추가해서 없어지도록 함
 		}
@@ -229,6 +232,7 @@ public class DiaryController {
 		
 		for(int h=0; h<cookies.length; h++) {
 			Cookie kc = new Cookie("favcount"+h, null); // choiceCookieName(쿠키 이름)에 대한 값을 null로 지정
+			kc.setPath("/");
 			kc.setMaxAge(0); // 유효시간을 0으로 설정
 			resp.addCookie(kc); // 응답 헤더에 추가해서 없어지도록 함
 		}
@@ -485,11 +489,37 @@ public class DiaryController {
 		logger.trace("##### diaryWriteProc : {}", content);
 		logger.trace("##### diaryWriteProc : {}", file);
 		
+		int paycheck = diaryService.paycheck(writeroomNo);
+		
+		logger.trace("##### paycheck : {}", paycheck);
+		
+		if(paycheck != 0) { // 구독 중인 경우
+			if(file.getSize() > 1063321600) { // 1기가 이상이면
+				return "/diary/file1000";
+			}
+		} else { // 구독 중이 아닌 경우
+			if(file.getSize() > 103840000) { // 100메가 이상이면
+				return "/diary/file100";
+			}
+		}
+		
 		int diaryNo = diaryService.write(diaryCateNo2, userNo, writeroomNo, title, content, publicresult);
 		
 		logger.trace("##### diaryWriteProc diaryNo : {}", diaryNo);
 		
 		diaryService.fileSave(file, diaryNo);
+		
+		String cateName = diaryService.checkRoomName(diaryCateNo2);
+		
+		logger.trace("##### diaryWriteProc cateName : {}", cateName);
+		
+		if(cateName.equals("공지사항")) {
+			
+			List<DiaryRoomList> roomList = diaryService.findroomList(writeroomNo);
+			
+			diaryService.insertDiaryNoticeRead(roomList, diaryNo);
+			
+		}
 		
 		return "redirect:/diary/entire?roomNo="+writeroomNo;
 				
@@ -589,6 +619,7 @@ public class DiaryController {
 			, @RequestParam(defaultValue="0") int sort
 			, @RequestParam(defaultValue="0") int searchsort
 			, @RequestParam(defaultValue="") String searchtext
+			, @RequestParam(defaultValue="0") int roomNo
 			) {
 		
 		// 가입된 모임 리스트
@@ -607,6 +638,7 @@ public class DiaryController {
 		HashMap<String, String[]> param = new HashMap<>();
 		param.put("roomNoArr", roomNos);
 		
+		// 본인이 가입된 모임 리스트
 		List<Room> userRoom = diaryService.userRoomInfo(param);
 		
 		model.addAttribute("userRoom", userRoom);
@@ -623,9 +655,9 @@ public class DiaryController {
 		
 		// --- --- ---
 		
-		DiaryPaging paging = diaryService.getBestPaging(curPage, userNo, searchtext, sort, searchsort);
+		DiaryPaging paging = diaryService.getBestPaging(curPage, userNo, searchtext, sort, searchsort, roomNo, userRoom);
 		
-		List<Diary> diaryMyList = diaryService.getBestList(paging, userNo, searchtext, sort, searchsort);
+		List<Diary> diaryMyList = diaryService.getBestList(paging, userNo, searchtext, sort, searchsort, roomNo, userRoom);
 		
 		model.addAttribute("sort", sort);
 		model.addAttribute("paging", paging);
@@ -638,7 +670,13 @@ public class DiaryController {
 	}
 	
 	@GetMapping("/notice")
-	public String diaryNotice(Model model, HttpSession session) {
+	public String diaryNotice(Model model, HttpSession session
+			, @RequestParam(defaultValue="0") int curPage
+			, @RequestParam(defaultValue="0") int sort
+			, @RequestParam(defaultValue="0") int searchsort
+			, @RequestParam(defaultValue="") String searchtext
+			, @RequestParam(defaultValue="0") int roomNo
+			) {
 		
 		// 가입된 모임 리스트
 		int userNo = (int) session.getAttribute("userNo");
@@ -656,6 +694,7 @@ public class DiaryController {
 		HashMap<String, String[]> param = new HashMap<>();
 		param.put("roomNoArr", roomNos);
 		
+		// 본인이 가입된 모임 리스트
 		List<Room> userRoom = diaryService.userRoomInfo(param);
 		
 		model.addAttribute("userRoom", userRoom);
@@ -672,14 +711,28 @@ public class DiaryController {
 		
 		// --- --- ---
 		
+		DiaryPaging paging = diaryService.getNoticePaging(curPage, userNo, searchtext, sort, searchsort, roomNo, userRoom);
 		
+		List<Diary> diaryMyList = diaryService.getNoticeList(paging, userNo, searchtext, sort, searchsort, roomNo, userRoom);
 		
+		model.addAttribute("sort", sort);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", diaryMyList);
+		model.addAttribute("searchsort", searchsort);
+		model.addAttribute("searchtext", searchtext);
+
 		return "/diary/notice";
 		
 	}
 	
 	@GetMapping("/entire")
-	public String diaryEntire(Model model, HttpSession session) {
+	public String diaryEntire(Model model, HttpSession session
+			, @RequestParam(defaultValue="0") int curPage
+			, @RequestParam(defaultValue="0") int sort
+			, @RequestParam(defaultValue="0") int searchsort
+			, @RequestParam(defaultValue="") String searchtext
+			, @RequestParam(defaultValue="0") int roomNo
+			) {
 		
 		// 가입된 모임 리스트
 		int userNo = (int) session.getAttribute("userNo");
@@ -697,6 +750,7 @@ public class DiaryController {
 		HashMap<String, String[]> param = new HashMap<>();
 		param.put("roomNoArr", roomNos);
 		
+		// 본인이 가입된 모임 리스트
 		List<Room> userRoom = diaryService.userRoomInfo(param);
 		
 		model.addAttribute("userRoom", userRoom);
@@ -713,8 +767,16 @@ public class DiaryController {
 		
 		// --- --- ---
 		
+		DiaryPaging paging = diaryService.getEntirePaging(curPage, userNo, searchtext, sort, searchsort, roomNo, userRoom);
 		
+		List<Diary> diaryMyList = diaryService.getEntireList(paging, userNo, searchtext, sort, searchsort, roomNo, userRoom);
 		
+		model.addAttribute("sort", sort);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", diaryMyList);
+		model.addAttribute("searchsort", searchsort);
+		model.addAttribute("searchtext", searchtext);
+
 		return "/diary/entire";
 		
 	}
@@ -747,11 +809,6 @@ public class DiaryController {
 		
 		model.addAttribute("diaryFavorite", diaryFavorite);
 		
-		// 전체 공지사항 읽음카운트
-		int noticeCount = diaryService.userNoticeCount(userNo);
-		
-		model.addAttribute("noticeCount", noticeCount);
-		
 		// --- --- ---
 		
 		logger.trace("##### diaryView diaryNo : {}", diaryNo);
@@ -766,9 +823,19 @@ public class DiaryController {
 		
 		RoomList roomList = new RoomList(0, diary.getRoomNo(), userNo);
 		
+		List<DiaryComment> comment = diaryService.viewComment(diaryNo);
+		
 		if(diary.getDiaryPublic() == 1) { // 게시글이 공개 상태이면 허용
 			model.addAttribute("diary", diary);
 			model.addAttribute("diaryFile", diaryFile);
+			model.addAttribute("comment", comment);
+			
+			diaryService.updateDiaryNoticeRead(userNo, diaryNo);
+			
+			// 전체 공지사항 읽음카운트
+			int noticeCount = diaryService.userNoticeCount(userNo);
+			
+			model.addAttribute("noticeCount", noticeCount);
 			
 			return "/diary/view";
 		} else { // 게시글이 비공개 상태일 경우
@@ -778,6 +845,14 @@ public class DiaryController {
 			if(authority == 1) {
 				model.addAttribute("diary", diary);
 				model.addAttribute("diaryFile", diaryFile);
+				model.addAttribute("comment", comment);
+				
+				diaryService.updateDiaryNoticeRead(userNo, diaryNo);
+				
+				// 전체 공지사항 읽음카운트
+				int noticeCount = diaryService.userNoticeCount(userNo);
+				
+				model.addAttribute("noticeCount", noticeCount);
 				
 				return "/diary/view";
 			}
@@ -913,6 +988,7 @@ public class DiaryController {
 			, @RequestParam int publicresult
 			, @RequestParam String change
 			, @RequestParam MultipartFile file
+			, @RequestParam int roomNo
 			) {
 		
 		// 가입된 모임 리스트
@@ -954,7 +1030,32 @@ public class DiaryController {
 		logger.trace("##### diaryUpdateProc : {}", change);
 		logger.trace("##### diaryUpdateProc : {}", file);
 		
+		int paycheck = diaryService.paycheck(roomNo);
+		
+		logger.trace("##### paycheck : {}", paycheck);
+		
+		if(paycheck != 0) { // 구독 중인 경우
+			if(file.getSize() > 1063321600) { // 1기가 이상이면
+				return "/diary/file1000";
+			}
+		} else { // 구독 중이 아닌 경우
+			if(file.getSize() > 103840000) { // 100메가 이상이면
+				return "/diary/file100";
+			}
+		}
+		
 		diaryService.update(title, content, diaryNo, publicresult, change, file);
+		
+		return "redirect:/diary/view?diaryNo=" + diaryNo;
+		
+	}
+	
+	@GetMapping("/comment")
+	public String diaryUpdateProc(HttpSession session, @RequestParam String comment, @RequestParam int diaryNo) {
+		
+		int userNo = (int) session.getAttribute("userNo");
+		
+		diaryService.writeComment(comment, userNo, diaryNo);
 		
 		return "redirect:/diary/view?diaryNo=" + diaryNo;
 		
@@ -965,6 +1066,89 @@ public class DiaryController {
 		logger.trace("##### diaryAutoRecomm test");
 		
 		diaryService.AutoRecomm();
+	}
+	
+	@GetMapping("/commentDelete")
+	public String diaryCommentDelete(HttpSession session
+			, @RequestParam int userNo
+			, @RequestParam int diaryNo
+			, @RequestParam int diaryCommNo
+			, @RequestParam int roomNo) {
+		
+		int loginNo = (int) session.getAttribute("userNo");
+		
+		// 1. 글쓴이가 로그인 사용자와 동일하면 삭제 가능.
+		if(loginNo == userNo) {
+			diaryService.deleteDiaryComment(diaryCommNo);
+			return "redirect:/diary/view?diaryNo=" + diaryNo;
+		}
+		
+		int adminresult = diaryService.adminresult(roomNo, loginNo);
+		
+		// 2. 해당 모임의 관리자일 경우도 삭제 가능.
+		if(adminresult == 1) {
+			diaryService.deleteDiaryComment(diaryCommNo);
+			return "redirect:/diary/view?diaryNo=" + diaryNo;
+		}
+		
+		return "/diary/viewfail";
+		
+	}
+	
+	@GetMapping("/unreadnotice")
+	public String diaryUnreadNotice(Model model, HttpSession session
+			, @RequestParam(defaultValue="0") int curPage
+			, @RequestParam(defaultValue="0") int sort
+			, @RequestParam(defaultValue="0") int searchsort
+			, @RequestParam(defaultValue="") String searchtext
+			, @RequestParam(defaultValue="0") int roomNo
+			) {
+		
+		// 가입된 모임 리스트
+		int userNo = (int) session.getAttribute("userNo");
+		List<RoomList> userRoomList = diaryService.userRoomInfo(userNo);
+		
+		// 가입 모임이 없을경우 fail
+		if(userRoomList.size() == 0) {
+			return "redirect:/diary/fail";
+		}
+		
+		// 가입된 모임 이름 조회
+		String[] roomNos = new String[userRoomList.size()];
+		for(int i=0; i<userRoomList.size(); i++) roomNos[i] = Integer.toString(userRoomList.get(i).getRoomNo());
+		
+		HashMap<String, String[]> param = new HashMap<>();
+		param.put("roomNoArr", roomNos);
+		
+		// 본인이 가입된 모임 리스트
+		List<Room> userRoom = diaryService.userRoomInfo(param);
+		
+		model.addAttribute("userRoom", userRoom);
+		
+		// 즐겨찾기 지정한 모임 리스트
+		List<DiaryFavorite> diaryFavorite = diaryService.userFavorite(userNo);
+		
+		model.addAttribute("diaryFavorite", diaryFavorite);
+		
+		// 전체 공지사항 읽음카운트
+		int noticeCount = diaryService.userNoticeCount(userNo);
+		
+		model.addAttribute("noticeCount", noticeCount);
+		
+		// --- --- ---
+		
+		DiaryPaging paging = diaryService.getUnreadNoticePaging(curPage, userNo, searchtext, sort, searchsort, roomNo, userRoom);
+		
+		List<Diary> diaryMyList = diaryService.getUnreadNoticeList(paging, userNo, searchtext, sort, searchsort, roomNo, userRoom);
+		
+		model.addAttribute("sort", sort);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", diaryMyList);
+		model.addAttribute("searchsort", searchsort);
+		model.addAttribute("searchtext", searchtext);
+
+		return "/diary/unreadnotice";
+		
 	}
 
 }

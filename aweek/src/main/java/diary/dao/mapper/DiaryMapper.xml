@@ -61,8 +61,7 @@
 				d.room_no = #{item.roomNo}
 		</foreach>
 		) ORDER BY d.diary_date DESC
-	</select>
-	
+	</select>	
 	<select id="selectDiaryRecomm" resultType="diary.dto.Diary" parameterType="room.dto.Room">
 		SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
 		FROM diary d left outer join member m ON d.user_no = m.user_no
@@ -82,7 +81,7 @@
 		LEFT OUTER JOIN room r ON d.room_no = r.room_no
 		LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
 		LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
-		WHERE diary_cate_name != '공지사항' AND (
+		WHERE (
 		<foreach collection="list" item="item" separator="OR">
 				d.room_no = #{item.roomNo}
 		</foreach>
@@ -353,35 +352,42 @@
 		AND user_no = #{userNo}
 	</select>
 	
-	<select id="selectBestCntAll" resultType="int" parameterType="diary.dto.DiaryPaging">
+	<select id="selectBestCntAll" resultType="int" parameterType="diary.dto.DiaryPagingAndRoom">
 	SELECT count(*) FROM (
 				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
 				FROM diary d left outer join member m ON d.user_no = m.user_no
 				LEFT OUTER JOIN room r ON d.room_no = r.room_no
 				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
 				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
-				WHERE d.diary_recommend >= h.diary_hot
+				WHERE d.diary_recommend >= h.diary_hot AND (
+				<foreach collection="userRoom" item="item" separator="OR">
+						d.room_no = #{item.roomNo}
+				</foreach>
+				)
+				<if test="diaryPaging.roomNo != 0">
+				 AND d.room_no = #{diaryPaging.roomNo}
+				</if>
 				<choose>
-					<when test="searchsort == 0">
-					AND d.diary_title like '%'||#{searchtext}||'%'
+					<when test="diaryPaging.searchsort == 0">
+					AND d.diary_title like '%'||#{diaryPaging.searchtext}||'%'
 					</when>
 					
-					<when test="searchsort == 1">
-					AND c.diary_cate_name like '%'||#{searchtext}||'%'
+					<when test="diaryPaging.searchsort == 1">
+					AND c.diary_cate_name like '%'||#{diaryPaging.searchtext}||'%'
 					</when>
 				
-					<when test="searchsort == 2">
-					AND r.room_name like '%'||#{searchtext}||'%'
+					<when test="diaryPaging.searchsort == 2">
+					AND r.room_name like '%'||#{diaryPaging.searchtext}||'%'
 					</when>
 					
-					<when test="searchsort == 3">
-					AND m.user_name like '%'||#{searchtext}||'%'
+					<when test="diaryPaging.searchsort == 3">
+					AND m.user_name like '%'||#{diaryPaging.searchtext}||'%'
 					</when>
 				</choose>
 		) CNT
 	</select>
 	
-	<select id="selectBestAll" resultType="diary.dto.Diary" parameterType="diary.dto.DiaryPaging">
+	<select id="selectBestAll" resultType="diary.dto.Diary" parameterType="diary.dto.DiaryPagingAndRoom">
 		SELECT * FROM (
 		    SELECT rownum rnum, B.* FROM (
 				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
@@ -389,33 +395,324 @@
 				LEFT OUTER JOIN room r ON d.room_no = r.room_no
 				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
 				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
-				WHERE d.diary_recommend >= h.diary_hot
-				<if test="searchsort == 0">
-				AND d.diary_title like '%' || #{searchtext} || '%'
+				WHERE d.diary_recommend >= h.diary_hot AND (
+				<foreach collection="userRoom" item="item" separator="OR">
+						d.room_no = #{item.roomNo}
+				</foreach>
+				)
+				<if test="diaryPaging.roomNo != 0">
+				 AND d.room_no = #{diaryPaging.roomNo}
 				</if>
-				<if test="searchsort == 1">
-				AND c.diary_cate_name like '%${searchtext}%'
+				<if test="diaryPaging.searchsort == 0">
+				AND d.diary_title like '%' || #{diaryPaging.searchtext} || '%'
 				</if>
-				<if test="searchsort == 2">
-				AND r.room_name like '%${searchtext}%'
+				<if test="diaryPaging.searchsort == 1">
+				AND c.diary_cate_name like '%${diaryPaging.searchtext}%'
 				</if>
-				<if test="searchsort == 3">
-				AND m.user_name like '%${searchtext}%'
+				<if test="diaryPaging.searchsort == 2">
+				AND r.room_name like '%${diaryPaging.searchtext}%'
 				</if>
-				<if test="sort == 0">
+				<if test="diaryPaging.searchsort == 3">
+				AND m.user_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.sort == 0">
 				ORDER BY d.diary_date DESC
 				</if>
-				<if test="sort == 1">
+				<if test="diaryPaging.sort == 1">
 				ORDER BY c.diary_cate_name
 				</if>
-				<if test="sort == 2">
+				<if test="diaryPaging.sort == 2">
 				ORDER BY r.room_name
 				</if>
-				<if test="sort == 3">
+				<if test="diaryPaging.sort == 3">
 				ORDER BY m.user_name
 				</if>												
 		    ) B
-		) diary WHERE rnum BETWEEN #{startNo} AND #{endNo}
+		) diary WHERE rnum BETWEEN #{diaryPaging.startNo} AND #{diaryPaging.endNo}
+	</select>
+	
+	<select id="selectNoticeCntAll" resultType="int" parameterType="diary.dto.DiaryPagingAndRoom">
+	SELECT count(*) FROM (
+				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+				FROM diary d left outer join member m ON d.user_no = m.user_no
+				LEFT OUTER JOIN room r ON d.room_no = r.room_no
+				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+				WHERE c.diary_cate_name = '공지사항' AND (
+				<foreach collection="userRoom" item="item" separator="OR">
+						d.room_no = #{item.roomNo}
+				</foreach>
+				)
+				<if test="diaryPaging.roomNo != 0">
+				 AND d.room_no = #{diaryPaging.roomNo}
+				</if>
+				<choose>
+					<when test="diaryPaging.searchsort == 0">
+					AND d.diary_title like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+					
+					<when test="diaryPaging.searchsort == 1">
+					AND c.diary_cate_name like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+				
+					<when test="diaryPaging.searchsort == 2">
+					AND r.room_name like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+					
+					<when test="diaryPaging.searchsort == 3">
+					AND m.user_name like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+				</choose>
+		) CNT
+	</select>
+	
+	<select id="selectNoticeAll" resultType="diary.dto.Diary" parameterType="diary.dto.DiaryPagingAndRoom">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+				FROM diary d left outer join member m ON d.user_no = m.user_no
+				LEFT OUTER JOIN room r ON d.room_no = r.room_no
+				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+				WHERE c.diary_cate_name = '공지사항' AND (
+				<foreach collection="userRoom" item="item" separator="OR">
+						d.room_no = #{item.roomNo}
+				</foreach>
+				)
+				<if test="diaryPaging.roomNo != 0">
+				 AND d.room_no = #{diaryPaging.roomNo}
+				</if>
+				<if test="diaryPaging.searchsort == 0">
+				AND d.diary_title like '%' || #{diaryPaging.searchtext} || '%'
+				</if>
+				<if test="diaryPaging.searchsort == 1">
+				AND c.diary_cate_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.searchsort == 2">
+				AND r.room_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.searchsort == 3">
+				AND m.user_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.sort == 0">
+				ORDER BY d.diary_date DESC
+				</if>
+				<if test="diaryPaging.sort == 1">
+				ORDER BY c.diary_cate_name
+				</if>
+				<if test="diaryPaging.sort == 2">
+				ORDER BY r.room_name
+				</if>
+				<if test="diaryPaging.sort == 3">
+				ORDER BY m.user_name
+				</if>												
+		    ) B
+		) diary WHERE rnum BETWEEN #{diaryPaging.startNo} AND #{diaryPaging.endNo}
+	</select>	
+	
+	<select id="selectEntireCntAll" resultType="int" parameterType="diary.dto.DiaryPagingAndRoom">
+	SELECT count(*) FROM (
+				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+				FROM diary d left outer join member m ON d.user_no = m.user_no
+				LEFT OUTER JOIN room r ON d.room_no = r.room_no
+				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+				WHERE (
+				<foreach collection="userRoom" item="item" separator="OR">
+						d.room_no = #{item.roomNo}
+				</foreach>
+				)
+				<if test="diaryPaging.roomNo != 0">
+				 AND d.room_no = #{diaryPaging.roomNo}
+				</if>
+				<choose>
+					<when test="diaryPaging.searchsort == 0">
+					AND d.diary_title like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+					
+					<when test="diaryPaging.searchsort == 1">
+					AND c.diary_cate_name like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+				
+					<when test="diaryPaging.searchsort == 2">
+					AND r.room_name like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+					
+					<when test="diaryPaging.searchsort == 3">
+					AND m.user_name like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+				</choose>
+		) CNT
+	</select>
+	
+	<select id="selectEntireAll" resultType="diary.dto.Diary" parameterType="diary.dto.DiaryPagingAndRoom">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+				FROM diary d left outer join member m ON d.user_no = m.user_no
+				LEFT OUTER JOIN room r ON d.room_no = r.room_no
+				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+				WHERE (
+				<foreach collection="userRoom" item="item" separator="OR">
+						d.room_no = #{item.roomNo}
+				</foreach>
+				)
+				<if test="diaryPaging.roomNo != 0">
+				 AND d.room_no = #{diaryPaging.roomNo}
+				</if>
+				<if test="diaryPaging.searchsort == 0">
+				AND d.diary_title like '%' || #{diaryPaging.searchtext} || '%'
+				</if>
+				<if test="diaryPaging.searchsort == 1">
+				AND c.diary_cate_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.searchsort == 2">
+				AND r.room_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.searchsort == 3">
+				AND m.user_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.sort == 0">
+				ORDER BY d.diary_date DESC
+				</if>
+				<if test="diaryPaging.sort == 1">
+				ORDER BY c.diary_cate_name
+				</if>
+				<if test="diaryPaging.sort == 2">
+				ORDER BY r.room_name
+				</if>
+				<if test="diaryPaging.sort == 3">
+				ORDER BY m.user_name
+				</if>												
+		    ) B
+		) diary WHERE rnum BETWEEN #{diaryPaging.startNo} AND #{diaryPaging.endNo}
+	</select>	
+	
+	<insert id="insertDiaryComment" parameterType="diary.dto.DiaryComment">
+		INSERT INTO diary_comment
+		VALUES (diary_comment_seq.nextval, #{diaryNo}, #{userNo}, #{diaryCommContent}, sysdate)
+	</insert>	
+	
+	<select id="selectDiaryComment" resultType="diary.dto.DiaryComment" parameterType="int">
+		SELECT c.diary_comm_no, c.diary_no, c.user_no, c.diary_comm_content, c.diary_comm_date, m.user_name
+		FROM diary_comment c LEFT OUTER JOIN member m ON c.user_no = m.user_no
+		WHERE c.diary_no = #{diaryNo} ORDER BY c.diary_comm_date
+	</select>
+			
+	<update id="deleteDiaryComment" parameterType="int">
+		DELETE from diary_comment
+		WHERE diary_comm_no = #{diaryCommNo}
+	</update>
+	
+	<select id="selectPayment" resultType="int" parameterType="int">
+		SELECT count(*) cnt FROM payment
+		WHERE user_no = (SELECT user_no FROM room WHERE room_no = #{writeroomNo})
+		AND result_status = 'Y'
+	</select>
+	
+	<select id="selectCateName" resultType="String" parameterType="int">
+		SELECT diary_Cate_name FROM diary_category
+		WHERE diary_cate_no = #{diaryCateNo2}
+	</select>	
+	
+	<select id="selectRoomNoList" resultType="diary.dto.DiaryRoomList" parameterType="int">
+		SELECT * FROM room_list
+		WHERE room_no = #{writeroomNo}
+	</select>		
+	
+	<insert id="insertDiaryNoticeRead" parameterType="diary.dto.DiaryRoomList">
+		INSERT ALL
+			<foreach collection="list" item="item">
+				INTO diary_notice_read VALUES (#{item.userNo}, #{item.diaryNo}, #{item.roomNo}, 1)
+			</foreach>
+		SELECT * FROM dual
+	</insert>	
+	
+	<update id="updateDiaryNoticeRead" parameterType="diary.dto.DiaryRoomList">
+		UPDATE diary_notice_read SET notice_read = 0
+		WHERE user_no = #{userNo} AND diary_no = #{diaryNo}
+	</update>	
+	
+	<select id="selectUnreadNoticeCntAll" resultType="int" parameterType="diary.dto.DiaryPagingAndRoom">
+	SELECT count(*) FROM (
+				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+				FROM diary d left outer join member m ON d.user_no = m.user_no
+				LEFT OUTER JOIN room r ON d.room_no = r.room_no
+				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+				WHERE c.diary_cate_name = '공지사항' AND
+				d.diary_no IN (SELECT diary_no FROM diary_notice_read WHERE user_no = #{diaryPaging.userNo} AND notice_read = 1) AND (
+				<foreach collection="userRoom" item="item" separator="OR">
+						d.room_no = #{item.roomNo}
+				</foreach>
+				)
+				<if test="diaryPaging.roomNo != 0">
+				 AND d.room_no = #{diaryPaging.roomNo}
+				</if>
+				<choose>
+					<when test="diaryPaging.searchsort == 0">
+					AND d.diary_title like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+					
+					<when test="diaryPaging.searchsort == 1">
+					AND c.diary_cate_name like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+				
+					<when test="diaryPaging.searchsort == 2">
+					AND r.room_name like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+					
+					<when test="diaryPaging.searchsort == 3">
+					AND m.user_name like '%'||#{diaryPaging.searchtext}||'%'
+					</when>
+				</choose>
+		) CNT
+	</select>
+	
+	<select id="selectUnreadNoticeAll" resultType="diary.dto.Diary" parameterType="diary.dto.DiaryPagingAndRoom">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				SELECT d.*, m.user_name, r.room_name, c.diary_cate_name, h.diary_hot
+				FROM diary d left outer join member m ON d.user_no = m.user_no
+				LEFT OUTER JOIN room r ON d.room_no = r.room_no
+				LEFT OUTER JOIN diary_category c ON d.diary_cate_no = c.diary_cate_no
+				LEFT OUTER JOIN diary_hot h ON d.room_no = h.room_no
+				WHERE c.diary_cate_name = '공지사항' AND
+				d.diary_no IN (SELECT diary_no FROM diary_notice_read WHERE user_no = #{diaryPaging.userNo} AND notice_read = 1) AND (
+				<foreach collection="userRoom" item="item" separator="OR">
+						d.room_no = #{item.roomNo}
+				</foreach>
+				)
+				<if test="diaryPaging.roomNo != 0">
+				 AND d.room_no = #{diaryPaging.roomNo}
+				</if>
+				<if test="diaryPaging.searchsort == 0">
+				AND d.diary_title like '%' || #{diaryPaging.searchtext} || '%'
+				</if>
+				<if test="diaryPaging.searchsort == 1">
+				AND c.diary_cate_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.searchsort == 2">
+				AND r.room_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.searchsort == 3">
+				AND m.user_name like '%${diaryPaging.searchtext}%'
+				</if>
+				<if test="diaryPaging.sort == 0">
+				ORDER BY d.diary_date DESC
+				</if>
+				<if test="diaryPaging.sort == 1">
+				ORDER BY c.diary_cate_name
+				</if>
+				<if test="diaryPaging.sort == 2">
+				ORDER BY r.room_name
+				</if>
+				<if test="diaryPaging.sort == 3">
+				ORDER BY m.user_name
+				</if>												
+		    ) B
+		) diary WHERE rnum BETWEEN #{diaryPaging.startNo} AND #{diaryPaging.endNo}
 	</select>
 	
 </mapper>

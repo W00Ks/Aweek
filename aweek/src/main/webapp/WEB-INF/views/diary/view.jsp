@@ -15,6 +15,14 @@
 td {
 	height: 30px;
 }
+.commentblock {
+	width: 99.5%;
+	min-height: 125px;
+	
+}
+.clear {
+	clear: both;
+}
 </style>
 
 <script type="text/javascript">
@@ -77,12 +85,19 @@ $(document).ready(function() {
 			}
 		})
 		
-	})	
+	})
+	
+	$(".commentbtn").click(function() {
+		if($("#comment").val() == ""){
+			alert("댓글을 입력해주세요.");
+			return false;
+		}
+	})
 
 })
 </script>
 
-<br><br><br><br>
+<br><br>
 <div style="font-weight: 600; font-size: 1.1em;">게시글 상세보기</div>
 <br>
 <hr>
@@ -174,6 +189,37 @@ $(document).ready(function() {
 	<button id="btnList" class="btn btn-primary">목록</button>
 	<button id="btnUpdate" class="btn btn-info" style="margin-left: 10px;">수정</button>
 	<button id="btnDelete" class="btn btn-danger" style="margin-left: 10px;">삭제</button>
+</div>
+<br><br><br><br>
+
+<div class="commentblock">
+	<c:forEach items="${comment }" var="data">
+		<table>
+			<tr>
+				<td style="width: 15%; height: 0px;">${data.userName }</td>
+				<td style="width: 50%; height: 0px;">${data.diaryCommContent }</td>
+				<td style="width: 33%; height: 0px;">${data.diaryCommDate }</td>
+				<td style="width: 10%; height: 0px;">
+				<form action="./commentDelete" method="get">
+				<button>X</button>
+				<input type="text" value="${data.userNo }" name="userNo" style="display: none;">
+				<input type="text" value="${diary.diaryNo }" name="diaryNo" style="display: none;">
+				<input type="text" value="${data.diaryCommNo }" name="diaryCommNo" style="display: none;">
+				<input type="text" value="${diary.roomNo }" name="roomNo" style="display: none;">
+				</form>
+				</td>
+			</tr>
+		</table>
+	<hr>
+	</c:forEach>
+</div>
+
+<div>
+	<form action="./comment" method="get">
+	<textarea id="comment" name="comment" style="width: 99.5%; height:50px; resize: none;" placeholder="댓글을 입력하세요"></textarea>
+	<input type="text" name="diaryNo" value="${diary.diaryNo }" style="display:none; ">
+	<button class="btn commentbtn" style="float: right;">등록</button>
+	</form>
 </div>
 
 <jsp:include page="./footer.jsp" flush="true" />

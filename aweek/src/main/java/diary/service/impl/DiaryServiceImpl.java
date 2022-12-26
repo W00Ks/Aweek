@@ -22,12 +22,14 @@ import diary.dao.face.DiaryDao;
 import diary.dto.Diary;
 import diary.dto.DiaryAdmin;
 import diary.dto.DiaryCategory;
+import diary.dto.DiaryComment;
 import diary.dto.DiaryFavorite;
 import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
 import diary.dto.DiaryUserRecomm;
 import diary.dto.DiaryPaging;
+import diary.dto.DiaryPagingAndRoom;
 import diary.service.face.DiaryService;
 import member.dto.Member;
 import room.dto.Room;
@@ -516,18 +518,20 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 
 	@Override
-	public DiaryPaging getBestPaging(int curPage, int userNo, String searchtext, int sort, int searchsort) {
+	public DiaryPaging getBestPaging(int curPage, int userNo, String searchtext, int sort, int searchsort, int roomNo
+			, List<Room> userRoom) {
 		DiaryPaging temp = new DiaryPaging();
 		
 		temp.setUserNo(userNo);
 		temp.setSearchtext(searchtext);
 		temp.setSort(sort);
 		temp.setSearchsort(searchsort);
+		temp.setRoomNo(roomNo);
 		
-		
+		DiaryPagingAndRoom diaryVo = new DiaryPagingAndRoom(temp, userRoom);
 		
 		//총 게시글 수 조회하기
-		int totalCount = diaryDao.selectBestCntAll(temp);
+		int totalCount = diaryDao.selectBestCntAll(diaryVo);
 		
 		//전달파라미터 curPage 추출하기
 		String param = Integer.toString(curPage);
@@ -543,13 +547,202 @@ public class DiaryServiceImpl implements DiaryService {
 	}
 
 	@Override
-	public List<Diary> getBestList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort) {
+	public List<Diary> getBestList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort, int roomNo
+			, List<Room> userRoom) {
 		paging.setUserNo(userNo);
 		paging.setSearchtext(searchtext);
 		paging.setSort(sort);
 		paging.setSearchsort(searchsort);
+		paging.setRoomNo(roomNo);
 		
-		return diaryDao.selectBestAll(paging);
+		DiaryPagingAndRoom diaryVo = new DiaryPagingAndRoom(paging, userRoom);
+		
+		return diaryDao.selectBestAll(diaryVo);
+	}
+
+	@Override
+	public DiaryPaging getNoticePaging(int curPage, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom) {
+		DiaryPaging temp = new DiaryPaging();
+		
+		temp.setUserNo(userNo);
+		temp.setSearchtext(searchtext);
+		temp.setSort(sort);
+		temp.setSearchsort(searchsort);
+		temp.setRoomNo(roomNo);
+		
+		DiaryPagingAndRoom diaryVo = new DiaryPagingAndRoom(temp, userRoom);
+		
+		//총 게시글 수 조회하기
+		int totalCount = diaryDao.selectNoticeCntAll(diaryVo);
+		
+		//전달파라미터 curPage 추출하기
+		String param = Integer.toString(curPage);
+		int curPage1 = 0;
+		if( param != null && !"".equals(param) ) {
+			curPage1 = Integer.parseInt(param);
+		}
+		
+		//Paging객체 생성
+		DiaryPaging paging = new DiaryPaging(totalCount, curPage1);
+		
+		return paging;
+	}
+
+	@Override
+	public List<Diary> getNoticeList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom) {
+		paging.setUserNo(userNo);
+		paging.setSearchtext(searchtext);
+		paging.setSort(sort);
+		paging.setSearchsort(searchsort);
+		paging.setRoomNo(roomNo);
+		
+		DiaryPagingAndRoom diaryVo = new DiaryPagingAndRoom(paging, userRoom);
+		
+		return diaryDao.selectNoticeAll(diaryVo);
+	}
+
+	@Override
+	public DiaryPaging getEntirePaging(int curPage, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom) {
+		DiaryPaging temp = new DiaryPaging();
+		
+		temp.setUserNo(userNo);
+		temp.setSearchtext(searchtext);
+		temp.setSort(sort);
+		temp.setSearchsort(searchsort);
+		temp.setRoomNo(roomNo);
+		
+		DiaryPagingAndRoom diaryVo = new DiaryPagingAndRoom(temp, userRoom);
+		
+		//총 게시글 수 조회하기
+		int totalCount = diaryDao.selectEntireCntAll(diaryVo);
+		
+		//전달파라미터 curPage 추출하기
+		String param = Integer.toString(curPage);
+		int curPage1 = 0;
+		if( param != null && !"".equals(param) ) {
+			curPage1 = Integer.parseInt(param);
+		}
+		
+		//Paging객체 생성
+		DiaryPaging paging = new DiaryPaging(totalCount, curPage1);
+		
+		return paging;
+	}
+
+	@Override
+	public List<Diary> getEntireList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom) {
+		paging.setUserNo(userNo);
+		paging.setSearchtext(searchtext);
+		paging.setSort(sort);
+		paging.setSearchsort(searchsort);
+		paging.setRoomNo(roomNo);
+		
+		DiaryPagingAndRoom diaryVo = new DiaryPagingAndRoom(paging, userRoom);
+		
+		return diaryDao.selectEntireAll(diaryVo);
+	}
+
+	@Override
+	public void writeComment(String comment, int userNo, int diaryNo) {
+		
+		DiaryComment diaryComment = new DiaryComment();
+		
+		diaryComment.setDiaryCommContent(comment);
+		diaryComment.setUserNo(userNo);
+		diaryComment.setDiaryNo(diaryNo);
+		
+		diaryDao.insertDiaryComment(diaryComment);
+	}
+
+	@Override
+	public List<DiaryComment> viewComment(int diaryNo) {
+		return diaryDao.selectDiaryComment(diaryNo);
+	}
+
+	@Override
+	public void deleteDiaryComment(int diaryCommNo) {
+		diaryDao.deleteDiaryComment(diaryCommNo);
+	}
+
+	@Override
+	public int paycheck(int writeroomNo) {
+		return diaryDao.selectPayment(writeroomNo);
+	}
+
+	@Override
+	public String checkRoomName(int diaryCateNo2) {
+		return diaryDao.selectCateName(diaryCateNo2);
+	}
+
+	@Override
+	public List<DiaryRoomList> findroomList(int writeroomNo) {
+		return diaryDao.selectRoomNoList(writeroomNo);
+	}
+
+	@Override
+	public void insertDiaryNoticeRead(List<DiaryRoomList> roomList, int diaryNo) {
+		
+		for(int i=0; i<roomList.size(); i++) {
+			roomList.get(i).setDiaryNo(diaryNo);
+		}
+		
+		diaryDao.insertDiaryNoticeRead(roomList);
+	}
+
+	@Override
+	public void updateDiaryNoticeRead(int userNo, int diaryNo) {
+		DiaryRoomList diaryRoomList = new DiaryRoomList();
+		diaryRoomList.setUserNo(userNo);
+		diaryRoomList.setDiaryNo(diaryNo);
+		
+		diaryDao.updateDiaryNoticeRead(diaryRoomList);
+	}
+
+	@Override
+	public DiaryPaging getUnreadNoticePaging(int curPage, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom) {
+		DiaryPaging temp = new DiaryPaging();
+		
+		temp.setUserNo(userNo);
+		temp.setSearchtext(searchtext);
+		temp.setSort(sort);
+		temp.setSearchsort(searchsort);
+		temp.setRoomNo(roomNo);
+		
+		DiaryPagingAndRoom diaryVo = new DiaryPagingAndRoom(temp, userRoom);
+		
+		//총 게시글 수 조회하기
+		int totalCount = diaryDao.selectUnreadNoticeCntAll(diaryVo);
+		
+		//전달파라미터 curPage 추출하기
+		String param = Integer.toString(curPage);
+		int curPage1 = 0;
+		if( param != null && !"".equals(param) ) {
+			curPage1 = Integer.parseInt(param);
+		}
+		
+		//Paging객체 생성
+		DiaryPaging paging = new DiaryPaging(totalCount, curPage1);
+		
+		return paging;
+	}
+
+	@Override
+	public List<Diary> getUnreadNoticeList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort,
+			int roomNo, List<Room> userRoom) {
+		paging.setUserNo(userNo);
+		paging.setSearchtext(searchtext);
+		paging.setSort(sort);
+		paging.setSearchsort(searchsort);
+		paging.setRoomNo(roomNo);
+		
+		DiaryPagingAndRoom diaryVo = new DiaryPagingAndRoom(paging, userRoom);
+		
+		return diaryDao.selectUnreadNoticeAll(diaryVo);
 	}
 
 }
