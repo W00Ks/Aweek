@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,29 +16,16 @@
 <h1>결제 정보 조회</h1>
 <hr>
 
-<table class="table table-striped table-hover table-condensed">
-<thead>
-	<tr>
-		<th style="width: 15%;">주문명</th>
-		<th style="width: 15%;">주문 상태</th>
-		<th style="width: 15%;">결제 금액</th>
-		<th style="width: 15%;">결제 수단</th>
-		<th style="width: 20%;">결제자 이름</th>
-		<th style="width: 20%;">결제일</th>
-	</tr>
-</thead>
-<tbody>
-<c:forEach items="${list }" var="paymnet">
-	<tr>
-		<td>${board.boardNo }</td>
-		<td><a href="/board/view?boardNo=${board.boardNo }">${board.title }</a></td>
-		<td>${board.writerNick }</td>
-		<td>${board.hit }</td>
-		<td><fmt:formatDate value="${board.writeDate }" pattern="yy-MM-dd HH:mm:ss"/></td>
-		<td><fmt:formatDate value="${board.writeDate }" pattern="yy-MM-dd HH:mm:ss"/></td>
-	</tr>
-</c:forEach>
-</tbody>
+<table style="border: 1px solid #ccc;">
+	<tbody>
+		<tr>
+			<td>상품 정보 : ${payment.productNo}</td>
+			<td>결제 상태 : ${payment.resultstatus}</td>
+			<td>결제 금액 : ${payment.paymentAmount}</td>
+			<td>결제 수단 : ${payment.paymentMethod}</td>
+			<td>결제 일 : <fmt:formatDate value="${payment.paymentDate}" pattern="yy-MM-dd"/></td>
+		</tr>
+	</tbody>
 </table>
 
 

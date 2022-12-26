@@ -17,7 +17,7 @@ public class Payment {
 	private Date expirationDate;
 	private Date nextOrderDate;
 	private String billingKey;
-	private String resultstatus;
+	private String resultStatus;
 	
 	public Payment() {}
 
@@ -38,7 +38,7 @@ public class Payment {
 		this.expirationDate = expirationDate;
 		this.nextOrderDate = nextOrderDate;
 		this.billingKey = billingKey;
-		this.resultstatus = resultstatus;
+		this.resultStatus = resultstatus;
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class Payment {
 				+ ", orderno=" + orderno + ", paymentMethod=" + paymentMethod + ", bankAccount=" + bankAccount
 				+ ", paymentAmount=" + paymentAmount + ", createDate=" + createDate + ", paymentDate=" + paymentDate
 				+ ", expirationDate=" + expirationDate + ", nextOrderDate=" + nextOrderDate + ", billingKey="
-				+ billingKey + ", resultstatus=" + resultstatus + "]";
+				+ billingKey + ", resultstatus=" + resultStatus + "]";
 	}
 
 	public String getPayNo() {
@@ -155,11 +155,11 @@ public class Payment {
 	}
 
 	public String getResultstatus() {
-		return resultstatus;
+		return resultStatus;
 	}
 
 	public void setResultstatus(String resultstatus) {
-		this.resultstatus = resultstatus;
+		this.resultStatus = resultstatus;
 	}
 
 
