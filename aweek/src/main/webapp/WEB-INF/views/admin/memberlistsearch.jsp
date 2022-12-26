@@ -6,6 +6,14 @@
 
 <c:import url="./layout/adminheader.jsp" />
 
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+})
+
+</script>
+
 <style type="text/css">
 
 table {
@@ -44,36 +52,21 @@ th {
 
 <c:if test="${ not empty adminLogin }">
 
-<div class="container">
-	<div class="list">
-		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">방 목록</h1>
-	</div>
-	
-	<div style="margin: 30px;">
-		<span>Aweek의 개설된 방은 ${ paging.totalCount }개 입니다.</span>
-	</div>
-	
-	<table style="margin: 0 auto;">
-		<thead>
-			<tr>
-				<th style="width: 50px;">번호</th>
-				<th style="width: 275px;">이름</th>
-				<th style="width: 275px;">공개정보</th>
-			</tr>
-		</thead>
-		
-		<tbody>
-		<c:forEach items="${ roomlist }" var="room">
-			<tr>
-				<td>${ room.roomNo }</td>
-				<td><a href="/admin/roomdetail?roomNo=?"${ room.roomNo }>${ room.roomName }</a></td>
-				<td>${ room.roomPublic }</td>
-			</tr>
-		</c:forEach>
-		</tbody>
-	</table>
+<div class="list">
+	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">회원 목록</h1>
 </div>
 
-<c:import url="/WEB-INF/views/admin/layout/roompaging.jsp" />
+<div>
+	<select name="searchType">
+		<option value="userName" <c:if test="${ searchType eq 'userName' }" selected</c:if>>이름</option>
+		<option value="userId" <c:if test="${ searchType eq 'userId' }" selected</c:if>>아이디</option>
+	</select>
+	
+	<input type="text" name="keyword" value="${ keyword }">
+	
+	<button type="button" id="searchBtn">검색</button>
+</div>
+
+<c:import url="/WEB-INF/views/admin/layout/memberpaging.jsp" />
 
 </c:if>

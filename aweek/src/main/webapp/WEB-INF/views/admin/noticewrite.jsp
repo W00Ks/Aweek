@@ -12,12 +12,12 @@
 $(document).ready(function() {
 	
 	$("#btnWrite").click(function() {
-		var del_list = confirm ("공지사항을 등록하시겠습니까?")
+		var wri_list = confirm ("공지사항을 등록하시겠습니까?")
 		
-		if( del_list == true ) {
+		if( wri_list == true ) {
 			alert("등록하셨습니다.")
 			$("form").submit();
-		} else if( del_list == false ) {
+		} else if( wri_list == false ) {
 			return false;
 		}
 	})
@@ -50,6 +50,10 @@ textarea {
 	resize: none;
 }
 
+.text-center {
+	margin-top: 50px;
+}
+
 </style>
 
 </head>
@@ -59,53 +63,35 @@ textarea {
 <hr>
 
 <div class="container">
-
-<form action="./noticewrite" method="post" enctype="multipart/form-data">
-
-<table>
-	<tr>
-		<td>아이디</td>
-		<td>
-			<input type="text" id="writerId" name="writerId" class="form-control" value="${ writerId }">
-		</td>
-	</tr>
+	<form action="./noticewrite" method="post" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td>제목</td>
+				<td class="form-group">
+					<input type="text" id="noticeTitle" name="noticeTitle" class="form-control" value="${ updateNotice.noticeTitle }">
+				</td>
+			</tr>
+			
+			<tr>
+				<td>본문</td>
+				<td class="form-group">
+					<textarea rows="10" style="width: 500px;" id="noticeContent" name="noticeContent" class="form-control">${ updateNotice.noticeContent }</textarea>
+				</td>
+			</tr>
+		
+			<tr>
+				<td>첨부파일</td>
+				<td class="form-group">
+					<input type="file" id="file" name="file">
+				</td>
+			</tr>
+		</table>
 	
-	<tr>
-		<td>닉네임</td>
-		<td>
-			<input type="text" id="writerNick" name="writerNick" class="form-control" value="${ writerNick }">
-		</td>
-	</tr>
-	
-	<tr>
-		<td>제목</td>
-		<td>
-			<input type="text" id="noticeTitle" name="noticeTitle" class="form-control" value="${ updateNotice.noticeTitle }">
-		</td>
-	</tr>
-	
-	<tr>
-		<td>본문</td>
-		<td>
-			<textarea rows="10" style="width: 500px;" id="noticeContent" name="noticeContent" class="form-control">${ updateNotice.noticeContent }</textarea>
-		</td>
-	</tr>
-
-	<tr>
-		<td>첨부파일</td>
-		<td>
-			<input type="file" id="file" name="file">
-		</td>
-	</tr>	
-</table>
-
-	<div class="text-center" style="padding: 50px;">
-		<button class="btnWrite" id="btnWrite">작성</button>
-		<input type="reset" id="btnCancel" class="btnCancel" value="취소">
-	</div>
-
-</form>
-
+		<div class="text-center">
+			<button class="btnWrite" id="btnWrite">작성</button>
+			<input type="reset" id="btnCancel" class="btnCancel" value="취소">
+		</div>
+	</form>
 </div>
 
 </body>

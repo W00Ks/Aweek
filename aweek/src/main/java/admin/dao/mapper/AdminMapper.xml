@@ -18,13 +18,67 @@
 		SELECT * FROM admin
 		WHERE admin_id = #{ adminId }
 	</select>
+
+	<select id="selectMemberCntAll" resultType="int">
+		SELECT count(*) FROM member
+	</select>
+	
+	<select id="selectSearchCntAll" resultType="int" parameterType="admin.util.UserPaging">
+		SELECT count(*) FROM member
+		<where>
+			<choose>
+				<when test="type == null and type.equalst('userId')">
+					AND user_id LIKE '%' || #{ keyword } || '%'
+				</when>
+			
+				<when test="type == null and type.equalst('userName')">
+					AND user_name LIKE '%' || #{ keyword } || '%'
+				</when>
+			
+				<when test="type != null and type.equals('userId')">
+					AND user_id LIKE '%' || #{ keyword } || '%'
+				</when>
+				
+				<when test="type != null and type.equals('userName')">
+					AND user_name LIKE '%' || #{ keyword } || '%'
+				</when>
+			</choose>
+		</where>
+		ORDER BY user_no
+	</select>
+
+	<select id="selectMember" resultType="member.dto.Member" parameterType="admin.util.UserPaging">
+		SELECT * FROM (
+			SELECT rownum rnum, M.* FROM (
+				SELECT * FROM member
+				) M
+			) RECORD
+		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
+	</select>
+
+	<select id="selectSearch" resultType="member.dto.Member" parameterType="admin.util.UserPaging">
+		SELECT * FROM (
+			SELECT rownum rnum, M.* FROM (
+				SELECT * FROM member
+				<where>
+					<choose>
+						<when test="type != null and type.equals('userId')">
+							AND user_id LIKE '%' || #{ keyword } || '%'
+						</when>
+						
+						<when test="type != null and type.equals('userName')">
+							AND user_name LIKE '%' || #{ keyword } || '%'
+						</when>
+					</choose>
+				</where>
+				ORDER BY user_no
+				) M
+			) RECORD
+		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
+	</select>
 	
 	<select id="selectCntRoom" resultType="int">
 		SELECT count(*) FROM room
-	</select>
-	
-	<select id="selectCntMember" resultType="int">
-		SELECT count(*) FROM member
 	</select>
 	
 	<select id="selectCntPayment" resultType="int">
@@ -44,112 +98,29 @@
 	</select>
 
 	<select id="selectRoomList" resultType="room.dto.Room" parameterType="common.Paging">
-		SELECT room_no FROM room
-		ORDER BY room_no
-	</select>
-
-	<select id="selectMemberList" resultType="member.dto.Member" parameterType="common.Paging">
 		SELECT * FROM (
-			SELECT rownum rnum, M.* FROM (
-				SELECT
-					user_no, user_id, user_name, user_phone
-					, user_address, user_birth, user_email, user_join
-				FROM member
-				ORDER BY user_no DESC
-			) M
-		) MEMBER
+			SELECT rownum rnum, R.* FROM (
+				SELECT * FROM room
+				ORDER BY room_no DESC
+			) R
+		) ROOM
 		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
 	</select>
 
-	<sql id="search">
-		<trim prefix="AND (" suffix=")" prefixOverrides="OR">
-			<foreach collection="typeArr" item="type">
-				<trim prefix="OR">
-					<choose>
-						<when test="type == 'userName'.toString()">
-							user_name LIKE '%' || #{ keyword } || '%'
-						</when>
-						
-						<when test="type == 'userId'.toString()">
-							user_id LIKE '%' || #{ keyword } || '%'
-						</when>
-					</choose>
-				</trim>
-			</foreach>
-		</trim>
-	</sql>
-	
-	<select id="getSearchPaging" resultType="member.dto.Member">
-		<![CDATA[
-			SELECT user_no, user_name, user_id FROM (
-				SELECT rownum as rn, user_no, user_name, user_id
-				FROM member WHERE rownum <= #{ pageNum } * #{ amount }
-		]]>
-			<if test="keyword != null">
-				<include refid="search"></include>
-			</if>
-		<![CDATA[
-			) WHERE rn > (#{ pageNum } -1) * #{ amount }
-		]]>
-	</select>
-
-	<select id="getTotal" resultType="int">
-		SELECT count(*) FROM member
-		
-		<if test="keyword != null">
-			WHERE user_no > 0 <include refid="search"></include>
-		</if>
-	</select>
-
-<!--
-<select id="selectMemberList" resultType="member.dto.Member" parameterType="common.Paging">
-		
-		<include refid="paging_header" />
-			SELECT user_no, user_id, user_name FROM member
-			
-		<include refid="search" />
-			ORDER BY user_no DESC
-			
-		<include refid="paging_footer" />
-	</select>
-	
-		<sql id="paging_header">
-			SELECT * FROM (
-				SELCT rownum as rn, A.*
-				FROM (
-		</sql>
-		
-		<sql id="paging_footer">
-				) A
-			) WHERE rn BETWEEN #{ startNo } AND #{ endNo }
-		</sql>
-		
-		<sql id="search">
-			<choose>
-	
-				<when test="search_option == 'all'">
-					WHERE
-						userId like '%' || #{ keyword } || '%'
-						or userName LIKE '%' || #{ keyword } || '%'
-				</when>
-				<otherwise>
-					WHERE ${ search_option } LIKE '%' || #{ keyword } || '%'
-				</otherwise>
-			</choose>
-		</sql>
--->
 	<select id="selectPaymentList" resultType="payment.dto.Payment" parameterType="common.Paging">
-		SELECT pay_no, pay_type FROM payment
-		ORDER BY pay_no
+		SELECT * FROM (
+			SELECT rownum rnum, P.* FROM (
+				SELECT * FROM payment
+				ORDER BY pay_no DESC
+			) P
+		) PAYMENT
+		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
 	</select>
 	
 	<select id="selectNoticeList" resultType="cs.dto.Notice" parameterType="common.Paging">
 		SELECT * FROM (
 			SELECT rownum rnum, N.* FROM (
-				SELECT
-					notice_no, writer_id, writer_nick, notice_title, notice_content
-					, notice_date, notice_hit
-				FROM notice
+				SELECT * FROM notice
 				ORDER BY notice_no DESC
 			) N
 		) NOTICE
@@ -159,9 +130,7 @@
 	<select id="selectQnAList" resultType="cs.dto.QnA" parameterType="common.Paging">
 		SELECT * FROM (
 			SELECT rownum rnum, Q.* FROM (
-				SELECT
-					qna_no, writer_id, writer_nick, qna_title, qna_content, qna_date
-				FROM qna
+				SELECT * FROM qna
 				ORDER BY qna_no DESC
 			) Q
 		) QNA
@@ -171,9 +140,7 @@
 	<select id="selectInquiryList" resultType="cs.dto.Inquiry" parameterType="common.Paging">
 		SELECT * FROM (
 			SELECT rownum rnum, I.* FROM (
-				SELECT
-					inquiry_no, inquiry_tilte, inquiry_content, inquiry_email, inquiry_date
-				FROM inquiry
+				SELECT * FROM inquiry
 				ORDER BY inquiry_no DESC
 			) I
 		) INQUIRY
@@ -185,28 +152,44 @@
 			user_no, user_id, user_pw, user_name, user_phone, user_address, user_birth
 			, user_email, user_join
 		FROM member
-		WHERE user_no = ${ userNo }
+		WHERE user_no = #{ userNo }
+	</select>
+
+	<select id="selectRoomDetail" resultType="room.dto.Room" parameterType="room.dto.Room">
+		SELECT
+			room_no, user_no, room_name, room_introduce, room_member, room_public
+		FROM room
+		WHERE room_no = #{ roomNo }
 	</select>
 
 	<select id="selectPaymentDetail" resultType="payment.dto.Payment" parameterType="payment.dto.Payment">
 		SELECT
-			pay_no
+			pay_no, user_no, product_no, pay_type, payment_method, payment_amount
+			, payment_date, next_order_date, result_dtasus
 		FROM payment
-		WHERE payment_no = ${ payNo }
+		WHERE payment_no = #{ payNo }
 	</select>
 	
 	<select id="selelctNoticeView" resultType="cs.dto.Notice" parameterType="cs.dto.Notice">
 		SELECT
-			notice_no, file_no, writer_id, writer_nick, notice_title, notice_content, notice_date, notice_hit
+			notice_no, file_no, writer_id, writer_nick, notice_title, notice_content
+			, notice_date, notice_hit
 		FROM notice
 		WHERE notice_no = #{ noticeNo }
 	</select>
 	
 	<select id="selelctdQnaView" resultType="cs.dto.QnA" parameterType="cs.dto.QnA">
 		SELECT
-			qna_no, file_no, writer_id, writer_nick, qna_title, qna_content, qna_date
+			qna_no, writer_id, writer_nick, qna_title, qna_content, qna_date
 		FROM qna
 		WHERE qna_no = #{ qnaNo }
+	</select>
+	
+	<select id="selectInquiryView" resultType="cs.dto.Inquiry" parameterType="cs.dto.Inquiry">
+		SELECT
+			inquiry_no, user_no, inquiry_tilte, inquiry_content, inquiry_email, inquiry_date
+		FROM inquiry
+		WHERE inquiry_no = #{ inquiryNo }
 	</select>
 	
 	<select id="selectCsFileByCsFileNo" resultType="cs.dto.CsFile" parameterType="cs.dto.CsFile">
@@ -222,10 +205,34 @@
 		FROM cs_file
 		WHERE notice_no = #{ noticeNo }
 	</select>
+	
+<!--
+	<select id="selectQnACategoryList" resultType="cs.dto.QnACategory">
+		SELECT * FROM qna_category
+		ORDER BY qna_category_no DESC
+	</select>
+-->	
 
-	<select id="getMemberCount" resultType="int">
-		SELECT COUNT(*) FROM member
-	</select>	
+<!--
+	<select id="selectCntMember" resultType="int">
+		SELECT count(*) FROM member
+	</select>
+-->
+
+<!--
+	<select id="selectMemberList" resultType="member.dto.Member" parameterType="common.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, M.* FROM (
+				SELECT
+					user_no, user_id, user_name, user_phone
+					, user_address, user_birth, user_email, user_join
+				FROM member
+				ORDER BY user_no DESC
+			) M
+		) MEMBER
+		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
+	</select>
+-->
 
 <!-- - - - - - - - - - - INSERT - - - - - - - - - - -->
 
@@ -238,6 +245,11 @@
 		VALUES ( #{ noticeNo }, #{ writerId }, #{ writerNick}, #{ noticeTitle }, #{ noticeContent }, SYSDATE )
 	</insert>
 	
+	<insert id="insertNoticeFile" parameterType="cs.dto.CsFile">
+		INSERT INTO cs_file ( file_no, notice_no, qna_no, origin_name, stored_name )
+		VALUES ( cs_file_seq.nextval, #{ noticeNo }, #{ qnaNo}, #{ originName }, #{ storedName } )
+	</insert>
+	
 	<insert id="insertQna" parameterType="cs.dto.QnA">
 		<selectKey order="BEFORE" resultType="int" keyProperty="qnaNo">
 			SELECT qna_seq.nextval FROM dual
@@ -245,11 +257,6 @@
 	
 		INSERT INTO qna ( qna_no, writer_id, writer_nick, qna_title, qna_content, qna_date )
 		VALUES ( #{ qnaNo }, #{ writerId }, #{ writerNick }, #{ qnaTitle }, #{ qnaContent }, SYSDATE )
-	</insert>
-	
-	<insert id="insertNoticeFile" parameterType="cs.dto.CsFile">
-		INSERT INTO cs_file ( file_no, notice_no, qna_no, origin_name, stored_name )
-		VALUES ( cs_file_seq.nextval, #{ noticeNo }, #{ qnaNo}, #{ originName }, #{ storedName } )
 	</insert>
 	
 <!-- - - - - - - - - - - UPDATE - - - - - - - - - - -->
@@ -281,15 +288,15 @@
 		DELETE notice
 		WHERE notice_no = #{ noticeNo }
 	</delete>
-
-	<delete id="deleteQna" parameterType="cs.dto.QnA">
-		DELETE qna
-		WHERE qna_no = #{ qnaNo }
-	</delete>
 	
 	<delete id="deleteNoticeFile" parameterType="cs.dto.Notice">
 		DELETE cs_file
 		WHERE notice_no = #{ noticeNo }
+	</delete>
+
+	<delete id="deleteQna" parameterType="cs.dto.QnA">
+		DELETE qna
+		WHERE qna_no = #{ qnaNo }
 	</delete>
 
 </mapper>

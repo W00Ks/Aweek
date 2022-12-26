@@ -15,11 +15,18 @@ $(document).ready(function() {
 	})
 	
 	$("#btnUpdate").click(function() {
-		location.href = "/admin/qnamodify"
+		var upd_list = alert ("Q&A를 수정합니다.")
 	})
 	
 	$("#btnDelete").click(function() {
-		location.href = "/admin/qnadelete?qnaNo=${ qna.qnaNo }"
+		var del_list = confirm ("Q&A를 삭제하시겠습니까?")
+		
+		if( del_list == true ) {
+			alert("삭제하셨습니다.")
+			location.href = "/admin/qnadelete?qnaeNo=${ viewQna.qnaNo }"
+		} else if( del_list == false ) {
+			return false;
+		}
 	})
 })
 
@@ -61,16 +68,9 @@ th {
 
 .qnaWrite {
     margin: 0 auto;
-    float: right;
-    margin-left: 620px;
 }
 
-.pull-right {
-    margin: 0 auto;
-   	float: left;
-}
-
-.maincontent {
+.container {
 	width: 800px;
 	margin: 0 auto;
 }
@@ -79,58 +79,46 @@ th {
 
 <c:if test="${ not empty adminLogin }">
 
-<div class="maincontent">
-
-<div class="list">
-	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">자주묻는질문</h1>
-</div>
-
-<div id="orderlist" style="text-align: right;">
-	<button id="oldestList" class="totallist">오래된 순</button>
-	<button id="newestList" class="totallist">최신 순</button>
-	<button id="titleList" class="totallist">제목 순</button>
-</div>
-
-<table id="qnatable" style="margin: 0 auto;">
-	<thead>
-		<tr id="title">
-			<th style="width: 50px;">번호</th>
-			<th style="width: 200px;">제목</th>
-			<th style="width: 100px;">아이디</th>
-			<th style="width: 100px;">닉네임</th>
-			<th style="width: 150px;">날짜</th>
-			<th style="width: 150px;">내용</th>
-			<th style="width: 100px;">카테고리</th>
-		</tr>
-	</thead>
+<div class="container">
+	<div class="list">
+		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">자주 묻는 질문</h1>
+	</div>
 	
-	<tbody>
-	<c:forEach items="${ qnalist }" var="qna">
-		<tr>
-			<td>${ qna.qnaNo }</td>
-			<td><a href="/admin/qnadetail?qnaNo=${ qna.qnaNo }">${ qna.qnaTitle }</a></td>
-			<td>${ qna.writerId }</td>
-			<td>${ qna.writerNick }</td>
-			<td><fmt:formatDate value="${ qna.qnaDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-			<td>${ qna.qnaContent }</td>
-			<td>${ qnaCategoryList.qnaCategoryName }</td>
-		</tr>
-	</c:forEach>
-	</tbody>
-</table>
+	<div style="margin: 30px;">
+		<span>자주 묻는 질문 : ${ paging.totalCount }</span>
+	</div>
 
-<hr>
+	<table id="qnatable" style="margin: 0 auto;">
+		<thead>
+			<tr id="title">
+				<th style="width: 50px;">번호</th>
+				<th style="width: 250px;">제목</th>
+				<th style="width: 100px;">날짜</th>
+				<th style="width: 150px;">카테고리</th>
+				<th style="width: 100px;">수정</th>
+				<th style="width: 100px;">삭제</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		<c:forEach items="${ qnalist }" var="qna">
+			<tr>
+				<td>${ qna.qnaNo }</td>
+				<td><a href="/admin/qnadetail?qnaNo=${ qna.qnaNo }">${ qna.qnaTitle }</a></td>
+				<td><fmt:formatDate value="${ qna.qnaDate }" pattern="yyyy-MM-dd" /></td>
+				<td>${ qna.qnaCategoryNo }</td>
+				<td><a href="/admin/qnamodify?qnaNo=${ qna.qnaNo }"><button id="btnUpdate">수정</button></a></td>
+				<td><a href="/admin/qnadelete?qnaNo=${ qna.qnaNo }"><button id="btnDelete">삭제</button></a></td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+</div>
 
 <div class="bottomlist">
 	<div class="qnaWrite">
 		<button id="btnWrite">글쓰기</button>
 	</div>
-
-	<div class="pull-right">
-		<span>자주 묻는 질문 : ${ paging.totalCount }</span>
-	</div>
-</div>
-
 </div>
 
 <c:import url="/WEB-INF/views/admin/layout/qnapaging.jsp" />

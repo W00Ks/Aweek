@@ -22,9 +22,16 @@ $(document).ready(function() {
 		}
 	})
 	
+	if( ${ empty csFile} ) {
+		$("#newFile").show()
+	} else {
+		$("#originFile").show()
+	}
+	
 	$("#deleteFile").click(function() {
 		$("#newFile").toggle()
 		$("#originFile").toggleClass("through")
+		
 	})
 	
 	$("#btnCancel").click(function() {
@@ -59,6 +66,24 @@ textarea {
 	resize: none;
 }
 
+#originFile, #newFile {
+	display: none;
+}
+
+.through {
+	text-decoration: line-through;
+}
+
+#deleteFile {
+	font-weight: bold;
+	color: red;
+	cursor: pointer;
+}
+
+.text-center {
+	margin-top: 50px;
+}
+
 </style>
 
 </head>
@@ -68,56 +93,51 @@ textarea {
 <hr>
 
 <div class="container">
-
-<form action="./noticemodify" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="noticeNo" value="${ notice.noticeNo }">
+	<form action="./noticemodify" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="noticeNo" value="${ notice.noticeNo }">
+		<table>
+			<tr>
+				<th>아이디</th>
+				<td class="form-group">
+					<input type="text" id="writerId" name="writerId" class="form-control" value="${ modifyNotice.writerId }">
+				</td>
+			</tr>
+			
+			<tr>
+				<th>제목</th>
+				<td class="form-group">
+					<input type="text" id="noticeTitle" name="noticeTitle" class="form-control" value="${ modifyNotice.noticeTitle }">
+				</td>
+			</tr>
+		
+			<tr>
+				<th>내용</th>
+				<td class="form-group">
+					<textarea rows="10" style="width: 500px;" id="noticeContent" name="noticeContent" class="form-control">${ modifyNotice.noticeContent }</textarea>
+				</td>
+			</tr>
+			
+			<tr>
+				<th>첨부파일</th>
+				<td style="text-align: left;" id="originFile">
+					<a href="/admin/download?fileNo=${ csFile.fileNo }">${ csFile.originName }</a>
+					<span id="deleteFile">X</span>
+				</td>
+			</tr>
+		
+			<tr>
+				<th>새로운 첨부파일</th>
+				<td id="newFile">
+					<input type="file" id="file" name="file">
+				</td>
+			</tr>
+		</table>
 	
-<table>
-	<tr>
-		<th>아이디</th>
-		<td>
-			<input type="text" id="writerId" name="writerId" class="form-control" value="${ modifyNotice.writerId }">
-		</td>
-	</tr>
-	
-	<tr>
-		<th>제목</th>
-		<td>
-			<input type="text" id="noticeTitle" name="noticeTitle" class="form-control" value="${ modifyNotice.noticeTitle }">
-		</td>
-	</tr>
-
-	<tr>
-		<th>본문</th>
-		<td>
-			<textarea rows="10" style="width: 500px;" id="noticeContent" name="noticeContent" class="form-control">${ modifyNotice.noticeContent }</textarea>
-		</td>
-	</tr>
-	
-	<tr>
-		<th>첨부파일</th>
-		<td style="text-align: left;">
-			<a href="/admin/download?fileNo=${ csFile.fileNo }">${ csFile.originName }</a>
-			<span id="deleteFile">X</span>
-		</td>
-	</tr>
-
-	<tr>
-		<th>새로운 첨부파일</th>
-		<td>
-			<input type="file" id="file" name="file">
-		</td>
-	</tr>
-
-</table>
-
-	<div class="text-center">
-		<button id="btnUpdate" class="btnUpdate">수정</button>
-		<input type="reset" id="btnCancel" class="btnCancel" value="취소">
-	</div>
-
-</form>
-
+		<div class="text-center">
+			<button id="btnUpdate" class="btnUpdate">수정</button>
+			<input type="reset" id="btnCancel" class="btnCancel" value="취소">
+		</div>
+	</form>
 </div>
 
 </body>

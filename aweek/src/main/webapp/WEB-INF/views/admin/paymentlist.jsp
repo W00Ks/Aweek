@@ -16,6 +16,10 @@ table, th {
 	text-align: center;
 }
 
+th, td {
+	padding: 5px;
+}
+
 th {
     border: 1px solid #ccc;
     border-collapse: collapse;
@@ -40,29 +44,35 @@ th {
 
 <c:if test="${ not empty adminLogin }">
 
-<div class="list">
-	<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">결제 목록</h1>
-</div>
-
-<table style="margin: 0 auto;">
-	<thead>
-		<tr>
-			<th style="width: 50px;">번호</th>
-			<th style="width: 275px;">아이디</th>
-			<th style="width: 275px;">이름</th>
-		</tr>
-	</thead>
+<div class="container">
+	<div class="list">
+		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">결제 목록</h1>
+	</div>
 	
-	<tbody>
-	<c:forEach items="${ paymentlist }" var="payment">
-		<tr>
-			<td>${ payment.payNo }</td>
-			<td><a href="/admin/paymentdetail?payNo=?"${ payment.payNo }>${ member.userId }</a></td>
-			<td>${ member.userName }</td>
-		</tr>
-	</c:forEach>
-	</tbody>
-</table>
+	<div style="margin: 30px;">
+		<span>Aweek 결제 인원은 ${ paging.totalCount }명 입니다.</span>
+	</div>
+
+	<table style="margin: 0 auto;">
+		<thead>
+			<tr>
+				<th style="width: 50px;">번호</th>
+				<th style="width: 275px;">아이디</th>
+				<th style="width: 275px;">이름</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		<c:forEach items="${ paymentlist }" var="payment">
+			<tr>
+				<td>${ payment.payNo }</td>
+				<td><a href="/admin/paymentdetail?payNo=?"${ payment.payNo }>${ member.userId }</a></td>
+				<td>${ member.userName }</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+</div>
 
 <c:import url="/WEB-INF/views/admin/layout/paymentpaging.jsp" />
 
