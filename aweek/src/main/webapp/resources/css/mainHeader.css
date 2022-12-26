@@ -159,16 +159,13 @@ nav > .inner {
 	margin: 0 50%;
 }
 .nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner.aweek {
-	padding: 0 0 0 30%;
-    margin: 0 3%;
+    margin: 0 7%;
 }
 .nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner.room {
-	padding: 0 0 0 30%;
-    margin: 0 10%;
+    margin: 0 15%;
 }
 .nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner.pay{
-	padding: 0 0 0 35%;
-	margin: 0 12%;
+	margin: 0 22%;
 }
 .nav__menu-wrap .nav__menu li .sub-menu-wrap .sub-menu .inner.cs {
 	padding: 0 50px;
