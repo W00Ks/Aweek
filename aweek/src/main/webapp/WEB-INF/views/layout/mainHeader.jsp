@@ -102,7 +102,7 @@
 							<ul class="inner room">
 								<li class="sub-title"><p>모임</p>
 									<a href="/chat/main"><span>채팅</span></a>
-									<a href="/calendar/myCal"><span>캘린더</span></a>
+									<a href="/calendar/main"><span>캘린더</span></a>
 									<a href="/diary/main"><span>다이어리</span></a>
 									<a href="/room/main"><span>모임 메인</span></a>
 								</li>
