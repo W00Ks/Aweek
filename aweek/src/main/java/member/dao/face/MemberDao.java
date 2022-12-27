@@ -5,7 +5,7 @@ import java.util.List;
 
 import cs.dto.Inquiry;
 import member.dto.Member;
-import payment.dto.Subscription;
+import payment.dto.Payment;
 
 public interface MemberDao {
 
@@ -155,6 +155,6 @@ public interface MemberDao {
 	 * @param member - 회원 정보 파라미터
 	 * @return Subscription - 구독 정보 객체 
 	 */
-	public Subscription selectSubInfo(Member member);
+	public Payment selectPayInfo(Member member);
 
 }

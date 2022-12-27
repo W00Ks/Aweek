@@ -148,7 +148,7 @@ a {
 	<li class="l_1">
 		<a href="<%=request.getContextPath() %>/member/mySubscription" class="top_1" id="top_mySubscription">
 		<span class="material-icons">paid</span></a>
-		<span class="tooltipText">나의 구독</span>
+		<span class="tooltipText">나의 이용권</span>
 	</li>
 	<li class="l_2">
 		<a href="<%=request.getContextPath() %>/member/info" class="top_2" id="top_info">
@@ -166,7 +166,7 @@ a {
 		<span class="tooltipText">나의 캘린더</span>
 	</li>
 	<li class="l_5">
-		<a href="<%=request.getContextPath() %>/diary/mydiary" class="top_5" id="top_diary">
+		<a href="<%=request.getContextPath() %>/mydiary/main" class="top_5" id="top_diary">
 		<span class="material-icons">note_alt</span></a>
 		<span class="tooltipText">나의 다이어리</span>
 	</li>

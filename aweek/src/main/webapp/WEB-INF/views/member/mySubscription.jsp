@@ -7,7 +7,7 @@ body {
 	font-family: 'NanumSquareNeo-Variable';
 }
 
-/* 나의 구독 텍스트 */
+/* 나의 이용권 텍스트 */
 .mySubscriptionTxt {
     text-align: center;
     color: #555555;
@@ -88,7 +88,7 @@ body {
     top:25px;
 }
 
-/* 월간, 연간 구독 금액 div 첫번째 p태그 */
+/* 월간, 연간 이용권 금액 div 첫번째 p태그 */
 #sscMonthContainer .ssc_price_div p:first-child, #sscYearContainer .ssc_price_div p:first-child {
 	color: #575cff;
 }
@@ -143,13 +143,13 @@ body {
 	color: #575cff;
 }
 
-/* 월간구독 버튼 div */
+/* 월간이용권 버튼 div */
 .ssc_month_btn_div {
 	display: inline-grid;
 	margin: 10px 0;
 }
 
-/* 월간구독 구독하기 버튼 */
+/* 월간이용권 이용권 구매 버튼 */
 .ssc_month_sub_btn {
     margin: 5px 0;
     width: 130px;
@@ -163,7 +163,7 @@ body {
     cursor: pointer;
 }
 
-/* 월간구독 구독취소 버튼 */
+/* 월간이용권 구매취소 버튼 */
 .ssc_month_cancel_btn {
     margin: 5px 0;
     width: 130px;
@@ -177,13 +177,13 @@ body {
     cursor: pointer;
 }
 
-/* 연간구독 버튼 div */
+/* 연간이용권 버튼 div */
 .ssc_year_btn_div {
 	display: inline-grid;
 	margin: 10px 0;
 }
 
-/* 연간구독 구독하기 버튼 */
+/* 연간이용권 이용권 구매하기 버튼 */
 .ssc_year_sub_btn {
     margin: 5px 0;
     width: 130px;
@@ -197,7 +197,7 @@ body {
     cursor: pointer;
 }
 
-/* 연간구독 구독취소 버튼 */
+/* 연간이용권 구매취소 버튼 */
 .ssc_year_cancel_btn {
     margin: 5px 0;
     width: 130px;
@@ -211,12 +211,12 @@ body {
     cursor: pointer;
 }
 
-/* 남은 구독일, 만료일 div */
+/* 이용권 남은 기간, 만료일 div */
 .remainingPeriod {
 	line-height: 20px;
 }
 
-/* 남은 구독일, 만료일 */
+/* 이용권 남은 기간, 만료일 */
 .remainingPeriod em {
 	font-weight: 600;
 	color: #fd5b5b;
@@ -234,7 +234,7 @@ body {
 <c:import url="../layout/mypageTop.jsp" />
 
 <div class="mySubscriptionTxt" style="position:relative;">
-	<span>나의 구독</span>
+	<span>나의 이용권</span>
 </div>
 
 <div class="ssc_container">
@@ -258,41 +258,41 @@ body {
 	</div>
 	<div class="ssc_div" id="sscMonthContainer">
 		<div class="ssc_top_guideTxt" id="sscMonthTopGuideTxt">
-			<p>PREMIUM (월간 구독)</p>
+			<p>PREMIUM (월간 이용권)</p>
 			<p>단체 모임에 특화</p>
 		</div>
 		<div class="ssc_price_div" id="sscMonthPriceDiv">
 			<p>3,000원</p>
-			<p>(매월 정기 결제)</p>
+			<p>(30일 이용권)</p>
 		</div>
 		<div class="ssc_content_div">
 			<p>공용 용량 : 100GB</p>
 			<p>최대 이용자 수 : 100명</p>
 			<br>
-			<p>+ FREE 기본 기능</p>
-			<p>공용 용량 up!</p>
-			<p>최대 이용자 수 up!</p>
+			<p>Free 기본 기능 +</p>
+			<p>공용 용량 UP!</p>
+			<p>최대 이용자 수 UP!</p>
 		</div>
 		<div class="ssc_month_btn_div">
 			<c:choose>
-				<c:when test="${subInfo.productNo eq 2}">
-					<button class="ssc_month_cancel_btn" onclick="">구독 취소</button>
+				<c:when test="${payInfo.productNo eq 1}">
+					<button class="ssc_month_cancel_btn" onclick="">구매 취소</button>
 				</c:when>
 				<c:otherwise>
-					<button class="ssc_month_sub_btn" onclick="location.href='/payment/payment'">구독하기</button>
+					<button class="ssc_month_sub_btn" onclick="location.href='/payment/payment'">이용권 구매</button>
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<c:if test="${subInfo.productNo eq 2}">
+		<c:if test="${payInfo.productNo eq 1}">
 		<div class="remainingPeriod">
-			<p>남은 구독 기간 : <em>${subDDay}</em>일</p>
-			<p>(만료일 : <em>${subMonthEd}</em>)</p>
+			<p>이용권 남은 기간 : <em>${payDDay}</em>일</p>
+			<p>(만료일 : <em>${payMonthEd}</em>)</p>
 		</div>
 		</c:if>
 	</div>
 	<div class="ssc_div" id="sscYearContainer">
 		<div class="ssc_top_guideTxt" id="sscYearTopGuideTxt">
-			<p>PREMIUM (연간 구독)</p>
+			<p>PREMIUM (연간 이용권)</p>
 			<p>단체 모임에 특화</p>
 		</div>
 		<div class="ssc_price_div" id="sscYearPriceDiv">
@@ -303,24 +303,24 @@ body {
 			<p>공용 용량 : 100GB</p>
 			<p>최대 이용자 수 : 100명</p>
 			<br>
-			<p>+ FREE 기본 기능</p>
-			<p>공용 용량 up!</p>
-			<p>최대 이용자 수 up!</p>
+			<p>Free 기본 기능 +</p>
+			<p>공용 용량 UP!</p>
+			<p>최대 이용자 수 UP!</p>
 		</div>
 		<div class="ssc_year_btn_div">
 			<c:choose>
-				<c:when test="${subInfo.productNo eq 3}">
-					<button class="ssc_year_cancel_btn" onclick="">구독 취소</button>
+				<c:when test="${payInfo.productNo eq 2}">
+					<button class="ssc_year_cancel_btn" onclick="">구매 취소</button>
 				</c:when>
 				<c:otherwise>
-					<button class="ssc_year_sub_btn" onclick="location.href='/payment/payment'">구독하기</button>
+					<button class="ssc_year_sub_btn" onclick="location.href='/payment/payment'">이용권 구매</button>
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<c:if test="${subInfo.productNo eq 3}">
+		<c:if test="${payInfo.productNo eq 2}">
 		<div class="remainingPeriod">
-			<p>남은 구독 기간 : <em>${subDDay}</em>일</p>
-			<p>(만료일 : <em>${subYearEd}</em>)</p>
+			<p>이용권 남은 기간 : <em>${payDDay}</em>일</p>
+			<p>(만료일 : <em>${payYearEd}</em>)</p>
 		</div>
 		</c:if>
 	</div>
@@ -333,17 +333,17 @@ body {
 <script type="text/javascript">
 $(document).ready(function() {
 	
-	if('${subInfo.productNo}' == 1) {
+	if('${payInfo.productNo}' == 0) {
 		$("#sscFreeContainer").addClass('subInfo_on');
 		$("#sscFreeTopGuideTxt").children().first().css('color', 'var(--background-color)');
 // 		$("#sscFreeTopGuideTxt").css('border-bottom', '5px solid var(--background-color)');
 // 		$("#sscFreePriceDiv").css('border-bottom', '5px solid var(--background-color)');
-	} else if ('${subInfo.productNo}' == 2) {
+	} else if ('${payInfo.productNo}' == 1) {
 		$("#sscMonthContainer").addClass('subInfo_on');
 		$("#sscMonthTopGuideTxt").children().first().css('color', 'var(--background-color)');
 // 		$("#sscMonthTopGuideTxt").css('border-bottom', '5px solid var(--background-color)');
 // 		$("#sscMonthPriceDiv").css('border-bottom', '5px solid var(--background-color)');
-	} else if ('${subInfo.productNo}' == 3) {
+	} else if ('${payInfo.productNo}' == 2) {
 		$("#sscYearContainer").addClass('subInfo_on');
 		$("#sscYearTopGuideTxt").children().first().css('color', 'var(--background-color)');
 // 		$("#sscYearTopGuideTxt").css('border-bottom', '5px solid var(--background-color)');

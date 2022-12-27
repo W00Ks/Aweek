@@ -8,7 +8,7 @@ import common.Paging;
 import cs.dto.Inquiry;
 import member.dto.Member;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import payment.dto.Subscription;
+import payment.dto.Payment;
 
 public interface MemberService {
 
@@ -175,6 +175,6 @@ public interface MemberService {
 	 * @param member - 회원 정보 파라미터
 	 * @return Subscription - 구독 정보 객체
 	 */
-	public Subscription getSubInfo(Member member);
+	public Payment getPayInfo(Member member);
 	
 }

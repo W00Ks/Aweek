@@ -28,7 +28,7 @@ import cs.dto.Inquiry;
 import member.dto.Member;
 import member.service.face.MemberService;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import payment.dto.Subscription;
+import payment.dto.Payment;
 
 @Controller
 @RequestMapping("/member")
@@ -407,7 +407,7 @@ public class MemberController {
 		
 	}
 	
-	//------------------------------ 마이페이지 나의 구독 ------------------------------
+	//------------------------------ 마이페이지 나의 이용권 ------------------------------
 	@RequestMapping("/mySubscription")
 	public void mySubscription(HttpSession session, Model model) {
 		//세션에 저장된 ID를 통해 회원정보 조회 
@@ -418,50 +418,56 @@ public class MemberController {
 		
 		model.addAttribute("member", member);
 
-		//회원 정보를 통해 구독 정보 조회
-		Subscription subInfo = memberService.getSubInfo(member);
+		//회원 정보를 통해 이용권 정보 조회
+		Payment payInfo = memberService.getPayInfo(member);
 		
-		if( subInfo == null ) {
-			subInfo = new Subscription();
-			subInfo.setProductNo(1);
-			subInfo.setCreateAtTime(null);
-			model.addAttribute("subInfo", subInfo);
+		if( payInfo == null ) {
+			payInfo = new Payment();
+			payInfo.setProductNo(0);
+//			payInfo.setPaymentData(null);
+			model.addAttribute("payInfo", payInfo);
 			
-		} else if (subInfo.getProductNo() == 2) {
+		} else if (payInfo.getProductNo() == 1) {
 			//만료일(expiration date) 계산(30일 구독)
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(subInfo.getCreateAtTime());
-			cal.add(cal.DATE, +30);
+//			cal.setTime(payInfo.getPaymentData());
+//			cal.add(cal.DATE, +30);
+			cal.setTime(payInfo.getExpirationDate());
+			
+			//결제일로부터 30일되는 날짜를 SimpleDateFormat으로 변환
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			String subMonthEd = sdf.format(cal.getTime());
+			String payMonthEd = sdf.format(cal.getTime());
 			
 			//남은 날(remaining period) 수 계산
 			long dDay = cal.getTimeInMillis();
 			long now = System.currentTimeMillis();
 			long result = dDay - now;
-			long subDDay = result / 1000 / 60 / 60 / 24 + 1;
+			long payDDay = result / 1000 / 60 / 60 / 24 + 1;
 			
-			model.addAttribute("subMonthEd", subMonthEd);
-			model.addAttribute("subDDay", subDDay);
-			model.addAttribute("subInfo", subInfo);
+			model.addAttribute("payMonthEd", payMonthEd);
+			model.addAttribute("payDDay", payDDay);
+			model.addAttribute("payInfo", payInfo);
 			
-		} else if (subInfo.getProductNo() == 3) {
+		} else if (payInfo.getProductNo() == 2) {
 			//만료일(expiration date) 계산(1년 구독)
 			Calendar cal = Calendar.getInstance();
-			cal.setTime(subInfo.getCreateAtTime());
-			cal.add(cal.DATE, +364);
+//			cal.setTime(payInfo.getPaymentData());
+//			cal.add(cal.DATE, +365);
+			cal.setTime(payInfo.getExpirationDate());
+			
+			//결제일로부터 364일되는 날짜를 SimpleDateFormat으로 변환
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			String subYearEd = sdf.format(cal.getTime());
+			String payYearEd = sdf.format(cal.getTime());
 			
 			//남은 날(remaining period) 수 계산
 			long dDay = cal.getTimeInMillis();	//1000분의 1초 
-			long now = System.currentTimeMillis();
+			long now = System.currentTimeMillis();	//현재 시간
 			long result = dDay - now;
-			long subDDay = result / 1000 / 60 / 60 / 24 + 1;
+			long payDDay = result / 1000 / 60 / 60 / 24 + 1;
 			
-			model.addAttribute("subYearEd", subYearEd);
-			model.addAttribute("subDDay", subDDay);
-			model.addAttribute("subInfo", subInfo);
+			model.addAttribute("payYearEd", payYearEd);
+			model.addAttribute("payDDay", payDDay);
+			model.addAttribute("payInfo", payInfo);
 		}
 	}
 	
