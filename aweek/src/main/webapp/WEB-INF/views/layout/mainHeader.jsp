@@ -115,8 +115,8 @@
 						<div class="sub-menu">
 							<ul class="inner pay">
 								<li class="sub-title"><p>결제 안내</p>
-									<a href="javascript:void(0)"><span>상품 및 가격 안내</span></a>
 									<a href="/payment/payment"><span>결제</span></a>
+									<a href="/payment/paymentlist"><span>결제 내역</span></a>
 								</li>
 							</ul>
 						</div>

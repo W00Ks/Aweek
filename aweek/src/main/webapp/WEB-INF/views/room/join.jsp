@@ -138,6 +138,11 @@ function roomOpen(){
 function roomList(){
 	location.href = "/room/roomList";
 }
+
+function back() {
+	window.history.back();
+}
+
 </script>
 
 
