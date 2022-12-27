@@ -194,8 +194,8 @@
 	</select>
 	
 	<insert id="insertDiary" parameterType="diary.dto.Diary">
-		INSERT INTO diary ( diary_no, diary_cate_no, user_no, room_no, diary_title, diary_content, diary_Date, diary_hit, diary_public, diary_recommend, diary_best )
-		VALUES ( diary_seq.nextval, #{diaryCateNo}, #{userNo}, #{roomNo}, #{diaryTitle}, #{diaryContent}, sysdate, 0, #{diaryPublic}, 0, 0)
+		INSERT INTO diary ( diary_no, diary_cate_no, user_no, room_no, diary_title, diary_content, diary_Date, diary_hit, diary_public, diary_recommend )
+		VALUES ( diary_seq.nextval, #{diaryCateNo}, #{userNo}, #{roomNo}, #{diaryTitle}, #{diaryContent}, sysdate, 0, #{diaryPublic}, 0)
 	</insert>
 	
 	<select id="selectDiaryNo" resultType="int" parameterType="diary.dto.Diary">
@@ -714,5 +714,52 @@
 		    ) B
 		) diary WHERE rnum BETWEEN #{diaryPaging.startNo} AND #{diaryPaging.endNo}
 	</select>
+	
+	
+	
+	<select id="selectMyDiaryCategory" resultType="diary.dto.MyDiaryCategory" parameterType="int">
+		SELECT * FROM mydiary_category
+		WHERE user_no = #{userNo} AND diary_cate_name != '공지사항'
+	</select>
+	
+	<select id="selectMyHotvalue" resultType="diary.dto.MyDiaryHot" parameterType="int">
+		SELECT * FROM mydiary_hot
+		WHERE user_no = #{userNo}
+	</select>
+	
+	<select id="selectMyDiaryNotice" resultType="diary.dto.MyDiary" parameterType="int">
+		SELECT d.*, c.diary_cate_name, h.diary_hot
+		FROM mydiary d
+		LEFT OUTER JOIN mydiary_category c ON d.diary_cate_no = c.diary_cate_no
+		LEFT OUTER JOIN mydiary_hot h ON d.user_no = h.user_no
+		WHERE diary_cate_name = '공지사항' AND (
+		d.user_no = #{userNo}
+		) ORDER BY d.diary_date DESC
+	</select>	
+	
+	<select id="selectMyDiaryRecomm" resultType="diary.dto.MyDiary" parameterType="int">
+		SELECT d.*, c.diary_cate_name, h.diary_hot
+		FROM mydiary d
+		LEFT OUTER JOIN mydiary_category c ON d.diary_cate_no = c.diary_cate_no
+		LEFT OUTER JOIN mydiary_hot h ON d.user_no = h.user_no
+		WHERE diary_cate_name = '공지사항' AND (
+		d.user_no = #{userNo}
+		) AND d.diary_recommend >= h.diary_hot ORDER BY d.diary_date DESC
+	</select>
+	
+	<select id="selectMyDiaryCurrent" resultType="diary.dto.MyDiary" parameterType="int">
+		SELECT d.*, c.diary_cate_name, h.diary_hot
+		FROM mydiary d
+		LEFT OUTER JOIN mydiary_category c ON d.diary_cate_no = c.diary_cate_no
+		LEFT OUTER JOIN mydiary_hot h ON d.user_no = h.user_no
+		WHERE (
+		d.user_no = #{userNo}
+		) ORDER BY d.diary_date DESC
+	</select>	
+	
+	<select id="viewMyDiary" resultType="diary.dto.MyDiary" parameterType="int">
+		SELECT * FROM mydiary
+		WHERE diary_no = #{diaryNo}
+	</select>	
 	
 </mapper>

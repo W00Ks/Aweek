@@ -3,6 +3,7 @@ package diary.dto;
 public class MyDiaryCategory {
 	
 	private int diaryCateNo;
+	private int userNo;
 	private String diaryCateName;
 	
 	public MyDiaryCategory() {}
@@ -32,6 +33,14 @@ public class MyDiaryCategory {
 
 	public void setDiaryCateName(String diaryCateName) {
 		this.diaryCateName = diaryCateName;
+	}
+
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
 
 }

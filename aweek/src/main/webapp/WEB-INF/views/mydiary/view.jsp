@@ -30,7 +30,7 @@ $(document).ready(function() {
 	
 	$("#btnList").click(function() {
 		/* $(location).attr("href", "./list") */
-		var referrer = "./entire?roomNo=${diary.roomNo }";
+		var referrer = "./entire?roomNo=0";
 		location.href = referrer;
 	})
 	
@@ -45,7 +45,7 @@ $(document).ready(function() {
 			, data: {
 				n1 : ${diary.diaryNo }
 				, n2 : ${diary.userNo }
-				, n3 : ${diary.roomNo }
+				, n3 : 0
 			}
 			, dataType: "html"
 			, success: function( res ) {
@@ -104,9 +104,8 @@ $(document).ready(function() {
 
 	<table class="table table-bordered" style="width: 100%">
 	<br>
-	<tr><td class="info">글번호</td><td><span>${diary.diaryNo }</span></td><td class="info">글쓴이</td><td><span style="font-weight: 500;">${diary.userName }</span></td></tr>
-	<tr><td class="info">모임</td><td><span>${diary.roomName }</span></td><td class="info">카테고리</td><td><span style="font-weight: 500;">${diary.diaryCateName }</span></td></tr>
-	<tr><td class="info">조회수</td><td><span>${diary.diaryHit }</span></td><td class="info">작성일자</td><td><span style="font-weight: 500;">${diary.diaryDate }</span></td></tr>
+	<tr><td class="info">글번호</td><td><span>${diary.diaryNo }</span></td><td class="info">글쓴이</td><td><span style="font-weight: 500;">${diary.userNo }</span></td></tr>
+	<tr><td class="info">조회수</td><td><span>0</span></td><td class="info">작성일자</td><td><span style="font-weight: 500;">${diary.diaryDate }</span></td></tr>
 	<tr><td class="info">제목</td><td>${diary.diaryTitle }</span></td><td class="info">공개여부</td><td><span style="font-weight: 500;"><c:if test="${diary.diaryPublic eq 1}">공개</c:if><c:if test="${diary.diaryPublic eq 0}">비공개</c:if></span></td></tr>
 	</table>
 	
@@ -120,7 +119,7 @@ $(document).ready(function() {
 		<div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
 			<div>추천수</div>
 			<br>
-			<div class="recommresult">${diary.diaryRecommend }</div>
+			<div class="recommresult">0</div>
 		</div>
 		<div style="width: 10px;">
 		</div>
@@ -139,7 +138,7 @@ $(document).ready(function() {
 	<td>${diary.diaryNo }</td>
 	
 	<td class="info">글쓴이</td>
-	<td>${diary.userName }</td>
+	<td>0</td>
 </tr>
 
 <tr>
@@ -196,7 +195,7 @@ $(document).ready(function() {
 	<c:forEach items="${comment }" var="data">
 		<table>
 			<tr>
-				<td style="width: 15%; height: 0px;">${data.userName }</td>
+				<td style="width: 15%; height: 0px;">0</td>
 				<td style="width: 50%; height: 0px;">${data.diaryCommContent }</td>
 				<td style="width: 33%; height: 0px;">${data.diaryCommDate }</td>
 				<td style="width: 10%; height: 0px;">
@@ -205,7 +204,7 @@ $(document).ready(function() {
 				<input type="text" value="${data.userNo }" name="userNo" style="display: none;">
 				<input type="text" value="${diary.diaryNo }" name="diaryNo" style="display: none;">
 				<input type="text" value="${data.diaryCommNo }" name="diaryCommNo" style="display: none;">
-				<input type="text" value="${diary.roomNo }" name="roomNo" style="display: none;">
+				<input type="text" value="0" name="roomNo" style="display: none;">
 				</form>
 				</td>
 			</tr>

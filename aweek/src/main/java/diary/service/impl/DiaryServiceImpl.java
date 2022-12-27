@@ -28,6 +28,9 @@ import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
 import diary.dto.DiaryUserRecomm;
+import diary.dto.MyDiary;
+import diary.dto.MyDiaryCategory;
+import diary.dto.MyDiaryHot;
 import diary.dto.DiaryPaging;
 import diary.dto.DiaryPagingAndRoom;
 import diary.service.face.DiaryService;
@@ -743,6 +746,36 @@ public class DiaryServiceImpl implements DiaryService {
 		DiaryPagingAndRoom diaryVo = new DiaryPagingAndRoom(paging, userRoom);
 		
 		return diaryDao.selectUnreadNoticeAll(diaryVo);
+	}
+
+	@Override
+	public List<MyDiaryCategory> myCategory(int userNo) {
+		return diaryDao.selectMyDiaryCategory(userNo);
+	}
+
+	@Override
+	public MyDiaryHot mydiaryHot(int userNo) {
+		return diaryDao.selectMyHotvalue(userNo);
+	}
+
+	@Override
+	public List<MyDiary> selectMyDiaryNotice(int userNo) {
+		return diaryDao.selectMyDiaryNotice(userNo);
+	}
+
+	@Override
+	public List<MyDiary> selectMyDiaryRecomm(int userNo) {
+		return diaryDao.selectMyDiaryRecomm(userNo);
+	}
+
+	@Override
+	public List<MyDiary> selectMyDiaryCurrent(int userNo) {
+		return diaryDao.selectMyDiaryCurrent(userNo);
+	}
+
+	@Override
+	public MyDiary myview(int diaryNo) {
+		return diaryDao.viewMyDiary(diaryNo);
 	}
 
 }
