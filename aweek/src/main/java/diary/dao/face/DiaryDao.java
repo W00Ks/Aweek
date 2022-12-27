@@ -12,6 +12,9 @@ import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
 import diary.dto.DiaryRoomList;
 import diary.dto.DiaryUserRecomm;
+import diary.dto.MyDiary;
+import diary.dto.MyDiaryCategory;
+import diary.dto.MyDiaryHot;
 import diary.dto.DiaryPaging;
 import diary.dto.DiaryPagingAndRoom;
 import member.dto.Member;
@@ -366,16 +369,52 @@ public interface DiaryDao {
 	 */
 	public int selectRoomListAuto(RoomList roomList);
 
+	/**
+	 * 추천글 페이징 계산
+	 * 
+	 * @param diaryVo - DTO 객체
+	 * @return 추천글 페이징
+	 */
 	public int selectBestCntAll(DiaryPagingAndRoom diaryVo);
 
+	/**
+	 * 추천글 리스트
+	 * 
+	 * @param diaryVo - DTO 객체
+	 * @return 추천글 리스트
+	 */
 	public List<Diary> selectBestAll(DiaryPagingAndRoom diaryVo);
 
+	/**
+	 * 공지 페이징 계산
+	 * 
+	 * @param diaryVo - DTO 객체
+	 * @return 공지 페이징
+	 */
 	public int selectNoticeCntAll(DiaryPagingAndRoom diaryVo);
 
+	/**
+	 * 공지 리스트
+	 * 
+	 * @param diaryVo - DTO 객체
+	 * @return 공지 리스트
+	 */
 	public List<Diary> selectNoticeAll(DiaryPagingAndRoom diaryVo);
 
+	/**
+	 * 전체글 페이징
+	 * 
+	 * @param diaryVo - DTO 객체
+	 * @return 전체글 페이징
+	 */
 	public int selectEntireCntAll(DiaryPagingAndRoom diaryVo);
 
+	/**
+	 * 전체글 리스트
+	 * 
+	 * @param diaryVo - DTO 객체
+	 * @return 전체글 리스트
+	 */
 	public List<Diary> selectEntireAll(DiaryPagingAndRoom diaryVo);
 
 	/**
@@ -438,8 +477,34 @@ public interface DiaryDao {
 	 */
 	public void updateDiaryNoticeRead(DiaryRoomList diaryRoomList);
 
+	/**
+	 * 안읽은 공지 페이징 조회
+	 * 
+	 * @param diaryVo - DTO 객체
+	 * @return 안읽은 공지 페이징
+	 */
 	public int selectUnreadNoticeCntAll(DiaryPagingAndRoom diaryVo);
 
+	/**
+	 * 안읽은 공지 리스트 조회
+	 * 
+	 * @param diaryVo - DTO 객체
+	 * @return 안읽은 공지 리스트
+	 */
 	public List<Diary> selectUnreadNoticeAll(DiaryPagingAndRoom diaryVo);
+
+
+
+	public List<MyDiaryCategory> selectMyDiaryCategory(int userNo);
+
+	public MyDiaryHot selectMyHotvalue(int userNo);
+
+	public List<MyDiary> selectMyDiaryNotice(int userNo);
+
+	public List<MyDiary> selectMyDiaryRecomm(int userNo);
+
+	public List<MyDiary> selectMyDiaryCurrent(int userNo);
+
+	public MyDiary viewMyDiary(int diaryNo);
 
 }

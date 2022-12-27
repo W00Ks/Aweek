@@ -12,9 +12,12 @@ import diary.dto.DiaryComment;
 import diary.dto.DiaryFavorite;
 import diary.dto.DiaryFile;
 import diary.dto.DiaryHot;
+import diary.dto.DiaryPaging;
 import diary.dto.DiaryRoomList;
 import diary.dto.DiaryUserRecomm;
-import diary.dto.DiaryPaging;
+import diary.dto.MyDiary;
+import diary.dto.MyDiaryCategory;
+import diary.dto.MyDiaryHot;
 import member.dto.Member;
 import room.dto.Room;
 import room.dto.RoomList;
@@ -341,19 +344,91 @@ public interface DiaryService {
 	 */
 	public int authority(RoomList roomList);
 
+	/**
+	 * 추천글 페이징 계산
+	 * 
+	 * @param curPage - 현재 페이지 번호
+	 * @param userNo - 사용자 번호
+	 * @param searchtext - 검색어
+	 * @param sort - 리스트 정렬값
+	 * @param searchsort - 검색어 정렬값
+	 * @param roomNo - 모임번호
+	 * @param userRoom - 모임 리스트 객체
+	 * @return 페이징 계산 객체
+	 */
 	public DiaryPaging getBestPaging(int curPage, int userNo, String searchtext, int sort, int searchsort, int roomNo, List<Room> userRoom);
 
+	/**
+	 * 추천글 리스트
+	 * 
+	 * @param paging - 페이징 계산 객체
+	 * @param userNo - 사용자 번호
+	 * @param searchtext - 검색어
+	 * @param sort - 리스트 정렬값
+	 * @param searchsort - 검색어 정렬값
+	 * @param roomNo - 모임번호
+	 * @param userRoom - 모임 리스트 객체
+	 * @return 추천글 객체
+	 */
 	public List<Diary> getBestList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort, int roomNo, List<Room> userRoom);
 
+	/**
+	 * 공지사항 페이지 계산
+	 * 
+	 * @param curPage - 현재 페이지
+	 * @param userNo - 사용자 번호
+	 * @param searchtext - 검색어
+	 * @param sort - 정렬값
+	 * @param searchsort - 검색 정렬값
+	 * @param roomNo - 모임 번호
+	 * @param userRoom - 모임 리스트 객체
+	 * @return 페이징 계산 객체
+	 */
 	public DiaryPaging getNoticePaging(int curPage, int userNo, String searchtext, int sort, int searchsort,
 			int roomNo, List<Room> userRoom);
 
+	/**
+	 * 공지사항 리스트
+	 * 
+	 * @param paging - 페이징 객체
+	 * @param userNo - 사용자 번호
+	 * @param searchtext - 검색어
+	 * @param sort - 정렬값
+	 * @param searchsort - 검색 정렬값
+	 * @param roomNo - 모임 번호
+	 * @param userRoom - 모임 리스트 객체
+	 * @return 공지사항 리스트
+	 */
 	public List<Diary> getNoticeList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort,
 			int roomNo, List<Room> userRoom);
 
+	/**
+	 * 전체글 페이징 객체
+	 * 
+	 * @param curPage - 현재 페이지
+	 * @param userNo - 사용자 번호
+	 * @param searchtext - 검색어
+	 * @param sort - 정렬값
+	 * @param searchsort - 검색어 정렬값
+	 * @param roomNo - 모임 번호
+	 * @param userRoom - 모임 리스트 객체
+	 * @return 계산된 페이징 객체
+	 */
 	public DiaryPaging getEntirePaging(int curPage, int userNo, String searchtext, int sort, int searchsort,
 			int roomNo, List<Room> userRoom);
 
+	/**
+	 * 전체글 리스트
+	 * 
+	 * @param paging - 계산된 페이징 객체
+	 * @param userNo - 사용자 번호
+	 * @param searchtext - 검색어
+	 * @param sort - 정렬값
+	 * @param searchsort - 검색어 정렬값
+	 * @param roomNo - 모임 번호
+	 * @param userRoom - 모임 리스트 객체
+	 * @return 계산된 페이징 객체
+	 */
 	public List<Diary> getEntireList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort,
 			int roomNo, List<Room> userRoom);
 
@@ -420,10 +495,48 @@ public interface DiaryService {
 	 */
 	public void updateDiaryNoticeRead(int userNo, int diaryNo);
 
+	/**
+	 * 안읽은 공지 페이징 객체
+	 * 
+	 * @param curPage - 현재 페이지
+	 * @param userNo - 사용자 번호
+	 * @param searchtext - 검색어
+	 * @param sort - 정렬값
+	 * @param searchsort - 검색 정렬값
+	 * @param roomNo - 모임 번호
+	 * @param userRoom - 모임 리스트 객체 
+	 * @return 페이징 계산값
+	 */
 	public DiaryPaging getUnreadNoticePaging(int curPage, int userNo, String searchtext, int sort, int searchsort,
 			int roomNo, List<Room> userRoom);
 
+	/**
+	 * 안읽은 공지 리스트
+	 * 
+	 * @param paging - 페이징 객체
+	 * @param userNo - 사용자 번호
+	 * @param searchtext - 검색어 
+	 * @param sort - 정렬값
+	 * @param searchsort - 검색어 정렬값
+	 * @param roomNo - 사용자 번호
+	 * @param userRoom - 모임 리스트 객체
+	 * @return 안읽은 공지 리스트
+	 */
 	public List<Diary> getUnreadNoticeList(DiaryPaging paging, int userNo, String searchtext, int sort, int searchsort,
 			int roomNo, List<Room> userRoom);
+
+	
+	
+	public List<MyDiaryCategory> myCategory(int userNo);
+
+	public MyDiaryHot mydiaryHot(int userNo);
+
+	public List<MyDiary> selectMyDiaryNotice(int userNo);
+
+	public List<MyDiary> selectMyDiaryRecomm(int userNo);
+
+	public List<MyDiary> selectMyDiaryCurrent(int userNo);
+
+	public MyDiary myview(int diaryNo);
 
 }
