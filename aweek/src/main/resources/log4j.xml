@@ -44,7 +44,7 @@
 	</logger>
 	
 	<logger name="payment">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 	
 	<logger name="room">

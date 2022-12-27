@@ -1,7 +1,12 @@
 package payment.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -10,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import member.dto.Member;
@@ -31,18 +35,21 @@ public class PaymentController {
 	public String myPaymentInfo(Payment paymentInfo, HttpSession session, Model model) {
 		logger.debug("{}", paymentInfo);
 		
-		// 로그인 정보
-		int userNo = Integer.parseInt(session.getAttribute("userNo").toString());
+		Payment payment = new Payment();
+		int userNo = (Integer) session.getAttribute("userNo");
+		payment.setUserNo(userNo);
 		
-		// 회원의 정보가 아닐때 처리
-		if( paymentInfo.getUserNo( ) == userNo ) {
-			return "redirect:/payment/payment";
-		}
 		
-		paymentInfo = paymentService.getPaymentInfo(paymentInfo);
-		logger.debug("조회된 결제 정보 {}", paymentInfo);
+		List<Payment> paymentList = paymentService.getPaymentInfoAll(payment);
+		for(Payment p : paymentList)	logger.debug("{}", p);
 		
-		model.addAttribute("paymentInfo", paymentInfo);
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);
+		member = paymentService.getLoginInfo(member);
+		
+		model.addAttribute("paymentList", paymentList);
+		model.addAttribute("member", member);
 		
 		return "/payment/paymentlist";
 	}
@@ -56,7 +63,7 @@ public class PaymentController {
 		member.setUserId(userId);
 		member = paymentService.getLoginInfo(member);
 		
-		
+				
 		model.addAttribute("member", member);	
 		
 	}
@@ -64,7 +71,7 @@ public class PaymentController {
 
 	@PostMapping("/payment/success")
 	public void paymentSuccess(String payNo, int userNo, int productNo, String payMethod, int price
-			,String payResult, Date payAt, String userName, HttpSession session) {
+			,String payResult, Date payAt, String userName, Date expirationDate, HttpSession session) {
 		logger.info("paymentSeccess");
 		
 		String userId = (String) session.getAttribute("userId");
@@ -75,15 +82,25 @@ public class PaymentController {
 		payment.setProductNo(productNo);
 		payment.setPaymentMethod(payMethod);
 		payment.setPaymentAmount(price);
-		payment.setResultstatus(payResult);
-		payment.setPaymentDate(payAt);
-
-		paymentService.save(payment);
-		logger.info("payment - {}",payment);
+		payment.setResultStatus(payResult);
+		payment.setPaymentDate(payAt);		
+		payment.setExpirationDate(expirationDate);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(payAt);
+		cal.add(cal.DATE, +30);
+		
+		long dDay = cal.getTimeInMillis();
+		long now = System.currentTimeMillis();
+		long result = dDay - now;
+		long subDDay = (result / 1000 / 60 / 60 / 24) + 1;
+		payment.setDuration((int) subDDay);
 		
 		// 결제를 했는지 검증		
-//		session.setAttribute("payment", userId);
-//		logger.info("payemnt success");
+		session.setAttribute("payment", userId);
+		logger.info("payemnt success{}", userId);
+		
+		paymentService.save(payment);
 		
 	}
 	

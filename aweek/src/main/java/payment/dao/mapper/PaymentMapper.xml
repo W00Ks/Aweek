@@ -13,8 +13,10 @@
 	</select>
 	
 	<insert id="savePaymentInfo" parameterType="Payment">
-		INSERT INTO PAYMENT (PAY_NO, USER_NO, PRODUCT_NO, PAYMENT_METHOD, PAYMENT_AMOUNT, RESULT_STATUS, PAYMENT_DATA)
-		VALUES (#{payNo}, #{userNo}, #{productNo}, #{paymentMethod}, #{paymentAmount}, #{resultStatus}, #{paymentDate})
+		INSERT INTO PAYMENT (PAY_NO, USER_NO, PRODUCT_NO, PAYMENT_METHOD, PAYMENT_AMOUNT
+		, RESULT_STATUS, PAYMENT_DATE, EXPIRATION_DATE, DURATION)
+		VALUES (#{payNo}, #{userNo}, #{productNo}, #{paymentMethod}, #{paymentAmount}
+		, #{resultStatus}, #{paymentDate}, #{expirationDate}, #{duration})
 	</insert>
 	
 	<select id="selectProductInfo" resultType="Product" parameterType="int">
@@ -25,10 +27,19 @@
 	<select id="selectPaymentInfo" resultType="Payment" parameterType="Payment">
 		SELECT
 			PAY_NO, USER_NO, PRODUCT_NO, PAYMENT_METHOD, PAYMENT_AMOUNT
-			, RESULT_STATUS, PAYMENT_DATA
+			, RESULT_STATUS, PAYMENT_DATE, EXPIRATION_DATE
 		FROM payment
 		WHERE user_no = #{userNo}
 	</select>
+	
+		<select id="selectPayList" resultType="Payment" parameterType="Payment">
+		SELECT
+			PAY_NO, USER_NO, PRODUCT_NO, PAYMENT_METHOD, PAYMENT_AMOUNT
+			, RESULT_STATUS, PAYMENT_DATE, EXPIRATION_DATE, DURATION
+		FROM payment
+		WHERE user_no = #{userNo}
+	</select>
+	
 
 	
 </mapper>

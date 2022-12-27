@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="../layout/roomHeader.jsp" flush="true" />
+<jsp:include page="../layout/mainHeader.jsp" flush="true" />
 <!DOCTYPE html>
 
 
@@ -99,7 +99,7 @@ p {
 	border: 1px solid #ccc;
 	text-align: center;
 	margin: auto;
-	width: 170%;
+	width: 150%;
 	height: 550px;
 	margin-top: 70px;
 	border-radius: 10px;
@@ -116,15 +116,19 @@ p {
 }
 
 .payemntCacao:hover {
+	width: 130%;
+	height: 550px;
 	background-color: #ccc;
-	transition-duration: 1s;
+	transition-duration: 0.8s;
 	border: 2px solid #cb7070;
 	font-weight: bold;
 }
 
 #paymentfree:hover {
+	width: 170%;
+	height: 550px;
 	background-color: #ccc;
-	transition-duration: 1s;
+	transition-duration: 0.6s;
 	border: 2px solid #cb7070;
 	font-weight: bold;
 }
@@ -174,6 +178,63 @@ p {
 
 .selectBox .select:focus + .icoArrow img {
   transform: rotate(180deg);
+}
+
+.btn {
+  width: 100px;
+  padding: 10px;
+  border: 1px solid var(--soft-black);
+  background-color: var(--baby-pink);
+  border-radius: 4px;
+  color: var(--soft-black);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: block;
+  transition: .4s;
+}
+.btn:hover {
+  border: 1px solid var(--soft-black);
+  background-color: var(--text-color);
+  color: var(--soft-black);
+}
+.btn.btn--reverse {
+  background-color: var(--text-color);
+  color: var(--accent-color);
+}
+.btn.btn--reverse:hover {
+  background-color: transparent;
+  color: var(--text-color);
+}
+.btn.btn--brown {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+.btn.btn--brown:hover {
+  color: var(--accent-color);
+  background-color: var(--text-color);
+}
+.btn.btn--pink {
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border-color: var(--border-color);
+}
+.btn.btn--brown:hover {
+  color: var(--accent-color);
+  background-color: var(--text-color);
+}
+.btn.wide {
+	width: 100%;
+    margin: 10px 0;
+    padding: 15px 0;
+    height: 40px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 </style>
@@ -235,8 +296,10 @@ p {
         var price = $('input[name="cp_item"]:checked').val();
         var paySelect = $("#pay_select").val();
         var paymentAt = new Date();
+        var today = new Date();
+        var expirationDate = new Date(today.setMonth(today.getMonth() + 1));
         var payResult = "y";
-        var productNo = 0
+        var productNo = 0;
         if(price == 5000) {
         	productNo = 1
         } else if(price == 25200) {
@@ -272,7 +335,7 @@ p {
                         "payAt" : paymentAt,
                         "payResult" : payResult,
                         "userName" : '${member.userName}',
-
+                        "expirationDate" : expirationDate,
                     },
                 });
                 window.location.href = "/aweekHome";

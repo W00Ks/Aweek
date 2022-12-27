@@ -39,8 +39,14 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public Payment getPaymentInfo(Payment paymentInfo) {
-		return paymentDao.selectPaymentInfo(paymentInfo);
+	public Payment getPaymentInfo(Payment payment) {
+		return paymentDao.selectPaymentInfo(payment);
+	}
+
+
+	@Override
+	public List<Payment> getPaymentInfoAll(Payment payment) {
+		return paymentDao.selectPayList(payment);
 	}
 
 
