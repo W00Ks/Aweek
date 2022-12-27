@@ -46,7 +46,18 @@ public interface PaymentDao {
 	 * @param paymentInfo - 조회하려는 회원 번호
 	 * @return 조회된 결제 정보
 	 */
-	public Payment selectPaymentInfo(Payment paymentInfo);
+	public Payment selectPaymentInfo(Payment payment);
+
+	/**
+	 * 전체 결제 정보 조회
+	 * 
+	 * @param payment - 결제 정보 조회 객체
+	 * @return - 결제 정보 조회 객체
+	 */
+	public List<Payment> selectPayList(Payment payment);
+
+
+
 
 
 
