@@ -424,7 +424,7 @@ public class MemberController {
 		if( payInfo == null ) {
 			payInfo = new Payment();
 			payInfo.setProductNo(0);
-//			payInfo.setPaymentData(null);
+			payInfo.setPaymentDate(null);
 			model.addAttribute("payInfo", payInfo);
 			
 		} else if (payInfo.getProductNo() == 1) {
