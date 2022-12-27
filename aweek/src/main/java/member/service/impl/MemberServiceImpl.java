@@ -19,7 +19,7 @@ import member.dto.Member;
 import member.service.face.MemberService;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import payment.dto.Subscription;
+import payment.dto.Payment;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -247,8 +247,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public Subscription getSubInfo(Member member) {
-		return memberDao.selectSubInfo(member);
+	public Payment getPayInfo(Member member) {
+		return memberDao.selectPayInfo(member);
 	}
 	
 }

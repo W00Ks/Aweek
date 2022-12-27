@@ -105,9 +105,10 @@
 		WHERE inquiry_no = #{inquiryNo}
 	</select>
 	
-	<select id="selectSubInfo" resultType="Subscription" parameterType="Member">
-		SELECT * FROM subscription
+	<select id="selectPayInfo" resultType="Payment" parameterType="Member">
+		SELECT * FROM payment
 		WHERE user_no = #{userNo}
+		AND result_status = 'Y'
 	</select>
 	
 </mapper>
