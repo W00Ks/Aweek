@@ -6,8 +6,6 @@
 
 <c:import url="./layout/adminheader.jsp" />
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -17,6 +15,7 @@ $(document).ready(function() {
 	})
 		
 	$("#btnUpdate").click(function() {
+		var upd_list = alert ("Q&A를 수정합니다.")
 		location.href = "/admin/qnamodify?qnaNo=${ viewQna.qnaNo }"
 	})
 	
@@ -24,10 +23,9 @@ $(document).ready(function() {
 		var del_list = confirm ("Q&A를 삭제하시겠습니까?")
 		
 		if( del_list == true ) {
-			alert("삭제하셨습니다.")
 			location.href = "/admin/qnadelete?qnaNo=${ viewQna.qnaNo }"
 		} else if( del_list == false ) {
-			return;
+			return false;
 		}
 	})
 })
@@ -60,7 +58,7 @@ p {
 }
 
 .third {
-	margin: 130px 0px;
+	margin: 90px 0px;
 }
 
 </style>
@@ -74,9 +72,32 @@ p {
 <div class="container">
 	<div style="display: flex;" class="firstList">
 		<p style="width: 30%;">아이디 : ${ viewQna.writerNick }</p>
-		<p style="width: 40%; text-align: left;">작성일 : <fmt:formatDate value="${ viewQna.qnaDate }" pattern="yyyy-MM-dd HH:mm:ss" /></p>
-		<p style="width: 15%;">글번호 : ${ viewQna.qnaNo }</p>
-		<p style="width: 15%;">카테고리 : ${ viewQna.qnaCategoryNo }</p>
+		<p style="width: 30%; text-align: left;">작성일 : <fmt:formatDate value="${ viewQna.qnaDate }" pattern="yyyy-MM-dd HH:mm:ss" /></p>
+		<p style="width: 20%;">글번호 : ${ viewQna.qnaNo }</p>
+		<c:if test="${ viewQna.qnaCategoryNo eq '1' }">
+			<p>카테고리 : 회원관리</p>
+		</c:if>
+		<c:if test="${ viewQna.qnaCategoryNo eq '2' }">
+			<p>카테고리 : 어위크</p>
+		</c:if>
+		<c:if test="${ viewQna.qnaCategoryNo eq '3' }">
+			<p>카테고리 : 모임</p>
+		</c:if>
+		<c:if test="${ viewQna.qnaCategoryNo eq '4' }">
+			<p>카테고리 : 채팅</p>
+		</c:if>
+		<c:if test="${ viewQna.qnaCategoryNo eq '5' }">
+			<p>카테고리 : 캘린더</p>
+		</c:if>
+		<c:if test="${ viewQna.qnaCategoryNo eq '6' }">
+			<p>카테고리 : 다이어리</p>
+		</c:if>
+		<c:if test="${ viewQna.qnaCategoryNo eq '7' }">
+			<p>카테고리 : 결제</p>
+		</c:if>
+		<c:if test="${ viewQna.qnaCategoryNo eq '8' }">
+			<p>카테고리 : 고객센터</p>
+		</c:if>
 	</div>
 	
 	<div style="display: flex;" class="secondList">
@@ -90,7 +111,7 @@ p {
 	</div>
 </div>
 
-<div style="margin: 0 auto; margin-top: 70px;" >
+<div style="margin: 0 auto; margin-top: 70px;" class="fileList">
 	<button id="btnUpdate" class="btnUpdate">수정</button>
 	<button id="btnDelete" class="btnDelete">삭제</button>
 	<button id="btnList" class="btnList">목록</button>

@@ -154,7 +154,7 @@ public interface AdminDao {
 	 * @param room - 조회하려는 방 번호
 	 * @return - 조회된 방 정보
 	 */
-	public Room selelctRoomDetail(Room room);
+	public Room selectRoomDetail(Room room);
 
 	/**
 	 * 결제 번호를 이용하여 결제 내역을 조회
@@ -268,13 +268,47 @@ public interface AdminDao {
 	public void deleteQna(QnA qna);
 
 	/**
-	 * Q&A 카테고리 리스트 불러오기
+	 * 회원 통계
 	 * 
-	 * @return List<QnACategory> - Q&A 카테고리 리스트
+	 * @return
 	 */
-	public List<QnACategory> selectQnACategoryList();
+	public int MemberCount();
 
-	
+	/**
+	 * 방 통계
+	 * 
+	 * @return
+	 */
+	public int RoomCount();
+
+	/**
+	 * 결제 통계
+	 * 
+	 * @return
+	 */
+	public int PaymentCount();
+
+	/**
+	 * 공지사항 통계
+	 * 
+	 * @return
+	 */
+	public int NoticeCount();
+
+	/**
+	 * Q&A 통계
+	 * 
+	 * @return
+	 */
+	public int QnaCount();
+
+	/**
+	 * 1:1 문의 통계
+	 * 
+	 * @return
+	 */
+	public int InquiryCount();
+
 //	/**
 //	 * 전체 회원 목록을 조회함
 //	 * 

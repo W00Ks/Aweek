@@ -56,9 +56,9 @@ th {
 	<table style="margin: 0 auto;">
 		<thead>
 			<tr>
-				<th style="width: 50px;">번호</th>
-				<th style="width: 275px;">이름</th>
-				<th style="width: 275px;">공개정보</th>
+				<th style="width: 100px;">모임 번호</th>
+				<th style="width: 300px;">모임 이름</th>
+				<th style="width: 150px;">모임 상세정보</th>
 			</tr>
 		</thead>
 		
@@ -66,8 +66,13 @@ th {
 		<c:forEach items="${ roomlist }" var="room">
 			<tr>
 				<td>${ room.roomNo }</td>
-				<td><a href="/admin/roomdetail?roomNo=?"${ room.roomNo }>${ room.roomName }</a></td>
-				<td>${ room.roomPublic }</td>
+				<td><a href="/admin/roomdetail?roomNo=${ room.roomNo }">${ room.roomName }</a></td>
+				<c:if test="${ room.roomPublic eq '1' }">
+					<td>공개</td>
+				</c:if>
+				<c:if test="${ room.roomPublic eq '0' }">
+					<td>비공개</td>
+				</c:if>
 			</tr>
 		</c:forEach>
 		</tbody>

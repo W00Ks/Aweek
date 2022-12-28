@@ -13,26 +13,22 @@ table {
     text-align: center;
 }
 
-tr {
-	font-size: 20px;
-}
-
 th {
+   	background: #43c446;
     border: 1px solid #ccc;
     border-collapse: collapse;
    	text-align: center;
    	width: 200px;
-   	background: #43c446;
-   	padding: 5px;
-   	font-size: 15px;
+   	font-size: 14px;
    	font-weight: 400;
 }
 
 td {
 	border: 1px solid #ccc;
 	text-align: center;
-	width: 70%;
-	font-weight: 500;
+	width: 400px;
+	font-size: 14px;
+   	font-weight: 400;
 }
 
 th, td {
@@ -57,8 +53,6 @@ th, td {
 
 </style>
 
-<c:if test="${ not empty adminLogin }">
-
 <div class="container">
 	<div class="list">
 		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">방 상세 정보</h1>
@@ -66,28 +60,41 @@ th, td {
 	
 	<table>
 		<tr>
-			<th>번호</th>
+			<th>모임 번호</th>
 			<td>${ room.roomNo }</td>
 		</tr>
 		<tr>
 			<th>카테고리</th>
-			<td>${ room.roomCategoryNo }</td>
+			<c:if test="${ room.roomCategoryNo eq '1' }">
+				<td>회사</td>
+			</c:if>
+			<c:if test="${ room.roomCategoryNo eq '2' }">
+				<td>취미</td>
+			</c:if>
+			<c:if test="${ room.roomCategoryNo eq '3' }">
+				<td>동아리</td>
+			</c:if>
 		</tr>
 		<tr>
-			<th>이름</th>
+			<th>모임 이름</th>
 			<td>${ room.roomName }</td>
 		</tr>
 		<tr>
-			<th>전화번호</th>
+			<th>모임 소개</th>
 			<td>${ room.roomIntroduce }</td>
 		</tr>
 		<tr>
-			<th>인원</th>
+			<th>모임 인원</th>
 			<td>${ room.roomMember }</td>
 		</tr>
 		<tr>
-			<th>공개여부</th>
-			<td>${ room.roomPublic }</td>
+			<th>모임 공개여부</th>
+			<c:if test="${ room.roomPublic eq '1' }">
+				<td>공개</td>
+			</c:if>
+			<c:if test="${ room.roomPublic eq '0' }">
+				<td>비공개</td>
+			</c:if>
 		</tr>
 	</table>
 </div>
@@ -95,5 +102,3 @@ th, td {
 <div style="margin-top: 50px; margin-bottom: 50px;">
 	<a href="/admin/roomlist"><button class="roomlist">방 목록</button></a>
 </div>
-
-</c:if>

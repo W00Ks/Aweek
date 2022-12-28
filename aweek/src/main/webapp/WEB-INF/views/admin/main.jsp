@@ -8,97 +8,120 @@
 
 <script type="text/javascript">
 
+$(document).ready(function() {
+
+	// 검색 입력창 빈 칸시 alert
+	$("#searchIcon").click(function() {
+		if($.trim($("#keyword").val()) == '' ) {
+			console.log("false")
+			alert("검색어를 입력해주세요.");
+			("#keyword").focus();
+			return "/admin/main";
+		}
+	})
+
+	// 검색 입력창에 focus
+	$("input").eq(0).focus()
+	
+	// 검색 입력창에 엔터키 입력 시 submit
+	$("input").eq(1).keydown(function(e) {
+		if( e.keyCode == 13 ) { // 엔터키
+			$("#searchIcon").click();
+		}
+	})
+})
+
 </script>
 
 <style>
 
+
+
 </style>
 
-<c:if test="${ not empty adminLogin }">
-
-<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 20%;">
+<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 33%;">
 	<div class="panel panel-teal panel-widget border-right">
 		<div class="row no-padding">
 			<em class="fa fa-xl fa-user  color-teal"></em>
 				<div class="large color-black">
 					<a href="/admin/memberlist"  style="color:black;">
-						<c:out value="${ fn:length(memberlist) }"/>
+						<span>${ memberCount }</span>
 					</a>
 				</div>
-			<div class="text-muted">MEMBER</div>
+			<div class="text-muted">회원</div>
 		</div>
 	</div>
 </div>
 
-<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 20%;">
+<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 33%;">
 	<div class="panel panel-teal panel-widget border-right">
 		<div class="row no-padding">
 			<em class="fa fa-xl fa-user  color-teal"></em>
 				<div class="large color-black">
 					<a href="/admin/roomlist"  style="color:black;">
-						<c:out value="${ fn:length(room) }"/>
+						<span>${ roomCount }</span>
 					</a>
 				</div>
-			<div class="text-muted">ROOM</div>
+			<div class="text-muted">모임</div>
 		</div>
 	</div>
 </div>
 
-<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 20%;">
+<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 33%;">
+	<div class="panel panel-teal panel-widget border-right">
+		<div class="row no-padding">
+			<em class="fa fa-xl fa-user  color-teal"></em>
+				<div class="large color-black">
+					<a href="/admin/paymentlist"  style="color:black;">
+						<span>${ paymentCount }</span>
+					</a>
+				</div>
+			<div class="text-muted">결제</div>
+		</div>
+	</div>
+</div>
+
+<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 33%;">
 	<div class="panel panel-teal panel-widget border-right">
 		<div class="row no-padding">
 			<em class="fa fa-xl fa-user  color-teal"></em>
 				<div class="large color-black">
 					<a href="/admin/noticelist"  style="color:black;">
-						<c:out value="${ fn:length(notice) }"/>
+						<span>${ noticeCount }</span>
 					</a>
 				</div>
-			<div class="text-muted">NOTICE</div>
+			<div class="text-muted">공지사항</div>
 		</div>
 	</div>
 </div>
 
-<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 20%;">
-	<div class="panel panel-teal panel-widget border-right">
-		<div class="row no-padding">
-			<em class="fa fa-xl fa-user  color-teal"></em>
-				<div class="large color-black">
-					<a href="/admin/inquirylist"  style="color:black;">
-						<c:out value="${ fn:length(inquiry) }"/>
-					</a>
-				</div>
-			<div class="text-muted">INQUIRY</div>
-		</div>
-	</div>
-</div>
-
-<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 20%;">
+<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 33%;">
 	<div class="panel panel-teal panel-widget border-right">
 		<div class="row no-padding">
 			<em class="fa fa-xl fa-user  color-teal"></em>
 				<div class="large color-black">
 					<a href="/admin/qnalist"  style="color:black;">
-						<c:out value="${ fn:length(qna) }"/>
+						<span>${ qnaCount }</span>
 					</a>
 				</div>
-			<div class="text-muted">Q&A</div>
+			<div class="text-muted">자주 묻는 질문</div>
 		</div>
 	</div>
 </div>
 
-<div class="SearchMember">
-	<form action="/admin/memberlist" method="post" name="search" id="searchForm">
-		<select name="type" id="type">
-			<option value="userId" <c:out value="${ paging.type eq 'userId' ? 'selected' :'' }" /> >아이디</option>
-			<option value="userName" <c:out value="${ paging.type eq 'userName' ? 'selected' :'' }" /> >이름</option>
-		</select>
-			
-		<input id="searchText" type="text" name="keyword" id="keyword" value="${ paging.keyword }" placeholder="검색어를 입력하세요.">
-		<button type="submit" id="searchIcon"><i class="fas fa-search">검색</i></button>
-	</form>
+<div class="col-xs-6 col-md-3 col-lg-3 no-padding" style="width: 33%;">
+	<div class="panel panel-teal panel-widget border-right">
+		<div class="row no-padding">
+			<em class="fa fa-xl fa-user  color-teal"></em>
+				<div class="large color-black">
+					<a href="/admin/inquirylist"  style="color:black;">
+						<span>${ inquiryCount }</span>
+					</a>
+				</div>
+			<div class="text-muted">1:1 문의</div>
+		</div>
+	</div>
 </div>
-
-</c:if>
 
 </body>
 </html>

@@ -22,7 +22,6 @@ $(document).ready(function() {
 		var del_list = confirm ("Q&A를 삭제하시겠습니까?")
 		
 		if( del_list == true ) {
-			alert("삭제하셨습니다.")
 			location.href = "/admin/qnadelete?qnaeNo=${ viewQna.qnaNo }"
 		} else if( del_list == false ) {
 			return false;
@@ -77,8 +76,6 @@ th {
 
 </style>
 
-<c:if test="${ not empty adminLogin }">
-
 <div class="container">
 	<div class="list">
 		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">자주 묻는 질문</h1>
@@ -91,7 +88,7 @@ th {
 	<table id="qnatable" style="margin: 0 auto;">
 		<thead>
 			<tr id="title">
-				<th style="width: 50px;">번호</th>
+				<th style="width: 100px;">번호</th>
 				<th style="width: 250px;">제목</th>
 				<th style="width: 100px;">날짜</th>
 				<th style="width: 150px;">카테고리</th>
@@ -106,7 +103,30 @@ th {
 				<td>${ qna.qnaNo }</td>
 				<td><a href="/admin/qnadetail?qnaNo=${ qna.qnaNo }">${ qna.qnaTitle }</a></td>
 				<td><fmt:formatDate value="${ qna.qnaDate }" pattern="yyyy-MM-dd" /></td>
-				<td>${ qna.qnaCategoryNo }</td>
+				<c:if test="${ qna.qnaCategoryNo eq '1' }">
+					<td>회원관리</td>
+				</c:if>
+				<c:if test="${ qna.qnaCategoryNo eq '2' }">
+					<td>어위크</td>
+				</c:if>
+				<c:if test="${ qna.qnaCategoryNo eq '3' }">
+					<td>모임</td>
+				</c:if>
+				<c:if test="${ qna.qnaCategoryNo eq '4' }">
+					<td>채팅</td>
+				</c:if>
+				<c:if test="${ qna.qnaCategoryNo eq '5' }">
+					<td>캘린더</td>
+				</c:if>
+				<c:if test="${ qna.qnaCategoryNo eq '6' }">
+					<td>다이어리</td>
+				</c:if>
+				<c:if test="${ qna.qnaCategoryNo eq '7' }">
+					<td>결제</td>
+				</c:if>
+				<c:if test="${ qna.qnaCategoryNo eq '8' }">
+					<td>고객센터</td>
+				</c:if>
 				<td><a href="/admin/qnamodify?qnaNo=${ qna.qnaNo }"><button id="btnUpdate">수정</button></a></td>
 				<td><a href="/admin/qnadelete?qnaNo=${ qna.qnaNo }"><button id="btnDelete">삭제</button></a></td>
 			</tr>
@@ -117,10 +137,8 @@ th {
 
 <div class="bottomlist">
 	<div class="qnaWrite">
-		<button id="btnWrite">글쓰기</button>
+		<button id="btnWrite" style="margin-top: 50px;">글쓰기</button>
 	</div>
 </div>
 
 <c:import url="/WEB-INF/views/admin/layout/qnapaging.jsp" />
-
-</c:if>

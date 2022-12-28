@@ -42,8 +42,6 @@ th {
 
 </style>
 
-<c:if test="${ not empty adminLogin }">
-
 <div class="container">
 	<div class="list">
 		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">결제 목록</h1>
@@ -56,9 +54,10 @@ th {
 	<table style="margin: 0 auto;">
 		<thead>
 			<tr>
-				<th style="width: 50px;">번호</th>
-				<th style="width: 275px;">아이디</th>
-				<th style="width: 275px;">이름</th>
+				<th style="width: 100px;">결제 번호</th>
+				<th style="width: 150px;">회원 번호</th>
+				<th style="width: 150px;">상품 번호</th>
+				<th style="width: 150px;">결제 일자</th>
 			</tr>
 		</thead>
 		
@@ -66,8 +65,9 @@ th {
 		<c:forEach items="${ paymentlist }" var="payment">
 			<tr>
 				<td>${ payment.payNo }</td>
-				<td><a href="/admin/paymentdetail?payNo=?"${ payment.payNo }>${ member.userId }</a></td>
-				<td>${ member.userName }</td>
+				<td><a href="/admin/paymentdetail?payNo=?"${ payment.payNo }>${ payment.userNo }</a></td>
+				<td>${ payment.productNo }</td>
+				<td><fmt:formatDate value="${ payment.paymentDate }" pattern="yy-MM-dd"/></td>
 			</tr>
 		</c:forEach>
 		</tbody>
@@ -75,5 +75,3 @@ th {
 </div>
 
 <c:import url="/WEB-INF/views/admin/layout/paymentpaging.jsp" />
-
-</c:if>

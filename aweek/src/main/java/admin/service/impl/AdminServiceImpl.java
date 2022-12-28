@@ -264,7 +264,7 @@ public class AdminServiceImpl implements AdminService {
 
 		logger.info("RoomDetailServiceImpl : {}", room);
 		
-		return adminDao.selelctRoomDetail(room);
+		return adminDao.selectRoomDetail(room);
 	}
 	
 	// 관리자 결제 상세 조회
@@ -336,41 +336,41 @@ public class AdminServiceImpl implements AdminService {
 		
 		// 첨부파일 처리
 		
-		// 빈 파일
-		if( file.getSize() <= 0 ) {
-			return;
-		}
-		
-		// 파일이 저장될 경로
-		String storedPath = context.getRealPath("upload");
-		File storedFolder = new File( storedPath );
-		if( !storedFolder.exists() ) {
-			storedFolder.mkdir();
-		}
-		
-		// 파일이 저장될 이름
-		String originName = file.getOriginalFilename();
-		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
-		
-		// 저장할 파일의 정보 객체
-		File dest = new File( storedFolder, storedName );
-		
-		try {
-			file.transferTo(dest);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// 첨부파일 정보 DB 기록
-		CsFile csFile = new CsFile();
-		csFile.setNoticeNo( notice.getNoticeNo() );
-		csFile.setOriginName(originName);
-		csFile.setStoredName(storedName);
-		
-		// 공지사항에 새로운 첨부파일 첨부
-		adminDao.insertNoticeFile(csFile);
+//		// 빈 파일
+//		if( file.getSize() <= 0 ) {
+//			return;
+//		}
+//		
+//		// 파일이 저장될 경로
+//		String storedPath = context.getRealPath("upload");
+//		File storedFolder = new File( storedPath );
+//		if( !storedFolder.exists() ) {
+//			storedFolder.mkdir();
+//		}
+//		
+//		// 파일이 저장될 이름
+//		String originName = file.getOriginalFilename();
+//		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+//		
+//		// 저장할 파일의 정보 객체
+//		File dest = new File( storedFolder, storedName );
+//		
+//		try {
+//			file.transferTo(dest);
+//		} catch (IllegalStateException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		// 첨부파일 정보 DB 기록
+//		CsFile csFile = new CsFile();
+//		csFile.setNoticeNo( notice.getNoticeNo() );
+//		csFile.setOriginName(originName);
+//		csFile.setStoredName(storedName);
+//		
+//		// 공지사항에 새로운 첨부파일 첨부
+//		adminDao.insertNoticeFile(csFile);
 	}
 	
 	// 관리자 공지사항 수정
@@ -387,49 +387,49 @@ public class AdminServiceImpl implements AdminService {
 		logger.info("NoticeModifyServiceImpl 2 : {}", notice);
 		logger.info("NoticeModifyServiceImpl 2 : {}", file);
 
-		// 공지사항 수정
-		adminDao.updateNotice(notice);
-		
-		// 첨부파일 처리
-		
-		// 빈 파일
-		if( file.getSize() <= 0 ) {
-			return;
-		}
-		
-		// 파일이 저장될 경로
-		String storedPath = context.getRealPath("upload");
-		File storedFolder = new File( storedPath );
-		if( !storedFolder.exists() ) {
-			storedFolder.mkdir();
-		}
-		
-		// 파일이 저장될 이름
-		String originName = file.getOriginalFilename();
-		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
-		
-		// 저장할 파일의 정보 객체
-		File dest = new File( storedFolder, storedName );
-		
-		try {
-			file.transferTo(dest);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// 첨부파일 정보 DB 기록
-		CsFile csFile = new CsFile();
-		csFile.setNoticeNo( notice.getNoticeNo());
-		csFile.setOriginName(originName);
-		csFile.setStoredName(storedName);
-		
-		// 공지사항에 연결된 첨부파일 삭제
-		adminDao.deleteNoticeFile(notice);
-		
-		// 공지사항에 새로운 첨부파일 첨부
-		adminDao.insertNoticeFile(csFile);
+//		// 공지사항 수정
+//		adminDao.updateNotice(notice);
+//		
+//		// 첨부파일 처리
+//		
+//		// 빈 파일
+//		if( file.getSize() <= 0 ) {
+//			return;
+//		}
+//		
+//		// 파일이 저장될 경로
+//		String storedPath = context.getRealPath("upload");
+//		File storedFolder = new File( storedPath );
+//		if( !storedFolder.exists() ) {
+//			storedFolder.mkdir();
+//		}
+//		
+//		// 파일이 저장될 이름
+//		String originName = file.getOriginalFilename();
+//		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+//		
+//		// 저장할 파일의 정보 객체
+//		File dest = new File( storedFolder, storedName );
+//		
+//		try {
+//			file.transferTo(dest);
+//		} catch (IllegalStateException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		// 첨부파일 정보 DB 기록
+//		CsFile csFile = new CsFile();
+//		csFile.setNoticeNo( notice.getNoticeNo());
+//		csFile.setOriginName(originName);
+//		csFile.setStoredName(storedName);
+//		
+//		// 공지사항에 연결된 첨부파일 삭제
+//		adminDao.deleteNoticeFile(notice);
+//		
+//		// 공지사항에 새로운 첨부파일 첨부
+//		adminDao.insertNoticeFile(csFile);
 	}
 	
 	// 관리자 공지사항 삭제
@@ -491,13 +491,41 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.deleteQna(qna);
 	}
 
-	/*
-	 * @Override public List<QnACategory> qnaCategoryList() {
-	 * 
-	 * List<QnACategory> qnaCategoryList = adminDao.selectQnACategoryList();
-	 * 
-	 * return qnaCategoryList; }
-	 */
+	@Override
+	public int getMemberCount() {
+
+		return adminDao.MemberCount();
+	}
+
+	@Override
+	public int getRoomCount() {
+
+		return  adminDao.RoomCount();
+	}
+
+	@Override
+	public int getPaymentCount() {
+
+		return adminDao.PaymentCount();
+	}
+
+	@Override
+	public int getNoticeCount() {
+
+		return adminDao.NoticeCount();
+	}
+
+	@Override
+	public int getQnaCount() {
+
+		return adminDao.QnaCount();
+	}
+
+	@Override
+	public int getInquiryCount() {
+
+		return adminDao.InquiryCount();
+	}
 
 //	// 관리자 회원 목록 페이징 처리
 //	@Override

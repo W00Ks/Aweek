@@ -13,26 +13,22 @@ table {
     text-align: center;
 }
 
-tr {
-	font-size: 20px;
-}
-
 th {
+   	background: #43c446;
     border: 1px solid #ccc;
     border-collapse: collapse;
    	text-align: center;
    	width: 200px;
-   	background: #43c446;
-   	padding: 5px;
-   	font-size: 15px;
+   	font-size: 14px;
    	font-weight: 400;
 }
 
 td {
 	border: 1px solid #ccc;
 	text-align: center;
-	width: 70%;
-	font-weight: 500;
+	width: 400px;
+	font-size: 14px;
+   	font-weight: 400;
 }
 
 th, td {
@@ -57,43 +53,41 @@ th, td {
 
 </style>
 
-<c:if test="${ not empty adminLogin }">
-
 <div class="container">
 	<div class="list">
 		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">회원 상세 정보</h1>
 	</div>
 	<table>
 		<tr>
-			<th>번호</th>
+			<th>회원 번호</th>
 			<td>${ member.userNo }</td>
 		</tr>
 		<tr>
-			<th>아이디</th>
+			<th>회원 아이디</th>
 			<td>${ member.userId }</td>
 		</tr>
 		<tr>
-			<th>이름</th>
+			<th>회원 이름</th>
 			<td>${ member.userName }</td>
 		</tr>
 		<tr>
-			<th>전화번호</th>
+			<th>회원 전화번호</th>
 			<td>${ member.userPhone }</td>
 		</tr>
 		<tr>
-			<th>주소</th>
+			<th>회원 주소</th>
 			<td>${ member.userAddress }</td>
 		</tr>
 		<tr>
-			<th>생년월일</th>
+			<th>회원 생년월일</th>
 			<td>${ member.userBirth }</td>
 		</tr>
 		<tr>
-			<th>이메일</th>
+			<th>회원 이메일</th>
 			<td>${ member.userEmail }</td>
 		</tr>
 		<tr>
-			<th>가입정보</th>
+			<th>회원 가입정보</th>
 			<td><fmt:formatDate value="${ member.userJoin }" pattern="yy-MM-dd HH:mm:ss"/></td>
 		</tr>
 	</table>
@@ -102,5 +96,3 @@ th, td {
 <div style="margin-top: 50px; margin-bottom: 50px;">
 	<a href="/admin/memberlist"><button class="memberlist">회원 목록</button></a>
 </div>
-
-</c:if>

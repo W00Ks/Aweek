@@ -6,8 +6,6 @@
 
 <c:import url="./layout/adminheader.jsp" />
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -45,7 +43,7 @@ p {
 }
 
 .third {
-	margin: 130px 0px;
+	margin: 90px 0px;
 }
 
 </style>
@@ -74,7 +72,7 @@ p {
 	</div>
 </div>
 
-<div style="margin: 0 auto; margin-top: 70px;">
+<div style="margin: 0 auto; margin-top: 70px;" class="fileList">
 	<button id="btnList" class="btnList">목록</button>
 </div>
 

@@ -2,10 +2,9 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="./layout/adminheader.jsp" />
-
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <script type="text/javascript">
 
@@ -15,7 +14,6 @@ $(document).ready(function() {
 		var wri_list = confirm ("공지사항을 등록하시겠습니까?")
 		
 		if( wri_list == true ) {
-			alert("등록하셨습니다.")
 			$("form").submit();
 		} else if( wri_list == false ) {
 			return false;
@@ -26,7 +24,6 @@ $(document).ready(function() {
 		var can_list = confirm("공지사항 작성을 취소하시겠습니까?")
 		
 		if( can_list == true ) {
-			alert("취소하셨습니다.")
 			$(location).attr('href', '/admin/noticelist')
 		} else if( can_list == false ) {
 			return;			
@@ -71,25 +68,17 @@ textarea {
 					<input type="text" id="noticeTitle" name="noticeTitle" class="form-control" value="${ updateNotice.noticeTitle }">
 				</td>
 			</tr>
-			
 			<tr>
 				<td>본문</td>
 				<td class="form-group">
 					<textarea rows="10" style="width: 500px;" id="noticeContent" name="noticeContent" class="form-control">${ updateNotice.noticeContent }</textarea>
 				</td>
 			</tr>
-		
-			<tr>
-				<td>첨부파일</td>
-				<td class="form-group">
-					<input type="file" id="file" name="file">
-				</td>
-			</tr>
 		</table>
 	
 		<div class="text-center">
-			<button class="btnWrite" id="btnWrite">작성</button>
-			<input type="reset" id="btnCancel" class="btnCancel" value="취소">
+			<button id="btnWrite" class="btnWrite">작성</button>
+			<button id="btnCancel" class="btnCancel">취소</button>
 		</div>
 	</form>
 </div>
