@@ -222,7 +222,7 @@ $(document).ready(function() {
 			return;
 		}
 		
-		const address = $("#postCode").val() + ',' + $("#userAddress1").val() + ',' + $("#userAddress2").val();
+		const address = $("#postCode").val() + '^' + $("#userAddress1").val() + '^' + $("#userAddress2").val();
 		if($("#userAddress").val() == null || $("#userAddress").val() == '') {
 			$("#userAddress").val(address);
 		}
@@ -539,12 +539,12 @@ input:focus{
 			<label class="i_label" for="userAddress2">주소</label>
 		<span class="findAddr"><input type="button" onclick="findAddress()" id="findAddrBtn" value="주소 검색"><br></span>
 		<c:set var="address" value="${member.userAddress}" />
-			<input type="hidden" id="postCode" placeholder="우편번호" value="${fn:split(address, ',')[0]}">
+			<input type="hidden" id="postCode" placeholder="우편번호" value="${fn:split(address, '^')[0]}">
 		<span><input type="text" id="userAddress1" class="int" placeholder="주소 검색 버튼을 눌러주세요" readonly="readonly"
-					value="${fn:split(address, ',')[1]}"><br></span>
+					value="${fn:split(address, '^')[1]}"><br></span>
 		<label class="i_label"></label>
 			<span><input type="text" style="margin-top: 5px;" id="userAddress2" class="int" placeholder="상세주소" autocomplete="off"
-						value="${fn:split(address, ',')[2]}"></span>
+						value="${fn:split(address, '^')[2]}"></span>
 			<input type="hidden" name="userAddress" id="userAddress" class="int" autocomplete="off">
 		</div>
 		<span class="error_msg" id="userAddressMsg" style="display:none;"></span>

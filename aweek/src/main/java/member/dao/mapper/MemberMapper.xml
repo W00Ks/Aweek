@@ -76,7 +76,7 @@
 	
 	<insert id="insertWdUser" parameterType="Member">
 		INSERT INTO wdmember
-		VALUES (wdmember_seq.nextval, #{userNo}, #{userId}, #{userPw}, #{userEmail}, #{userPhone}, #{userName}, #{userAddress}, #{userBirth}, #{userJoin}, SYSDATE)
+		VALUES (wdmember_seq.nextval, #{userNo}, #{userId}, #{userPw}, #{userName}, #{userPhone}, #{userAddress}, #{userBirth}, #{userEmail}, #{userJoin}, SYSDATE)
 	</insert>
 	
 	<delete id="deleteUser" parameterType="Member">

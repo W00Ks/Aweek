@@ -187,7 +187,7 @@ $(document).ready(function() {
 		
 		const uPass = randomStr + rand_0_9 + '!';
 		
-		const address = $("#postCode").val() + ' ' + $("#userAddress1").val() + ' ' + $("#userAddress2").val();
+		const address = $("#postCode").val() + '^' + $("#userAddress1").val() + '^' + $("#userAddress2").val();
 		
 		
 		$("#userPw").val(uPass);
