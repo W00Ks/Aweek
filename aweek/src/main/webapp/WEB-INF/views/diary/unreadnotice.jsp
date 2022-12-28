@@ -51,7 +51,7 @@ td {
 	border: 1px solid #C7D1CA;
 	background-color: white;
 	right: 235px;
-    top: 182px;
+    top: 198px;
 }
 .suchsortbutton {
 	display: flex;
@@ -65,7 +65,7 @@ td {
 	height: 112px;
 	border: 1px solid #C7D1CA;
 	background-color: white;
-    top: 93px;
+    top: 109px;
 }
 .searchtext {
 	position: relative;
@@ -81,16 +81,16 @@ $(document).ready(function(){
 	});
 	
 	$(".sortresult").children().eq(0).click(function(){
-		location.href = "./unreadnotice?sort=0&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
+		location.href = "./unreadnotice?roomNo=${roomNo}&sort=0&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
 	});
 	$(".sortresult").children().eq(1).click(function(){
-		location.href = "./unreadnotice?sort=1&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
+		location.href = "./unreadnotice?roomNo=${roomNo}&sort=1&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
 	});
 	$(".sortresult").children().eq(2).click(function(){
-		location.href = "./unreadnotice?sort=2&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
+		location.href = "./unreadnotice?roomNo=${roomNo}&sort=2&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
 	});
 	$(".sortresult").children().eq(3).click(function(){
-		location.href = "./unreadnotice?sort=3&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
+		location.href = "./unreadnotice?roomNo=${roomNo}&sort=3&searchsort=${searchsort}&searchtext=${searchtext}&curPage=${paging.curPage }";
 	});
 	
 	$(".suchsortbutton").click(function(){
@@ -126,6 +126,7 @@ $(document).ready(function(){
 </script>
 
 <div class="rightbox1">
+	<br>
 	<div class="suchsortbutton">
 		<div style="line-height: 25px; width: 80px; margin-left: 7px;">
 			<c:if test="${searchsort eq 0}">제목</c:if>
@@ -150,6 +151,7 @@ $(document).ready(function(){
 	</form>
 </div>
 <div class="rightbox2">
+	<br>
 	<div style="font-size: 1.2em; font-weight:600;">공지사항</div>
 	<div class="sortbutton">
 		<div style="line-height: 25px; width: 80px; margin-left: 7px;">
@@ -166,7 +168,7 @@ $(document).ready(function(){
 		<div style="cursor: pointer; padding-left: 5px; padding-top: 5px; padding-bottom: 5px; border: 1px solid #C7D1CA;">모임순</div>
 		<div style="cursor: pointer; padding-left: 5px; padding-top: 5px; padding-bottom: 5px; border: 1px solid #C7D1CA;">작성자순</div>
 	</div>
-	<br><br>
+	<br><br><br>
 	<table class="table table-striped table-hover table-condensed">
 	<tr>
 		<th style="width: 5%;">번호</th>

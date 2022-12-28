@@ -664,6 +664,7 @@ public class DiaryController {
 		model.addAttribute("list", diaryMyList);
 		model.addAttribute("searchsort", searchsort);
 		model.addAttribute("searchtext", searchtext);
+		model.addAttribute("roomNo", roomNo);
 
 		return "/diary/best";
 		
@@ -720,6 +721,7 @@ public class DiaryController {
 		model.addAttribute("list", diaryMyList);
 		model.addAttribute("searchsort", searchsort);
 		model.addAttribute("searchtext", searchtext);
+		model.addAttribute("roomNo", roomNo);
 
 		return "/diary/notice";
 		
@@ -776,6 +778,7 @@ public class DiaryController {
 		model.addAttribute("list", diaryMyList);
 		model.addAttribute("searchsort", searchsort);
 		model.addAttribute("searchtext", searchtext);
+		model.addAttribute("roomNo", roomNo);
 
 		return "/diary/entire";
 		
@@ -1146,6 +1149,7 @@ public class DiaryController {
 		model.addAttribute("list", diaryMyList);
 		model.addAttribute("searchsort", searchsort);
 		model.addAttribute("searchtext", searchtext);
+		model.addAttribute("roomNo", roomNo);
 
 		return "/diary/unreadnotice";
 		

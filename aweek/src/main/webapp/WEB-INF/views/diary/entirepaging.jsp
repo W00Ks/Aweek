@@ -23,14 +23,14 @@
 		<div class="pagingblock">
 		<%-- 첫 페이지로 이동 --%>
 		<%-- <%	if( paging.getCurPage() != 1) { %> --%>
-		<a href="./entire?sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}">&#171;</a>
+		<a href="./entire?roomNo=${roomNo}&roomNo=${roomNo}&sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}">&#171;</a>
 		<%-- <%	} %> --%>
 		</div>
 	
 		<div class="pagingblock">
 		<%-- 이전 페이지로 이동 --%>
 		<%-- <%	if( paging.getCurPage() != 1) { %> --%>
-		<a href="./entire?sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=paging.getCurPage() - 1 %>">&lt;</a>
+		<a href="./entire?roomNo=${roomNo}&sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=paging.getCurPage() - 1 %>">&lt;</a>
 		<%-- <%	} %> --%>
 		</div>
 		
@@ -39,11 +39,11 @@
 		<%	for(int i=paging.getStartPage(); i<=paging.getEndPage(); i++) { %>
 			<%		if( i == paging.getCurPage() ) { %>
 			<div class="pagingblock" style="background-color: var(--baby-pink);">
-			<a href="./entire?sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=i %>"><%=i %></a>
+			<a href="./entire?roomNo=${roomNo}&sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=i %>"><%=i %></a>
 			</div>
 			<%		} else { %>
 			<div class="pagingblock">
-			<a href="./entire?sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=i %>"><%=i %></a>
+			<a href="./entire?roomNo=${roomNo}&sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=i %>"><%=i %></a>
 			</div>
 			<%		} %>
 		<%	} %>
@@ -51,14 +51,14 @@
 		<div class="pagingblock">
 		<%-- 다음 페이지로 이동 --%>
 		<%-- <%	if( paging.getCurPage() != paging.getTotalPage() ) { %> --%>
-		<a href="./entire?sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=paging.getCurPage() + 1 %>">&gt;</a>
+		<a href="./entire?roomNo=${roomNo}&sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=paging.getCurPage() + 1 %>">&gt;</a>
 		<%-- <%	} %> --%>
 		</div>
 		
 		<div class="pagingblock">
 		<%-- 마지막 페이지로 이동 --%>
 		<%-- <%	if( paging.getCurPage() != paging.getTotalPage() ) { %> --%>
-		<a href="./entire?sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=paging.getTotalPage() %>">&#187;</a>
+		<a href="./entire?roomNo=${roomNo}&sort=${sort}&searchsort=${searchsort}&searchtext=${searchtext}&curPage=<%=paging.getTotalPage() %>">&#187;</a>
 		<%-- <%	} %> --%>
 		</div>
 		
