@@ -12,6 +12,7 @@
 		WHERE user_id = #{userId}
 	</select>
 	
+	
 	<insert id="savePaymentInfo" parameterType="Payment">
 		INSERT INTO PAYMENT (PAY_NO, USER_NO, PRODUCT_NO, PAYMENT_METHOD, PAYMENT_AMOUNT
 		, RESULT_STATUS, PAYMENT_DATE, EXPIRATION_DATE, DURATION)
@@ -19,10 +20,12 @@
 		, #{resultStatus}, #{paymentDate}, #{expirationDate}, #{duration})
 	</insert>
 	
+	
 	<select id="selectProductInfo" resultType="Product" parameterType="int">
 		SELECT * FROM product
 		WHERE price = #{amount}
 	</select>
+	
 	
 	<select id="selectPaymentInfo" resultType="Payment" parameterType="Payment">
 		SELECT
@@ -32,13 +35,28 @@
 		WHERE user_no = #{userNo}
 	</select>
 	
-		<select id="selectPayList" resultType="Payment" parameterType="Payment">
+	
+	<select id="selectPayList" resultType="Payment" parameterType="Payment">
 		SELECT
 			PAY_NO, USER_NO, PRODUCT_NO, PAYMENT_METHOD, PAYMENT_AMOUNT
 			, RESULT_STATUS, PAYMENT_DATE, EXPIRATION_DATE, DURATION
 		FROM payment
 		WHERE user_no = #{userNo}
 	</select>
+	
+	
+	<select id="selectPayChek" resultType="Payment" parameterType="Member">
+		SELECT * FROM payment
+		WHERE user_no = #{userNo}
+		AND result_status = 'Y'
+	</select>
+	
+	<update id="updateStatus" parameterType="Member">
+		UPDATE payment
+		SET result_status = 'N'
+		WHERE user_no = #{userNo} 
+		AND duration = 0
+	</update>
 	
 
 	

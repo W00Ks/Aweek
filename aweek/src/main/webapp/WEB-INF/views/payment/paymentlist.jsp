@@ -27,10 +27,11 @@ table {
   border: 1px #a39485 solid;
   font-size: .9em;
   box-shadow: 0 2px 5px rgba(0,0,0,.25);
-  width: 100%;
+  width: 80%;
   border-collapse: collapse;
   border-radius: 5px;
   overflow: hidden;
+  margin: auto;
 }
 
 th {
@@ -151,11 +152,14 @@ td {
 			<th>결제 수단</th>
 			<th style="text-align: center;">결제일</th>
 			<th style="text-align: center;">결제 만료일</th>
-			<th>남은 기간</th>
+			<th style="text-align: center;">남은 기간</th>
 		</tr>
 	</thead>
 
 	<tbody>
+	<c:if test="${empty paymentList }">
+		<td colspan="8" style="text-align: center; font-weight: bold; font-size: large;">결제 내역이 없습니다!</td>
+	</c:if>
 	<c:forEach items="${paymentList }" var="payment">
 		<tr>
 			<td>${member.userId}</td>
@@ -170,11 +174,17 @@ td {
 			</c:choose>
 			
 			<c:choose>
+			    <c:when test="${payment.resultStatus eq 'Y'}">
+			        <td>결제 완료 ✅</td>
+			    </c:when>
 			    <c:when test="${payment.resultStatus eq 'y'}">
+			        <td>결제 완료 ✅</td>
+			    </c:when>
+			    <c:when test="${payment.resultStatus eq NULL}">
 			        <td>결제 완료</td>
 			    </c:when>
-			    <c:when test="${payment.resultStatus eq 'null'}">
-			        <td>결제 실패</td>
+			    <c:when test="${payment.resultStatus eq 'N'}">
+			        <td>결제 완료</td>
 			    </c:when>
 			</c:choose>
 			
@@ -193,7 +203,17 @@ td {
 			
 			<td style="text-align: center;"><fmt:formatDate value="${payment.expirationDate}" pattern="yyyy년MM월dd일"/></td>
 			
-			<td>${payment.duration}</td>
+			<c:choose>
+			    <c:when test="${payment.duration > 0}">
+			        <td style="text-align: center;">${payment.duration}일</td>
+			    </c:when>
+			    <c:when test="${payment.duration < 0}">
+			        <td style="text-align: center;">기간 종료</td>
+			    </c:when>
+			    <c:when test="${payment.duration == 0}">
+			        <td style="text-align: center;">기간 종료</td>
+			    </c:when>
+			</c:choose>			
 		</tr>
 	</c:forEach>
 	</tbody>

@@ -49,6 +49,16 @@ public class PaymentServiceImpl implements PaymentService{
 		return paymentDao.selectPayList(payment);
 	}
 
+	@Override
+	public Payment getStatusChek(Member member) {
+		return paymentDao.selectPayChek(member);
+	}
+
+	@Override
+	public void getDurationChek(Member member) {
+		paymentDao.updateStatus(member);
+	}
+
 
 
 

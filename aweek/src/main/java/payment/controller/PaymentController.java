@@ -38,8 +38,7 @@ public class PaymentController {
 		Payment payment = new Payment();
 		int userNo = (Integer) session.getAttribute("userNo");
 		payment.setUserNo(userNo);
-		
-		
+				
 		List<Payment> paymentList = paymentService.getPaymentInfoAll(payment);
 		for(Payment p : paymentList)	logger.debug("{}", p);
 		
@@ -54,6 +53,38 @@ public class PaymentController {
 		return "/payment/paymentlist";
 	}
 	
+	
+	
+	@RequestMapping("/payment/paymentchek")
+	public String paymentCheck(HttpSession session) {
+		
+		Member member = new Member();
+		String userId = (String) session.getAttribute("userId");
+		member.setUserId(userId);
+		member = paymentService.getLoginInfo(member);
+		
+
+		// 사용기간이 0일때 결과상태 'N'으로 변경
+		paymentService.getDurationChek(member);
+		
+		// 
+		Payment payChek = paymentService.getStatusChek(member);
+		logger.info("getStatusChek {}", payChek);
+		
+		
+		if(payChek == null) {
+			logger.debug("결제 필요 남은 기간 {}", payChek.getDuration());
+			return "redirect:/payment/payment";
+		} else {
+			logger.debug("결제 불필요 남은 기간 {}", payChek.getDuration());
+			if(payChek.getDuration() <= 0) {
+				logger.debug("결제 필요 남은 기간 {}", payChek.getDuration());
+				return "redirect:/payment/payment";
+			}			
+			return "redirect:/payment/paychek";
+		}
+	}
+	
 	@RequestMapping("/payment/payment")
 	public void paymentSelect(HttpSession session, Model model) {
 		logger.info("/payment/payment");
@@ -63,9 +94,33 @@ public class PaymentController {
 		member.setUserId(userId);
 		member = paymentService.getLoginInfo(member);
 		
-				
-		model.addAttribute("member", member);	
-		
+		model.addAttribute("member", member);
+	}
+	
+	
+	
+	@RequestMapping("/payment/paychek")
+	public void paychekError(HttpServletResponse response) {
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			//SweetAlert
+			out.println("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css'>"
+					+ "<script src='https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js'></script>"
+					+ "<script type='text/javascript' src='https://code.jquery.com/jquery-2.2.4.min.js'></script>");
+			out.println("<script>$(document).ready(function(){swal('아직 사용 기간이 남아 있습니다', 'PREMIUM을 사용하실 수 있습니다', 'warning').then(function(){"
+					+ "		location.href=\"/aweekHome\";"
+					+ "     })"
+					+ "});"
+					+ "</script>");
+			
+			//기본 Alert
+//			out.println("<script>$(document).ready(function(){alert('로그인이 필요합니다!'); window.location='/member/login';})</script>");
+			out.flush(); 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 
@@ -87,28 +142,26 @@ public class PaymentController {
 		payment.setExpirationDate(expirationDate);
 		
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(payAt);
-		cal.add(cal.DATE, +30);
+		cal.setTime(expirationDate);
+		
 		
 		long dDay = cal.getTimeInMillis();
 		long now = System.currentTimeMillis();
 		long result = dDay - now;
-		long subDDay = (result / 1000 / 60 / 60 / 24) + 1;
-		payment.setDuration((int) subDDay);
+		long durationDay = result / 1000 / 60 / 60 / 24 + 1;
+		payment.setDuration((int) durationDay);
 		
 		// 결제를 했는지 검증		
 		session.setAttribute("payment", userId);
-		logger.info("payemnt success{}", userId);
 		
-		paymentService.save(payment);
-		
+		paymentService.save(payment);		
 	}
+	
+	
 	
 	@RequestMapping("/payment/fail")
 	public String paymentfail() {
 		logger.info("paymentFail");
 		return "redirect:/payment/payment";
 	}
-
-
 }

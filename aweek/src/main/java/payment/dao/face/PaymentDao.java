@@ -56,6 +56,22 @@ public interface PaymentDao {
 	 */
 	public List<Payment> selectPayList(Payment payment);
 
+	/**
+	 * 결제 기간 정보 조회
+	 * 
+	 * @param member - 회원 정보 파라미터
+	 * @return - 구독 정보 객체
+	 */
+	public Payment selectPayChek(Member member);
+
+	/**
+	 * 결제 정보 변경
+	 * 
+	 * @param member - 회원 정보 파라미터
+	 * @return - 결제 상태 변경
+	 */
+	public void updateStatus(Member member);
+
 
 
 
