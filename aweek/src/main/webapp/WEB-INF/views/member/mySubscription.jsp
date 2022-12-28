@@ -101,6 +101,11 @@ body {
     top: 32px;
 }
 
+/* 금액 div 2번째 p태그 할인율 */
+.ssc_price_div p:nth-child(2) > em {
+	color: ff4f4f;
+}
+
 /* FREE 이용 서비스 영역 div */
 .ssc_free_content_div {
     line-height: 40px;
@@ -297,7 +302,7 @@ body {
 		</div>
 		<div class="ssc_price_div" id="sscYearPriceDiv">
 			<p>25,200원</p>
-			<p>12개월(36,000원) → 25,200원(30% 할인)</p>
+			<p>12개월(36,000원) → <em>25,200원(30% 할인)</em></p>
 		</div>
 		<div class="ssc_content_div">
 			<p>공용 용량 : 100GB</p>

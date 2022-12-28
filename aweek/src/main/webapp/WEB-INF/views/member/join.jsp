@@ -284,7 +284,7 @@ $(document).ready(function() {
 // 		var addr1 = $("#userAddress1").val();
 // 		var addr2 = $("#userAddress2").val();
 // 		var address = post + ' ' + addr1 + ' ' + addr2;
-		const address = $("#postCode").val() + ',' + $("#userAddress1").val() + ',' + $("#userAddress2").val();
+		const address = $("#postCode").val() + '^' + $("#userAddress1").val() + '^' + $("#userAddress2").val();
 		
 		$("#userAddress").val(address);
 		
