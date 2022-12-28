@@ -250,7 +250,7 @@ p {
 		<div id="freeContainer">
 			<p style="font-weight: bold">FREE</p>	
 		</div>
-		<p style="color: #594B4B; margin-top: 30px">공용용량 : 10G <br>최대 이용자 수 : 10명 <br></p><br>
+		<p style="color: #594B4B; margin-top: 30px">첨부파일 용량 : 50MB <br>최대 이용자 수 : 10명 <br></p><br>
 		<hr style="width: 45%;"><br>
 		<p style="color: #594B4B;">기본기능<br>캘린더<br>다이어리<br>채팅</p><br><br><br><br><br><br>
 			<a href="/aweekHome"><button type="button" class="btn btn-lg btn-block  btn-custom" style="margin: auto;">가 입 하 기</button></a>
@@ -278,9 +278,9 @@ p {
 			</select>
 		</div>
 		</div>
-		<p style="color: #594B4B; margin-top: 30px">공용용량 : 100G <br>최대 이용자 수 : 100명 <br></p><br>
+		<p style="color: #594B4B; margin-top: 30px">첨부파일 용량 : 10G <br>최대 이용자 수 : 100명 <br></p><br>
 		<hr style="width: 45%;"><br>
-		<p style="color: #594B4B;">Free 기본기능 + <br> 공용 용량 UP! <br> 최대 이용자 수 UP!</p><br><br>
+		<p style="color: #594B4B;">Free 기본기능 ➕➕ <br> 첨부파일 용량 UP! <br> 최대 이용자 수 UP!</p><br><br>
 			<button type="button" class="btn btn-lg btn-block  btn-custom" id="charge_kakao">결 제 하 기</button>
 	 </div>
 	 </div>
@@ -296,16 +296,20 @@ p {
         var price = $('input[name="cp_item"]:checked').val();
         var paySelect = $("#pay_select").val();
         var paymentAt = new Date();
-        var today = new Date();
-        var expirationDate = new Date(today.setMonth(today.getMonth() + 1));
-        var payResult = "y";
+        var now = new Date();
+        var addMonth = new Date(now.setMonth(now.getMonth() + 1));
+        var addYear = new Date(now.setMonth(now.getMonth() + 11));
+        var expirationDate;
+        var payResult = "Y";
+        
         var productNo = 0;
         if(price == 5000) {
         	productNo = 1
+        	expirationDate = addMonth
         } else if(price == 25200) {
         	productNo = 2
+        	expirationDate = addYear
         }
-        
         
         
         IMP.request_pay({

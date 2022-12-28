@@ -48,4 +48,20 @@ public interface PaymentService {
 	 */
 	public List<Payment> getPaymentInfoAll(Payment payment);
 
+	/**
+	 * 결제 상태 정보 조회
+	 * 
+	 * @param member - 회원 정보 파라미터
+	 * @return - 결제 상태 정보
+	 */
+	public Payment getStatusChek(Member member);
+
+	/**
+	 * 결제 상태 정보 변경
+	 * 
+	 * @param member - 회원 정보 파라미터
+	 * @return - 결제 정보 변경
+	 */
+	public void getDurationChek(Member member);
+
 }
