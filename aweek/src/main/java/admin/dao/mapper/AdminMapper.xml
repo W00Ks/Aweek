@@ -44,13 +44,14 @@
 				</when>
 			</choose>
 		</where>
-		ORDER BY user_no
+		ORDER BY user_no DESC
 	</select>
 
 	<select id="selectMember" resultType="member.dto.Member" parameterType="admin.util.UserPaging">
 		SELECT * FROM (
 			SELECT rownum rnum, M.* FROM (
 				SELECT * FROM member
+				ORDER BY user_no DESC
 				) M
 			) RECORD
 		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
@@ -71,7 +72,7 @@
 						</when>
 					</choose>
 				</where>
-				ORDER BY user_no
+				ORDER BY user_no DESC
 				) M
 			) RECORD
 		WHERE rnum BETWEEN #{ startNo } AND #{ endNo }
@@ -157,17 +158,17 @@
 
 	<select id="selectRoomDetail" resultType="room.dto.Room" parameterType="room.dto.Room">
 		SELECT
-			room_no, user_no, room_name, room_introduce, room_member, room_public
+			room_no, user_no, room_category_no, room_name, room_introduce, room_member, room_public
 		FROM room
 		WHERE room_no = #{ roomNo }
 	</select>
 
 	<select id="selectPaymentDetail" resultType="payment.dto.Payment" parameterType="payment.dto.Payment">
 		SELECT
-			pay_no, user_no, product_no, pay_type, payment_method, payment_amount
-			, payment_date, next_order_date, result_dtasus
+			pay_no, user_no, product_no, pay_type, payment_method, bank_account, payment_amount
+			, payment_date, expiration_date, result_status, duration
 		FROM payment
-		WHERE payment_no = #{ payNo }
+		WHERE pay_no = #{ payNo }
 	</select>
 	
 	<select id="selelctNoticeView" resultType="cs.dto.Notice" parameterType="cs.dto.Notice">
@@ -180,14 +181,14 @@
 	
 	<select id="selelctdQnaView" resultType="cs.dto.QnA" parameterType="cs.dto.QnA">
 		SELECT
-			qna_no, writer_id, writer_nick, qna_title, qna_content, qna_date
+			qna_no, writer_id, writer_nick, qna_category_no, qna_title, qna_content, qna_date
 		FROM qna
 		WHERE qna_no = #{ qnaNo }
 	</select>
 	
 	<select id="selectInquiryView" resultType="cs.dto.Inquiry" parameterType="cs.dto.Inquiry">
 		SELECT
-			inquiry_no, user_no, inquiry_tilte, inquiry_content, inquiry_email, inquiry_date
+			inquiry_no, user_no, inquiry_title, inquiry_content, inquiry_email, inquiry_date
 		FROM inquiry
 		WHERE inquiry_no = #{ inquiryNo }
 	</select>
@@ -205,13 +206,30 @@
 		FROM cs_file
 		WHERE notice_no = #{ noticeNo }
 	</select>
-	
-<!--
-	<select id="selectQnACategoryList" resultType="cs.dto.QnACategory">
-		SELECT * FROM qna_category
-		ORDER BY qna_category_no DESC
+
+	<select id="MemberCount" resultType="int" parameterType="member.dto.Member">
+		SELECT count(*) FROM member
 	</select>
--->	
+
+	<select id="RoomCount" resultType="int" parameterType="room.dto.Room">
+		SELECT count(*) FROM room
+	</select>
+
+	<select id="PaymentCount" resultType="int" parameterType="payment.dto.Payment">
+		SELECT count(*) FROM payment
+	</select>
+
+	<select id="NoticeCount" resultType="int" parameterType="cs.dto.Notice">
+		SELECT count(*) FROM notice
+	</select>
+
+	<select id="QnaCount" resultType="int" parameterType="cs.dto.QnA">
+		SELECT count(*) FROM qna
+	</select>
+
+	<select id="InquiryCount" resultType="int" parameterType="cs.dto.Inquiry">
+		SELECT count(*) FROM inquiry
+	</select>
 
 <!--
 	<select id="selectCntMember" resultType="int">
@@ -255,8 +273,8 @@
 			SELECT qna_seq.nextval FROM dual
 		</selectKey>
 	
-		INSERT INTO qna ( qna_no, writer_id, writer_nick, qna_title, qna_content, qna_date )
-		VALUES ( #{ qnaNo }, #{ writerId }, #{ writerNick }, #{ qnaTitle }, #{ qnaContent }, SYSDATE )
+		INSERT INTO qna ( qna_no, writer_id, writer_nick, qna_category_no, qna_title, qna_content, qna_date )
+		VALUES ( #{ qnaNo }, #{ writerId }, #{ writerNick }, #{ qnaCategoryNo }, #{ qnaTitle }, #{ qnaContent }, SYSDATE )
 	</insert>
 	
 <!-- - - - - - - - - - - UPDATE - - - - - - - - - - -->

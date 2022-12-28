@@ -9,24 +9,18 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-/* 
-	$("#searchIcon").click(function() {
-		if( !keyword ) {
-			alert("검색어를 입력해주세요.")
-			return false;
-		}
-	})
-*/
 
+	// 검색어가 빈 칸일시 alert
 	$("#searchIcon").click(function() {
-		if($.trim($("#keyword").val()) == '') {
-			alert("검색어를 입력해주세요");
+		if($.trim($("#keyword").val()) == '' ) {
+			console.log("false")
+			alert("검색어를 입력해주세요.");
 			("#keyword").focus();
 			return false;
 		}
 	})
-	
-	// 검색 입력창에 포커스주기
+
+	// 검색 입력창에 focus
 	$("input").eq(0).focus()
 	
 	// 검색 입력창에 엔터키 입력 시 submit
@@ -36,20 +30,6 @@ $(document).ready(function() {
 		}
 	})
 })
-
-/*
-function searchBtn() {
-	var word = document.getElementById("keyword").value;
-	
-	if(word.trim() === '') {
-		alert("검색어를 입력해주세요.");
-		return false;
-	} else {
-		
-	}
-}
-*/
-
 
 </script>
 
@@ -89,8 +69,6 @@ th {
 
 </style>
 
-<c:if test="${ not empty adminLogin }">
-
 <div class="container">
 	<div class="list">
 		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">회원 목록</h1>
@@ -113,11 +91,9 @@ th {
 	<table style="margin: 0 auto;">
 		<thead>
 			<tr>
-				<th style="width: 50px;">번호</th>
-				<th style="width: 250px;">아이디</th>
-				<th style="width: 250px;">이름</th>
-				<th style="width: 100px;">회원 정보</th>
-				<th style="width: 100px;">결제 정보</th>
+				<th style="width: 100px;">회원 번호</th>
+				<th style="width: 300px;">회원 아이디</th>
+				<th style="width: 150px;">회원 이름</th>
 			</tr>
 		</thead>
 		
@@ -132,10 +108,8 @@ th {
 				<c:forEach items="${ memberlist }" var="member">
 					<tr id="searchResult">
 						<td>${ member.userNo }</td>
-						<td>${ member.userId }</td>
+						<td><a href="/admin/memberdetail?userNo=${ member.userNo }">${ member.userId }</a></td>
 						<td>${ member.userName }</td>
-						<td><a href="${ path }/admin/memberdetail?userNo=${ member.userNo }">회원 정보</a></td>
-						<td><a href="${ path }/admin/payment]detail?payNo=${ payment.userNo }">결제 정보</a></td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -200,15 +174,13 @@ th {
 
 	<div class="SearchMember" style="margin-top: 50px;">
 		<form action="/admin/memberlist" method="post" name="search" id="searchForm">
-			<select name="type" id="type">
+			<select id="type" name="type">
 				<option value="userId" <c:out value="${ paging.type eq 'userId' ? 'selected' :'' }" /> >아이디</option>
 				<option value="userName" <c:out value="${ paging.type eq 'userName' ? 'selected' :'' }" /> >이름</option>
 			</select>
 				
-			<input id="searchText" type="text" name="keyword" id="keyword" value="${ paging.keyword }" placeholder="검색어를 입력하세요.">
-			<button type="submit" id="searchIcon" name="searchIcon" onclick="searchBtn"><i class="fas fa-search">검색</i></button>
+			<input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요." value="${ paging.keyword }">
+			<input type="submit" id="searchIcon" name="searchIcon" value="검색">
 		</form>
 	</div>
 </div>
-
-</c:if>

@@ -6,10 +6,6 @@
 
 <c:import url="./layout/adminheader.jsp" />
 
-<script type="text/javascript">
-
-</script>
-
 <style type="text/css">
 
 table {
@@ -51,8 +47,6 @@ th {
 
 </style>
 
-<c:if test="${ not empty adminLogin }">
-
 <div class="container">
 	<div class="list">
 		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">1:1 문의</h1>
@@ -65,10 +59,9 @@ th {
 	<table style="margin: 0 auto;">
 		<thead>
 			<tr>
-				<th style="width: 50px;">번호</th>
-				<th style="width: 250px;">제목</th>
-				<th style="width: 100px;">날짜</th>
-				<th style="width: 150px;">이메일</th>
+				<th style="width: 100px;">번호</th>
+				<th style="width: 300px;">제목</th>
+				<th style="width: 150px;">날짜</th>
 			</tr>
 		</thead>
 		
@@ -78,7 +71,6 @@ th {
 				<td>${ inquiry.inquiryNo }</td>
 				<td><a href="/admin/inquirydetail?inquiryNo=${ inquiry.inquiryNo }">${ inquiry.inquiryTitle }</a></td>
 				<td><fmt:formatDate value="${ inquiry.inquiryDate }" pattern="yyyy-MM-dd"/></td>
-				<td><a href="/admin/inquirydetail?inquiryNo=${ inquiry.inquiryNo }">${ inquiry.inquiryEmail }</a></td>
 			</tr>
 		</c:forEach>
 		</tbody>
@@ -86,5 +78,3 @@ th {
 </div>
 
 <c:import url="/WEB-INF/views/admin/layout/inquirypaging.jsp" />
-
-</c:if>

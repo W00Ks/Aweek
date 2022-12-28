@@ -284,11 +284,46 @@ public interface AdminService {
 	public void qnaDelete(QnA qna);
 
 	/**
-	 * Q&A 카테고리 리스트 불러오기
+	 * 회원 통계
 	 * 
-	 * @return List<QnACategory> - Q&A 카테고리 리스트
+	 * @return
 	 */
-	/* public List<QnACategory> qnaCategoryList(); */
+	public int getMemberCount();
+
+	/**
+	 * 방 통계
+	 * 
+	 * @return
+	 */
+	public int getRoomCount();
+
+	/**
+	 * 결제 통계
+	 * 
+	 * @return
+	 */
+	public int getPaymentCount();
+
+	/**
+	 * 공지사항 통계
+	 * 
+	 * @return
+	 */
+	public int getNoticeCount();
+
+	/**
+	 * Q&A 통계
+	 * 
+	 * @return
+	 */
+	public int getQnaCount();
+
+	/**
+	 * 1:1 문의 통계
+	 * 
+	 * @return
+	 */
+	public int getInquiryCount();
 
 //	/**
 //	 * 회원 목록을 위한 페이징 객체를 생성함

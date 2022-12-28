@@ -40,9 +40,30 @@ public class AdminController {
 	
 	// 관리자 메인
 	@RequestMapping("/main")
-	public void main() {
+	public void main(Model model) {
 		
 		logger.info("/admin/main");
+		
+		int memberCount = adminService.getMemberCount();
+		int roomCount = adminService.getRoomCount();
+		int paymentCount = adminService.getPaymentCount();
+		int noticeCount = adminService.getNoticeCount();
+		int qnaCount = adminService.getQnaCount();
+		int inquiryCount = adminService.getInquiryCount();
+		
+		model.addAttribute("memberCount", memberCount);
+		model.addAttribute("roomCount", roomCount);
+		model.addAttribute("paymentCount", paymentCount);
+		model.addAttribute("noticeCount", noticeCount);
+		model.addAttribute("qnaCount", qnaCount);
+		model.addAttribute("inquiryCount", inquiryCount);
+		
+		logger.info("memberCount : {}", memberCount);
+		logger.info("roomCount : {}", roomCount);
+		logger.info("paymentCount : {}", paymentCount);
+		logger.info("noticeCount : {}", noticeCount);
+		logger.info("qnaCount : {}", qnaCount);
+		logger.info("inquiryCount : {}", inquiryCount);
 	}
 	
 	// 관리자 로그인
@@ -74,7 +95,7 @@ public class AdminController {
 			session.setAttribute("adminId", admin.getAdminId());
 			session.setAttribute("adminNick", admin.getAdminNick());
 			
-			return "redirect:/admin/main";
+			return "redirect:/admin/memberlist";
 		} else {
 			session.invalidate();
 		}
@@ -300,7 +321,7 @@ public class AdminController {
 		logger.info("PaymentDetail 1 : {}", payment);
 		
 		// 잘못된 결제 번호 처리
-		if( payment.getUserNo() < 0 ) {
+		if( payment.getPayNo() == null ) {
 			return "redirect:/admin/paymentlist";
 		}
 		
@@ -591,10 +612,31 @@ public class AdminController {
 	
 	// 관리자 통계 보기
 	@GetMapping("/staties")
-	public String staties(Member member, Model model) {
+	public String staties(Model model) {
 		
 		logger.info("/admin/staties");
 		
+		int memberCount = adminService.getMemberCount();
+		int roomCount = adminService.getRoomCount();
+		int paymentCount = adminService.getPaymentCount();
+		int noticeCount = adminService.getNoticeCount();
+		int qnaCount = adminService.getQnaCount();
+		int inquiryCount = adminService.getInquiryCount();
+		
+		model.addAttribute("memberCount", memberCount);
+		model.addAttribute("roomCount", roomCount);
+		model.addAttribute("paymentCount", paymentCount);
+		model.addAttribute("noticeCount", noticeCount);
+		model.addAttribute("qnaCount", qnaCount);
+		model.addAttribute("inquiryCount", inquiryCount);
+		
+		logger.info("memberCount : {}", memberCount);
+		logger.info("roomCount : {}", roomCount);
+		logger.info("paymentCount : {}", paymentCount);
+		logger.info("noticeCount : {}", noticeCount);
+		logger.info("qnaCount : {}", qnaCount);
+		logger.info("inquiryCount : {}", inquiryCount);
+
 		return "/admin/staties";
 	}
 

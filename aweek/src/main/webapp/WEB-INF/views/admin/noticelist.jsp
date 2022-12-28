@@ -22,7 +22,6 @@ $(document).ready(function() {
 		var del_list = confirm ("공지사항을 삭제하시겠습니까?")
 		
 		if( del_list == true ) {
-			alert("삭제하셨습니다.")
 			location.href = "/admin/noticedelete?noticeNo=${ viewNotice.noticeNo }"
 		} else if( del_list == false ) {
 			return false;
@@ -77,8 +76,6 @@ th {
 
 </style>
 
-<c:if test="${ not empty adminLogin }">
-
 <div class="container">
 	<div class="list">
 		<h1 style="margin: 0 auto; font-size: 30px; padding: 10px;">공지사항</h1>
@@ -91,7 +88,7 @@ th {
 	<table id="noticetable" style="margin: 0 auto;">
 		<thead>
 			<tr id="title">
-				<th style="width: 50px;">번호</th>
+				<th style="width: 100px;">번호</th>
 				<th style="width: 250px;">제목</th>
 				<th style="width: 100px;">날짜</th>
 				<th style="width: 150px;">조회수</th>
@@ -117,10 +114,8 @@ th {
 
 <div class="bottomlist">
 	<div class="noticeWrite">
-		<button id="btnWrite">글쓰기</button>
+		<button id="btnWrite" style="margin-top: 50px;">글쓰기</button>
 	</div>
 </div>
 
 <c:import url="/WEB-INF/views/admin/layout/noticepaging.jsp" />
-
-</c:if>

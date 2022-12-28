@@ -10,44 +10,19 @@
 <meta charset="UTF-8">
 <title>Aweek 관리자 페이지</title>
 
+<link rel="stylesheet" href="/resources/admin/slidingText.css">
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-<script>
-
-$(document).ready(function() {
-
-	$("#aweekhome").click(function() {
-		var aweekhome = confirm("홈페이지 메인으로 이동하시겠습니까?")
-
-		if( aweekhome == true ) {
-			alert("홈페이지 메인으로 이동합니다.")
-			location.href = "/aweekHome"
-		} else if( aweekhome == false ) {
-			return false;
-		}
-	})
-})
-
-</script>
 
 <style type="text/css">
 
-.adminlogin {
-	max-width:1100px;
+.adminlogin, .wrap {
+	width: 80%;
 	margin: 0 auto;
-}
-
-.wrap {
-	margin: 0 auto;
-	width: 1100px;
 }
 
 .header {
@@ -55,21 +30,8 @@ $(document).ready(function() {
 	background: white;
 }
 
-.footer {
-	text-align: center;
-	background: #43C446;
-}
-
-.container {
-	min-height: 400px;
-}
-
 .wrapheader {
 	background: #43C446;
-}
-
-.logo {
-	color: white;
 }
 
 header {
@@ -80,11 +42,8 @@ body {
 	text-align: center;
 }
 
-a {
+a, ul, li {
 	text-decoration: none;
-}
-
-ul, li {
 	list-style-type: none;
 }
 
@@ -164,6 +123,13 @@ ul.nav > li > ul > li > a:hover {
 
 <header class="header">
 	<div class="adminlogin">
+		<%-- <div class="animated-text">
+			<div class="line">AWEEK 회원 : ${ memberCount }명</div>
+			<div class="line"><a href="/admin/noticewrite">공지사항 : ${ noticeCount }</a></div>
+			<div class="line"><a href="/admin/qnawrite">Q&A : ${ qnaCount }</a></div>
+			<div class="line"><a href="/admin/inquirylist">1:1 문의 : ${ inquiryCount }</a></div>
+		</div> --%>
+		
 		<ul style="margin: 0 auto; display: flex; justify-content: flex-end;">
 			<li>
 				<c:if test="${ empty adminLogin }">
@@ -190,32 +156,32 @@ ul.nav > li > ul > li > a:hover {
 		</h1>
 	</div>
 
-<ul class="nav">
-	<li>
-		<span><a href="/admin/memberlist">회원 관리</a></span>
-	</li>
-
-	<li>
-		<span><a href="/admin/roomlist">방 관리</a></span>
-	</li>
-
-	<li>
-		<span><a href="/admin/paymentlist">결제 관리</a></span>
-	</li>
-
-	<li>
-		<span><a href="/admin/noticelist">공지사항 관리</a></span>
-	</li>
-
-	<li>
-		<span><a href="/admin/qnalist">자주 묻는 질문 관리</a></span>
-	</li>
+	<ul class="nav">
+		<li>
+			<span><a href="/admin/memberlist">회원 관리</a></span>
+		</li>
 	
-	<li>
-		<span><a href="/admin/inquirylist">1:1 문의 관리</a></span>
-	</li>
-
-	<li>
-		<span><a href="/admin/staties">통계 관리</a></span>
-	</li>
-</ul>
+		<li>
+			<span><a href="/admin/roomlist">모임 관리</a></span>
+		</li>
+	
+		<li>
+			<span><a href="/admin/paymentlist">결제 관리</a></span>
+		</li>
+		
+		<li>
+			<span><a href="/admin/inquirylist">1:1 문의 관리</a></span>
+		</li>
+	
+		<li>
+			<span><a href="/admin/noticelist">공지사항 관리</a></span>
+		</li>
+	
+		<li>
+			<span><a href="/admin/qnalist">자주 묻는 질문 관리</a></span>
+		</li>
+	
+		<li>
+			<span><a href="/admin/staties">통계 관리</a></span>
+		</li>
+	</ul>

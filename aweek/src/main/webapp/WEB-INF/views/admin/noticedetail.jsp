@@ -6,8 +6,6 @@
 
 <c:import url="./layout/adminheader.jsp" />
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -17,6 +15,7 @@ $(document).ready(function() {
 	})
 		
 	$("#btnUpdate").click(function() {
+		var upd_list = alert ("공지사항을 수정합니다.")
 		location.href = "/admin/noticemodify?noticeNo=${ viewNotice.noticeNo }"
 	})
 	
@@ -24,7 +23,6 @@ $(document).ready(function() {
 		var del_list = confirm ("공지사항을 삭제하시겠습니까?")
 		
 		if( del_list == true ) {
-			alert("삭제하셨습니다.")
 			location.href = "/admin/noticedelete?noticeNo=${ viewNotice.noticeNo }"
 		} else if( del_list == false ) {
 			return false;
@@ -81,10 +79,9 @@ p {
 
 <div class="container">
 	<div style="display: flex;" class="firstList">
-		<p style="width: 30%;">아이디 : ${ viewNotice.writerNick }</p>
+		<p style="width: 30%;">글번호 : ${ viewNotice.noticeNo }</p>
 		<p style="width: 40%; text-align: left;">작성일 : <fmt:formatDate value="${ viewNotice.noticeDate }" pattern="yyyy-MM-dd HH:mm:ss" /></p>
-		<p style="width: 15%;">조회수 : ${ viewNotice.noticeHit }</p>
-		<p style="width: 15%;">글번호 : ${ viewNotice.noticeNo }</p>
+		<p style="width: 30%;">조회수 : ${ viewNotice.noticeHit }</p>
 	</div>
 	
 	<div style="display: flex;" class="secondList">
@@ -95,11 +92,6 @@ p {
 	<div style="display: flex;" class="thirdList">
 		<p style="width: 30%" class="third">내용</p>
 		<p style="width: 70%; text-align: left;" class="third">${ viewNotice.noticeContent }</p>
-	</div>
-	
-	<div style="display: flex;" class="fourthList">
-		<p style="width: 30%;" class="fourth">파일 다운로드</p>
-		<a href="/admin/download?fileNo=${ csFile.fileNo }" style="margin: 30px 0px;">${ csFile.originName }</a>
 	</div>
 </div>
 
