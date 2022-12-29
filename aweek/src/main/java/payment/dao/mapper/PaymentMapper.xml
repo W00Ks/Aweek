@@ -57,7 +57,5 @@
 		WHERE user_no = #{userNo} 
 		AND duration = 0
 	</update>
-	
-
-	
+			
 </mapper>

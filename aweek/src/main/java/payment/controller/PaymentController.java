@@ -47,6 +47,7 @@ public class PaymentController {
 		member.setUserId(userId);
 		member = paymentService.getLoginInfo(member);
 		
+
 		model.addAttribute("paymentList", paymentList);
 		model.addAttribute("member", member);
 		
@@ -73,12 +74,10 @@ public class PaymentController {
 		
 		
 		if(payChek == null) {
-			logger.debug("결제 필요 남은 기간 {}", payChek.getDuration());
 			return "redirect:/payment/payment";
 		} else {
 			logger.debug("결제 불필요 남은 기간 {}", payChek.getDuration());
 			if(payChek.getDuration() <= 0) {
-				logger.debug("결제 필요 남은 기간 {}", payChek.getDuration());
 				return "redirect:/payment/payment";
 			}			
 			return "redirect:/payment/paychek";
@@ -94,6 +93,10 @@ public class PaymentController {
 		member.setUserId(userId);
 		member = paymentService.getLoginInfo(member);
 		
+		Payment payChek = paymentService.getStatusChek(member);
+		logger.info("getStatusChek {}", payChek);
+		
+		model.addAttribute("payChek", payChek);
 		model.addAttribute("member", member);
 	}
 	

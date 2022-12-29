@@ -2,6 +2,7 @@ package payment.dao.face;
 
 import java.util.List;
 
+import common.Paging;
 import member.dto.Member;
 import payment.dto.Payment;
 import payment.dto.Product;
@@ -71,6 +72,10 @@ public interface PaymentDao {
 	 * @return - 결제 상태 변경
 	 */
 	public void updateStatus(Member member);
+
+
+
+
 
 
 
