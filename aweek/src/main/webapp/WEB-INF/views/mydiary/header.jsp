@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<jsp:include page="../layout/roomHeader.jsp" flush="true" />
+<jsp:include page="./roomHeader.jsp" flush="true" />
 
 <% List<DiaryFavorite> diaryFavorite = (List) request.getAttribute("diaryFavorite"); %>
 <% List<Room> userRoom = (List) request.getAttribute("userRoom"); %>
@@ -164,7 +164,7 @@ function viewsetting() {
 	
 } --%>
 
-var deleteCookie = function(name) { // 쿠키 삭제
+<%-- var deleteCookie = function(name) { // 쿠키 삭제
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=localhost;path=/;';
 }
 
@@ -221,7 +221,7 @@ window.addEventListener('load', function() {
 		}
 	}
 	
-})
+}) --%>
 </script>
 
 <%int favcount = 0; %>

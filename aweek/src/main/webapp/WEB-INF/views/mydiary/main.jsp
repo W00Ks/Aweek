@@ -7,6 +7,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style type="text/css">
+.top_menu {
+    margin-top: 0;
+    background-color: antiquewhite;
+}
 .rightbox1 {
 	height: 35px;
 }
