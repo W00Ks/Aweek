@@ -310,7 +310,7 @@ public class MemberController {
 	
 	@PostMapping("/pwModify")
 	public void pwModifyProc(Member member) {
-		memberService.getPwModify(member);;
+		memberService.getPwModify(member);
 	}
 	
 	//현재 비밀번호 체크

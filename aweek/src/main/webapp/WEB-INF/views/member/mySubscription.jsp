@@ -33,7 +33,7 @@ body {
 .ssc_div {
 	width: 350px;
     margin: 0 7px;
-    height: 550px;
+    height: 500px;
     border: 1px solid #ccc;
     border-radius: 10px;
 	cursor: default;
@@ -279,14 +279,9 @@ body {
 			<p>최대 이용자 수 UP!</p>
 		</div>
 		<div class="ssc_month_btn_div">
-			<c:choose>
-				<c:when test="${payInfo.productNo eq 1}">
-					<button class="ssc_month_cancel_btn" onclick="">구매 취소</button>
-				</c:when>
-				<c:otherwise>
-					<button class="ssc_month_sub_btn" onclick="location.href='/payment/payment'">이용권 구매</button>
-				</c:otherwise>
-			</c:choose>
+			<c:if test="${payInfo.productNo ne 1 && payInfo.productNo ne 2}">
+				<button class="ssc_month_sub_btn" onclick="location.href='/payment/payment'">이용권 구매</button>
+			</c:if>
 		</div>
 		<c:if test="${payInfo.productNo eq 1}">
 		<div class="remainingPeriod">
@@ -313,14 +308,9 @@ body {
 			<p>최대 이용자 수 UP!</p>
 		</div>
 		<div class="ssc_year_btn_div">
-			<c:choose>
-				<c:when test="${payInfo.productNo eq 2}">
-					<button class="ssc_year_cancel_btn" onclick="">구매 취소</button>
-				</c:when>
-				<c:otherwise>
-					<button class="ssc_year_sub_btn" onclick="location.href='/payment/payment'">이용권 구매</button>
-				</c:otherwise>
-			</c:choose>
+			<c:if test="${payInfo.productNo ne 2}">
+				<button class="ssc_year_sub_btn" onclick="location.href='/payment/payment'">이용권 구매</button>
+			</c:if>
 		</div>
 		<c:if test="${payInfo.productNo eq 2}">
 		<div class="remainingPeriod">
