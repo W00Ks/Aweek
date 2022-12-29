@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import common.Paging;
 import member.dto.Member;
 import payment.dao.face.PaymentDao;
 import payment.dto.Payment;
@@ -58,6 +59,8 @@ public class PaymentServiceImpl implements PaymentService{
 	public void getDurationChek(Member member) {
 		paymentDao.updateStatus(member);
 	}
+
+
 
 
 

@@ -2,6 +2,7 @@ package payment.service.face;
 
 import java.util.List;
 
+import common.Paging;
 import member.dto.Member;
 import payment.dto.Payment;
 import payment.dto.Product;
@@ -63,5 +64,7 @@ public interface PaymentService {
 	 * @return - 결제 정보 변경
 	 */
 	public void getDurationChek(Member member);
+
+
 
 }

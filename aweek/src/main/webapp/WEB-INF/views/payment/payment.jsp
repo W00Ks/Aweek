@@ -27,18 +27,28 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+	var price = 0;
     $('#one').click(function () {
-    	var price = $('input[name="cp_item"]:checked').val();
+    	price = $('input[name="cp_item"]:checked').val();
     	console.log(price,"click")
     	$(".quiz-text").text(price + " 원");
     })
     
     $('#two').click(function () {
-        var price = $('input[name="cp_item"]:checked').val();
+        price = $('input[name="cp_item"]:checked').val();
     	console.log(price,"click")
     	$(".quiz-text").text(price + " 원");
     })
- 
+    
+    $('#cssTest').hide();
+    
+    $('.payemntCacao').hover(function () {
+    	$('#cssTest').show(300);
+    })
+    
+    $('#paymentfree').hover(function () {
+    	$('#cssTest').hide();
+    }) 
 }) 	
 
 
@@ -59,7 +69,8 @@ p {
 
 #container {
 	display: flex;
-	justify-content: center;
+/* 	justify-content: center; */
+	margin-left: 22%;
 	margin-top: 40px;
 	margin-bottom: 50px;
 	gap: 300px;	
@@ -74,7 +85,7 @@ p {
 	border: 1px solid #CCC;
 	text-align: center;
 	width: 58%;
-    height: 8%;
+    height: 6%;
     margin: auto;
     padding-top: 10px;
     padding-left: 5px;
@@ -86,7 +97,7 @@ p {
 	border: 1px solid #CCC;
 	text-align: center;
 	width: 58%;
-    height: 8%;
+    height: 6%;
     margin: auto;
     padding-top: 10px;   
 }
@@ -104,6 +115,20 @@ p {
 	margin-top: 70px;
 	border-radius: 10px;
 }
+
+#cssTest {
+    border: 1px solid #ccc;
+    background-color: #fde6e7;
+    text-align: center;
+    margin: auto;
+    width: 198%;
+    height: 340px;
+    margin-top: 135px;
+    margin-left: -202px;
+    padding-left: 20px;
+    border-radius: 10px;
+}
+
 
 .payemntCacao {
 	border: 1px solid #ccc;
@@ -264,13 +289,15 @@ p {
 		<div id="amountContainer">
 			<p style="font-weight: bold"><span class="quiz-text">아래 상품을 선택하세요</span></p>	
 		</div><br>
-			<label class="box-radio-input"><input type="radio" name="cp_item" value="5000" id="one"><span>Premium 1달</span></label>
+
+			<label class="box-radio-input"><input type="radio" name="cp_item" value="3000" id="one"><span>Premium 1달</span></label>
 			<label class="box-radio-input"><input type="radio" name="cp_item" value="25200" id="two"><span>Premium 12달</span></label><br><br>
+
 			
 		<div style="margin: auto; text-align: center;">	
 		<div class="selectBox">
 			<select name="payMethod" class="select" id="pay_select">
-				<option disabled selected>결제 방법 선택💰</option>
+				<option disabled selected value="null">결제 방법 선택💰</option>
 				<option value="kakaopay">카카오페이</option>
 				<option value="html5_inicis.INIpayTest">KG이니시스(카드결제)</option>
 				<option value="uplus.tvivarepublica2">토스페이</option>
@@ -284,12 +311,25 @@ p {
 			<button type="button" class="btn btn-lg btn-block  btn-custom" id="charge_kakao">결 제 하 기</button>
 	 </div>
 	 </div>
+	 
+	<div id="mainContainer">
+	<div id=cssTest style="text-align: left;">
+		<p style="font-weight: bold; font-size: x-large; color: #f4b0b0; padding: 15px; text-align: center;">${member.userId}님 결제정보</p>
+		<p>이름 : ${member.userName}</p><br>
+		<p>아이디 : ${member.userId}</p><br>
+		<p>핸드폰 : ${member.userPhone}</p><br>
+		<p>주소 : ${member.userAddress}</p><br>
+		<p>이메일 : ${member.userEmail}</p><br><br>
+		<a href="/member/info"><button type="button" class="btn btn-lg btn-block  btn-custom" style="margin: auto;">수 정 하 기</button></a>
+		
+	</div>
+ 	</div>
+ 	
  </div>
+ 
  
  <script type="text/javascript">
      $('#charge_kakao').click(function () {
-    	console.log('start charge_kakao');
-        
         var IMP = window.IMP;
         IMP.init('imp36337326');
         
@@ -344,12 +384,22 @@ p {
                 });
                 window.location.href = "/aweekHome";
             } else {
-            	console.log('errorMsg : ');
-                var msg = '결제에 실패하였습니다';
+        		if(price == null) {
+        			var msg = "상품을 선택하세요!"
+        			alert(msg)
+        			document.location.href="/payment/payment";
+        		}else if(paySelect == null) {
+        			var msg = "결제 방법을 선택하세요!"
+        			alert(msg)
+        			document.location.href="/payment/payment";
+        		}
+
+                var msg = '결제에 실패하였습니다!';
                 msg += " : " + rsp.error_msg;
 	            alert(msg);
 	            document.location.href="/payment/fail";
             }   
+            
         });
     });
 </script> 
