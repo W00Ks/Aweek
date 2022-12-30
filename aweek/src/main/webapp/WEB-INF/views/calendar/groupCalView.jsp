@@ -221,7 +221,7 @@ dd{
     
 }
 .update_write_form table{
-	margin-top:70px;
+	margin-top:43px;
 	margin-left: 70px;
 }
 .update_write_form td{
@@ -230,16 +230,18 @@ dd{
 	font-family: 'NanumSquareNeo-Variable';
 }
 #startTimeInput{
-	width: 100%;
+	width: 388px;
 	text-align: center;
+	height: 27px;
 }
 
 .update_write_form textarea{
 	width: 380px;
 	height: 135px;
 }
-.update_write_form input{
+.update_write_form input[type="text"]{
 	width: 380px;
+	height: 21px;
 }
 span{
 	font-family: 'NanumSquareNeo-Variable';
@@ -257,7 +259,11 @@ label{
 }
 .updateBtn{
 	width: 388px;
-	margin-left: 150px;
+	margin-left: 155px;
+}
+#upimportance{
+	width: 0  !important;
+	height: 0;
 }
 </style>
 </head>
@@ -265,8 +271,12 @@ label{
 <div class="schedule_detail_header">
 
 <h2 id="calTitle">${viewGroupCal.gcalTitle }</h2>
+
 </div>
 <div class="schedule_detail_content">
+
+
+
 <dl>
 <dt>일시</dt>
 <dd><span>${viewGroupCal.gcalStartDate }</span></dd>
@@ -302,12 +312,29 @@ label{
 	<dd><span>${viewGroupCal.gcalMemo }</span></dd>
 	</c:when>
 </c:choose>
+<dt>참여원</dt>
+<c:choose>
+	<c:when test="${empty viewGroupCal.participator }">
+	<dd><span>없음</span></dd>
+	</c:when>
+	
+	<c:when test="${not empty viewGroupCal.participator }">
+	<dd><span>${viewGroupCal.participator }</span></dd>
+	</c:when>
+</c:choose>
 </dl>
 </div>
 
 <div class="schedule_detail_footer">
+<c:if test="${writeUserInfo.userNo eq loginUserInfo.userNo }">
 <button class= "updateDeleteBtn" id="update_button" style="cursor:pointer">수정</button>
+
 <button class= "updateDeleteBtn" onclick="location.href='/calendar/gcalDelete?roomNo=${viewGroupCal.roomNo }&gcalNo=${viewGroupCal.gcalNo }&year=<%=year %>&month=<%=month %>'" style="cursor:pointer">삭제</button>
+</c:if>
+
+<c:if test="${writeUserInfo.userNo != loginUserInfo.userNo }">
+<p>작성자 : ${writeUserInfo.userName }</p>
+</c:if>
 </div>
 
 <div class="update_modal"></div>
@@ -326,7 +353,21 @@ label{
 				<input type="hidden" name="roomNo" value="${viewGroupCal.roomNo }">
 				<table>
 					<tr>
-					<td style="padding-left: 0; padding-right: 0;">제목<span><label for="importance" id="upCheckboxImg" style="vertical-align: bottom; margin-left: 15px;"><input type="checkbox" name="importance" id="upimportance"></label></span></td>
+					<td style="padding-left: 0; padding-right: 0;">제목<span>
+					<c:if test="${viewGroupCal.importance eq 1 }">
+					
+					<label for="upimportance" id="upCheckboxImg" style="vertical-align: bottom; margin-left: 15px; background-image: url('/resources/img/checkedStarIcon.png');">
+					<input type="checkbox" name="importance" id="upimportance" checked="checked">
+					</label></span>
+					</td>
+					</c:if>
+					<c:if test="${viewGroupCal.importance eq 0 }">
+					
+					<label for="upimportance" id="upCheckboxImg" style="vertical-align: bottom; margin-left: 15px; background-image: url('/resources/img/starIcon.png');">
+					<input type="checkbox" name="importance" id="upimportance">
+					</label></span>
+					</td>
+					</c:if>
 					<td class="calTitle updateInput" ><input type="text" name="gcalTitle" id="calTitleInput" value="${viewGroupCal.gcalTitle }"></td>
 					</tr>
 					
@@ -350,6 +391,24 @@ label{
 					</select>
 					</td>
 					</tr>
+					
+					<tr>
+					<td style="padding-left: 0;">참여원</td>
+					<td>
+					<select id="participator">
+					<c:forEach items="${loginUserRoomsMemberInfo }" var="member">
+					<option>${member.userName }</option>
+					</c:forEach>
+					</select>
+					</td>
+					</tr>
+					 <tr>
+					<td>&nbsp;</td>
+					<td>
+					<c:forEach items="${loginUserRoomsMemberInfo }" var="member">
+					<input type="checkbox" value="${member.userName }"  name="participator">${member.userName }
+ 					</c:forEach>
+ 					</tr>
 					
 					<tr>
 					<td>장소</td>

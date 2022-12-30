@@ -12,7 +12,7 @@
 	</insert>
 	
 	<select id="selectMyCal" parameterType="int" resultType="calendar.dto.CalDto">
-		SELECT * FROM my_calender WHERE user_no = #{userNo} ORDER BY start_date
+		SELECT * FROM MY_CALENDER WHERE USER_NO = #{userNo} ORDER BY START_DATE, START_TIME
 	</select>
 	
 	<select id="selectMyCalByCalNo" parameterType="calendar.dto.CalDto" resultType="calendar.dto.CalDto">
@@ -48,11 +48,27 @@
  	<select id="selectRoomInfoByRoomNo" resultType="calendar.dto.CalRoomList" parameterType="calendar.dto.CalRoomList"> 
 		SELECT room_no, room_name FROM room WHERE room_no = #{roomNo} 
 	</select> 
+	
+	<select id="selectJoinMemberInfo" resultType="calendar.dto.CalRoomList" parameterType="calendar.dto.CalRoomList">
+		SELECT a.user_no, a.room_no, m.user_name FROM(
+			SELECT * FROM room_list where room_no = #{roomNo}
+			)a
+			INNER JOIN MEMBER m
+			ON a.user_no = m.user_no AND a.user_no != #{userNo}
+	</select>
+	
+	<select id="selectJoinMemberInfo2" resultType="calendar.dto.CalRoomList" parameterType="calendar.dto.groupCalDto">
+		SELECT a.user_no, a.room_no, m.user_name FROM(
+			SELECT * FROM room_list where room_no = #{roomNo}
+			)a
+			INNER JOIN MEMBER m
+			ON a.user_no = m.user_no AND a.user_no != #{userNo}
+	</select>
 
  	
 	
 	<select id="selectGroupCal" resultType="calendar.dto.groupCalDto" parameterType="calendar.dto.CalRoomList">
-		SELECT * FROM group_calender WHERE room_no = ${roomNo}
+		SELECT * FROM group_calender WHERE room_no = ${roomNo} order by gcal_start_date, gcal_start_time
 	</select>
 	
 	<insert id="insertGroupCal" parameterType="calendar.dto.groupCalDto">
@@ -61,7 +77,7 @@
 	</insert>
 	
 	<select id="selectGroupCalByGroupCalNo" parameterType="calendar.dto.groupCalDto" resultType="calendar.dto.groupCalDto">
-		SELECT room_no, gcal_no, user_no , gcal_title, gcal_place, gcal_memo, gcal_start_date, gcal_start_time , importance
+		SELECT room_no, gcal_no, user_no , gcal_title, gcal_place, gcal_memo, gcal_start_date, gcal_start_time , participator,  importance
 		FROM group_calender
 		WHERE gcal_no = ${gcalNo}
 	</select>
@@ -74,10 +90,21 @@
 			, gcal_place = #{gcalPlace}
 			, gcal_memo = #{gcalMemo}
 			, importance = #{importance}
+			, participator = #{participator}
 		WHERE gcal_no = #{gcalNo}
 	</update>
 	
 	<delete id="deleteGroupCal" parameterType="calendar.dto.groupCalDto">
 		DELETE group_calender WHERE gcal_no = #{gcalNo}
 	</delete>
+	
+	<select id="selectUserInfoByUserNo" resultType="calendar.dto.LoginUserInfo" parameterType="int">
+		SELECT user_no, user_id, user_name FROM member
+		WHERE user_no = #{userNo}
+	</select>
+	
+	<select id="selectUserInfoByUser2" resultType="calendar.dto.LoginUserInfo" parameterType="calendar.dto.groupCalDto">
+		SELECT user_no, user_id, user_name FROM member
+		WHERE user_no = #{userNo}
+	</select>
 </mapper>

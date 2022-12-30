@@ -4,6 +4,7 @@ import java.util.List;
 
 import calendar.dto.CalDto;
 import calendar.dto.CalRoomList;
+import calendar.dto.LoginUserInfo;
 import calendar.dto.groupCalDto;
 
 
@@ -59,6 +60,22 @@ public interface CalendarDao {
 
 
 	public CalRoomList selectRoomInfoByRoomNo(CalRoomList calRoomList);
+
+
+
+	public List<CalRoomList> selectJoinMemberInfo(CalRoomList calRoomList);
+
+
+
+	public LoginUserInfo selectUserInfoByUserNo(int userNo);
+
+
+
+	public LoginUserInfo selectUserInfoByUser2(groupCalDto viewGroupCal);
+
+
+
+	public List<CalRoomList> selectJoinMemberInfo2(groupCalDto viewGroupCal);
 
 
 

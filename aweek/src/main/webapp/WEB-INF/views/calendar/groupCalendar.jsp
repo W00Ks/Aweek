@@ -1,5 +1,6 @@
 
 
+<%@page import="java.util.Date"%>
 <%@page import="calendar.util.Util"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
@@ -48,8 +49,10 @@
 	int lastDay= cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 	
 %>
+<!-- favicon -->
+<link rel="icon" href="/resources/favicon.ico" type="image/x-icon"/>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Aweek</title>
 
 <!-- Noto Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,7 +89,7 @@ $(document).ready(function(){
 		
 		//일정 작성 유효성 검사
 		$("#calTitleInput").blur(function(){
-			if($("input[name=calTitle]").val() ==""){
+			if($("input[name=gcalTitle]").val() ==""){
 				console.log("제목을 입력해주세요");
 				
 				$(".calTitle").append("<p class='warn_message title_warn_message'>제목을 입력해주세요!</p>");
@@ -120,9 +123,9 @@ $(document).ready(function(){
 		$("#write_form").submit(function(){
 			console.log("유효성검사")
 			
-			var calTitle_val = $("input[name=calTitle]").val();
+			var calTitle_val = $("input[name=gcalTitle]").val();
 			
-			var startDate_val = $("input[name=startDate]").val();
+			var startDate_val = $("input[name=gcalStartDate]").val();
 			if(calTitle_val =="" && startDate_val ==""){
 				$(".calTitle").append("<p class='warn_message title_warn_message'>제목을 입력해주세요!</p>");
 				$(".startDate").append("<p class='warn_message date_warn_message'>날짜를 입력해주세요!</p>")
@@ -132,12 +135,12 @@ $(document).ready(function(){
 			} else if(startDate_val ==""){
 				console.log("날짜를 입력해주세요");
 				
-				$(".startDate").append("<p class='warn_message date_warn_message'>날짜를 입력해주세요!</p>")
+				$(".gcalStartDate").append("<p class='warn_message date_warn_message'>날짜를 입력해주세요!</p>")
 				return false;
 			} else if(calTitle_val ==""){
 				console.log("제목을 입력해주세요");
 				
-				$(".calTitle").append("<p class='warn_message title_warn_message'>제목을 입력해주세요!</p>");
+				$(".gcalTitle").append("<p class='warn_message title_warn_message'>제목을 입력해주세요!</p>");
 				
 				return false;
 			} else{
@@ -233,7 +236,7 @@ $(document).ready(function(){
 			console.log(divTop,divLeft);
 			
 			//마우스 좌표에 따라 창 위치 조정
-			if(divTop>750 && divLeft>1445){
+			if(divTop>655 && divLeft>1445){
 				$(".schedule_detail_wrap").css({
 					"top": divTop -315,
 					"left" : divLeft-470
@@ -249,7 +252,7 @@ $(document).ready(function(){
 				}).show();
 			}else if(divTop>615){
 				$(".schedule_detail_wrap").css({
-					"top": divTop -315,
+					"top": divTop -350,
 					"left" : divLeft
 					
 				}).show();
@@ -313,6 +316,14 @@ $(document).ready(function(){
 		if(tr_length>7){
 			$(".next-month-day").remove();
 		}
+		
+		$("#selectParticipator").change(function(){
+			
+			var selectValue = $(this).val()
+			var checkbox = $()
+			$("#participatorRow").css("display", "table-row");
+			$("#participator").append("<input type='checkbox' value="+ selectValue+ " checked='checked' name='participator'>").append(selectValue);
+		})
 })
 </script>
 <!-- Noto Fonts -->
@@ -430,7 +441,7 @@ $(document).ready(function(){
     font-weight: bold;
 }
 .write_form table{
-	margin-top:70px;
+	margin-top:43px;
 	margin-left: 70px;
 }
 .write_form td{
@@ -438,8 +449,9 @@ $(document).ready(function(){
 	font-family: 'NanumSquareNeo-Variable';
 }
 #startTimeInput{
-	width: 100%;
+	width: 388px;
 	text-align: center;
+	height: 27px;
 }
 
 .write_form textarea{
@@ -448,6 +460,7 @@ $(document).ready(function(){
 }
 .write_form input[type="text"]{
 	width: 380px;
+	height: 21px;
 }
 
 .warn_message{
@@ -510,7 +523,8 @@ $(document).ready(function(){
 /*     left: 35%; */
 /*     top: 16%; */
     width: 460px;
-    height: 308px;
+    height: auto ;
+    overflow : auto;
 	border-radius: 2px;
 	border: 1px solid #989898;
 }
@@ -623,22 +637,23 @@ label{
 <%-- 		<%= calDto.getCalTitle() %><br> --%>
 <%-- 		<% } %> --%>
 <%-- 		<% } %> --%>
-		<%-- <% SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyyMMdd"); %>
-		<% for(CalDto calDto :  clist){ %>
-		<%  String scheduleYear = calDto.getStartDate().substring(0, 4); %>
-		<%  String scheduleMonth = calDto.getStartDate().substring(5, 7); %>
-		<%  String scheduleDay = calDto.getStartDate().substring(8, 10); %>
+		<% SimpleDateFormat yyyyMMdd = new SimpleDateFormat("yyyyMMdd"); %>
+		<% for(groupCalDto gcalDto :  gCalList){ %>
+		<%  String scheduleYear = gcalDto.getGcalStartDate().substring(0, 4); %>
+		<%  String scheduleMonth = gcalDto.getGcalStartDate().substring(5, 7); %>
+		<%  String scheduleDay = gcalDto.getGcalStartDate().substring(8, 10); %>
 		<% String scheduleTotal = scheduleYear + scheduleMonth + scheduleDay; %>
 		
 		<% Date scheduleDate = yyyyMMdd.parse(scheduleTotal); %>
 		<% Date todayDate = new Date(); %>
 		<% String todayDay = yyyyMMdd.format(todayDate); %>
+		
 		<% long gap = todayDate.getTime()-scheduleDate.getTime()  ; %>
 		<% if(Integer.parseInt(scheduleYear)==year&&Integer.parseInt(scheduleMonth)==month
-			&&Integer.parseInt(scheduleTotal)>=Integer.parseInt(todayDay)){ %>
-		<span class="Dday-list">D<%= gap/(24*60*60*1000)-1 %>&nbsp;<%= calDto.getCalTitle() %></span><br>
+			&&Integer.parseInt(scheduleTotal)>Integer.parseInt(todayDay)){ %>
+		<span class="Dday-list">D<%= gap/(24*60*60*1000)-1 %>&nbsp;<%= gcalDto.getGcalTitle() %></span><br>
 		<% } %>
-		<% } %> --%>
+		<% } %>
 		
 		
 	</div>
@@ -690,7 +705,7 @@ ${calRoomList.roomName }
 				<td class="day">
 					<span style="color:<%=Util.fontColor(dayOfWeek, i)%>;"><%=i %></span>
 					<%  for(groupCalDto gCalDto : gCalList){ %>
-					<% if(Integer.parseInt(gCalDto.getGcalStartDate().substring(8, 10))==i&&Integer.parseInt(gCalDto.getGcalStartDate().substring(5, 7))==month){ %>
+					<% if(Integer.parseInt(gCalDto.getGcalStartDate().substring(8, 10))==i&&Integer.parseInt(gCalDto.getGcalStartDate().substring(5, 7))==month&&Integer.parseInt(gCalDto.getGcalStartDate().substring(0, 4))==year){ %>
 					<p><a href="" onclick="return false" class="schedule_detail_req" id="<%=gCalDto.getGcalNo() %>" >
 					<% if(Integer.parseInt(gCalDto.getImportance())==1){ %>
 					★
@@ -750,6 +765,7 @@ ${calRoomList.roomName }
 		</div>
 		<div class="write_form">
 			<form action="/calendar/gCal" method="post" id="write_form" >
+			<input type= "hidden" name="userNo" value="${userInfo.userNo }">
 			<input type="hidden" name="roomNo" value="${calRoomList.roomNo }">
 			<input type="hidden" name="year" value="<%=year%>">
 			<input type="hidden" name="month" value="<%=month%>">
@@ -781,6 +797,34 @@ ${calRoomList.roomName }
 					</tr>
 					
 					<tr>
+					<td style="padding-left: 0;">참석자</td>
+					<td style="padding-bottom:0;">
+					<select id="selectParticipator" style="width: 388px; height: 27px;">
+					<option  value="" disabled selected style="display: none">참석자를 선택하세요</option>
+					<c:forEach items="${loginUserRoomsMemberInfo }" var="member">
+					<option class="selectParticipator1">${member.userName }</option>
+					</c:forEach>
+					</select>
+					</td>
+					</tr>
+					
+					
+					<tr id="participatorRow" style="display: none;">
+					<td>&nbsp;</td>
+					
+
+
+					<td id="participator">
+					<div id="participator-wrap">
+					
+					</div>
+					<%-- <c:forEach items="${loginUserRoomsMemberInfo }" var="member">
+					<input type="checkbox" value="${member.userName }"  name="participator">${member.userName }
+ 					</c:forEach> --%>
+ 					</td>
+ 					</tr>
+ 					
+					<tr>
 					<td style="padding-left: 0;">장소</td>
 					<td><input type="text" name="gcalPlace" placeholder="장소를 입력하세요."></td>
 					</tr>
@@ -793,7 +837,7 @@ ${calRoomList.roomName }
 				
 				</table>
 				
-				<button style="width:388px; margin-left:140px; ">작성</button>
+				<button style="width:388px; margin-left:145px; ">작성</button>
 			
 			</form>
 		
