@@ -59,6 +59,8 @@ $(function() {
 		createModal();
 		
 		
+		
+		
 
 	})
 
@@ -185,7 +187,7 @@ dd{
 }
 .update_write_form table{
 	margin-top:70px;
-	margin-left: 70px;
+	margin-left: 73px;
 }
 .update_write_form td{
 	padding-left : 10px !important;
@@ -195,14 +197,16 @@ dd{
 #startTimeInput{
 	width: 100%;
 	text-align: center;
+	height: 27px;
 }
 
 .update_write_form textarea{
 	width: 380px;
 	height: 135px;
 }
-.update_write_form input{
+.update_write_form input[type=text]{
 	width: 380px;
+	height: 21px;
 }
 span{
 	font-family: 'NanumSquareNeo-Variable';
@@ -220,7 +224,10 @@ label{
 }
 .updateBtn{
 	width: 388px;
-	margin-left: 150px;
+	margin-left: 157px;
+}
+#upimportance{
+	display: none;
 }
 </style>
 </head>
@@ -286,7 +293,22 @@ label{
 				<input type="hidden" name="calNo" value="${viewCal.calNo }">
 				<table>
 					<tr>
-					<td style="padding-left: 0; padding-right: 0;">제목<span><label for="importance" id="upCheckboxImg" style="vertical-align: bottom; margin-left: 15px;"><input type="checkbox" name="importance" id="upimportance"></label></span></td>
+					<td style="padding-left: 0; padding-right: 0;">제목<span>
+					<c:if test="${viewCal.importance eq 1 }">
+					
+					<label for="upimportance" id="upCheckboxImg" style="vertical-align: bottom; margin-left: 15px; background-image: url('/resources/img/checkedStarIcon.png');">
+					<input type="checkbox" name="importance" id="upimportance" checked="checked">
+					</label></span>
+					</td>
+					</c:if>
+					<c:if test="${viewCal.importance eq 0 }">
+					
+					<label for="upimportance" id="upCheckboxImg" style="vertical-align: bottom; margin-left: 15px; background-image: url('/resources/img/starIcon.png');">
+					<input type="checkbox" name="importance" id="upimportance">
+					</label></span>
+					</td>
+					</c:if>
+					
 					<td class="calTitle updateInput" ><input type="text" name="calTitle" id="calTitleInput" value="${viewCal.calTitle }"></td>
 					</tr>
 					

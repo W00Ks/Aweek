@@ -7,8 +7,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<!-- favicon -->
+<link rel="icon" href="/resources/favicon.ico" type="image/x-icon"/>
+<title>Aweek</title>
 <style type="text/css">
 .title{
 text-align: center;

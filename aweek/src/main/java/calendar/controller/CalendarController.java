@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import calendar.dto.CalDto;
 import calendar.dto.CalRoomList;
+import calendar.dto.LoginUserInfo;
 import calendar.dto.groupCalDto;
 import calendar.service.face.CalendarService;
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -190,10 +191,37 @@ public class CalendarController {
 	}
 	
 	@RequestMapping("/calendar/gcalView")
-	public String gcalView(groupCalDto viewGroupCal, Model model,String year, String month) {
+	public String gcalView(groupCalDto viewGroupCal, Model model,String year, String month, HttpSession session, LoginUserInfo userInfo, CalRoomList calRoomList, HttpServletRequest request) {
+		
+		int userNo = (int)session.getAttribute("userNo");
+		
+		userInfo = calendarService.getUserInfo(userNo);
+		logger.info("로그인한 회원 정보 : {}", userInfo);
 		
 		viewGroupCal = calendarService.gcalView(viewGroupCal);
+		
+		
+		
+		//로그인한 회원이 가입한 모임 정보 (모임번호,모임이름)
+		List<CalRoomList> loginUserRoomsInfo = calendarService.getRoomInfoByUserNo(userNo);
+				
+//		//로그인한 회원이 가입한 모임의 가입원들(회원이름)
+		List<CalRoomList> loginUserRoomsMemberInfo = calendarService.getJoinMemberInfo(userNo,viewGroupCal);
+		logger.info("room : {}", loginUserRoomsInfo);
+				
+		logger.info("joinMember : {}", loginUserRoomsMemberInfo);
+				
+
+		model.addAttribute("loginUserRoomsMemberInfo", loginUserRoomsMemberInfo);
+		
+		model.addAttribute("loginUserInfo", userInfo);
+		
+		
 		logger.info("조회된 모임 일정 : {}", viewGroupCal);
+		
+		LoginUserInfo userInfo2 = calendarService.getWriteUser(viewGroupCal);
+		
+		model.addAttribute("writeUserInfo", userInfo2);
 		
 		model.addAttribute("viewGroupCal", viewGroupCal);
 		return "/calendar/groupCalView";
@@ -271,20 +299,29 @@ public class CalendarController {
 		int userNo = (int)session.getAttribute("userNo");
 		logger.info("userNo : {}", userNo);
 		
-		//로그인한 회원이 가입한 모임 정보 (모임번호,모임이름)
-		List<CalRoomList> loginUserRoomsInfo = calendarService.getRoomInfoByUserNo(userNo);
-		
-		logger.info("room : {}", loginUserRoomsInfo);
-		
-		model.addAttribute("loginUserRoomsInfo", loginUserRoomsInfo);
-		
-		
-		
-		
 		calRoomList = calendarService.getRoomInfoByRoomNo(calRoomList);
 		logger.info( "모임번호 :{}", calRoomList);
 		
 		model.addAttribute("calRoomList", calRoomList);
+		//로그인한 회원이 가입한 모임 정보 (모임번호,모임이름)
+		List<CalRoomList> loginUserRoomsInfo = calendarService.getRoomInfoByUserNo(userNo);
+		
+		//로그인한 회원이 가입한 모임의 가입원들(회원이름)
+		List<CalRoomList> loginUserRoomsMemberInfo = calendarService.getJoinMemberInfo(userNo,calRoomList);
+		logger.info("room : {}", loginUserRoomsInfo);
+		
+		logger.info("joinMember : {}", loginUserRoomsMemberInfo);
+		
+		model.addAttribute("loginUserRoomsInfo", loginUserRoomsInfo);
+		model.addAttribute("loginUserRoomsMemberInfo", loginUserRoomsMemberInfo);
+		
+		
+		LoginUserInfo userInfo = calendarService.getUserInfo(userNo);
+		logger.info("로그인한 회원 정보 : {}", userInfo);
+		
+		model.addAttribute("userInfo", userInfo);
+		
+		
 			
 		//모임 캘린더 일정 조회
 		List<groupCalDto> groupCalList = calendarService.getGroupCalList(calRoomList);

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import calendar.dao.face.CalendarDao;
 import calendar.dto.CalDto;
 import calendar.dto.CalRoomList;
+import calendar.dto.LoginUserInfo;
 import calendar.dto.groupCalDto;
 import calendar.service.face.CalendarService;
 
@@ -136,6 +137,40 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public CalRoomList getRoomInfoByRoomNo(CalRoomList calRoomList) {
 		return calendarDao.selectRoomInfoByRoomNo(calRoomList);
+	}
+
+
+
+
+
+
+	@Override
+	public List<CalRoomList> getJoinMemberInfo(int userNo, CalRoomList calRoomList) {
+		calRoomList.setUserNo(userNo);
+		
+		return calendarDao.selectJoinMemberInfo(calRoomList);
+	}
+
+
+
+	@Override
+	public LoginUserInfo getUserInfo(int userNo) {
+		return calendarDao.selectUserInfoByUserNo(userNo);
+	}
+
+
+
+	@Override
+	public LoginUserInfo getWriteUser(groupCalDto viewGroupCal) {
+		return calendarDao.selectUserInfoByUser2(viewGroupCal);
+	}
+
+
+
+	@Override
+	public List<CalRoomList> getJoinMemberInfo(int userNo, groupCalDto viewGroupCal) {
+		//viewGroupCal.setUserNo(userNo);
+		return calendarDao.selectJoinMemberInfo2(viewGroupCal);
 	}
 
 

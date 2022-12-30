@@ -49,8 +49,10 @@
 	int lastDay= cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 	
 %>
+<!-- favicon -->
+<link rel="icon" href="/resources/favicon.ico" type="image/x-icon"/>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Aweek</title>
 
 <!-- Noto Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -106,7 +108,7 @@ $(document).ready(function(){
 			if($("input[name=startDate]").val() ==""){
 				console.log("제목을 입력해주세요");
 				
-				$(".startDate").append("<p class='warn_message date_warn_message'>날짜를 입력해주세요!</p>");
+				
 				return false;
 			}else{
 				$(".date_warn_message").remove();
@@ -234,7 +236,7 @@ $(document).ready(function(){
 			console.log(divTop,divLeft);
 			
 			//마우스 좌표에 따라 창 위치 조정
-			if(divTop>750 && divLeft>1445){
+			if(divTop>655 && divLeft>1445){
 				$(".schedule_detail_wrap").css({
 					"top": divTop -315,
 					"left" : divLeft-470
@@ -433,7 +435,7 @@ $(document).ready(function(){
 }
 .write_form table{
 	margin-top:70px;
-	margin-left: 70px;
+	margin-left: 77px;
 }
 .write_form td{
 	padding: 0px 20px 25px 10px;
@@ -442,6 +444,7 @@ $(document).ready(function(){
 #startTimeInput{
 	width: 100%;
 	text-align: center;
+	height: 27px;
 }
 
 .write_form textarea{
@@ -450,7 +453,10 @@ $(document).ready(function(){
 }
 .write_form input[type="text"]{
 	width: 380px;
+	height: 21px;
 }
+
+
 
 .warn_message{
 	font-size: 12px;
@@ -543,6 +549,7 @@ label{
 .room-name:hover {
 	font-weight: bold;
 }
+
 </style>
 </head>
 
@@ -584,7 +591,9 @@ label{
 %>
 
 <body>
-<jsp:include page="../layout/roomHeader.jsp"></jsp:include> 
+<div>
+<c:import url="./myHeader.jsp" />
+</div>
 <div class="container">
 
 <div class="side-bar">
@@ -632,7 +641,7 @@ label{
 		<% String todayDay = yyyyMMdd.format(todayDate); %>
 		<% long gap = todayDate.getTime()-scheduleDate.getTime()  ; %>
 		<% if(Integer.parseInt(scheduleYear)==year&&Integer.parseInt(scheduleMonth)==month
-			&&Integer.parseInt(scheduleTotal)>=Integer.parseInt(todayDay)){ %>
+			&&Integer.parseInt(scheduleTotal)>Integer.parseInt(todayDay)){ %>
 		<span class="Dday-list">D<%= gap/(24*60*60*1000)-1 %>&nbsp;<%= calDto.getCalTitle() %></span><br>
 		<% } %>
 		<% } %>
@@ -685,7 +694,7 @@ label{
 					
 					<%// 해당 날짜에 일정 존재하면 일정 제목 출력 %>
 					<%for(CalDto calDto : clist){ %>
-					<% if(Integer.parseInt(calDto.getStartDate().substring(8, 10))==i&&Integer.parseInt(calDto.getStartDate().substring(5, 7))==month){ %>
+					<% if(Integer.parseInt(calDto.getStartDate().substring(8, 10))==i&&Integer.parseInt(calDto.getStartDate().substring(5, 7))==month&&Integer.parseInt(calDto.getStartDate().substring(0, 4))==year){ %>
 					<p><a href="" onclick="return false" class="schedule_detail_req" id="<%=calDto.getCalNo() %>" value="<%= calDto.getCalNo()%>">
 					<% if(Integer.parseInt(calDto.getImportance())==1){ %>
 					★
@@ -778,7 +787,7 @@ label{
 				
 				</table>
 				
-				<button style="width:388px; margin-left:140px; ">작성</button>
+				<button style="width:388px; margin-left:146px; ">작성</button>
 			
 			</form>
 		
