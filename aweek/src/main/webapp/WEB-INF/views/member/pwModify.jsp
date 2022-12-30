@@ -104,6 +104,15 @@ $(document).ready(function() {
         	});
 			return;
 		} 
+		
+		//변경 비밀번호 체크(유효성 검사)
+		var isPW = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,15}$/;
+		if($( !isPW.test($("#ModifyUserPw").val()) ){
+			swal("","비밀번호는 8 ~ 16자의 영문자 + 숫자 + 특수문자 조합으로 사용 가능합니다. (사용가능 특수문자: !@#$%^*+=-)", "warning").then(function(){
+				$("input").eq(1).focus()
+        	});
+			return;
+		} 
 
 		//변경 비밀번호 확인 체크 (비밀번호와 같지 않거나 공백인 경우)
 		if($("#userPwChk").val() != $("#ModifyUserPw").val() || $("#userPwChk").val() == ""){

@@ -252,7 +252,7 @@ body {
 			<p>무료</p>
 		</div>
 		<div class="ssc_free_content_div">
-			<p>공용 용량 : 10GB</p>
+			<p>업로드 용량 : 100MB</p>
 			<p>최대 이용자 수 : 10명</p>
 			<br>
 			<p>- - - - - 기본 기능 - - - - -</p>
@@ -271,11 +271,11 @@ body {
 			<p>(30일 이용권)</p>
 		</div>
 		<div class="ssc_content_div">
-			<p>공용 용량 : 100GB</p>
+			<p>업로드 용량 : 1GB</p>
 			<p>최대 이용자 수 : 100명</p>
 			<br>
 			<p>Free 기본 기능 +</p>
-			<p>공용 용량 UP!</p>
+			<p>업로드 용량 UP!</p>
 			<p>최대 이용자 수 UP!</p>
 		</div>
 		<div class="ssc_month_btn_div">
@@ -300,11 +300,11 @@ body {
 			<p>12개월(36,000원) → <em>25,200원(30% 할인)</em></p>
 		</div>
 		<div class="ssc_content_div">
-			<p>공용 용량 : 100GB</p>
+			<p>업로드 용량 : 1GB</p>
 			<p>최대 이용자 수 : 100명</p>
 			<br>
 			<p>Free 기본 기능 +</p>
-			<p>공용 용량 UP!</p>
+			<p>업로드 용량 UP!</p>
 			<p>최대 이용자 수 UP!</p>
 		</div>
 		<div class="ssc_year_btn_div">
