@@ -42,6 +42,7 @@
 			, RESULT_STATUS, PAYMENT_DATE, EXPIRATION_DATE, DURATION
 		FROM payment
 		WHERE user_no = #{userNo}
+		ORDER BY pay_no DESC
 	</select>
 	
 	
@@ -57,5 +58,11 @@
 		WHERE user_no = #{userNo} 
 		AND duration = 0
 	</update>
+	
+	<select id="selectExDate" resultType="Date" parameterType="Member">
+		SELECT EXPIRATION_DATE FROM payment
+		WHERE user_no = #{userNo}
+		AND result_status = 'Y'
+	</select>
 			
 </mapper>

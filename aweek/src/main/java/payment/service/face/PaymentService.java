@@ -1,5 +1,6 @@
 package payment.service.face;
 
+import java.util.Date;
 import java.util.List;
 
 import common.Paging;
@@ -64,6 +65,18 @@ public interface PaymentService {
 	 * @return - 결제 정보 변경
 	 */
 	public void getDurationChek(Member member);
+
+	/**
+	 * 결제만료 일자 조회
+	 * 
+	 * @param member - 회원정보 파라미터
+	 * @return - 결제만료일자 정보
+	 */
+	public Date getExDate(Member member);
+
+
+
+
 
 
 

@@ -1,8 +1,8 @@
 package payment.dao.face;
 
+import java.util.Date;
 import java.util.List;
 
-import common.Paging;
 import member.dto.Member;
 import payment.dto.Payment;
 import payment.dto.Product;
@@ -69,9 +69,16 @@ public interface PaymentDao {
 	 * 결제 정보 변경
 	 * 
 	 * @param member - 회원 정보 파라미터
-	 * @return - 결제 상태 변경
 	 */
 	public void updateStatus(Member member);
+
+	/**
+	 * 결제 만료일자 조회
+	 * 
+	 * @param member - 회원 정보
+	 * @return - 결제 만료일자
+	 */
+	public Date selectExDate(Member member);
 
 
 

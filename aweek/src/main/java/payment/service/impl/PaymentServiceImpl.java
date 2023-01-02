@@ -1,5 +1,6 @@
 package payment.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -58,6 +59,11 @@ public class PaymentServiceImpl implements PaymentService{
 	@Override
 	public void getDurationChek(Member member) {
 		paymentDao.updateStatus(member);
+	}
+
+	@Override
+	public Date getExDate(Member member) {
+		return paymentDao.selectExDate(member);
 	}
 
 
