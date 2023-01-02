@@ -165,10 +165,10 @@ td {
 			<td>${member.userId}</td>
 		
 			<c:choose>
-			    <c:when test="${payment.productNo eq '1'}">
+			    <c:when test="${payment.productNo eq 1}">
 			        <td>PREMIUM 1개월</td>
 			    </c:when>
-			    <c:when test="${payment.productNo eq '2'}">
+			    <c:when test="${payment.productNo eq 2}">
 			        <td>PREMIUM 12개월</td>
 			    </c:when>
 			</c:choose>
@@ -181,10 +181,10 @@ td {
 			        <td>결제 완료 ✅</td>
 			    </c:when>
 			    <c:when test="${payment.resultStatus eq NULL}">
-			        <td>결제 완료</td>
+			        <td>결제 완료 ⛔</td>
 			    </c:when>
 			    <c:when test="${payment.resultStatus eq 'N'}">
-			        <td>결제 완료</td>
+			        <td>결제 완료 ⛔</td>
 			    </c:when>
 			</c:choose>
 			
@@ -205,7 +205,7 @@ td {
 			
 			<c:choose>
 			    <c:when test="${payment.duration > 0}">
-			        <td style="text-align: center;">${payment.duration}일</td>
+			        <td style="text-align: center;">${durationSet }일</td>
 			    </c:when>
 			    <c:when test="${payment.duration < 0}">
 			        <td style="text-align: center;">기간 종료</td>

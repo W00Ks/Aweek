@@ -24,6 +24,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" type="text/javascript"></script>
 <!-- iamport-->
 <script src ="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js" type="text/javascript"></script>
+<!-- sweetalert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+<!-- 카카오 메시지 -->
+<script type="text/JavaScript" src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -43,17 +49,19 @@ $(document).ready(function() {
     $('#cssTest').hide();
     
     $('.payemntCacao').hover(function () {
-    	$('#cssTest').show(300);
+    	$('#cssTest').show(250);
     })
     
     $('#paymentfree').hover(function () {
-    	$('#cssTest').hide();
-    }) 
-}) 	
+    	$('#cssTest').hide(250);
+    })
+    
+}); 	
 
 
 
 </script>
+
 
 <style type="text/css">
 body {
@@ -70,7 +78,7 @@ p {
 #container {
 	display: flex;
 /* 	justify-content: center; */
-	margin-left: 22%;
+	margin-left: 26%;
 	margin-top: 40px;
 	margin-bottom: 50px;
 	gap: 300px;	
@@ -275,12 +283,13 @@ p {
 		<div id="freeContainer">
 			<p style="font-weight: bold">FREE</p>	
 		</div>
-		<p style="color: #594B4B; margin-top: 30px">첨부파일 용량 : 50MB <br>최대 이용자 수 : 10명 <br></p><br>
+		<p style="color: #594B4B; margin-top: 30px">첨부파일 용량 : 100MB <br>최대 이용자 수 : 10명 <br></p><br>
 		<hr style="width: 45%;"><br>
 		<p style="color: #594B4B;">기본기능<br>캘린더<br>다이어리<br>채팅</p><br><br><br><br><br><br>
-			<a href="/aweekHome"><button type="button" class="btn btn-lg btn-block  btn-custom" style="margin: auto;">가 입 하 기</button></a>
+			<a href="/aweekHome"><button type="button" class="btn btn-lg btn-block  btn-custom" style="margin: auto;">홈 으 로</button></a>
 	</div>
 	</div>
+	
 	
 	<div id="mainContainer">
 	<div class="payemntCacao">
@@ -290,7 +299,7 @@ p {
 			<p style="font-weight: bold"><span class="quiz-text">아래 상품을 선택하세요</span></p>	
 		</div><br>
 
-			<label class="box-radio-input"><input type="radio" name="cp_item" value="3000" id="one"><span>Premium 1달</span></label>
+			<label class="box-radio-input"><input type="radio" name="cp_item" value="5000" id="one"><span>Premium 1달</span></label>
 			<label class="box-radio-input"><input type="radio" name="cp_item" value="25200" id="two"><span>Premium 12달</span></label><br><br>
 
 			
@@ -300,12 +309,12 @@ p {
 				<option disabled selected value="null">결제 방법 선택💰</option>
 				<option value="kakaopay">카카오페이</option>
 				<option value="html5_inicis.INIpayTest">KG이니시스(카드결제)</option>
-				<option value="uplus.tvivarepublica2">토스페이</option>
+				<option value="tosspay.tosstest">토스페이</option>
 				<option value="payco.PARTNERTEST">페이코</option>
 			</select>
 		</div>
 		</div>
-		<p style="color: #594B4B; margin-top: 30px">첨부파일 용량 : 10G <br>최대 이용자 수 : 100명 <br></p><br>
+		<p style="color: #594B4B; margin-top: 30px">첨부파일 용량 : 1G <br>최대 이용자 수 : 100명 <br></p><br>
 		<hr style="width: 45%;"><br>
 		<p style="color: #594B4B;">Free 기본기능 ➕➕ <br> 첨부파일 용량 UP! <br> 최대 이용자 수 UP!</p><br><br>
 			<button type="button" class="btn btn-lg btn-block  btn-custom" id="charge_kakao">결 제 하 기</button>
@@ -351,7 +360,6 @@ p {
         	expirationDate = addYear
         }
         
-        
         IMP.request_pay({
         	pg: paySelect,
         	pay_method : 'card',
@@ -382,22 +390,29 @@ p {
                         "expirationDate" : expirationDate,
                     },
                 });
-                window.location.href = "/aweekHome";
+                window.location.href = "/payment/paymentlist";
             } else {
         		if(price == null) {
-        			var msg = "상품을 선택하세요!"
-        			alert(msg)
-        			document.location.href="/payment/payment";
-        		}else if(paySelect == null) {
-        			var msg = "결제 방법을 선택하세요!"
-        			alert(msg)
-        			document.location.href="/payment/payment";
+        	        Swal.fire({
+        	            icon: 'warning',
+        	            title: '상품을 선택하세요!',
+        	            text: '상품이 선택되지 않았습니다.',
+        	          });
+
+        		}else if(paySelect == null) {      			
+        	        Swal.fire({
+        	            icon: 'warning',
+        	            title: '결제 방법을 선택하세요!',
+        	            text: '결제 방법이 선택되지 않았습니다.',
+        	          });
+        			
+        		} else {
+        			var msg = '결제에 실패하였습니다!';
+	                msg += " : " + rsp.error_msg;
+		            alert(msg);
+		            document.location.href="/payment/fail";
         		}
 
-                var msg = '결제에 실패하였습니다!';
-                msg += " : " + rsp.error_msg;
-	            alert(msg);
-	            document.location.href="/payment/fail";
             }   
             
         });
